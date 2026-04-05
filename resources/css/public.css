@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LemonGard Design System - Professional B2B SaaS Aesthetic */
+
+@layer base {
+    :root {
+        /* Off-white page background */
+        --background: 0 0% 98%;
+        --foreground: 222 47% 11%;
+
+        /* Cards and surfaces */
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 47% 11%;
+
+        /* Navy Primary - for headings and key elements */
+        --primary: 224 76% 33%;
+        --primary-foreground: 0 0% 100%;
+
+        /* Yellow Accent - for CTAs and highlights */
+        --accent: 43 96% 56%;
+        --accent-foreground: 222 47% 11%;
+
+        /* Secondary - gray tones */
+        --secondary: 210 40% 96%;
+        --secondary-foreground: 222 47% 11%;
+
+        /* Muted text */
+        --muted: 210 40% 96%;
+        --muted-foreground: 215 16% 47%;
+
+        /* Destructive */
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+
+        /* Borders */
+        --border: 214 32% 91%;
+        --input: 214 32% 91%;
+        --ring: 43 96% 56%;
+
+        --radius: 0.5rem;
+
+        /* LemonGard Brand Colors */
+        --yellow-primary: 43 96% 56%;
+        --yellow-light: 45 93% 64%;
+        --yellow-50: 48 100% 96%;
+        --yellow-100: 48 96% 89%;
+        --yellow-200: 48 97% 77%;
+
+        --navy-primary: 224 76% 33%;
+        --navy-dark: 222 47% 11%;
+        --navy-600: 224 76% 33%;
+        --navy-700: 224 71% 25%;
+        --navy-800: 222 47% 11%;
+
+        --gray-text: 215 16% 47%;
+        --gray-border: 214 32% 91%;
+
+        /* Gradients */
+        --gradient-yellow: linear-gradient(to right, hsl(43 96% 56%), hsl(45 93% 64%));
+        --gradient-navy: linear-gradient(to bottom right, hsl(224 76% 33%), hsl(222 47% 11%));
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground antialiased;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer components {
+    /* Primary Yellow Button */
+    .btn-primary {
+        @apply bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600
+        text-navy-900 font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl
+        transition-all duration-300 hover:scale-105 inline-flex items-center gap-2;
+    }
+
+    /* Secondary Outline Button */
+    .btn-secondary {
+        @apply border-2 border-navy-600 text-navy-600 hover:bg-navy-600 hover:text-white
+        font-semibold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2;
+    }
+
+    /* Feature Card */
+    .feature-card {
+        @apply relative bg-white border border-gray-200 rounded-xl p-8
+        hover:shadow-lg hover:border-yellow-400 transition-all duration-300;
+    }
+
+    /* Icon Circle */
+    .icon-circle {
+        @apply bg-yellow-100 rounded-full p-4 inline-flex;
+    }
+
+    /* Icon Circle Icon */
+    .icon-circle-icon {
+        @apply text-yellow-600 w-8 h-8;
+    }
+
+    /* Section container */
+    .section-container {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+
+    /* Section padding */
+    .section-padding {
+        @apply py-20 lg:py-32;
+    }
+}
