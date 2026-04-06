@@ -18,24 +18,26 @@ const navLinks: NavLinkItem[] = [
     { label: 'Contact', href: '/#contact', type: 'hash' },
 ];
 
+/**
+ * Navigation Component
+ * Fixed header with backdrop blur on scroll, mobile hamburger menu
+ * Supports both React Router links and hash links
+ */
 const Navigation = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
     const { url } = usePage();
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
-
         window.addEventListener('scroll', handleScroll);
-
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const isActive = (link: NavLinkItem) => {
-        if (link.type === 'route') return url === link.href;
+        if (link.type === 'route') return location.pathname === link.href;
         return false;
     };
 
@@ -45,17 +47,13 @@ const Navigation = () => {
         extraClass?: string,
     ) => {
         const active = isActive(link);
-
-        const className = `${
-            extraClass ||
-            'text-navy-600 hover:text-yellow-500 font-medium transition-colors duration-300'
-        } ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
+        const className = `${extraClass || 'text-navy-600 hover:text-yellow-500 font-medium transition-colors duration-300'} ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
 
         if (link.type === 'route') {
             return (
                 <Link
                     key={link.label}
-                    href={link.href}
+                    to={link.href}
                     onClick={onClick}
                     className={className}
                 >
@@ -64,9 +62,9 @@ const Navigation = () => {
             );
         }
 
-        if (url === '/') {
+        // Hash links - if on home page, just scroll; otherwise navigate
+        if (location.pathname === '/') {
             const hash = link.href.replace('/', '');
-
             return (
                 <a
                     key={link.label}
@@ -82,7 +80,7 @@ const Navigation = () => {
         return (
             <Link
                 key={link.label}
-                href={link.href}
+                to={link.href}
                 onClick={onClick}
                 className={className}
             >
@@ -103,7 +101,7 @@ const Navigation = () => {
             <div className="section-container">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="group flex items-center gap-2">
+                    <Link to="/" className="group flex items-center gap-2">
                         <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
                         <span className="text-navy-600 text-2xl font-bold">
                             LemonGard
@@ -118,14 +116,13 @@ const Navigation = () => {
                     {/* CTA Buttons */}
                     <div className="hidden items-center gap-4 md:flex">
                         <Link
-                            href="/login"
+                            to="/login"
                             className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
                         >
                             Login
                         </Link>
-
                         <Link
-                            href="/register"
+                            to="/register"
                             className="btn-primary !px-6 !py-2.5 !shadow-md"
                         >
                             Start Free Trial
@@ -166,18 +163,15 @@ const Navigation = () => {
                                     'text-navy-600 hover:text-yellow-500 font-medium py-2 transition-colors',
                                 ),
                             )}
-
                             <hr className="my-2 border-gray-200" />
-
                             <Link
-                                href="/login"
+                                to="/login"
                                 className="text-navy-600 py-2 font-medium transition-colors hover:text-yellow-500"
                             >
                                 Login
                             </Link>
-
                             <Link
-                                href="/register"
+                                to="/register"
                                 className="btn-primary !rounded-lg text-center !shadow-md"
                             >
                                 Start Free Trial
