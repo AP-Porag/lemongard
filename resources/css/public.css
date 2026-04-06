@@ -61,59 +61,185 @@
         --gray-border: 214 32% 91%;
 
         /* Gradients */
-        --gradient-yellow: linear-gradient(to right, hsl(43 96% 56%), hsl(45 93% 64%));
-        --gradient-navy: linear-gradient(to bottom right, hsl(224 76% 33%), hsl(222 47% 11%));
+        --gradient-yellow: linear-gradient(
+            to right,
+            hsl(43 96% 56%),
+            hsl(45 93% 64%)
+        );
+        --gradient-navy: linear-gradient(
+            to bottom right,
+            hsl(224 76% 33%),
+            hsl(222 47% 11%)
+        );
     }
 }
 
 @layer base {
-    * {
+    /* * {
         @apply border-border;
+    } */
+    * {
+        border-color: hsl(var(--border));
     }
 
     body {
-        @apply bg-background text-foreground antialiased;
-        font-feature-settings: "rlig" 1, "calt" 1;
+        /* @apply bg-background text-foreground antialiased;
+        font-feature-settings:
+            'rlig' 1,
+            'calt' 1; */
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        @apply antialiased;
     }
 }
 
 @layer components {
     /* Primary Yellow Button */
+    /* .btn-primary {
+        @apply inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 px-8 py-4 font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-xl;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+
+        background: linear-gradient(
+            to right,
+            hsl(var(--yellow-primary)),
+            hsl(var(--yellow-light))
+        );
+
+        color: hsl(var(--navy-dark));
+
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+
+        color: hsl(var(--navy-dark));
+    } */
+
     .btn-primary {
-        @apply bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600
-        text-navy-900 font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl
-        transition-all duration-300 hover:scale-105 inline-flex items-center gap-2;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+
+        background: linear-gradient(
+            to right,
+            hsl(var(--yellow-primary)),
+            hsl(var(--yellow-light))
+        );
+
+        color: hsl(var(--navy-dark));
+
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: scale(1.05);
+        background: linear-gradient(
+            to right,
+            hsl(var(--yellow-light)),
+            hsl(var(--yellow-primary))
+        );
+        box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
     }
 
     /* Secondary Outline Button */
+    /* .btn-secondary {
+        @apply border-navy-600 text-navy-600 hover:bg-navy-600 inline-flex items-center gap-2 rounded-lg border-2 px-8 py-4 font-semibold transition-all duration-300 hover:text-white;
+    } */
+
     .btn-secondary {
-        @apply border-2 border-navy-600 text-navy-600 hover:bg-navy-600 hover:text-white
-        font-semibold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2;
+        border-width: 2px;
+        border-color: hsl(var(--navy-600));
+        color: hsl(var(--navy-600));
     }
 
     /* Feature Card */
+    /* .feature-card {
+        @apply relative rounded-xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-yellow-400 hover:shadow-lg;
+    } */
     .feature-card {
-        @apply relative bg-white border border-gray-200 rounded-xl p-8
-        hover:shadow-lg hover:border-yellow-400 transition-all duration-300;
+        position: relative;
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        background: white;
+        padding: 2rem;
+        transition: all 0.3s ease;
     }
 
     /* Icon Circle */
+    /* .icon-circle {
+        @apply inline-flex rounded-full bg-yellow-100 p-4;
+    } */
+
     .icon-circle {
-        @apply bg-yellow-100 rounded-full p-4 inline-flex;
+        background-color: hsl(var(--yellow-100));
+        padding: 1rem;
+        border-radius: 9999px;
     }
 
     /* Icon Circle Icon */
+    /* .icon-circle-icon {
+        @apply h-8 w-8 text-yellow-600;
+    } */
     .icon-circle-icon {
-        @apply text-yellow-600 w-8 h-8;
+        height: 2rem;
+        width: 2rem;
+        color: hsl(var(--yellow-primary));
     }
 
     /* Section container */
+    /* .section-container {
+        @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    } */
+
     .section-container {
-        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 80rem; /* max-w-7xl */
+
+        padding-left: 1rem; /* px-4 */
+        padding-right: 1rem;
+    }
+
+    /* sm:px-6 */
+    @media (min-width: 640px) {
+        .section-container {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+
+    /* lg:px-8 */
+    @media (min-width: 1024px) {
+        .section-container {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
     }
 
     /* Section padding */
-    .section-padding {
+    /* .section-padding {
         @apply py-20 lg:py-32;
+    } */
+
+    .section-padding {
+        padding-top: 5rem; /* py-20 */
+        padding-bottom: 5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .section-padding {
+            padding-top: 8rem; /* py-32 */
+            padding-bottom: 8rem;
+        }
     }
 }
