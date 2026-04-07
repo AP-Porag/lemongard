@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('role')->default(GlobalConstant::ROLE_ADMIN);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('industry')->nullable();
+            $table->string('company')->nullable();
+            $table->boolean('agree_to_terms')->default(false);
+            $table->boolean('marketing_emails')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });

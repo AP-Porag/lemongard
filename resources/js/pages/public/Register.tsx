@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { router } from '@inertiajs/react';
 
 import {
     Mail,
@@ -112,14 +113,19 @@ const Register = () => {
 
     const password = watch('password') || '';
 
-    const onSubmit = async () => {
+    const onSubmit = async (data: RegisterFormData) => {
         setFormError(null);
 
-        await new Promise((r) => setTimeout(r, 2000));
-
-        setFormError(
-            'Registration is not yet configured. This is a frontend preview.',
-        );
+        router.post('/register', {
+            name: `${data.firstName} ${data.lastName}`,
+            email: data.email,
+            password: data.password,
+            password_confirmation: data.confirmPassword,
+            industry: data.industry,
+            company: data.company,
+            agree_to_terms: data.agreeToTerms,
+            marketing_emails: data.marketingEmails ?? false,
+        });
     };
 
     const inputCls = (field: keyof RegisterFormData) =>

@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Utils\GlobalConstant;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,35 +33,42 @@ use App\Utils\GlobalConstant;
 
 Route::group([], function () {
 
-//    Route::get('/', function () {
-//        return Inertia::render('welcome', [
-//            'canRegister' => Features::enabled(Features::registration()),
-//        ]);
-//    })->name('home');
+    //    Route::get('/', function () {
+    //        return Inertia::render('welcome', [
+    //            'canRegister' => Features::enabled(Features::registration()),
+    //        ]);
+    //    })->name('home');
 
-//    Route::get('/how-it-works', fn() => Inertia::render('Public/HowItWorks'))->name('how.it.works');
-//    Route::get('/about', fn() => Inertia::render('Public/About'))->name('about');
-//    Route::get('/pricing', fn() => Inertia::render('Public/Pricing'))->name('pricing');
-//    Route::get('/privacy-policy', fn() => Inertia::render('Public/PrivacyPolicy'))->name('privacy.policy');
-//    Route::get('/terms-and-conditions', fn() => Inertia::render('Public/Terms'))->name('terms');
-//    Route::get('/cookie-policy', fn() => Inertia::render('Public/CookiePolicy'))->name('cookie.policy');
+    //    Route::get('/how-it-works', fn() => Inertia::render('Public/HowItWorks'))->name('how.it.works');
+    //    Route::get('/about', fn() => Inertia::render('Public/About'))->name('about');
+    //    Route::get('/pricing', fn() => Inertia::render('Public/Pricing'))->name('pricing');
+    //    Route::get('/privacy-policy', fn() => Inertia::render('Public/PrivacyPolicy'))->name('privacy.policy');
+    //    Route::get('/terms-and-conditions', fn() => Inertia::render('Public/Terms'))->name('terms');
+    //    Route::get('/cookie-policy', fn() => Inertia::render('Public/CookiePolicy'))->name('cookie.policy');
 
-    Route::get('/', fn() =>
-    Inertia::render('public/Home')
+    Route::get(
+        '/',
+        fn() =>
+        Inertia::render('public/Home')
     )->name('home');
 
-    Route::get('/about', fn() =>
-    Inertia::render('public/About')
+    Route::get(
+        '/about',
+        fn() =>
+        Inertia::render('public/About')
     );
 
-    Route::get('/pricing', fn() =>
-    Inertia::render('public/Pricing')
+    Route::get(
+        '/pricing',
+        fn() =>
+        Inertia::render('public/Pricing')
     );
 
-    Route::get('/how-it-works', fn() =>
-    Inertia::render('public/HowItWorks')
+    Route::get(
+        '/how-it-works',
+        fn() =>
+        Inertia::render('public/HowItWorks')
     );
-
 });
 
 
@@ -75,7 +85,6 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::get('/dashboard', function () {
             return Inertia::render('app/dashboard');
         })->name('app.dashboard');
-
     });
 
 
@@ -92,8 +101,28 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         Route::get('/dashboard', function () {
             return Inertia::render('admin/dashboard');
         })->name('admin.dashboard');
-
     });
+
+
+
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register.store');
+
+// Sign up with google
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+// Login
+// Route::post('/login', [AuthController::class, 'login'])
+//     ->name('login');
+
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+
 
 
 /*
