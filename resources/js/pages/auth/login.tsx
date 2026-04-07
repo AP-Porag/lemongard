@@ -180,7 +180,7 @@ const Login = () => {
             {/* Simplified Nav */}
             <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                    <Link to="/" className="group flex items-center gap-2">
+                    <Link href="/" className="group flex items-center gap-2">
                         <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
                         <span className="text-2xl font-bold text-[#1E3A8A]">
                             LemonGard

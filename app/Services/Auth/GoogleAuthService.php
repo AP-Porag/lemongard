@@ -14,9 +14,18 @@ class GoogleAuthService extends BaseService
         parent::__construct($user);
     }
 
+    // public function redirect()
+    // {
+    //     return Socialite::driver('google')->redirect();
+    // }
+
     public function redirect()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->with([
+                'prompt' => 'consent', // ✅ force confirm screen
+            ])
+            ->redirect();
     }
 
     public function handleCallback()

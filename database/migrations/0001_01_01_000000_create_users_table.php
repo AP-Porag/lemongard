@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('role')->default(GlobalConstant::ROLE_ADMIN);
+            $table->string('role')->default(GlobalConstant::ROLE_USER);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('industry')->nullable();
