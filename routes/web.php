@@ -24,6 +24,7 @@ use App\Utils\GlobalConstant;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\App\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +87,6 @@ Route::prefix(GlobalConstant::ROUTE_APP)
             return Inertia::render('app/dashboard');
         })->name('app.dashboard');
     });
-
 
 /*
 |--------------------------------------------------------------------------

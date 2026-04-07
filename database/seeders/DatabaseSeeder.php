@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Utils\GlobalConstant;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +20,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        // User::factory(1)->create();
+
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@app.com',
+            'password' => 12345678,
+            'role' => GlobalConstant::ROLE_ADMIN,
+        ]);
     }
 }
