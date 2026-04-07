@@ -18,26 +18,23 @@ const navLinks: NavLinkItem[] = [
     { label: 'Contact', href: '/#contact', type: 'hash' },
 ];
 
-/**
- * Navigation Component
- * Fixed header with backdrop blur on scroll, mobile hamburger menu
- * Supports both React Router links and hash links
- */
 const Navigation = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const { url } = usePage();
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const isActive = (link: NavLinkItem) => {
-        if (link.type === 'route') return location.pathname === link.href;
+        if (link.type === 'route') return url === link.href;
         return false;
     };
 
@@ -47,13 +44,18 @@ const Navigation = () => {
         extraClass?: string,
     ) => {
         const active = isActive(link);
-        const className = `${extraClass || 'text-navy-600 hover:text-yellow-500 font-medium transition-colors duration-300'} ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
 
+        const className = `${
+            extraClass ||
+            'text-navy-600 hover:text-yellow-500 font-medium transition-colors duration-300'
+        } ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
+
+        // ✅ Route Link
         if (link.type === 'route') {
             return (
                 <Link
                     key={link.label}
-                    to={link.href}
+                    href={link.href}
                     onClick={onClick}
                     className={className}
                 >
@@ -62,9 +64,10 @@ const Navigation = () => {
             );
         }
 
-        // Hash links - if on home page, just scroll; otherwise navigate
-        if (location.pathname === '/') {
+        // ✅ Hash link (same page scroll)
+        if (url === '/') {
             const hash = link.href.replace('/', '');
+
             return (
                 <a
                     key={link.label}
@@ -77,10 +80,11 @@ const Navigation = () => {
             );
         }
 
+        // ✅ Navigate to home + hash
         return (
             <Link
                 key={link.label}
-                to={link.href}
+                href={link.href}
                 onClick={onClick}
                 className={className}
             >
@@ -96,45 +100,44 @@ const Navigation = () => {
                     ? 'bg-white/95 shadow-md backdrop-blur-md'
                     : 'bg-transparent'
             }`}
-            aria-label="Main navigation"
         >
+            {/* ✅ FIXED CONTAINER */}
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link to="/" className="group flex items-center gap-2">
+                    <Link href="/" className="group flex items-center gap-2">
                         <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
                         <span className="text-navy-600 text-2xl font-bold">
                             LemonGard
                         </span>
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop Nav */}
                     <div className="hidden items-center gap-8 md:flex">
                         {navLinks.map((link) => renderLink(link))}
                     </div>
 
-                    {/* CTA Buttons */}
+                    {/* CTA */}
                     <div className="hidden items-center gap-4 md:flex">
                         <Link
-                            to="/login"
+                            href="/login"
                             className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
                         >
                             Login
                         </Link>
+
                         <Link
-                            to="/register"
+                            href="/register"
                             className="btn-primary !px-6 !py-2.5 !shadow-md"
                         >
                             Start Free Trial
                         </Link>
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Button */}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="text-navy-600 p-2 transition-colors hover:text-yellow-500 md:hidden"
-                        aria-expanded={isMobileMenuOpen}
-                        aria-label="Toggle menu"
+                        className="text-navy-600 p-2 hover:text-yellow-500 md:hidden"
                     >
                         {isMobileMenuOpen ? (
                             <X className="h-6 w-6" />
@@ -160,19 +163,22 @@ const Navigation = () => {
                                 renderLink(
                                     link,
                                     () => setIsMobileMenuOpen(false),
-                                    'text-navy-600 hover:text-yellow-500 font-medium py-2 transition-colors',
+                                    'text-navy-600 hover:text-yellow-500 font-medium py-2',
                                 ),
                             )}
-                            <hr className="my-2 border-gray-200" />
+
+                            <hr className="my-2" />
+
                             <Link
-                                to="/login"
-                                className="text-navy-600 py-2 font-medium transition-colors hover:text-yellow-500"
+                                href="/login"
+                                className="text-navy-600 py-2 font-medium hover:text-yellow-500"
                             >
                                 Login
                             </Link>
+
                             <Link
-                                to="/register"
-                                className="btn-primary !rounded-lg text-center !shadow-md"
+                                href="/register"
+                                className="btn-primary text-center"
                             >
                                 Start Free Trial
                             </Link>

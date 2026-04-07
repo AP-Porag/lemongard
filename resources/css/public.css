@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+    background: red;
+}
 
 /* LemonGard Design System - Professional B2B SaaS Aesthetic */
 
