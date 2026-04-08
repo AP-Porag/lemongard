@@ -24,24 +24,6 @@ class AuthController extends Controller
         return redirect()->route('app.dashboard');
     }
 
-    //Login
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => ['required', 'email'],
-    //         'password' => ['required'],
-    //     ]);
-
-    //     if (!Auth::attempt($credentials, $request->boolean('rememberMe'))) {
-    //         return back()->withErrors([
-    //             'email' => 'Invalid credentials',
-    //         ]);
-    //     }
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->route('app.dashboard');
-    // }
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -59,12 +41,14 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
+
         // ✅ First login check (NO SESSION)
-        if ($user->is_first_login) {
-            $user->update([
-                'is_first_login' => false,
-            ]);
-        }
+        // if ($user->is_first_login) {
+        //     $user->save([
+        //         'is_first_login' => false,
+        //     ]);
+        //     return $user->is_first_login;
+        // }
 
         return redirect()->route('app.dashboard');
     }

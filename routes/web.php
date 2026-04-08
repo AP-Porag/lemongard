@@ -25,6 +25,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\DashboardController;
+use App\Http\Controllers\App\RecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,9 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::get('/dashboard', function () {
             return Inertia::render('app/dashboard');
         })->name('app.dashboard');
+
+        // Route::post('/records', [RecordController::class, 'store'])
+        //     ->name('app.records.store');
     });
 
 /*
@@ -105,16 +109,15 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 
 
-Route::post('/register', [AuthController::class, 'register'])
-    ->name('register.store');
+// Route::post('/register', [AuthController::class, 'register'])
+//     ->name('register.store');
 
 // Sign up with google
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
-// Login
-// Route::post('/login', [AuthController::class, 'login'])
-//     ->name('login');
+//Login
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 
 // Logout

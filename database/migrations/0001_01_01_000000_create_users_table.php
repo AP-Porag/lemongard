@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('agree_to_terms')->default(false);
             $table->boolean('marketing_emails')->default(false);
             $table->boolean('is_first_login')->default(true);
+            $table->boolean('is_used_social')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

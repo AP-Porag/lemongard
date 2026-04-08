@@ -28,6 +28,7 @@ class User extends Authenticatable
         'agree_to_terms',
         'marketing_emails',
         'is_first_login',
+        'is_used_social',
     ];
 
     /**
@@ -53,6 +54,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'is_first_login' => 'boolean',
         ];
     }
 }

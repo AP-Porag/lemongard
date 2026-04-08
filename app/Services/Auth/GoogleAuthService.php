@@ -39,6 +39,7 @@ class GoogleAuthService extends BaseService
             [
                 'name' => $googleUser->getName(),
                 'password' => bcrypt(uniqid()),
+                'is_used_social' => true,
             ]
         );
 
