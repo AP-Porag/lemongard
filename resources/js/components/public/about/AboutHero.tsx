@@ -2,18 +2,13 @@ import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { LemonSimple, LemonSlice } from '@/components/public/LemonIcon';
+import Banner from "@/components/BannerSec";
 
 const AboutHero = () => (
     <section className="section-container relative overflow-hidden py-16 lg:py-24">
-        {/* Decorative watermarks */}
-        <LemonSlice
-            className="absolute top-0 right-0 -mt-20 -mr-20 h-64 w-64"
-            opacity={0.05}
-        />
-        <LemonSlice
-            className="absolute bottom-0 left-0 h-48 w-48"
-            opacity={0.05}
-        />
+
+{/* Botanical Lemon Background */}
+      <Banner/>
 
         {/* Breadcrumb */}
         <nav

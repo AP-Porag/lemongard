@@ -1,15 +1,14 @@
 import { ArrowRight, PlayCircle, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LemonWhole, LemonSlice, LemonSimple } from './LemonIcon';
+import Banner from "@/components/BannerSec";
 
 const HeroSection = () => {
     return (
         <section id="home" className="relative overflow-hidden pt-28 pb-16">
-            {/* Background Lemon */}
-            <LemonSlice
-                className="pointer-events-none absolute top-0 right-0 -mt-20 -mr-20 h-64 w-64"
-                opacity={0.08}
-            />
+
+            {/* Botanical Lemon Background */}
+            <Banner/>
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">

@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { LemonSlice, LemonSimple } from "@/components/LemonIcon";
+// import Banner from "@/components/BannerSec";
 
 /**
  * How It Works CTA - Final conversion section
@@ -15,8 +16,10 @@ const HowItWorksCTA = () => {
         transition={{ duration: 0.6 }}
         className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 rounded-2xl p-12 lg:p-16 overflow-hidden"
       >
-        {/* Decorative Lemons */}
-        <LemonSlice className="absolute top-0 left-0 w-32 h-32 -mt-4 -ml-4" opacity={0.1} />
+
+        
+        Decorative Lemons */}
+        {/* <LemonSlice className="absolute top-0 left-0 w-32 h-32 -mt-4 -ml-4" opacity={0.1} />
         <LemonSlice className="absolute bottom-0 right-0 w-40 h-40 -mb-6 -mr-6" opacity={0.1} />
 
         {/* Content */}
