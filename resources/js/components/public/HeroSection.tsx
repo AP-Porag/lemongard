@@ -1,5 +1,5 @@
 import { ArrowRight, PlayCircle, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { LemonWhole, LemonSlice, LemonSimple } from './LemonIcon';
 
 const HeroSection = () => {
