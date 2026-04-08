@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('company')->nullable();
             $table->boolean('agree_to_terms')->default(false);
             $table->boolean('marketing_emails')->default(false);
+            $table->boolean('is_first_login')->default(true);
 
             $table->rememberToken();
             $table->timestamps();

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'company',
         'agree_to_terms',
         'marketing_emails',
+        'is_first_login',
     ];
 
     /**

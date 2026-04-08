@@ -4,20 +4,20 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserRegisterRequest;
-use App\Services\User\UserService;
+use App\Services\Auth\AuthService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     public function __construct(
-        protected UserService $userService
+        protected AuthService $authService
     ) {}
 
     //Register
     public function register(UserRegisterRequest $request)
     {
-        $user = $this->userService->register($request->validated());
+        $user = $this->authService->register($request->validated());
 
         Auth::login($user);
 
@@ -25,6 +25,23 @@ class AuthController extends Controller
     }
 
     //Login
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => ['required', 'email'],
+    //         'password' => ['required'],
+    //     ]);
+
+    //     if (!Auth::attempt($credentials, $request->boolean('rememberMe'))) {
+    //         return back()->withErrors([
+    //             'email' => 'Invalid credentials',
+    //         ]);
+    //     }
+
+    //     $request->session()->regenerate();
+
+    //     return redirect()->route('app.dashboard');
+    // }
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -39,6 +56,15 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // ✅ First login check (NO SESSION)
+        if ($user->is_first_login) {
+            $user->update([
+                'is_first_login' => false,
+            ]);
+        }
 
         return redirect()->route('app.dashboard');
     }

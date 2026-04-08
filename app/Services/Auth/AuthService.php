@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Services\BaseService;
 use App\Utils\GlobalConstant;
 
-class UserService extends BaseService
+class AuthService extends BaseService
 {
     public function __construct(User $user)
     {
