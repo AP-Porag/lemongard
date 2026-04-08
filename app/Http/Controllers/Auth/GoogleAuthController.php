@@ -22,7 +22,6 @@ class GoogleAuthController extends Controller
     public function callback()
     {
         $this->service->handleCallback();
-
         return redirect('/app/dashboard');
     }
 }
