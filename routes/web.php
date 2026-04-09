@@ -22,7 +22,6 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Utils\GlobalConstant;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\DashboardController;
 use App\Http\Controllers\App\RecordController;
@@ -119,21 +118,21 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 
 
-Route::post('/register', [AuthController::class, 'register'])
-    ->name('register.store');
+// Route::post('/register', [AuthController::class, 'register'])
+//     ->name('register.store');
 
 // Sign up with google
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 //Login
-Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+// Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 
 // Logout
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
+// Route::post('/logout', [AuthController::class, 'logout'])
+//     ->middleware('auth')
+//     ->name('logout');
 
 
 
