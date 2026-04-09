@@ -33,12 +33,15 @@ class RecordController extends Controller
 
     public function store(StoreRecordRequest $request)
     {
-        $this->recordService->store(
-            $request->validated(),
-            Auth::id()
-        );
+        // $this->recordService->store(
+        //     $request->validated(),
+        //     Auth::id()
+        // );
 
-        return redirect()->back()->with('success', 'Record created successfully.');
+        // return redirect()->back()->with('success', 'Record created successfully.');
+        $this->recordService->store($request->all(), $request->user()->id);
+
+        return back()->with('success', 'Record Submitted Successfully');;
     }
 
     public function show($id)

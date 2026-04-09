@@ -3,6 +3,7 @@
 namespace App\Services\Record;
 
 use App\Models\Record;
+use App\Models\User;
 use App\Services\BaseService;
 
 class RecordService extends BaseService
@@ -16,6 +17,18 @@ class RecordService extends BaseService
     {
         $data['user_id'] = $userId;
 
-        return $this->create($data);
+        // ✅ create record
+        $record = $this->create($data);
+
+        // ✅ update user first login
+        $user = User::find($userId);
+
+        if ($user && $user->is_first_login) {
+            $user->update([
+                'is_first_login' => false,
+            ]);
+        }
+
+        return $record;
     }
 }

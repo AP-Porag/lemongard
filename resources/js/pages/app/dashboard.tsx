@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 export default function Dashboard({ breadcrumbs }: any) {
-    const [open, setOpen] = useState(true);
+    const { props } = usePage();
+    const isFirstLogin = props.isFirstLogin;
+
+    const [open, setOpen] = useState(isFirstLogin === true);
     const [step, setStep] = useState(1);
     const [localErrors, setLocalErrors] = useState<any>({});
+    const [showToast, setShowToast] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         industry: '',
@@ -45,12 +50,10 @@ export default function Dashboard({ breadcrumbs }: any) {
         },
     ];
 
-    // ✅ merge backend + frontend error
     const getError = (field: string) => {
         return errors[field] || localErrors[field];
     };
 
-    // ✅ step validation
     const validateStep = () => {
         const currentFields = steps[step - 1].fields;
         let newErrors: any = {};
@@ -64,20 +67,17 @@ export default function Dashboard({ breadcrumbs }: any) {
         });
 
         setLocalErrors(newErrors);
-
         return Object.keys(newErrors).length === 0;
     };
 
     const nextStep = () => {
         if (!validateStep()) return;
-
         setLocalErrors({});
         setStep((prev) => prev + 1);
     };
 
     const prevStep = () => setStep((prev) => prev - 1);
 
-    // ✅ submit
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -88,6 +88,10 @@ export default function Dashboard({ breadcrumbs }: any) {
                 setOpen(false);
                 reset();
                 setStep(1);
+
+                // ✅ toast
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 3000);
             },
 
             onError: () => {
@@ -96,7 +100,6 @@ export default function Dashboard({ breadcrumbs }: any) {
         });
     };
 
-    // ✅ SINGLE Input component
     const Input = ({ value, onChange, placeholder, field }: any) => {
         const error = getError(field);
 
@@ -121,11 +124,17 @@ export default function Dashboard({ breadcrumbs }: any) {
 
             <h4>App Dashboard</h4>
 
+            {/* ✅ TOAST */}
+            {showToast && (
+                <div className="fixed top-5 right-5 z-50 rounded-lg bg-green-600 px-4 py-2 text-white shadow-lg">
+                    Record Submitted Successfully
+                </div>
+            )}
+
             {/* MODAL */}
             {open && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
-                        {/* HEADER */}
                         <div className="border-b p-5">
                             <h2 className="font-semibold">
                                 Step {step} of {steps.length} —{' '}
@@ -142,9 +151,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                             </div>
                         </div>
 
-                        {/* FORM */}
                         <form onSubmit={submit} className="space-y-4 p-6">
-                            {/* STEP 1 */}
                             {step === 1 && (
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <Input
@@ -177,7 +184,6 @@ export default function Dashboard({ breadcrumbs }: any) {
                                 </div>
                             )}
 
-                            {/* STEP 2 */}
                             {step === 2 && (
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <Input
@@ -205,7 +211,6 @@ export default function Dashboard({ breadcrumbs }: any) {
                                 </div>
                             )}
 
-                            {/* STEP 3 */}
                             {step === 3 && (
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <Input
@@ -278,7 +283,6 @@ export default function Dashboard({ breadcrumbs }: any) {
                                 </div>
                             )}
 
-                            {/* BUTTONS */}
                             <div className="flex justify-between pt-4">
                                 {step > 1 && (
                                     <button
@@ -314,6 +318,23 @@ export default function Dashboard({ breadcrumbs }: any) {
                     </div>
                 </div>
             )}
+
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                    </div>
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                    </div>
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                    </div>
+                </div>
+                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
+                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                </div>
+            </div>
         </AppLayout>
     );
 }

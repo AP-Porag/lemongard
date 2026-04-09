@@ -46,6 +46,9 @@ class HandleInertiaRequests extends Middleware
 
             // ✅ Ziggy add here (same method)
             'ziggy' => fn() => (new Ziggy)->toArray(),
+
+            // ✅ login controller থেকে আসা data
+            'isFirstLogin' => fn() => $request->session()->get('is_first_login'),
         ];
     }
 }

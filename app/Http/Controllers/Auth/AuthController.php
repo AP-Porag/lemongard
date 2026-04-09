@@ -21,6 +21,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        // ✅ ADD THIS
+        session()->flash('is_first_login', true);
+
         return redirect()->route('app.dashboard');
     }
 
@@ -41,14 +44,8 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-
-        // ✅ First login check (NO SESSION)
-        // if ($user->is_first_login) {
-        //     $user->save([
-        //         'is_first_login' => false,
-        //     ]);
-        //     return $user->is_first_login;
-        // }
+        // ✅ flash data to session
+        session()->flash('is_first_login', $user->is_first_login);
 
         return redirect()->route('app.dashboard');
     }

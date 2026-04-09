@@ -119,8 +119,8 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 
 
-// Route::post('/register', [AuthController::class, 'register'])
-//     ->name('register.store');
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register.store');
 
 // Sign up with google
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
