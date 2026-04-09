@@ -125,6 +125,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
+import { request } from '@/routes/password';
 import {
     Mail,
     Lock,
@@ -347,7 +348,7 @@ const Login = () => {
                                     </span>
                                 </label>
                                 <Link
-                                    to="/"
+                                    href={request()}
                                     className="text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                                 >
                                     Forgot password?

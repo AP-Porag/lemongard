@@ -21,7 +21,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        // ✅ ADD THIS
         session()->flash('is_first_login', true);
 
         return redirect()->route('app.dashboard');
