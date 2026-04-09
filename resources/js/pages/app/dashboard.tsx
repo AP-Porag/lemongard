@@ -4,14 +4,21 @@ import AppLayout from '@/layouts/app-layout';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
 export default function Dashboard({ breadcrumbs }: any) {
-    const { props } = usePage();
-    const isFirstLogin = props.isFirstLogin;
+    const { props } = usePage() as any;
 
-    const [open, setOpen] = useState(isFirstLogin === true);
+    const user = props.auth?.user;
+
+    // ✅ first login source
+    const isFirstLogin =
+        props.flash?.showOnboardingModal ?? user?.is_first_login ?? false;
+
+    // ✅ modal state
+    const [open, setOpen] = useState(Boolean(isFirstLogin));
+
     const [step, setStep] = useState(1);
     const [localErrors, setLocalErrors] = useState<any>({});
     const [showToast, setShowToast] = useState(false);
-    const user = props.auth?.user;
+
     const { data, setData, post, processing, errors, reset } = useForm({
         industry: '',
         first_name: '',
@@ -83,17 +90,14 @@ export default function Dashboard({ breadcrumbs }: any) {
 
         post(route('records.store'), {
             preserveScroll: true,
-
             onSuccess: () => {
                 setOpen(false);
                 reset();
                 setStep(1);
 
-                // ✅ toast
                 setShowToast(true);
                 setTimeout(() => setShowToast(false), 3000);
             },
-
             onError: () => {
                 setOpen(true);
             },
@@ -121,6 +125,8 @@ export default function Dashboard({ breadcrumbs }: any) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
+
+            {/* HEADER */}
             <div className="mb-4 flex items-center justify-between">
                 <h4>App Dashboard</h4>
 
@@ -134,7 +140,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                 )}
             </div>
 
-            {/* ✅ TOAST */}
+            {/* TOAST */}
             {showToast && (
                 <div className="fixed top-5 right-5 z-50 rounded-lg bg-green-600 px-4 py-2 text-white shadow-lg">
                     Record Submitted Successfully
@@ -329,20 +335,21 @@ export default function Dashboard({ breadcrumbs }: any) {
                 </div>
             )}
 
+            {/* CONTENT */}
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+                    {[1, 2, 3].map((i) => (
+                        <div
+                            key={i}
+                            className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70"
+                        >
+                            <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20" />
+                        </div>
+                    ))}
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min">
+                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20" />
                 </div>
             </div>
         </AppLayout>

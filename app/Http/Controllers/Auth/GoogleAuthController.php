@@ -21,8 +21,10 @@ class GoogleAuthController extends Controller
 
     public function callback()
     {
-        $this->service->handleCallback();
+        $data = $this->service->handleCallback();
 
-        return redirect('/app/dashboard');
+        return redirect('/app/dashboard')->with([
+            'showOnboardingModal' => $data['isFirstLogin'],
+        ]);
     }
 }

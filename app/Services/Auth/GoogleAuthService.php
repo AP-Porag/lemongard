@@ -43,8 +43,18 @@ class GoogleAuthService extends BaseService
             ]
         );
 
+        // ✅ Detect first login
+        if ($user->wasRecentlyCreated) {
+            $user->update([
+                'is_first_login' => true,
+            ]);
+        }
+
         Auth::login($user);
 
-        return $user;
+        return [
+            'user' => $user,
+            'isFirstLogin' => (bool) $user->is_first_login,
+        ];
     }
 }
