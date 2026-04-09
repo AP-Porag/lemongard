@@ -5,6 +5,7 @@ import AppLayout from '@/layouts/app-layout';
 export default function Dashboard({ breadcrumbs }: any) {
     const [open, setOpen] = useState(true);
     const [step, setStep] = useState(1);
+    const [localErrors, setLocalErrors] = useState<any>({});
 
     const { data, setData, post, processing, errors, reset } = useForm({
         industry: '',
@@ -44,53 +45,75 @@ export default function Dashboard({ breadcrumbs }: any) {
         },
     ];
 
-    // ---------------- STEP VALIDATION (FRONTEND ONLY) ----------------
+    // ✅ merge backend + frontend error
+    const getError = (field: string) => {
+        return errors[field] || localErrors[field];
+    };
+
+    // ✅ step validation
     const validateStep = () => {
-        return steps[step - 1].fields.every((field) => {
+        const currentFields = steps[step - 1].fields;
+        let newErrors: any = {};
+
+        currentFields.forEach((field) => {
             const value = data[field as keyof typeof data];
-            return value !== '' && value !== null;
+
+            if (!value || value === '') {
+                newErrors[field] = 'This field is required';
+            }
         });
+
+        setLocalErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
     };
 
     const nextStep = () => {
         if (!validateStep()) return;
+
+        setLocalErrors({});
         setStep((prev) => prev + 1);
     };
 
     const prevStep = () => setStep((prev) => prev - 1);
 
-    // ---------------- SUBMIT ----------------
+    // ✅ submit
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        post(route('app.record.store'), {
+        post(route('records.store'), {
             preserveScroll: true,
 
             onSuccess: () => {
-                setOpen(false); // ✅ modal close only on success
-                reset(); // clear form
-                setStep(1); // reset step
+                setOpen(false);
+                reset();
+                setStep(1);
             },
 
             onError: () => {
-                setOpen(true); // ❗ keep modal open on backend error
+                setOpen(true);
             },
         });
     };
 
-    const Input = ({ value, onChange, placeholder, error }: any) => (
-        <div>
-            <input
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                className={`w-full rounded-lg border px-3 py-2 text-sm outline-none ${
-                    error ? 'border-red-500' : 'border-gray-300'
-                }`}
-            />
-            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
-        </div>
-    );
+    // ✅ SINGLE Input component
+    const Input = ({ value, onChange, placeholder, field }: any) => {
+        const error = getError(field);
+
+        return (
+            <div>
+                <input
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    className={`w-full rounded-lg border px-3 py-2 text-sm outline-none ${
+                        error ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                />
+                {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+            </div>
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -98,7 +121,7 @@ export default function Dashboard({ breadcrumbs }: any) {
 
             <h4>App Dashboard</h4>
 
-            {/* ---------------- MODAL ---------------- */}
+            {/* MODAL */}
             {open && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
@@ -130,7 +153,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('industry', e.target.value)
                                         }
                                         placeholder="Industry"
-                                        error={errors.industry}
+                                        field="industry"
                                     />
                                     <Input
                                         value={data.first_name}
@@ -141,7 +164,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             )
                                         }
                                         placeholder="First Name"
-                                        error={errors.first_name}
+                                        field="first_name"
                                     />
                                     <Input
                                         value={data.last_name}
@@ -149,7 +172,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('last_name', e.target.value)
                                         }
                                         placeholder="Last Name"
-                                        error={errors.last_name}
+                                        field="last_name"
                                     />
                                 </div>
                             )}
@@ -166,7 +189,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             )
                                         }
                                         placeholder="Phone Cell"
-                                        error={errors.phone_cell}
+                                        field="phone_cell"
                                     />
                                     <Input
                                         value={data.phone_home}
@@ -177,7 +200,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             )
                                         }
                                         placeholder="Phone Home"
-                                        error={errors.phone_home}
+                                        field="phone_home"
                                     />
                                 </div>
                             )}
@@ -191,7 +214,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('street', e.target.value)
                                         }
                                         placeholder="Street"
-                                        error={errors.street}
+                                        field="street"
                                     />
                                     <Input
                                         value={data.city}
@@ -199,7 +222,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('city', e.target.value)
                                         }
                                         placeholder="City"
-                                        error={errors.city}
+                                        field="city"
                                     />
                                     <Input
                                         value={data.state}
@@ -207,7 +230,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('state', e.target.value)
                                         }
                                         placeholder="State"
-                                        error={errors.state}
+                                        field="state"
                                     />
                                     <Input
                                         value={data.zip}
@@ -215,7 +238,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('zip', e.target.value)
                                         }
                                         placeholder="Zip"
-                                        error={errors.zip}
+                                        field="zip"
                                     />
                                     <Input
                                         value={data.service}
@@ -223,7 +246,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('service', e.target.value)
                                         }
                                         placeholder="Service"
-                                        error={errors.service}
+                                        field="service"
                                     />
                                     <Input
                                         value={data.price}
@@ -231,7 +254,7 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             setData('price', e.target.value)
                                         }
                                         placeholder="Price"
-                                        error={errors.price}
+                                        field="price"
                                     />
 
                                     <div className="md:col-span-2">
@@ -246,9 +269,9 @@ export default function Dashboard({ breadcrumbs }: any) {
                                             className="w-full rounded-lg border p-2"
                                             placeholder="Incident Report"
                                         />
-                                        {errors.incident_report && (
+                                        {getError('incident_report') && (
                                             <p className="text-xs text-red-500">
-                                                {errors.incident_report}
+                                                {getError('incident_report')}
                                             </p>
                                         )}
                                     </div>

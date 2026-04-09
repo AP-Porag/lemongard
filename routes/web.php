@@ -80,6 +80,16 @@ Route::group([], function () {
 |--------------------------------------------------------------------------
 */
 
+// Route::prefix(GlobalConstant::ROUTE_APP)
+//     ->middleware(['auth', 'verified', 'role:user'])
+//     ->group(function () {
+
+//         Route::get('/dashboard', function () {
+//             return Inertia::render('app/dashboard');
+//         })->name('app.dashboard');
+//     });
+
+
 Route::prefix(GlobalConstant::ROUTE_APP)
     ->middleware(['auth', 'verified', 'role:user'])
     ->group(function () {
@@ -88,8 +98,8 @@ Route::prefix(GlobalConstant::ROUTE_APP)
             return Inertia::render('app/dashboard');
         })->name('app.dashboard');
 
-        // Route::post('/records', [RecordController::class, 'store'])
-        //     ->name('app.records.store');
+        // Record Data Store
+        Route::resource('records', RecordController::class);
     });
 
 /*

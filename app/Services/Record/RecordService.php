@@ -2,17 +2,17 @@
 
 namespace App\Services\Record;
 
-use App\Services\BaseService;
 use App\Models\Record;
+use App\Services\BaseService;
 
 class RecordService extends BaseService
 {
-    public function __construct(Record $record)
+    public function __construct(Record $model)
     {
-        parent::__construct($record);
+        parent::__construct($model);
     }
 
-    public function createForUser(array $data, int $userId)
+    public function store(array $data, int $userId): Record
     {
         $data['user_id'] = $userId;
 
