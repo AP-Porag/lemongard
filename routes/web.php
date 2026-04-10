@@ -17,13 +17,12 @@
 //require __DIR__.'/settings.php';
 
 
+use App\Http\Controllers\Admin\User\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Utils\GlobalConstant;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\App\DashboardController;
 use App\Http\Controllers\App\Record\RecordController;
 /*
 |--------------------------------------------------------------------------
@@ -113,6 +112,8 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         Route::get('/dashboard', function () {
             return Inertia::render('admin/dashboard');
         })->name('admin.dashboard');
+
+        Route::resource('users', UserController::class);
     });
 
 
