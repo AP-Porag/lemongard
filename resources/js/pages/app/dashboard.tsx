@@ -18,6 +18,7 @@ export default function Dashboard({ breadcrumbs }: any) {
     const [step, setStep] = useState(1);
     const [localErrors, setLocalErrors] = useState<any>({});
     const [showToast, setShowToast] = useState(false);
+    const isSocialUser = Boolean(user?.is_used_social);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         industry: '',
