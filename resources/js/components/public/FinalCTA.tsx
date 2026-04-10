@@ -14,7 +14,7 @@ const FinalCTA = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative rounded-2xl p-12 lg:p-16 overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800"
+        className="relative rounded-2xl p-12 lg:p-16 overflow-hidden bg-gradient-to-br from-[hsl(224_76%_33%)] via-[hsl(224_76%_25%)] to-[hsl(225,90%,8%)]"
       >
 
         
