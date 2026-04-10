@@ -1,0 +1,118 @@
+import React, { useState, useEffect } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import DataTable from '@/components/common/DataTable';
+import AppLayout from '@/layouts/app-layout.js';
+
+const breadcrumbs = [
+    {
+        title: 'Users',
+        href: '/users/create',
+    },
+];
+
+export default function Index({ records, filters: initialFilters }) {
+    const [filters, setFilters] = useState({
+        search: initialFilters.search || '',
+        status: initialFilters.status || '',
+        perPage: initialFilters.perPage || 5,
+        page: records.current_page || 1,
+    });
+
+    useEffect(() => {
+        // Push new filters to URL and reload data
+        router.get(route('records.index'), filters, {
+            preserveState: true,
+            replace: true,
+        });
+    }, [filters.search, filters.status, filters.perPage, filters.page]);
+
+    const columns = [
+        {
+            key: 'avatar',
+            label: 'Avatar',
+            render: (row) => (
+                <img
+                    src={row.avatar || '/images/user_default.png'}
+                    alt="avatar"
+                    className="h-10 w-10 rounded-full object-cover"
+                />
+            ),
+        },
+        { key: 'name', label: 'Name' },
+        {
+            key: 'email',
+            label: 'Email',
+            render: (row) => (
+                <span className="block w-48 truncate">{row.email}</span>
+            ),
+        },
+        {
+            key: 'role',
+            label: 'Role',
+            render: (row) => (
+                <span className="block w-48 truncate capitalize">
+                    {row.role}
+                </span>
+            ),
+        },
+        // {
+        //     key: 'status',
+        //     label: 'Status',
+        //     render: (row) => {
+        //         const statusStyles = {
+        //             1: 'bg-green-100 text-green-800',
+        //             0: 'bg-red-100 text-red-800',
+        //         };
+        //         return (
+        //             <span
+        //                 className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}
+        //             >
+        //                 {row.status === 1 ? 'Active' : 'Inactive'}
+        //             </span>
+        //         );
+        //     },
+        // },
+    ];
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Users" />
+            <div className="p-4">
+                <div className="my-4 flex items-center justify-between">
+                    <h1 className="text-2xl font-bold">Users</h1>
+                    <Button
+                        onClick={() => router.visit(route('users.create'))}
+                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                    >
+                        <Plus className="mr-2" /> Create User
+                    </Button>
+                </div>
+                <DataTable
+                    data={records.data}
+                    columns={columns}
+                    meta={{
+                        from: records.from,
+                        to: records.to,
+                        total: records.total,
+                        current_page: records.current_page,
+                        last_page: records.last_page,
+                    }}
+                    // also we can -  edit: row.status === 'active',
+                    actions={(row) => ({
+                        view: false,
+                        edit: true,
+                        delete: row.user_type !== 'admin',
+                        search_filter: true,
+                        status_filter: true,
+                        per_page_filter: true,
+                    })}
+                    baseRoute="users"
+                    filters={filters}
+                    onFilterChange={setFilters}
+                />
+            </div>
+        </AppLayout>
+    );
+}

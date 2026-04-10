@@ -25,23 +25,28 @@ class UserController extends Controller
         $query = User::query();
 
         if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                    ->orWhere('last_name', 'like', "%{$search}%")
-                    ->orWhere('user_type', 'like', "%{$search}%")
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
-        if ($status !== 'all') {
-            $query->where('status', (int) $status);
-        }
+        // if ($status !== 'all') {
+        //     $query->where('status', (int) $status);
+        // }
 
-        $users = $query->select('id', 'first_name', 'last_name', 'email', 'user_type', 'avatar', 'status',DB::raw("CONCAT(first_name, ' ', last_name) as name"))
+        $users = $query->select(
+            'id',
+            'name',
+            'email',
+            'role',
+            'avatar',
+        )
             ->paginate($perPage)
             ->withQueryString();
 
-//        return $users;
+        //        return $users;
         return Inertia::render('admin/user/index', [
             'users' => $users,
             'filters' => [
@@ -93,7 +98,6 @@ class UserController extends Controller
                 'message' => 'User created successfully',
                 'data' => $user
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

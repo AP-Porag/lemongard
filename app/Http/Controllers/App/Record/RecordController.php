@@ -4,7 +4,7 @@ namespace App\Http\Controllers\App\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
-use App\Services\Record\RecordService;
+use App\Services\Subscriber\Record\RecordService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -22,7 +22,7 @@ class RecordController extends Controller
         $records = $this->recordService->paginate(10);
 
         return Inertia::render('app/records/index', [
-            'records' => $records
+            'records' => $records,
         ]);
     }
 

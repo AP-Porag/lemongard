@@ -32,34 +32,48 @@ export default function Index({ users, filters: initialFilters }) {
         {
             key: 'avatar',
             label: 'Avatar',
-            render: (row) => <img src={row.avatar || '/images/user_default.png'} alt="avatar" className="h-10 w-10 rounded-full object-cover" />,
+            render: (row) => (
+                <img
+                    src={row.avatar || '/images/user_default.png'}
+                    alt="avatar"
+                    className="h-10 w-10 rounded-full object-cover"
+                />
+            ),
         },
         { key: 'name', label: 'Name' },
         {
             key: 'email',
             label: 'Email',
-            render: (row) => <span className="block w-48 truncate">{row.email}</span>,
+            render: (row) => (
+                <span className="block w-48 truncate">{row.email}</span>
+            ),
         },
         {
-            key: 'user_type',
+            key: 'role',
             label: 'Role',
-            render: (row) => <span className="block w-48 truncate capitalize">{row.user_type}</span>,
+            render: (row) => (
+                <span className="block w-48 truncate capitalize">
+                    {row.role}
+                </span>
+            ),
         },
-        {
-            key: 'status',
-            label: 'Status',
-            render: (row) => {
-                const statusStyles = {
-                    1: 'bg-green-100 text-green-800',
-                    0: 'bg-red-100 text-red-800',
-                };
-                return (
-                    <span className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}>
-                        {row.status === 1 ? 'Active' : 'Inactive'}
-                    </span>
-                );
-            },
-        },
+        // {
+        //     key: 'status',
+        //     label: 'Status',
+        //     render: (row) => {
+        //         const statusStyles = {
+        //             1: 'bg-green-100 text-green-800',
+        //             0: 'bg-red-100 text-red-800',
+        //         };
+        //         return (
+        //             <span
+        //                 className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}
+        //             >
+        //                 {row.status === 1 ? 'Active' : 'Inactive'}
+        //             </span>
+        //         );
+        //     },
+        // },
     ];
 
     return (
@@ -68,7 +82,10 @@ export default function Index({ users, filters: initialFilters }) {
             <div className="p-4">
                 <div className="my-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Users</h1>
-                    <Button onClick={() => router.visit(route('users.create'))} className="cursor-pointer bg-black text-white hover:bg-gray-800">
+                    <Button
+                        onClick={() => router.visit(route('users.create'))}
+                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                    >
                         <Plus className="mr-2" /> Create User
                     </Button>
                 </div>

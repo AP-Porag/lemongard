@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Record;
+namespace App\Services\Subscriber\Record;
 
 use App\Models\Record;
 use App\Models\User;
