@@ -52,8 +52,6 @@ const registerSchema = z
             .min(1, 'Email is required')
             .email('Please enter a valid email address')
             .max(255),
-        company: z.string().max(100).optional(),
-        industry: z.string().min(1, 'Please select your industry'),
         password: z
             .string()
             .min(8, 'Password must be at least 8 characters')
@@ -178,8 +176,6 @@ const Register = () => {
                 email: data.email,
                 password: data.password,
                 password_confirmation: data.confirmPassword,
-                industry: data.industry,
-                company: data.company,
                 agree_to_terms: data.agreeToTerms,
                 marketing_emails: data.marketingEmails,
             },
@@ -399,7 +395,7 @@ const Register = () => {
                             </div>
 
                             {/* Company */}
-                            <div>
+                            {/* <div>
                                 <label
                                     htmlFor="company"
                                     className="mb-2 block text-sm font-medium text-[#1E3A8A]"
@@ -418,10 +414,10 @@ const Register = () => {
                                         className={inputCls('company')}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Industry */}
-                            <div>
+                            {/* <div>
                                 <label
                                     htmlFor="industry"
                                     className="mb-2 block text-sm font-medium text-[#1E3A8A]"
@@ -456,7 +452,7 @@ const Register = () => {
                                         {errors.industry.message}
                                     </p>
                                 )}
-                            </div>
+                            </div> */}
 
                             {/* Password */}
                             <div>

@@ -48,16 +48,16 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::redirects('login', '/app/dashboard');
 
         // ✅ LOGIN RESPONSE OVERRIDE
-        $this->app->singleton(LoginResponse::class, function () {
-            return new class implements LoginResponse {
-                public function toResponse($request)
-                {
-                    return redirect('/app/dashboard')->with([
-                        'showOnboardingModal' => auth()->user()->is_first_login,
-                    ]);
-                }
-            };
-        });
+        // $this->app->singleton(LoginResponse::class, function () {
+        //     return new class implements LoginResponse {
+        //         public function toResponse($request)
+        //         {
+        //             return redirect('/app/dashboard')->with([
+        //                 'showOnboardingModal' => auth()->user()->is_first_login,
+        //             ]);
+        //         }
+        //     };
+        // });
     }
 
     /**

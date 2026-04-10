@@ -24,8 +24,7 @@ use App\Utils\GlobalConstant;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\DashboardController;
-use App\Http\Controllers\App\RecordController;
-
+use App\Http\Controllers\App\Record\RecordController;
 /*
 |--------------------------------------------------------------------------
 | Public Website Routes
