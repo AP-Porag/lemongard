@@ -6,9 +6,10 @@ export type BreadcrumbItem = {
     href: string;
 };
 
-export type NavItem = {
+export interface NavItem {
     title: string;
-    href: NonNullable<InertiaLinkProps['href']>;
+    href?: string | null;
     icon?: LucideIcon | null;
     isActive?: boolean;
-};
+    children?: NavItem[];
+}
