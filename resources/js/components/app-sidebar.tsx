@@ -1,6 +1,20 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BadgeCheck, BarChart3, CreditCard, Database, LayoutDashboard, LayoutGrid, PlusCircle,
-    Receipt, Search, Table, User, Users, Zap } from 'lucide-react';
+import {
+    BadgeCheck,
+    BarChart3,
+    CreditCard,
+    Database,
+    Factory,
+    LayoutDashboard,
+    LayoutGrid,
+    PlusCircle,
+    Receipt,
+    Search,
+    Table,
+    User,
+    Users,
+    Zap,
+} from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -46,6 +60,11 @@ export const mainNavItems:NavItem[] = [
                 icon: CreditCard,
             },
         ],
+    },
+    {
+        title: "Industries",
+        href: "/admin/industries",
+        icon: Factory,
     },
 
     {
