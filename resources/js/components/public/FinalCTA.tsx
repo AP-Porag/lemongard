@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from 'motion/react';
 import { LemonSlice, LemonSimple } from "./LemonIcon";
 
 /**
@@ -14,8 +14,10 @@ const FinalCTA = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 rounded-2xl p-12 lg:p-16 overflow-hidden"
+        className="relative rounded-2xl p-12 lg:p-16 overflow-hidden bg-gradient-to-br from-[hsl(224_76%_33%)] via-[hsl(224_76%_25%)] to-[hsl(225,90%,8%)]"
       >
+
+        
         {/* Decorative Lemon Slices */}
         <LemonSlice className="absolute top-0 left-0 w-32 h-32 -translate-x-1/4 -translate-y-1/4" opacity={0.12} />
         <LemonSlice className="absolute bottom-0 right-0 w-40 h-40 translate-x-1/4 translate-y-1/4" opacity={0.12} />

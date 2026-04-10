@@ -2,6 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { LemonSimple, LemonSlice } from '@/components/public/LemonIcon';
+import Banner from "@/components/BannerSec";
 
 /**
  * How It Works - Page Hero
@@ -10,15 +11,8 @@ import { LemonSimple, LemonSlice } from '@/components/public/LemonIcon';
 const HowItWorksHero = () => {
     return (
         <section className="section-container relative overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
-            {/* Decorative Lemon Watermarks */}
-            <LemonSlice
-                className="absolute top-0 right-0 -mt-16 -mr-16 h-64 w-64"
-                opacity={0.05}
-            />
-            <LemonSlice
-                className="absolute bottom-0 left-0 -mb-12 -ml-12 h-48 w-48"
-                opacity={0.05}
-            />
+            {/* Botanical Lemon Background */}
+              <Banner/>
 
             {/* Breadcrumb */}
             <motion.nav
