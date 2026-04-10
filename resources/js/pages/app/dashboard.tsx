@@ -18,7 +18,7 @@ export default function Dashboard({ breadcrumbs }: any) {
     const [step, setStep] = useState(1);
     const [localErrors, setLocalErrors] = useState<any>({});
     const [showToast, setShowToast] = useState(false);
-    const isSocialUser = Boolean(user?.is_used_social);
+    const isSocialUser = Boolean(user?.is_social_login);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         industry: '',
@@ -130,15 +130,6 @@ export default function Dashboard({ breadcrumbs }: any) {
             {/* HEADER */}
             <div className="mb-4 flex items-center justify-between">
                 <h4>App Dashboard</h4>
-
-                {user?.email && (
-                    <div className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm shadow-sm">
-                        <span className="text-gray-500">Logged in as:</span>{' '}
-                        <span className="font-medium text-gray-900">
-                            {user.email}
-                        </span>
-                    </div>
-                )}
             </div>
 
             {/* TOAST */}

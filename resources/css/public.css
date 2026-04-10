@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 body {
     background: red;
 }
@@ -69,11 +67,10 @@ body {
             hsl(43 96% 56%),
             hsl(45 93% 64%)
         );
-        --gradient-navy: linear-gradient(
-            to bottom right,
-            hsl(224 76% 33%),
-            hsl(222 47% 11%)
-        );
+       --gradient-navy: linear-gradient(
+          hsl(224 76% 33%),
+          hsl(222 46% 11%)
+);
     }
 }
 

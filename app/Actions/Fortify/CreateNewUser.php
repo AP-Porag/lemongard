@@ -15,8 +15,6 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', 'min:8'],
-            'industry' => ['required', 'string'],
-            'company' => ['nullable', 'string'],
         ])->validate();
 
         return User::create([
