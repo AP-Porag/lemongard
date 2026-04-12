@@ -31,8 +31,7 @@ return new class extends Migration
             // SUBSCRIPTION SYSTEM
             // =========================
             $table->string('subscription_tier')
-                ->default('view_only')
-                ->index();
+                ->default(GlobalConstant::TIER_TRIAL)->index();
 
             $table->string('subscription_status')
                 ->default('trial')

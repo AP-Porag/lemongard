@@ -22,6 +22,10 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'is_first_login' => true,
+
+            // ✅ TRIAL LOGIC (THIS IS THE RIGHT PLACE)
+            'subscription_status' => 'trial',
+            'trial_ends_at' => now()->addSeconds(30), // prod: addDays(30)
         ]);
     }
 }

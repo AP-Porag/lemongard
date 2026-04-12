@@ -25,6 +25,7 @@ class User extends Authenticatable
         'avatar',
         'role',
         'agree_to_terms',
+        'trial_ends_at',
         'marketing_emails',
         'is_first_login',
         'is_social_login',

@@ -1,29 +1,15 @@
 <?php
-//
-//use Illuminate\Support\Facades\Route;
-//use Inertia\Inertia;
-//use Laravel\Fortify\Features;
-//
-//Route::get('/', function () {
-//    return Inertia::render('welcome', [
-//        'canRegister' => Features::enabled(Features::registration()),
-//    ]);
-//})->name('home');
-//
-//Route::get('dashboard', function () {
-//    return Inertia::render('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-//
-//require __DIR__.'/settings.php';
-
 
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\App\Record\RecordController;
+use App\Http\Controllers\App\Subscription\SubscriptionController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Middleware\SubscriptionActiveMiddleware;
+use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
-use App\Utils\GlobalConstant;
-use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\App\Record\RecordController;
+
 /*
 |--------------------------------------------------------------------------
 | Public Website Routes
@@ -32,44 +18,14 @@ use App\Http\Controllers\App\Record\RecordController;
 
 Route::group([], function () {
 
-    //    Route::get('/', function () {
-    //        return Inertia::render('welcome', [
-    //            'canRegister' => Features::enabled(Features::registration()),
-    //        ]);
-    //    })->name('home');
+    Route::get('/', fn() => Inertia::render('public/Home'))->name('home');
 
-    //    Route::get('/how-it-works', fn() => Inertia::render('Public/HowItWorks'))->name('how.it.works');
-    //    Route::get('/about', fn() => Inertia::render('Public/About'))->name('about');
-    //    Route::get('/pricing', fn() => Inertia::render('Public/Pricing'))->name('pricing');
-    //    Route::get('/privacy-policy', fn() => Inertia::render('Public/PrivacyPolicy'))->name('privacy.policy');
-    //    Route::get('/terms-and-conditions', fn() => Inertia::render('Public/Terms'))->name('terms');
-    //    Route::get('/cookie-policy', fn() => Inertia::render('Public/CookiePolicy'))->name('cookie.policy');
+    Route::get('/about', fn() => Inertia::render('public/About'));
 
-    Route::get(
-        '/',
-        fn() =>
-        Inertia::render('public/Home')
-    )->name('home');
+    Route::get('/pricing', fn() => Inertia::render('public/Pricing'));
 
-    Route::get(
-        '/about',
-        fn() =>
-        Inertia::render('public/About')
-    );
-
-    Route::get(
-        '/pricing',
-        fn() =>
-        Inertia::render('public/Pricing')
-    );
-
-    Route::get(
-        '/how-it-works',
-        fn() =>
-        Inertia::render('public/HowItWorks')
-    );
+    Route::get('/how-it-works', fn() => Inertia::render('public/HowItWorks'));
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -77,18 +33,13 @@ Route::group([], function () {
 |--------------------------------------------------------------------------
 */
 
-// Route::prefix(GlobalConstant::ROUTE_APP)
-//     ->middleware(['auth', 'verified', 'role:user'])
-//     ->group(function () {
-
-//         Route::get('/dashboard', function () {
-//             return Inertia::render('app/dashboard');
-//         })->name('app.dashboard');
-//     });
-
-
 Route::prefix(GlobalConstant::ROUTE_APP)
-    ->middleware(['auth', 'verified', 'role:user'])
+    ->middleware([
+        'auth',
+        'verified',
+        'role:user',
+        'trial.active' // ✅ HERE IS YOUR TRIAL MIDDLEWARE
+    ])
     ->group(function () {
 
         Route::get('/dashboard', function () {
@@ -98,9 +49,13 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // Record Data Store
         Route::resource('records', RecordController::class);
 
-        //User Own Data
+        // User Own Data
         Route::get('/my/records', [RecordController::class, 'myRecords'])
             ->name('app.my-records');
+
+        // My Plan
+        Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
+            ->name('app.myplan');
     });
 
 /*
@@ -110,7 +65,11 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 */
 
 Route::prefix(GlobalConstant::ROUTE_ADMIN)
-    ->middleware(['auth', 'verified', 'role:admin'])
+    ->middleware([
+        'auth',
+        'verified',
+        'role:admin'
+    ])
     ->group(function () {
 
         Route::get('/dashboard', function () {
@@ -120,26 +79,14 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         Route::resource('users', UserController::class);
     });
 
+/*
+|--------------------------------------------------------------------------
+| Google Auth
+|--------------------------------------------------------------------------
+*/
 
-
-// Route::post('/register', [AuthController::class, 'register'])
-//     ->name('register.store');
-
-// Sign up with google
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
-
-//Login
-// Route::post('/login', [AuthController::class, 'login'])->name('login.store');
-
-
-// Logout
-// Route::post('/logout', [AuthController::class, 'logout'])
-//     ->middleware('auth')
-//     ->name('logout');
-
-
-
 
 /*
 |--------------------------------------------------------------------------

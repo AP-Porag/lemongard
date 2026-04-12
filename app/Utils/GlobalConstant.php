@@ -27,6 +27,7 @@ class GlobalConstant
     | Subscription Tiers
     |--------------------------------------------------------------------------
     */
+    public const TIER_TRIAL = 'trial';
     public const TIER_VIEW_ONLY = 'tier_1';
     public const TIER_FULL_ACCESS = 'tier_2';
 
