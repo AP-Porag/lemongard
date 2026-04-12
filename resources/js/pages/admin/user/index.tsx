@@ -14,9 +14,9 @@ const breadcrumbs = [
 
 export default function Index({ users, filters: initialFilters }) {
     const [filters, setFilters] = useState({
-        search: initialFilters.search || '',
-        status: initialFilters.status || '',
-        perPage: initialFilters.perPage || 5,
+        search: initialFilters?.search || '',
+        status: initialFilters?.status || '',
+        perPage: initialFilters?.perPage || 5,
         page: users.current_page || 1,
     });
 

@@ -49,6 +49,12 @@ class HandleInertiaRequests extends Middleware
 
             // ✅ login controller থেকে আসা data
             'isFirstLogin' => fn() => $request->session()->get('is_first_login'),
+            //Toast
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+                'warning' => fn() => $request->session()->get('warning'),
+            ],
         ];
     }
 }

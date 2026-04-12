@@ -38,64 +38,64 @@ import AppLogo from './app-logo';
 //     },
 // ];
 
-export const mainNavItems:NavItem[] = [
+export const mainNavItems: NavItem[] = [
     {
-        title: "Dashboard",
-        href: "/admin/dashboard",
+        title: 'Dashboard',
+        href: '/admin/dashboard',
         icon: LayoutDashboard,
     },
 
     {
-        title: "User Management",
+        title: 'User Management',
         icon: Users,
         children: [
             {
-                title: "All Users",
-                href: "/admin/users",
+                title: 'All Users',
+                href: '/admin/users',
                 icon: User,
             },
             {
-                title: "Subscriptions",
-                href: "/admin/subscriptions",
+                title: 'Subscriptions',
+                href: '/admin/subscriptions',
                 icon: CreditCard,
             },
         ],
     },
     {
-        title: "Industries",
-        href: "/admin/industries",
+        title: 'Industries',
+        href: '/admin/industries',
         icon: Factory,
     },
 
     {
-        title: "Records Management",
+        title: 'Records Management',
         icon: Database,
         children: [
             {
-                title: "All Records",
-                href: "/admin/records",
+                title: 'All Records',
+                href: '/admin/records',
                 icon: Table,
             },
             {
-                title: "Add Record",
-                href: "/admin/records/create",
+                title: 'Add Record',
+                href: '/admin/records/create',
                 icon: PlusCircle,
             },
         ],
     },
 
     {
-        title: "Reports",
+        title: 'Reports',
         icon: BarChart3,
         children: [
             {
-                title: "By Subscriber",
-                href: "/admin/reports/subscribers",
+                title: 'By Subscriber',
+                href: '/admin/reports/subscribers',
                 icon: Users,
             },
             {
-                title: "By Records",
-                href: "/admin/reports/records",
+                title: 'By Records',
+                href: '/admin/reports/records',
                 icon: Database,
             },
         ],
@@ -114,47 +114,47 @@ export const mainNavItems:NavItem[] = [
     // },
 ];
 
-export const appSidebar:NavItem[] = [
+export const appSidebar: NavItem[] = [
     {
-        title: "Dashboard",
-        href: "/app/dashboard",
+        title: 'Dashboard',
+        href: '/app/dashboard',
         icon: LayoutDashboard,
     },
 
     {
-        title: "Records",
+        title: 'Records',
         icon: Database,
         children: [
             {
-                title: "All Records",
-                href: "/app/records",
+                title: 'All Records',
+                href: '/app/records',
                 icon: Search,
             },
             {
-                title: "My Records",
-                href: "/app/my-records",
+                title: 'My Records',
+                href: '/app/my/records',
                 icon: User,
             },
             {
-                title: "Add Record",
-                href: "/app/records/create",
+                title: 'Add Record',
+                href: '/app/records/create',
                 icon: PlusCircle,
             },
         ],
     },
 
     {
-        title: "Subscription",
+        title: 'Subscription',
         icon: CreditCard,
         children: [
             {
-                title: "My Plan",
-                href: "/app/subscription",
+                title: 'My Plan',
+                href: '/app/subscription',
                 icon: BadgeCheck,
             },
             {
-                title: "Billing History",
-                href: "/app/billing",
+                title: 'Billing History',
+                href: '/app/billing',
                 icon: Receipt,
             },
         ],
@@ -199,7 +199,14 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={auth.user.role === 'admin'?'/admin/dashboard':'/app/dashboard'} prefetch>
+                            <Link
+                                href={
+                                    auth.user.role === 'admin'
+                                        ? '/admin/dashboard'
+                                        : '/app/dashboard'
+                                }
+                                prefetch
+                            >
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

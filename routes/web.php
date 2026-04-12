@@ -97,6 +97,10 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 
         // Record Data Store
         Route::resource('records', RecordController::class);
+
+        //User Own Data
+        Route::get('/my/records', [RecordController::class, 'myRecords'])
+            ->name('app.my-records');
     });
 
 /*
