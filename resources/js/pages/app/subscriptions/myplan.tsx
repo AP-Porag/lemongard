@@ -186,6 +186,7 @@ export default function MyPlan({ auth }: Props) {
                                         </Button>
                                     ) : (
                                         <Button
+                                            disabled
                                             onClick={() =>
                                                 handleSelectPlan(tier.key)
                                             }

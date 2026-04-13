@@ -9,8 +9,8 @@ import AppLayout from '@/layouts/app-layout.js';
 
 const breadcrumbs = [
     {
-        title: 'Users',
-        href: '/users/create',
+        title: 'My Records',
+        href: '',
     },
 ];
 
@@ -74,10 +74,10 @@ export default function Index({ records, filters: initialFilters }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Users" />
+            <Head title="My Records" />
             <div className="p-4">
                 <div className="my-4 flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Records</h1>
+                    <h1 className="text-2xl font-bold">My Records</h1>
                     <Button
                         onClick={() => router.visit(route('records.create'))}
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"

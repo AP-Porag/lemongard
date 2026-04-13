@@ -65,6 +65,18 @@ export const mainNavItems: NavItem[] = [
         title: 'Industries',
         href: '/admin/industries',
         icon: Factory,
+        children: [
+            {
+                title: 'All Industries',
+                href: '/admin/industries',
+                icon: Table,
+            },
+            {
+                title: 'Add Industry',
+                href: '/admin/industries/create',
+                icon: PlusCircle,
+            },
+        ],
     },
 
     {
@@ -186,7 +198,7 @@ export const appSidebar: NavItem[] = [
 const footerNavItems: NavItem[] = [
     {
         title: 'Upgrade Plan',
-        href: '#',
+        href: '/app/subscription',
         icon: Zap,
     },
 ];
