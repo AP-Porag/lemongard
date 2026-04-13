@@ -25,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
 
             // ✅ TRIAL LOGIC (THIS IS THE RIGHT PLACE)
             'subscription_status' => 'trial',
-            'trial_ends_at' => now()->addSeconds(30), // prod: addDays(30)
+            'trial_ends_at' => now()->addSeconds(59), // prod: addDays(30)
         ]);
     }
 }
