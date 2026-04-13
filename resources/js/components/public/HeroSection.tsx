@@ -1,14 +1,13 @@
 import { ArrowRight, PlayCircle, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LemonWhole, LemonSlice, LemonSimple } from './LemonIcon';
-import Banner from "@/components/BannerSec";
+import Banner from '@/components/BannerSec';
 
 const HeroSection = () => {
     return (
         <section id="home" className="relative overflow-hidden pt-28 pb-16">
-
             {/* Botanical Lemon Background */}
-            <Banner/>
+            <Banner />
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
@@ -27,7 +26,7 @@ const HeroSection = () => {
                         </div>
 
                         {/* Heading */}
-                        <h1 className="mt-6 text-4xl leading-tight font-bold text-[#0B1C39] md:text-5xl lg:text-6xl">
+                        <h1 className="text-navy-600 mt-6 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
                             Your Complete CRM & Data Platform for{' '}
                             <span className="text-yellow-500">
                                 Service Industry Excellence
@@ -74,7 +73,7 @@ const HeroSection = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0B1C39] to-[#0F2A5C] p-6 shadow-2xl lg:p-8">
+                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#143590] to-[#0F2A5C] p-6 shadow-2xl lg:p-8">
                             {/* Window Dots */}
                             <div className="mb-6 flex gap-2">
                                 <div className="h-3 w-3 rounded-full bg-red-400" />

@@ -11,7 +11,6 @@ import Footer from '@/components/public/Footer';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-
 const queryClient = new QueryClient();
 
 interface Props {

@@ -81,8 +81,8 @@ const FeaturesSection = () => {
                         </div>
 
                         {/* Icon */}
-                        <div className="icon-circle relative">
-                            <feature.icon className="icon-circle-icon" />
+                        <div className="relative flex h-15 w-15 items-center justify-center rounded-full bg-yellow-100">
+                            <feature.icon className="h-8 w-8 text-yellow-600" />
                         </div>
 
                         {/* Content */}

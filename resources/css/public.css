@@ -1,9 +1,64 @@
-
 body {
     background: red;
 }
 
 /* LemonGard Design System - Professional B2B SaaS Aesthetic */
+
+/* =========================
+   LEMON GARD NAVY SYSTEM
+   ========================= */
+
+/* Base Navy */
+.text-navy {
+    color: #1e3a8a;
+}
+
+.bg-navy {
+    background-color: #1e3a8a;
+}
+
+.border-navy {
+    border-color: #1e3a8a;
+}
+
+/* Navy 600 */
+.text-navy-600 {
+    color: #1e3a8a;
+}
+
+.bg-navy-600 {
+    background-color: #1e3a8a;
+}
+
+.border-navy-600 {
+    border-color: #1e3a8a;
+}
+
+/* Navy 700 */
+.text-navy-700 {
+    color: #1c357a;
+}
+
+.bg-navy-700 {
+    background-color: #1c357a;
+}
+
+.border-navy-700 {
+    border-color: #1c357a;
+}
+
+/* Navy 800 */
+.text-navy-800 {
+    color: #172554;
+}
+
+.bg-navy-800 {
+    background-color: #172554;
+}
+
+.border-navy-800 {
+    border-color: #172554;
+}
 
 @layer base {
     :root {
@@ -67,10 +122,7 @@ body {
             hsl(43 96% 56%),
             hsl(45 93% 64%)
         );
-       --gradient-navy: linear-gradient(
-          hsl(224 76% 33%),
-          hsl(222 46% 11%)
-);
+        --gradient-navy: linear-gradient(hsl(224 76% 33%), hsl(222 46% 11%));
     }
 }
 
@@ -156,10 +208,28 @@ body {
         @apply border-navy-600 text-navy-600 hover:bg-navy-600 inline-flex items-center gap-2 rounded-lg border-2 px-8 py-4 font-semibold transition-all duration-300 hover:text-white;
     } */
 
-    .btn-secondary {
+    /* .btn-secondary {
         border-width: 2px;
         border-color: hsl(var(--navy-600));
         color: hsl(var(--navy-600));
+    } */
+
+    .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: var(--radius);
+        border-width: 2px;
+        --tw-border-opacity: 1;
+        border-color: hsl(224 76% 33% / var(--tw-border-opacity, 1));
+        padding: 1rem 2rem;
+        font-weight: 600;
+        --tw-text-opacity: 1;
+        color: hsl(224 76% 33% / var(--tw-text-opacity, 1));
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 0.3s;
+        animation-duration: 0.3s;
     }
 
     /* Feature Card */
@@ -210,6 +280,10 @@ body {
         padding-right: 1rem;
     }
 
+    .section-bg {
+        background-color: #f3f5f9;
+    }
+
     /* sm:px-6 */
     @media (min-width: 640px) {
         .section-container {
@@ -235,11 +309,20 @@ body {
         padding-top: 5rem; /* py-20 */
         padding-bottom: 5rem;
     }
+    .section-padding-remove-bt {
+        padding-bottom: 0 !important;
+    }
+    #footer {
+        background-color: #0b1a41;
+    }
+    .footer-link-text {
+        color: #bdc5d7;
+    }
 
     @media (min-width: 1024px) {
         .section-padding {
-            padding-top: 8rem; /* py-32 */
-            padding-bottom: 8rem;
+            padding-top: 5rem; /* py-32 */
+            padding-bottom: 5rem;
         }
     }
 }

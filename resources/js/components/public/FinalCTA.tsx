@@ -8,13 +8,16 @@ import { LemonSlice, LemonSimple } from './LemonIcon';
  */
 const FinalCTA = () => {
     return (
-        <section id="contact" className="section-container section-padding">
+        <section
+            id="contact"
+            className="section-padding section-padding-remove-bt"
+        >
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(224_76%_33%)] via-[hsl(224_76%_25%)] to-[hsl(225,90%,8%)] p-12 lg:p-16"
+                className="relative overflow-hidden bg-gradient-to-br from-[hsl(224_76%_33%)] via-[hsl(224_76%_25%)] to-[hsl(225,90%,8%)] p-12 lg:p-16"
             >
                 {/* Decorative Lemon Slices */}
                 <LemonSlice

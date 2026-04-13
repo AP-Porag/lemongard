@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { LemonWhole } from './LemonIcon';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, usePage } from '@inertiajs/react';
+import { Logo } from '@/components/public/LemonIcon';
 
 interface NavLinkItem {
     label: string;
@@ -104,12 +105,12 @@ const Navigation = () => {
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="group flex items-center gap-2">
-                        <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
+                        {/* <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
                         <span className="text-navy-600 text-2xl font-bold">
                             LemonGard
-                        </span>
+                        </span> */}
+                        <Logo className="h-15 w-auto" />
                     </Link>
-
                     {/* Desktop Navigation */}
                     <div className="hidden items-center gap-8 md:flex">
                         {navLinks.map((link) => renderLink(link))}

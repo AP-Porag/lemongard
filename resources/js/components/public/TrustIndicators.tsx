@@ -35,9 +35,9 @@ const stats = [
  */
 const TrustIndicators = () => {
     return (
-        <section className="border-t border-gray-100 py-12">
+        <section className="section-bg border-t border-gray-100 bg-gray-50 py-12">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <p className="mb-8 text-center text-sm text-gray-500">
+                <p className="mb-8 bg-gray-50 text-center text-sm">
                     Trusted by service professionals across multiple industries
                 </p>
 
