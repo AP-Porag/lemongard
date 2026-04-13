@@ -23,7 +23,8 @@ const Navigation = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const { url } = usePage();
+    const { url, props } = usePage();
+    const auth = props.auth;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -117,7 +118,7 @@ const Navigation = () => {
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="hidden items-center gap-4 md:flex">
+                    {/* <div className="hidden items-center gap-4 md:flex">
                         <Link
                             href="/login"
                             className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
@@ -131,6 +132,33 @@ const Navigation = () => {
                         >
                             Start Free Trial
                         </Link>
+                    </div> */}
+
+                    <div className="hidden items-center gap-4 md:flex">
+                        {auth?.user ? (
+                            <Link
+                                href="/app/dashboard"
+                                className="btn-primary !px-6 !py-2.5 !shadow-md"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
+                                >
+                                    Login
+                                </Link>
+
+                                <Link
+                                    href="/register"
+                                    className="btn-primary !px-6 !py-2.5 !shadow-md"
+                                >
+                                    Start Free Trial
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}

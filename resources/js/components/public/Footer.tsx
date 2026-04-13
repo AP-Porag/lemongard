@@ -114,7 +114,7 @@ const Footer = () => {
 
             {/* Bottom Bar */}
             <div className="mt-12 border-t border-gray-200 pt-8">
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-center text-sm text-gray-400">
                     © 2026 LemonGard. All rights reserved.
                 </p>
             </div>
