@@ -60,6 +60,17 @@ body {
     border-color: #172554;
 }
 
+@theme {
+
+      --color-navy-primary: hsl(224 76% 33%);
+      --color-navy-dark: hsl(222 47% 11%);
+      --color-navy-600: hsl(224 76% 33%);
+      --color-navy-700: hsl(224 71% 25%);
+      --color-navy-800: hsl(222 47% 11%);
+
+}
+
+
 @layer base {
     :root {
         /* Off-white page background */
@@ -246,11 +257,12 @@ body {
     }
 
     /* Icon Circle */
-    /* .icon-circle {
+     /* .icon-circle {
         @apply inline-flex rounded-full bg-yellow-100 p-4;
     } */
 
     .icon-circle {
+        display: inline-flex;
         background-color: hsl(var(--yellow-100));
         padding: 1rem;
         border-radius: 9999px;

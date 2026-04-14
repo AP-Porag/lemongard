@@ -118,7 +118,7 @@ const DetailedWalkthrough = () => {
                       <div className="h-3 bg-white/20 rounded w-16 mb-2" />
                       <div className="h-8 bg-white/10 rounded w-full" />
                     </div>
-                    <div className="h-10 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center">
+                    <div className="h-10 bg-gradient-to-r from-chart-4 to-chart-5 rounded-lg flex items-center justify-center">
                       <span className="text-navy-900 text-sm font-semibold">Create Account</span>
                     </div>
                   </div>

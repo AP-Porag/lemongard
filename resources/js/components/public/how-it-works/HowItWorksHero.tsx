@@ -10,7 +10,7 @@ import Banner from "@/components/BannerSec";
  */
 const HowItWorksHero = () => {
     return (
-        <section className="section-container relative overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
+        <section className="relative overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
             {/* Botanical Lemon Background */}
               <Banner/>
 
