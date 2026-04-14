@@ -8,13 +8,13 @@ import { LemonSlice, LemonSimple } from "@/components/LemonIcon";
  */
 const HowItWorksCTA = () => {
   return (
-    <section className="section-container section-padding">
+    <section className="section-padding">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 rounded-2xl p-12 lg:p-16 overflow-hidden"
+        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 p-12 lg:p-16 overflow-hidden"
       >
 
 

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 body {
     background: red;
 }
@@ -67,7 +69,6 @@ body {
       --color-navy-600: hsl(224 76% 33%);
       --color-navy-700: hsl(224 71% 25%);
       --color-navy-800: hsl(222 47% 11%);
-
 }
 
 
@@ -124,6 +125,7 @@ body {
         --navy-700: 224 71% 25%;
         --navy-800: 222 47% 11%;
 
+
         --gray-text: 215 16% 47%;
         --gray-border: 214 32% 91%;
 
@@ -133,7 +135,7 @@ body {
             hsl(43 96% 56%),
             hsl(45 93% 64%)
         );
-        --gradient-navy: linear-gradient(hsl(224 76% 33%), hsl(222 46% 11%));
+        --gradient-navy: linear-gradient(hsl(224, 76%, 33%), hsl(222 46% 11%));
     }
 }
 
@@ -158,8 +160,8 @@ body {
 
 @layer components {
     /* Primary Yellow Button */
-    /* .btn-primary {
-        @apply inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 px-8 py-4 font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-xl;
+    .btn-primary {
+        @apply inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-600 px-8 py-4 font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:from-yellow-600 hover:to-yellow-800 hover:shadow-xl;
 
         display: inline-flex;
         align-items: center;
@@ -181,9 +183,9 @@ body {
         transition: all 0.3s ease;
 
         color: hsl(var(--navy-dark));
-    } */
+    }
 
-    .btn-primary {
+    /* .btn-primary {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
@@ -212,7 +214,7 @@ body {
             hsl(var(--yellow-primary))
         );
         box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
-    }
+    } */
 
     /* Secondary Outline Button */
     /* .btn-secondary {
@@ -244,39 +246,39 @@ body {
     }
 
     /* Feature Card */
-    /* .feature-card {
-        @apply relative rounded-xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-yellow-400 hover:shadow-lg;
-    } */
     .feature-card {
+        @apply relative rounded-xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-yellow-400 hover:shadow-lg;
+    }
+    /* .feature-card {
         position: relative;
         border-radius: 0.75rem;
         border: 1px solid #e5e7eb;
         background: white;
         padding: 2rem;
         transition: all 0.3s ease;
-    }
-
-    /* Icon Circle */
-     /* .icon-circle {
-        @apply inline-flex rounded-full bg-yellow-100 p-4;
     } */
 
-    .icon-circle {
+    /* Icon Circle */
+     .icon-circle {
+        @apply inline-flex rounded-full bg-[#fef3c8] p-4;
+    }
+
+    /* .icon-circle {
         display: inline-flex;
         background-color: hsl(var(--yellow-100));
         padding: 1rem;
         border-radius: 9999px;
-    }
+    } */
 
     /* Icon Circle Icon */
-    /* .icon-circle-icon {
-        @apply h-8 w-8 text-yellow-600;
-    } */
     .icon-circle-icon {
+        @apply h-8 w-8 text-yellow-600;
+    }
+    /* .icon-circle-icon {
         height: 2rem;
         width: 2rem;
         color: hsl(var(--yellow-primary));
-    }
+    } */
 
     /* Section container */
     /* .section-container {
@@ -286,9 +288,9 @@ body {
     .section-container {
         margin-left: auto;
         margin-right: auto;
-        max-width: 80rem; /* max-w-7xl */
+        max-width: 80rem; 
 
-        padding-left: 1rem; /* px-4 */
+        padding-left: 1rem; 
         padding-right: 1rem;
     }
 
@@ -313,14 +315,14 @@ body {
     }
 
     /* Section padding */
-    /* .section-padding {
-        @apply py-20 lg:py-32;
-    } */
-
     .section-padding {
-        padding-top: 5rem; /* py-20 */
-        padding-bottom: 5rem;
+        @apply py-20 lg:py-32;
     }
+
+    /* .section-padding {
+        padding-top: 5rem; 
+        padding-bottom: 5rem;
+    } */
     .section-padding-remove-bt {
         padding-bottom: 0 !important;
     }

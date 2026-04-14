@@ -41,15 +41,14 @@ const FeaturesSection = () => {
                 transition={{ duration: 0.6 }}
                 className="text-center"
             >
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex font-sans items-center justify-center gap-2">
                     <LemonSimple className="h-8 w-8 text-yellow-500" />
                     <h2 className="text-navy-600 text-3xl font-bold md:text-4xl lg:text-5xl">
                         Everything You Need to Succeed
                     </h2>
                 </div>
-                <p className="mx-auto mt-4 max-w-3xl text-lg text-gray-500 md:text-xl">
-                    Built for service professionals who demand reliability,
-                    security, and performance
+                <p className="font-sans mx-auto mt-4 max-w-5xl text-lg text-gray-500 md:text-xl">
+                    Built for professionals who demand reliable clients, protected schedules and stress-free appointments
                 </p>
             </motion.div>
 

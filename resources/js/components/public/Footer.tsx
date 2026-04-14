@@ -28,6 +28,7 @@ const contactLinks = [
 const Footer = () => {
     return (
         <footer id="footer" className="py-12 px-6">
+            <div className="section-container">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 {/* Brand Column */}
                 <div>
@@ -117,6 +118,7 @@ const Footer = () => {
                 <p className="text-center text-sm text-gray-400">
                     © 2026 LemonGard. All rights reserved.
                 </p>
+            </div>
             </div>
         </footer>
     );
