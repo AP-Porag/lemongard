@@ -71,7 +71,7 @@ class IndustryController extends Controller
      */
     public function edit(Industry $industry)
     {
-        return Inertia::render('Admin/Industry/Edit', [
+        return Inertia::render('admin/industry/edit', [
             'industry' => $industry,
         ]);
     }
@@ -88,7 +88,7 @@ class IndustryController extends Controller
         $this->service->update($industry, $validated);
 
         return redirect()
-            ->route('admin.industries.index')
+            ->route('industries.index')
             ->with('success', 'Industry updated successfully.');
     }
 

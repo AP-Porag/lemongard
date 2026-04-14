@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Industry\IndustryController;
+use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
@@ -35,28 +36,29 @@ Route::group([], function () {
 */
 
 Route::prefix(GlobalConstant::ROUTE_APP)
+    ->name('app.')
     ->middleware([
         'auth',
         'verified',
         'role:user',
-        'trial.active' // ✅ HERE IS YOUR TRIAL MIDDLEWARE
+        'trial.active'
     ])
     ->group(function () {
 
         Route::get('/dashboard', function () {
             return Inertia::render('app/dashboard');
-        })->name('app.dashboard');
+        })->name('dashboard');
 
         // Record Data Store
         Route::resource('records', RecordController::class);
 
         // User Own Data
         Route::get('/my/records', [RecordController::class, 'myRecords'])
-            ->name('app.my-records');
+            ->name('my-records');
 
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
-            ->name('app.myplan');
+            ->name('myplan');
     });
 
 /*
@@ -66,6 +68,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 */
 
 Route::prefix(GlobalConstant::ROUTE_ADMIN)
+    ->name('admin.')
     ->middleware([
         'auth',
         'verified',
@@ -75,10 +78,12 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
         Route::get('/dashboard', function () {
             return Inertia::render('admin/dashboard');
-        })->name('admin.dashboard');
+        });
 
         //User
         Route::resource('users', UserController::class);
+
+        Route::resource('records', AdminRecord::class);
 
         //Industry
         Route::resource('industries', IndustryController::class);

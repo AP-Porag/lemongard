@@ -22,6 +22,15 @@ class GlobalConstant
     public const SUB_EXPIRED = 'expired';
     public const SUB_CANCELLED = 'cancelled';
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Status
+    |--------------------------------------------------------------------------
+    */
+    public const USER_ACTIVE = 'active';
+    public const USER_INACTIVE = 'inactive';
+
     /*
     |--------------------------------------------------------------------------
     | Subscription Tiers

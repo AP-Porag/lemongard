@@ -57,23 +57,24 @@ export default function Index({ users, filters: initialFilters }) {
                 </span>
             ),
         },
-        // {
-        //     key: 'status',
-        //     label: 'Status',
-        //     render: (row) => {
-        //         const statusStyles = {
-        //             1: 'bg-green-100 text-green-800',
-        //             0: 'bg-red-100 text-red-800',
-        //         };
-        //         return (
-        //             <span
-        //                 className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}
-        //             >
-        //                 {row.status === 1 ? 'Active' : 'Inactive'}
-        //             </span>
-        //         );
-        //     },
-        // },
+        {
+            key: 'status',
+            label: 'Status',
+            render: (row) => {
+                const statusStyles = {
+                    1: 'bg-green-100 text-green-800',
+                    0: 'bg-red-100 text-red-800',
+                };
+                return (
+                    <span
+                        className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}
+                    >
+                        {/* {Number(row.status) === 1 ? 'Active' : 'Inactive'} */}
+                        Active
+                    </span>
+                );
+            },
+        },
     ];
 
     return (

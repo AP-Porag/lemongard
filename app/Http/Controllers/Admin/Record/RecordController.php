@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\App\Record;
+namespace App\Http\Controllers\Admin\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
-use App\Services\Subscriber\Record\RecordService;
+use App\Services\Admin\Record\RecordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,18 +20,11 @@ class RecordController extends Controller
 
     public function index(Request $request)
     {
-
-        // $records = $this->recordService->paginate(10);
-
-        // return Inertia::render('app/records/index', [
-        //     'records' => $records,
-        // ]);
-
         $filters = $request->only(['search', 'status', 'perPage']);
 
         $records = $this->recordService->getPaginatedRecords($filters);
 
-        return Inertia::render('app/records/index', [
+        return Inertia::render('admin/records/index', [
             'records' => $records,
             'filters' => $filters,
         ]);
@@ -52,7 +45,7 @@ class RecordController extends Controller
         // return redirect()->back()->with('success', 'Record created successfully.');
         $this->recordService->store($request->all(), $request->user()->id);
 
-        return redirect()->route('app.records.index')
+        return redirect()->route('records.index')
             ->with('success', 'Record Submitted Successfully');
     }
 
@@ -76,40 +69,44 @@ class RecordController extends Controller
 
     public function update(StoreRecordRequest $request, $id)
     {
-        $record = $this->recordService->updateRecord(
+        $this->recordService->updateRecord(
             $id,
-            $request->validated()
+            $request->validated(),
+            $request->user()
         );
 
-        return redirect()
-            ->route('records.index')
+        return redirect()->route('records.index')
             ->with('success', 'Record updated successfully');
     }
-    public function destroy($id)
+
+    public function destroy(Request $request, $id)
     {
-        $this->recordService->delete($id);
-
-        return redirect()->back()->with('success', 'Record deleted successfully.');
-    }
-
-
-    public function myRecords(Request $request)
-
-    {
-
-        // $records = $this->recordService->paginate(10);
-
-        // return Inertia::render('app/records/index', [
-        //     'records' => $records,
-        // ]);
-
-        $records = $this->recordService->getPaginatedMyRecords(
-            $request->all()
+        $this->recordService->deleteRecord(
+            $id,
+            $request->user()
         );
 
-        return inertia('app/my-records/index', [
-            'records' => $records,
-            'filters' => $request->only(['search', 'status', 'perPage']),
-        ]);
+        return back()->with('success', 'Record deleted successfully.');
     }
+
+
+    // public function myRecords(Request $request)
+
+    // {
+
+    //     // $records = $this->recordService->paginate(10);
+
+    //     // return Inertia::render('app/records/index', [
+    //     //     'records' => $records,
+    //     // ]);
+
+    //     $records = $this->recordService->getPaginatedMyRecords(
+    //         $request->all()
+    //     );
+
+    //     return inertia('app/my-records/index', [
+    //         'records' => $records,
+    //         'filters' => $request->only(['search', 'status', 'perPage']),
+    //     ]);
+    // }
 }
