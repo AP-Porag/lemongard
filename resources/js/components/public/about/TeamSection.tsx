@@ -9,7 +9,7 @@ const roles = [
 ];
 
 const TeamSection = () => (
-  <section className="section-container py-20 lg:py-32">
+  <section className="section-container py-10 lg:py-10">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}

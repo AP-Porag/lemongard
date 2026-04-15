@@ -24,7 +24,7 @@ const PricingTrust = () => (
           <div className="icon-circle mx-auto mb-4 w-16 h-16 flex items-center justify-center">
             <f.icon className="icon-circle-icon" />
           </div>
-          <h3 className="font-semibold text-navy-600 mb-1">{f.title}</h3>
+          <h3 className="font-bold text-navy-600 mb-1">{f.title}</h3>
           <p className="text-sm text-muted-foreground">{f.desc}</p>
         </motion.div>
       ))}

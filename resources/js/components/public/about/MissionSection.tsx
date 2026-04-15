@@ -10,7 +10,7 @@ const stats = [
 ];
 
 const MissionSection = () => (
-  <section className="section-container py-20 lg:py-32">
+  <section className="section-container py-20 lg:pb-10 lg:pt-32">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <motion.div
         initial={{ opacity: 0, x: -20 }}

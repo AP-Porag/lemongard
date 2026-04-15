@@ -117,7 +117,7 @@ const PricingCards = () => (
 
         <hr className="border-border mb-8" />
 
-        <p className="text-sm font-semibold text-navy-600 mb-4">Everything in View Only, plus:</p>
+        <p className="text-sm font-bold text-navy-600 mb-4">Everything in View Only, plus:</p>
         <ul className="space-y-4">
           {fullFeatures.map((f) => (
             <li key={f} className="flex items-start gap-3">

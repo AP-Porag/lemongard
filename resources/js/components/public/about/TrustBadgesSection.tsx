@@ -10,13 +10,13 @@ const badges = [
 ];
 
 const TrustBadgesSection = () => (
-  <section className="section-container py-16">
+  <section className="section-container py-10">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
-      <h3 className="text-xl font-semibold text-navy-600 text-center mb-8">Trusted & Secure</h3>
+      <h3 className="text-xl font-bold text-navy-600 text-center mb-8">Trusted & Secure</h3>
       <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
         {badges.map((b, i) => (
           <div key={b.label} className="flex items-center gap-2 text-gray-600">
