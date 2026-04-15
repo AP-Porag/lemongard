@@ -646,7 +646,7 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="section-container py-20 lg:py-32">
+                <section className="section-container py-20 lg:py-10">
                     <div className="rounded-2xl bg-muted p-8 lg:p-16">
                         <motion.div {...fadeIn} className="mb-12 text-center">
                             <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">

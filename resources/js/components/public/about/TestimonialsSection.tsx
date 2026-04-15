@@ -45,7 +45,7 @@ const TestimonialsSection = () => (
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-navy-600 text-white flex items-center justify-center text-sm font-bold">{t.initials}</div>
             <div>
-              <p className="font-semibold text-navy-600">{t.name}</p>
+              <p className="font-bold text-navy-600">{t.name}</p>
               <p className="text-sm text-gray-500">{t.role}</p>
             </div>
           </div>

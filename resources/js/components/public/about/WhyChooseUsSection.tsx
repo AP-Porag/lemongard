@@ -43,7 +43,7 @@ const WhyChooseUsSection = () => (
               <span className="text-navy-600 font-bold text-sm">{r.num}</span>
             </div>
             <div>
-              <h3 className="font-semibold text-navy-600 text-lg mb-2">{r.title}</h3>
+              <h3 className="font-bold text-navy-600 text-lg mb-2">{r.title}</h3>
               <p className="text-gray-600 text-sm">{r.desc}</p>
             </div>
           </motion.div>

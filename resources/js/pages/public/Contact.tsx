@@ -648,7 +648,7 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="py-20 lg:py-32">
+                <section className="py-10 lg:py-10">
                     <div className="bg-muted p-8 lg:p-16">
                         <div className="section-container">
                         <motion.div {...fadeIn} className="mb-12 text-center">
@@ -744,7 +744,7 @@ const Contact = () => {
                 </section>
 
                 {/* Resources */}
-                <section className="section-container py-20 lg:py-32">
+                <section className="section-container py-10 lg:py-10">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}

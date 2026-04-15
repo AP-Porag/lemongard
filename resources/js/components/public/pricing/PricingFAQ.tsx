@@ -31,7 +31,7 @@ const PricingFAQ = () => (
         <Accordion type="single" collapsible className="space-y-2">
           {faqs.map((f, i) => (
             <AccordionItem key={i} value={`faq-${i}`} className="bg-card rounded-xl px-6 border border-border">
-              <AccordionTrigger className="text-left text-navy-600 font-semibold hover:text-yellow-500 py-5">
+              <AccordionTrigger className="text-left text-navy-600 font-bold hover:text-yellow-500 py-5">
                 <span className="flex items-center gap-3">
                   <LemonSimple className="w-4 h-4 text-yellow-500 shrink-0" />
                   {f.q}

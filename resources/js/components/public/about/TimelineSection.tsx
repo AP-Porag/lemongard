@@ -9,7 +9,7 @@ const milestones = [
 ];
 
 const TimelineSection = () => (
-  <section className="section-container py-20 lg:py-32">
+  <section className="section-container py-10 lg:py-10">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -42,8 +42,8 @@ const TimelineSection = () => (
 
           {/* Content */}
           <div className={`ml-14 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
-            <span className="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold mb-2">{m.year}</span>
-            <h3 className="font-semibold text-navy-600 text-lg">{m.title}</h3>
+            <span className="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold mb-2">{m.year}</span>
+            <h3 className="font-bold text-navy-600 text-lg">{m.title}</h3>
             <p className="text-gray-600 text-sm mt-1">{m.desc}</p>
             <LemonWhole className="w-6 h-6 mt-2 inline-block" opacity={0.3} />
           </div>
