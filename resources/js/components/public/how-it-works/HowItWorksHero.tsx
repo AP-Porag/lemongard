@@ -15,6 +15,7 @@ const HowItWorksHero = () => {
               <Banner/>
 
             {/* Breadcrumb */}
+            <div className="section-container">
             <motion.nav
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -68,6 +69,7 @@ const HowItWorksHero = () => {
                     From signup to subscription: Your journey to better CRM
                     management in three simple steps
                 </motion.p>
+            </div>
             </div>
         </section>
     );

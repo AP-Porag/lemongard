@@ -16,8 +16,9 @@ const faqs = [
 ];
 
 const PricingFAQ = () => (
-  <section className="section-container py-16 lg:py-24">
-    <div className="bg-secondary/50 rounded-2xl p-8 lg:p-16">
+  <section className="py-16 lg:py-24">
+    <div className="bg-secondary/50 p-8 lg:p-16">
+     <div className="section-container">
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
         <span className="inline-flex items-center gap-2 text-sm font-semibold text-yellow-600 uppercase tracking-wide mb-4">
           <LemonSimple className="w-5 h-5 text-yellow-500" /> Pricing FAQ
@@ -42,7 +43,9 @@ const PricingFAQ = () => (
             </AccordionItem>
           ))}
         </Accordion>
+        
       </motion.div>
+      </div>
     </div>
   </section>
 );

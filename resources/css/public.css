@@ -74,7 +74,7 @@
 
       --color-navy-primary: hsl(224 76% 33%);
       --color-navy-dark: hsl(222 47% 11%);
-      --color-navy-600: hsl(224 76% 33%);
+      --color-navy-600: hsl(224 76% 33%); 
       --color-navy-700: hsl(224 71% 25%);
       --color-navy-800: hsl(222 47% 11%);
 }
