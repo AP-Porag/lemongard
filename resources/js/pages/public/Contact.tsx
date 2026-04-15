@@ -225,7 +225,7 @@ const Contact = () => {
 
             <main>
                 {/* Hero */}
-                <section className="section-container section-padding relative overflow-hidden">
+                <section className="section-padding relative overflow-hidden">
                     <div
                         className="absolute inset-0 z-0"
                         style={{
@@ -237,7 +237,7 @@ const Contact = () => {
                     />
                     {/* <LemonSlice className="absolute top-0 right-0 z-0 h-64 w-64 text-yellow-400 opacity-[0.05]" />
                     <LemonSlice className="absolute bottom-0 left-0 z-0 h-48 w-48 text-yellow-400 opacity-[0.05]" /> */}
-
+                    <div className="section-container">
                     <div className="relative z-10">
                         <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
                             <Link
@@ -265,8 +265,10 @@ const Contact = () => {
                                 you.
                             </p>
                         </motion.div>
+                        </div>
                     </div>
                 </section>
+
 
                 {/* Contact Methods */}
                 <section className="section-container py-12">
@@ -646,8 +648,9 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="section-container py-20 lg:py-32">
-                    <div className="rounded-2xl bg-muted p-8 lg:p-16">
+                <section className="py-20 lg:py-32">
+                    <div className="bg-muted p-8 lg:p-16">
+                        <div className="section-container">
                         <motion.div {...fadeIn} className="mb-12 text-center">
                             <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                                 <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -682,6 +685,7 @@ const Contact = () => {
                                 ))}
                             </Accordion>
                         </motion.div>
+                        </div>
                     </div>
                 </section>
 
@@ -781,15 +785,30 @@ const Contact = () => {
                 </section>
 
                 {/* CTA */}
-                <section className="section-container py-20 lg:py-32">
+                <section className="pt-20 lg:pt-32">
                     <motion.div
                         {...fadeIn}
-                        className="from-navy-600 to-navy-800 relative overflow-hidden rounded-2xl bg-gradient-to-br p-12 text-white lg:p-16"
+                        className="from-navy-600 to-navy-800 relative overflow-hidden bg-gradient-to-br p-12 text-white lg:p-16"
                     >
-                        {/* <LemonSlice className="absolute top-4 left-4 h-24 w-24 text-white opacity-[0.08]" /> */}
-                        {/* <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" /> */}
-                        {/* <LemonHalf className="absolute top-4 right-4 h-16 w-16 text-white opacity-[0.08]" /> */}
+                         {/* Decorative Lemon Slices */}
+                                        <LemonSlice
+                                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
+                                            opacity={0.12}
+                                        />
+                                        <LemonSlice
+                                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
+                                            opacity={0.12}
+                                        />
+                                        <LemonSlice
+                                            className="absolute top-1/2 left-1/4 h-24 w-24"
+                                            opacity={0.06}
+                                        />
+                                        <LemonSlice
+                                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
+                                            opacity={0.05}
+                                        />
 
+                        <div className="section-container">
                         <div className="relative z-10 text-center">
                             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
                                 Ready to Get Started?
@@ -811,6 +830,7 @@ const Contact = () => {
                                 <LemonSimple className="h-3 w-3" /> Cancel
                                 anytime
                             </p>
+                        </div>
                         </div>
                     </motion.div>
                 </section>
