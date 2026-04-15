@@ -10,12 +10,12 @@ const goals = [
 ];
 
 const OurStorySection = () => (
-  <section className="section-container py-20 lg:py-32">
-    <div className="bg-gray-50 rounded-2xl p-8 md:p-12 lg:p-16 relative overflow-hidden">
+  <section className="py-20 lg:py-32">
+    <div className="bg-gray-50 p-8 md:p-12 lg:p-16 relative overflow-hidden">
       {/* Decorative lemons */}
       <LemonWhole className="absolute top-4 right-4 w-20 h-20" opacity={0.08} />
       <LemonWhole className="absolute bottom-4 left-4 w-16 h-16" opacity={0.08} />
-
+   <div className="section-container">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +54,9 @@ const OurStorySection = () => (
 
         <p>Today, LemonGard serves hundreds of service professionals, helping them save time, make better decisions, and grow their businesses with confidence.</p>
       </motion.div>
+      </div>
     </div>
+    {/* </div> */}
   </section>
 );
 

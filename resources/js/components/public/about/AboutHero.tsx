@@ -5,8 +5,8 @@ import { LemonSimple, LemonSlice } from '@/components/public/LemonIcon';
 import Banner from "@/components/BannerSec";
 
 const AboutHero = () => (
-    <section className="section-container relative overflow-hidden py-16 lg:py-24">
-
+    <section className="relative overflow-hidden py-16 lg:py-24">
+        <div className="section-container">
 {/* Botanical Lemon Background */}
       <Banner/>
 
@@ -48,6 +48,7 @@ const AboutHero = () => (
                 maintaining control over their own contributions.
             </p>
         </motion.div>
+        </div>
     </section>
 );
 

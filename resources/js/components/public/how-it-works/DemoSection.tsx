@@ -27,6 +27,7 @@ const DemoSection = () => {
       </motion.div>
 
       {/* Video Placeholder */}
+      
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -35,6 +36,9 @@ const DemoSection = () => {
         className="max-w-4xl mx-auto"
       >
         <div className="relative aspect-video bg-gradient-to-br from-navy-600 to-navy-800 rounded-2xl shadow-2xl border-2 border-transparent hover:border-yellow-400 transition-colors cursor-pointer group overflow-hidden">
+
+          //
+
           {/* Grid pattern overlay */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
@@ -47,6 +51,28 @@ const DemoSection = () => {
           </div>
         </div>
       </motion.div>
+
+
+      {/* <motion.div
+  initial={{ opacity: 0, scale: 0.97 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="max-w-4xl mx-auto"
+>
+  <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+    <iframe
+      className="w-full h-full"
+      src="https://www.youtube.com/embed/90Qm8r0TnTM"
+      title="YouTube video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>
+  </div>
+</motion.div> */}
+
+
+
     </section>
   );
 };

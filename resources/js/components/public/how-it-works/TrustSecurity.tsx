@@ -16,8 +16,9 @@ const badges = ["SSL Secured", "Stripe Partner", "GDPR Compliant", "SOC 2"];
  */
 const TrustSecurity = () => {
   return (
-    <section className="section-container section-padding">
-      <div className="bg-gray-50 rounded-2xl p-8 lg:p-16">
+    <section className="section-padding">
+      <div className="bg-gray-50 p-8 lg:p-16">
+        <div className="section-container">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -51,7 +52,7 @@ const TrustSecurity = () => {
               <div className="icon-circle mx-auto">
                 <feat.icon className="icon-circle-icon" />
               </div>
-              <h3 className="font-semibold text-navy-600 mt-4">{feat.title}</h3>
+              <h3 className="font-bold text-navy-600 mt-4">{feat.title}</h3>
               <p className="text-sm text-muted-foreground mt-2">{feat.desc}</p>
             </motion.div>
           ))}
@@ -76,6 +77,8 @@ const TrustSecurity = () => {
           ))}
         </motion.div>
       </div>
+      </div>
+      
     </section>
   );
 };

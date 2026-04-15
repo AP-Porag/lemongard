@@ -8,21 +8,35 @@ import { LemonSlice, LemonSimple } from "@/components/LemonIcon";
  */
 const HowItWorksCTA = () => {
   return (
-    <section className="section-container section-padding">
+    <section className="pt-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 rounded-2xl p-12 lg:p-16 overflow-hidden"
+        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 p-12 lg:p-16 overflow-hidden"
       >
 
 
           {/*Decorative Lemons */}
-        {/* <LemonSlice className="absolute top-0 left-0 w-32 h-32 -mt-4 -ml-4" opacity={0.1} />
-        <LemonSlice className="absolute bottom-0 right-0 w-40 h-40 -mb-6 -mr-6" opacity={0.1} />
+        <LemonSlice
+                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute top-1/2 left-1/4 h-24 w-24"
+                            opacity={0.06}
+                        />
+                        <LemonSlice
+                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
+                            opacity={0.05}
+                        />
 
-        {/* Content */}
+         {/* Content */}
         <div className="relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
             Ready to Transform Your Workflow?
