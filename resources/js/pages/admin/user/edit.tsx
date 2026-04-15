@@ -1,201 +1,180 @@
-import React, { useEffect } from 'react';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from "zod";
+import { Head, router } from '@inertiajs/react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from "sonner";
-import axios from 'axios';
+import { toast } from 'sonner';
 import { RotateCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const userSchema = z.object({
-    firstName: z.string().min(3, { message: "First name must be at least 3 characters long" }),
-    lastName: z.string().min(3, { message: "Last name must be at least 3 characters long" }),
-    email: z.string().email(),
-    userType: z.string({ message: "Please select user type" }),
-    status: z.enum(["1", "0"], { message: "Please select status" }),
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const schema = z.object({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    email: z.string().email('Valid email is required'),
+    role: z.enum(['admin', 'user']),
+    status: z.enum(['0', '1']),
 });
 
-type FormFields = z.infer<typeof userSchema>;
+type FormFields = z.infer<typeof schema>;
 
-type EditProps = {
-    item: {
-        id: number;
-        first_name: string;
-        last_name: string;
-        email: string;
-        user_type: string;
-        status: boolean | number;
-    };
-};
+export default function Edit({ item }: any) {
+    // 🔥 split full name from DB
+    const nameParts = item?.name ? item.name.split(' ') : [];
 
-export default function Edit({ item }: EditProps) {
     const {
         register,
         handleSubmit,
-        setError,
-        reset,
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({
-        resolver: zodResolver(userSchema),
+        resolver: zodResolver(schema),
+        defaultValues: {
+            firstName: nameParts[0] || '',
+            lastName: nameParts.slice(1).join(' ') || '',
+            email: item?.email || '',
+            role: item?.role || 'user',
+            status: item?.status?.toString() || '1',
+        },
     });
 
-    useEffect(() => {
-        reset({
-            firstName: item.first_name,
-            lastName: item.last_name,
-            email: item.email,
-            userType: item.user_type || "admin",
-            status: item.status === true || item.status === 1 ? "1" : "0",
-        });
-    }, [item, reset]);
-
-    const saveUser: SubmitHandler<FormFields> = async (data) => {
-        try {
-            const response = await axios.put(`/users/${item.id}`, data);
-            if (response.data.success) {
-                toast.success(response.data.message || "User updated successfully!");
-            }
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                if (error.response?.data?.errors) {
-                    const serverErrors = error.response.data.errors;
-                    Object.keys(serverErrors).forEach((field) => {
-                        setError(field as keyof FormFields, {
-                            type: 'server',
-                            message: serverErrors[field][0],
-                        });
-                    });
-                    toast.error("Please fix the errors in the form");
-                } else {
-                    toast.error(error.response?.data?.message || "An error occurred");
-                }
-            } else {
-                toast.error("An unexpected error occurred");
-                console.error(error);
-            }
-        }
+    const onSubmit = (data: FormFields) => {
+        router.put(
+            `/admin/users/${item.id}`,
+            {
+                name: `${data.firstName} ${data.lastName}`,
+                email: data.email,
+                role: data.role,
+                status: data.status,
+            },
+            {
+                onSuccess: (page: any) => {
+                    // toast.success(
+                    //     page?.props?.flash?.success ||
+                    //         'User updated successfully',
+                    // );
+                },
+                onError: (errors) => {
+                    console.log('Server Errors:', errors);
+                    toast.error(
+                        Object.values(errors)[0] || 'Server validation failed',
+                    );
+                },
+            },
+        );
     };
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Edit User', href: `/users/${item.id}/edit` }]}>
+        <AppLayout
+            breadcrumbs={[
+                { title: 'Users', href: '/admin/users' },
+                { title: 'Edit User', href: '#' },
+            ]}
+        >
             <Head title="Edit User" />
-            <div className="flex flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="border border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] md:w-3/4 flex-1 overflow-hidden rounded-xl md:min-h-min">
-                    <div className="w-full p-5">
-                        <form onSubmit={handleSubmit(saveUser)}>
-                            {/* First Name */}
-                            <div className="mb-4 grid md:w-2/4 items-center gap-3">
-                                <Label htmlFor="firstName">First Name</Label>
-                                <Input
-                                    {...register("firstName")}
-                                    id="firstName"
-                                    placeholder="First Name"
-                                    className={cn(
-                                        "w-full",
-                                        errors.firstName && "border-red-500 focus-visible:ring-red-500"
-                                    )}
-                                />
-                                {errors.firstName && (
-                                    <span className="text-red-500">{errors.firstName.message}</span>
-                                )}
-                            </div>
 
-                            {/* Last Name */}
-                            <div className="mb-4 grid md:w-2/4 items-center gap-3">
-                                <Label htmlFor="lastName">Last Name</Label>
-                                <Input
-                                    {...register("lastName")}
-                                    id="lastName"
-                                    placeholder="Last Name"
-                                    className={cn(
-                                        "w-full",
-                                        errors.lastName && "border-red-500 focus-visible:ring-red-500"
-                                    )}
-                                />
-                                {errors.lastName && (
-                                    <span className="text-red-500">{errors.lastName.message}</span>
-                                )}
-                            </div>
-
-                            {/* Email */}
-                            <div className="mb-4 grid md:w-2/4 items-center gap-3">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    {...register("email")}
-                                    id="email"
-                                    placeholder="Email"
-                                    className={cn(
-                                        "w-full",
-                                        errors.email && "border-red-500 focus-visible:ring-red-500"
-                                    )}
-                                />
-                                {errors.email && (
-                                    <span className="text-red-500">{errors.email.message}</span>
-                                )}
-                            </div>
-
-                            {/* User Type */}
-                            <div className="mb-4 grid md:w-2/4 items-center gap-3">
-                                <Label htmlFor="userType">User Type</Label>
-                                <select
-                                    {...register("userType")}
-                                    id="userType"
-                                    className={cn(
-                                        "w-full rounded border border-input px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2",
-                                        errors.userType && "border-red-500 ring-red-500"
-                                    )}
-                                >
-                                    <option value="">Select user type</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                </select>
-                                {errors.userType && (
-                                    <span className="text-red-500">{errors.userType.message}</span>
-                                )}
-                            </div>
-
-                            {/* Status */}
-                            <div className="mb-4 grid md:w-2/4 items-center gap-3">
-                                <Label htmlFor="status">Status</Label>
-                                <select
-                                    {...register("status")}
-                                    id="status"
-                                    className={cn(
-                                        "w-full rounded border border-input px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2",
-                                        errors.status && "border-red-500 ring-red-500"
-                                    )}
-                                >
-                                    <option value="">Select status</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                                {errors.status && (
-                                    <span className="text-red-500">{errors.status.message}</span>
-                                )}
-                            </div>
-
-                            {/* Submit Button */}
-                            <div className="flex justify-end md:w-2/4">
-                                <Button type="submit" disabled={isSubmitting} className="cursor-pointer">
-                                    {isSubmitting ? (
-                                        <>
-                                            <RotateCw className="mr-2 h-4 w-4 animate-spin" />
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        "Update"
-                                    )}
-                                </Button>
-                            </div>
-                        </form>
-                    </div>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full space-y-4 p-5 md:w-2/4"
+            >
+                {/* First Name */}
+                <div>
+                    <Label>First Name</Label>
+                    <Input
+                        {...register('firstName')}
+                        className={cn(errors.firstName && 'border-red-500')}
+                        placeholder="First Name"
+                    />
+                    {errors.firstName && (
+                        <p className="text-sm text-red-500">
+                            {errors.firstName.message}
+                        </p>
+                    )}
                 </div>
-            </div>
+
+                {/* Last Name */}
+                <div>
+                    <Label>Last Name</Label>
+                    <Input
+                        {...register('lastName')}
+                        className={cn(errors.lastName && 'border-red-500')}
+                        placeholder="Last Name"
+                    />
+                    {errors.lastName && (
+                        <p className="text-sm text-red-500">
+                            {errors.lastName.message}
+                        </p>
+                    )}
+                </div>
+
+                {/* Email */}
+                <div>
+                    <Label>Email</Label>
+                    <Input
+                        {...register('email')}
+                        type="email"
+                        className={cn(errors.email && 'border-red-500')}
+                        placeholder="Email"
+                    />
+                    {errors.email && (
+                        <p className="text-sm text-red-500">
+                            {errors.email.message}
+                        </p>
+                    )}
+                </div>
+
+                {/* Role */}
+                <div>
+                    <Label>Role</Label>
+
+                    <select
+                        {...register('role')}
+                        className="w-full rounded border p-2"
+                    >
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+
+                    {errors.role && (
+                        <p className="text-sm text-red-500">
+                            {errors.role.message}
+                        </p>
+                    )}
+                </div>
+
+                {/* Status */}
+                <div>
+                    <Label>Status</Label>
+
+                    <select
+                        {...register('status')}
+                        className="w-full rounded border p-2"
+                    >
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+
+                    {errors.status && (
+                        <p className="text-sm text-red-500">
+                            {errors.status.message}
+                        </p>
+                    )}
+                </div>
+
+                {/* Submit */}
+                <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                        <>
+                            <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+                            Updating...
+                        </>
+                    ) : (
+                        'Update User'
+                    )}
+                </Button>
+            </form>
         </AppLayout>
     );
 }

@@ -68,7 +68,7 @@ export default function Edit({ record, userId }) {
         e.preventDefault();
         setLoading(true);
 
-        router.put(route('app.records.update', record.id), form, {
+        router.put(route('admin.records.update', record.id), form, {
             onError: (err) => {
                 setErrors(err);
             },

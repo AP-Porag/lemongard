@@ -6,7 +6,6 @@ import {
     Database,
     Factory,
     LayoutDashboard,
-    LayoutGrid,
     PlusCircle,
     Receipt,
     Search,
@@ -30,21 +29,12 @@ import {
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
-// const mainNavItems: NavItem[] = [
-//     {
-//         title: 'Dashboard',
-//         href: '/app/dashboard',
-//         icon: LayoutGrid,
-//     },
-// ];
-
 export const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: '/admin/dashboard',
         icon: LayoutDashboard,
     },
-
     {
         title: 'User Management',
         icon: Users,
@@ -65,20 +55,7 @@ export const mainNavItems: NavItem[] = [
         title: 'Industries',
         href: '/admin/industries',
         icon: Factory,
-        children: [
-            {
-                title: 'All Industries',
-                href: '/admin/industries',
-                icon: Table,
-            },
-            {
-                title: 'Add Industry',
-                href: '/admin/industries/create',
-                icon: PlusCircle,
-            },
-        ],
     },
-
     {
         title: 'Records Management',
         icon: Database,
@@ -95,7 +72,6 @@ export const mainNavItems: NavItem[] = [
             },
         ],
     },
-
     {
         title: 'Reports',
         icon: BarChart3,
@@ -112,18 +88,6 @@ export const mainNavItems: NavItem[] = [
             },
         ],
     },
-
-    // {
-    //     title: "System",
-    //     icon: Settings,
-    //     children: [
-    //         {
-    //             title: "General Settings",
-    //             href: "/admin/settings",
-    //             icon: Settings2,
-    //         },
-    //     ],
-    // },
 ];
 
 export const appSidebar: NavItem[] = [
@@ -132,7 +96,6 @@ export const appSidebar: NavItem[] = [
         href: '/app/dashboard',
         icon: LayoutDashboard,
     },
-
     {
         title: 'Records',
         icon: Database,
@@ -154,7 +117,6 @@ export const appSidebar: NavItem[] = [
             },
         ],
     },
-
     {
         title: 'Subscription',
         icon: CreditCard,
@@ -171,28 +133,6 @@ export const appSidebar: NavItem[] = [
             },
         ],
     },
-
-    // {
-    //     title: "Account",
-    //     icon: Settings,
-    //     children: [
-    //         {
-    //             title: "Profile Settings",
-    //             href: "/settings/profile",
-    //             icon: UserCog",
-    //         },
-    //         {
-    //             title: "Security",
-    //             href: "/settings/password",
-    //             icon: Lock,
-    //         },
-    //         {
-    //             title: "Two-Factor Auth",
-    //             href: "/settings/two-factor",
-    //             icon: ShieldCheck,
-    //         },
-    //     ],
-    // },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -204,7 +144,8 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
-    const { auth } = usePage().props;
+    const { auth } = usePage().props as any;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -233,9 +174,30 @@ export function AppSidebar() {
                     <NavMain items={appSidebar} />
                 )}
             </SidebarContent>
+            <SidebarFooter className="group">
+                {auth.user.role === 'user' && (
+                    <div className="rounded-xl bg-gray-100 p-4 transition-all duration-200 group-data-[state=collapsed]:hidden">
+                        <h3 className="text-sm font-semibold text-gray-900">
+                            Grow with LemonGard
+                        </h3>
 
-            <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
+                        <p className="mt-1 text-xs leading-relaxed text-gray-600">
+                            Unlock full access to shared industry data, add your
+                            own records, and manage everything in one place.
+                        </p>
+
+                        <Link
+                            href="/app/subscription"
+                            className="mt-3 block w-full rounded-lg bg-black px-3 py-2 text-center text-sm font-medium text-white transition hover:bg-gray-800"
+                        >
+                            <span className="flex items-center justify-center gap-2">
+                                <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                                Upgrade Plan
+                            </span>
+                        </Link>
+                    </div>
+                )}
+
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

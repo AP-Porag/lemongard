@@ -219,6 +219,25 @@ const Logo = ({ className = 'h-8 w-auto' }: { className?: string }) => {
     );
 };
 
+const LogoIcon = ({ className = 'h-8 w-auto' }: { className?: string }) => {
+    return (
+        <img
+            src="/images/icon-logo.png"
+            alt="LemonGard Logo"
+            className={className}
+        />
+    );
+};
+const LogoText = ({ className = 'h-8 w-auto' }: { className?: string }) => {
+    return (
+        <img
+            src="/images/text-logo.png"
+            alt="LemonGard Logo"
+            className={className}
+        />
+    );
+};
+
 const LogoWhite = ({ className = 'h-8 w-auto' }: { className?: string }) => {
     return (
         <img
@@ -236,3 +255,5 @@ const LemonIcon = LemonWhole;
 export default LemonIcon;
 export { Logo };
 export { LogoWhite };
+export { LogoIcon };
+export { LogoText };

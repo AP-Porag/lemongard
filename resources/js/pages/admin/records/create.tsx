@@ -8,12 +8,12 @@ import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Edit',
+        title: 'Create Record',
         href: '',
     },
 ];
 
-export default function Edit({ record, userId }) {
+export default function Create({ userId }) {
     const { flash } = usePage().props;
 
     const [loading, setLoading] = useState(false);
@@ -36,27 +36,6 @@ export default function Edit({ record, userId }) {
 
     const [errors, setErrors] = useState({});
 
-    // Load data from DB
-    useEffect(() => {
-        if (record) {
-            setForm({
-                user_id: record.user_id || '',
-                first_name: record.first_name || '',
-                last_name: record.last_name || '',
-                phone_cell: record.phone_cell || '',
-                phone_home: record.phone_home || '',
-                industry: record.industry || '',
-                street: record.street || '',
-                city: record.city || '',
-                state: record.state || '',
-                zip: record.zip || '',
-                service: record.service || '',
-                price: record.price || '',
-                incident_report: record.incident_report || '',
-            });
-        }
-    }, [record]);
-
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -68,30 +47,58 @@ export default function Edit({ record, userId }) {
         e.preventDefault();
         setLoading(true);
 
-        router.put(route('app.records.update', record.id), form, {
+        router.post(route('admin.records.store'), form, {
             onError: (err) => {
                 setErrors(err);
             },
+
+            onSuccess: () => {
+                setForm({
+                    user_id: userId || '',
+                    first_name: '',
+                    last_name: '',
+                    phone_cell: '',
+                    phone_home: '',
+                    industry: '',
+                    street: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    service: '',
+                    price: '',
+                    incident_report: '',
+                });
+
+                setErrors({});
+            },
+
             onFinish: () => setLoading(false),
         });
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Record" />
+            <Head title="Create Record" />
 
-            {/* Responsive Wrapper */}
-            <div className="max-w-8xl mx-auto mt-6 w-full p-4 sm:px-6 lg:px-4">
+            {/* RESPONSIVE WRAPPER */}
+            <div className="mx-auto mt-6 w-full max-w-7xl p-4 sm:px-6 lg:px-4">
                 <div className="rounded-xl bg-white p-4 shadow sm:p-6">
                     <h1 className="mb-6 text-xl font-bold sm:text-2xl">
-                        Edit Record
+                        Create Record
                     </h1>
 
-                    {/* Responsive Grid */}
+                    {/* RESPONSIVE GRID FIX */}
                     <form
                         onSubmit={submit}
                         className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                     >
+                        {/* Hidden user_id */}
+                        <input
+                            type="hidden"
+                            name="user_id"
+                            value={form.user_id}
+                        />
+
                         {/* First Name */}
                         <div>
                             <label className="text-sm font-medium">
@@ -299,7 +306,7 @@ export default function Edit({ record, userId }) {
                                 disabled={loading}
                                 className="w-full bg-black text-white"
                             >
-                                {loading ? 'Updating...' : 'Update Record'}
+                                {loading ? 'Saving...' : 'Save Record'}
                             </Button>
                         </div>
                     </form>

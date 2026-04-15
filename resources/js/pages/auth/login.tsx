@@ -140,6 +140,7 @@ import {
     AlertCircle,
 } from 'lucide-react';
 import { LemonWhole, LemonSlice, LemonSimple } from '@/components/LemonIcon';
+import Footer from '@/components/public/Footer';
 
 const loginSchema = z.object({
     email: z
@@ -479,7 +480,7 @@ const Login = () => {
             </main>
 
             {/* Minimal Footer */}
-            <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
+            {/* <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                         <LemonWhole className="h-6 w-6" />© 2026 LemonGard. All
@@ -508,7 +509,8 @@ const Login = () => {
                         </Link>
                     </div>
                 </div>
-            </footer>
+            </footer> */}
+            <Footer></Footer>
         </div>
     );
 };

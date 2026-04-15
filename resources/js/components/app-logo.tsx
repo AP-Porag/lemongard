@@ -1,16 +1,35 @@
-import AppLogoIcon from './app-logo-icon';
+// import AppLogoIcon from './app-logo-icon';
+// import { LogoIcon } from '@/components/public/LemonIcon';
+// import { Logo } from '@/components/public/LemonIcon';
+// import { LogoText } from '@/components/public/LemonIcon';
+
+// export default function AppLogo() {
+//     return (
+//         <>
+//             <div className="flex aspect-square items-center justify-center">
+//                 <LogoIcon className="h-8 w-auto" />
+//             </div>
+//             <div className="ml-1 grid flex-1 text-left text-sm">
+//                 <span className="mb-0.5 truncate leading-tight font-semibold">
+//                     <LogoText className="h-8 w-auto" />
+//                 </span>
+//             </div>
+//         </>
+//     );
+// }
+
+import { LogoIcon, LogoText } from '@/components/public/LemonIcon';
 
 export default function AppLogo() {
     return (
-        <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
+        <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center">
+                <LogoIcon className="h-8 w-auto object-contain" />
             </div>
-            <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">
-                    Laravel Starter Kit
-                </span>
+
+            <div className="flex items-center transition-all duration-200 group-data-[state=collapsed]:hidden">
+                <LogoText className="h-6 w-auto object-contain" />
             </div>
-        </>
+        </div>
     );
 }

@@ -16,7 +16,7 @@ const navLinks: NavLinkItem[] = [
     { label: 'How It Works', href: '/how-it-works', type: 'route' },
     { label: 'About', href: '/about', type: 'route' },
     { label: 'Pricing', href: '/pricing', type: 'route' },
-    { label: 'Contact', href: '/#contact', type: 'hash' },
+    { label: 'Contact', href: '/contact', type: 'route' },
 ];
 
 const Navigation = () => {
@@ -117,27 +117,14 @@ const Navigation = () => {
                         {navLinks.map((link) => renderLink(link))}
                     </div>
 
-                    {/* CTA Buttons */}
-                    {/* <div className="hidden items-center gap-4 md:flex">
-                        <Link
-                            href="/login"
-                            className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
-                        >
-                            Login
-                        </Link>
-
-                        <Link
-                            href="/register"
-                            className="btn-primary !px-6 !py-2.5 !shadow-md"
-                        >
-                            Start Free Trial
-                        </Link>
-                    </div> */}
-
                     <div className="hidden items-center gap-4 md:flex">
                         {auth?.user ? (
                             <Link
-                                href="/app/dashboard"
+                                href={
+                                    auth?.user?.role === 'admin'
+                                        ? '/admin/dashboard'
+                                        : '/app/dashboard'
+                                }
                                 className="btn-primary !px-6 !py-2.5 !shadow-md"
                             >
                                 Dashboard

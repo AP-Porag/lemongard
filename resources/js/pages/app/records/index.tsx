@@ -23,7 +23,7 @@ export default function Index({ records, filters: initialFilters }) {
     const { auth } = usePage().props;
 
     useEffect(() => {
-        router.get(route('records.index'), filters, {
+        router.get(route('app.records.index'), filters, {
             preserveState: true,
             replace: true,
         });
@@ -71,7 +71,9 @@ export default function Index({ records, filters: initialFilters }) {
                     <h1 className="text-2xl font-bold">All Records</h1>
 
                     <Button
-                        onClick={() => router.visit(route('records.create'))}
+                        onClick={() =>
+                            router.visit(route('app.records.create'))
+                        }
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2" /> Create Record
@@ -104,7 +106,7 @@ export default function Index({ records, filters: initialFilters }) {
                             per_page_filter: true,
                         };
                     }}
-                    baseRoute="records"
+                    baseRoute="app.records"
                     filters={filters}
                     onFilterChange={setFilters}
                 />

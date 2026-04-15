@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 
@@ -7,14 +7,16 @@ import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Create Industry',
+        title: 'Edit Industry',
         href: '',
     },
 ];
 
-export default function CreateIndustry() {
+export default function EditIndustry() {
+    const { industry } = usePage().props as any;
+
     const [form, setForm] = useState({
-        name: '',
+        name: industry?.name || '',
     });
 
     const [errors, setErrors] = useState<any>({});
@@ -40,17 +42,18 @@ export default function CreateIndustry() {
             return;
         }
 
-        router.post(route('admin.industries.store'), form, {
+        router.put(route('admin.industries.update', industry.id), form, {
             preserveScroll: true,
 
             onError: (err) => {
                 setErrors(err);
+
+                toast.error('Failed to update industry');
             },
 
             onSuccess: () => {
-                setForm({ name: '' });
+                toast.success('Industry updated successfully');
 
-                // redirect to index page after success
                 router.visit(route('admin.industries.index'));
             },
         });
@@ -58,11 +61,11 @@ export default function CreateIndustry() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Industry" />
+            <Head title="Edit Industry" />
 
             <div className="mx-auto mt-6 w-full max-w-7xl p-4">
                 <div className="rounded-xl bg-white p-6 shadow">
-                    <h1 className="mb-6 text-xl font-bold">Create Industry</h1>
+                    <h1 className="mb-6 text-xl font-bold">Edit Industry</h1>
 
                     <form onSubmit={submit} className="space-y-4">
                         <div>
@@ -89,7 +92,7 @@ export default function CreateIndustry() {
                             type="submit"
                             className="w-full cursor-pointer bg-black text-white"
                         >
-                            Save Industry
+                            Update Industry
                         </Button>
                     </form>
                 </div>

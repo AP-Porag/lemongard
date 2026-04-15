@@ -52,7 +52,7 @@ class IndustryController extends Controller
         $this->service->create($validated);
 
         return redirect()
-            ->route('industries.index')
+            ->route('admin.industries.index')
             ->with('success', 'Industry created successfully.');
     }
 
@@ -71,7 +71,7 @@ class IndustryController extends Controller
      */
     public function edit(Industry $industry)
     {
-        return Inertia::render('Admin/Industry/Edit', [
+        return Inertia::render('admin/industry/edit', [
             'industry' => $industry,
         ]);
     }
@@ -100,7 +100,7 @@ class IndustryController extends Controller
         $this->service->delete($industry);
 
         return redirect()
-            ->route('industries.index')
+            ->route('admin.industries.index')
             ->with('success', 'Industry deleted successfully.');
     }
 }

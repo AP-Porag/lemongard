@@ -22,7 +22,7 @@ export default function Index({ industries, filters: initialFilters }) {
     // ✅ FIX: debounce search (important)
     useEffect(() => {
         const timeout = setTimeout(() => {
-            router.get(route('industries.index'), filters, {
+            router.get(route('admin.industries.index'), filters, {
                 preserveState: true,
                 replace: true,
                 preserveScroll: true,
@@ -46,7 +46,7 @@ export default function Index({ industries, filters: initialFilters }) {
     const handleDelete = (id) => {
         if (!confirm('Are you sure you want to delete this industry?')) return;
 
-        router.delete(route('industries.destroy', id), {
+        router.delete(route('admin.industries.destroy', id), {
             preserveScroll: true,
         });
     };
@@ -60,7 +60,9 @@ export default function Index({ industries, filters: initialFilters }) {
                     <h1 className="text-2xl font-bold">All Industries</h1>
 
                     <Button
-                        onClick={() => router.visit(route('industries.create'))}
+                        onClick={() =>
+                            router.visit(route('admin.industries.create'))
+                        }
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2 h-4 w-4" />
@@ -88,7 +90,7 @@ export default function Index({ industries, filters: initialFilters }) {
                         search_filter: true,
                         per_page_filter: true,
                     })}
-                    baseRoute="industries"
+                    baseRoute="admin.industries"
                     filters={filters}
                     onFilterChange={setFilters}
                 />
