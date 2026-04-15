@@ -52,7 +52,7 @@ const TrustSecurity = () => {
               <div className="icon-circle mx-auto">
                 <feat.icon className="icon-circle-icon" />
               </div>
-              <h3 className="font-semibold text-navy-600 mt-4">{feat.title}</h3>
+              <h3 className="font-bold text-navy-600 mt-4">{feat.title}</h3>
               <p className="text-sm text-muted-foreground mt-2">{feat.desc}</p>
             </motion.div>
           ))}

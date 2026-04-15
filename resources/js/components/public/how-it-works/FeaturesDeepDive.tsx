@@ -60,8 +60,8 @@ const FeaturesDeepDive = () => {
           <span className="text-sm font-medium text-yellow-600 uppercase tracking-wide">Platform Features</span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-navy-600">Everything You Need in One Place</h2>
-        <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">
-          Discover the powerful features that make LemonGard the perfect CRM solution
+        <p className="text-lg text-muted-foreground mt-4 max-w-[500px] mx-auto">
+          Find out why LemonGard is the platform service pros rely on for dependable client management and real business growth
         </p>
       </motion.div>
 

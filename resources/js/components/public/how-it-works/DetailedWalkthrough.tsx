@@ -57,7 +57,7 @@ const DetailedWalkthrough = () => {
           <TabsContent value="getting-started">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
               <div className="lg:col-span-3 space-y-6">
-                <h3 className="text-2xl font-semibold text-navy-600">Creating Your Account</h3>
+                <h3 className="text-2xl font-bold text-navy-600">Creating Your Account</h3>
 
                 <div className="space-y-6">
                   {[
@@ -71,7 +71,7 @@ const DetailedWalkthrough = () => {
                         <span className="text-sm font-bold text-yellow-700">{item.step}</span>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-navy-600">{item.title}</h4>
+                        <h4 className="font-bold text-navy-600">{item.title}</h4>
                         <ul className="mt-2 space-y-1">
                           {item.details.map((d) => (
                             <li key={d} className="flex items-center gap-2 text-sm text-muted-foreground">

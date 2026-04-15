@@ -39,13 +39,11 @@ const FinalCTA = () => {
 
                 {/* Content */}
                 <div className="relative z-10 text-center">
-                    <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-                        Ready to Transform Your Workflow?
+                        <h2 className="text-width-1 font-sans mx-auto text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                        Ready to Work In A Way That Supports Your Success, Not Stress?
                     </h2>
-
-                    <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-300 md:text-xl">
-                        Join service professionals who trust LemonGard for their
-                        CRM needs. Start your journey today.
+                    <p className="text-width-2 mx-auto mt-6 text-lg text-gray-300 md:text-xl">
+                        Join service professionals who trust LemonGard to streamline their client experience. Start your journey today.
                     </p>
 
                     {/* CTA Button */}

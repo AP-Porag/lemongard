@@ -110,10 +110,10 @@ const OverviewTimeline = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl md:text-2xl font-semibold text-navy-600 mt-4 text-center">
+                <h3 className="text-xl md:text-2xl font-bold text-navy-600 mt-4 text-center">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground mt-3 text-center leading-relaxed text-sm">
+                <p className=" text-muted-foreground mt-3 text-center leading-relaxed text-sm">
                   {step.description}
                 </p>
 

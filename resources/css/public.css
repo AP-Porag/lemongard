@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-body {
+/* body {
     background: red;
-}
+} */
 
 /* LemonGard Design System - Professional B2B SaaS Aesthetic */
 
@@ -11,6 +11,7 @@ body {
    ========================= */
 
 /* Base Navy */
+
 .text-navy {
     color: #1e3a8a;
 }
@@ -34,6 +35,13 @@ body {
 
 .border-navy-600 {
     border-color: #1e3a8a;
+}
+
+.text-width-1{
+    max-width: 918px;
+}
+.text-width-2{
+    max-width: 750px;
 }
 
 /* Navy 700 */

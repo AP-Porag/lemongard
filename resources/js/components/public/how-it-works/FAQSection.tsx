@@ -85,7 +85,7 @@ const FAQSection = () => {
                 value={`faq-${i}`}
                 className="bg-white rounded-lg px-5 border border-gray-200 data-[state=open]:border-yellow-300 transition-colors"
               >
-                <AccordionTrigger className="text-left text-base font-semibold text-[#143694] hover:text-yellow-500 hover:no-underline py-5 gap-3">
+                <AccordionTrigger className="text-left text-base font-bold text-[#143694] hover:text-yellow-500 hover:no-underline py-5 gap-3">
                   <span className="flex items-center gap-2">
                     <LemonSimple className="w-4 h-4 text-yellow-400 shrink-0" />
                     {faq.q}

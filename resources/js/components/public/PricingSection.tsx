@@ -12,7 +12,7 @@ const pricingFeatures = [
 
 const planFeatures = [
     'Unlimited record access',
-    'Full CRM features',
+    'Ability to add/remove records',
     'Advanced search & filters',
     'Data export tools',
     'API access',
@@ -98,8 +98,8 @@ const PricingSection = () => {
 
                         {/* Price */}
                         <div className="mt-6">
-                            <span className="text-navy-600 text-5xl font-bold">
-                                $49
+                            <span className="text-navy-600 text-5xl font-bold ">
+                                $19<span className="text-2xl">99</span>
                             </span>
                             <span className="text-xl text-gray-500">
                                 /month
@@ -108,7 +108,7 @@ const PricingSection = () => {
 
                         {/* Savings */}
                         <p className="mt-2 text-sm font-medium text-yellow-600">
-                            or $490/year (Save 16%)
+                            or $199/year (Save 20%)
                         </p>
 
                         {/* Features List */}
