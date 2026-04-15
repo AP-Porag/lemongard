@@ -34,6 +34,7 @@ const HowItWorksSection = () => {
     return (
         <section id="how-it-works" className="section-padding">
             <div className="relative overflow-hidden bg-gradient-to-br from-[hsl(224_76%_33%)] via-[hsl(224_76%_25%)] to-[hsl(225,90%,8%)] p-8 lg:p-16">
+                <div className="section-container">
                 {/* Decorative Whole Lemon */}
                 <LemonWhole
                     className="absolute top-8 right-8 h-24 w-24"
@@ -52,8 +53,8 @@ const HowItWorksSection = () => {
                     transition={{ duration: 0.6 }}
                     className="relative z-10 text-center"
                 >
-                    <h2 className="text-3xl font-bold text-white md:text-4xl">
-                        Get Started in Minutes
+                    <h2 className="text-3xl font-sans max-w-3xl m-auto font-bold text-white md:text-4xl">
+                        Get Set Up Fast And Build A Client Base That Respects Your Time And Work
                     </h2>
                     <p className="sub-text mt-4 text-lg text-gray-400">
                         Three simple steps to transform your workflow
@@ -108,6 +109,7 @@ const HowItWorksSection = () => {
                         ))}
                     </div>
                 </div>
+            </div>
             </div>
         </section>
     );

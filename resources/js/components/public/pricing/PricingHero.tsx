@@ -5,11 +5,12 @@ import { LemonSimple, LemonSlice } from '../LemonIcon';
 import Banner from "@/components/BannerSec";
 
 const PricingHero = () => (
-    <section className="section-container relative overflow-hidden py-16 lg:py-24">
+    <section className="relative overflow-hidden py-16 lg:py-24">
        {/* Botanical Lemon Background */}
          <Banner/>
          
         {/* Breadcrumb */}
+        <div className="section-container">
         <motion.nav
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -73,6 +74,7 @@ const PricingHero = () => (
                     </span>
                 ))}
             </motion.div>
+        </div>
         </div>
     </section>
 );

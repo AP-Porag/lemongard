@@ -94,7 +94,7 @@ const PricingCards = () => (
         <LemonSlice className="absolute bottom-4 left-4 w-16 h-16" opacity={0.04} />
 
         {/* Popular badge */}
-        <span className="absolute top-0 right-8 -translate-y-1/2 btn-primary !px-6 !py-2 !text-sm !shadow-lg">
+        <span className="absolute top-5 right-8 btn-primary !px-6 !py-2 !text-sm !shadow-lg">
           ⭐ MOST POPULAR
         </span>
 

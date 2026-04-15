@@ -44,7 +44,7 @@ const CoreValuesSection = () => (
             <v.icon className="w-8 h-8 text-yellow-500" />
             <LemonSimple className="w-3 h-3 text-yellow-400 absolute -top-1 -right-1" />
           </div>
-          <h3 className="text-xl font-semibold text-navy-600 mb-3">{v.title}</h3>
+          <h3 className="text-xl font-bold text-navy-600 mb-3">{v.title}</h3>
           <p className="text-gray-600">{v.desc}</p>
         </motion.div>
       ))}

@@ -75,7 +75,7 @@ const ProblemSolutionSection = () => (
                         <div key={p.title} className="flex items-start gap-3">
                             <X className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                             <div>
-                                <h3 className="text-navy-600 font-semibold">
+                                <h3 className="text-navy-600 font-bold">
                                     {p.title}
                                 </h3>
                                 <p className="mt-1 text-sm text-gray-600">

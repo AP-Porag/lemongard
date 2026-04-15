@@ -50,8 +50,8 @@ const faqs = [
  */
 const FAQSection = () => {
   return (
-    <section className="section-container section-padding">
-      <div className="bg-gray-50 rounded-2xl p-8 lg:p-16">
+    <section className="section-padding">
+      <div className="bg-[#f8fafc] p-8 lg:p-16">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,7 +85,7 @@ const FAQSection = () => {
                 value={`faq-${i}`}
                 className="bg-white rounded-lg px-5 border border-gray-200 data-[state=open]:border-yellow-300 transition-colors"
               >
-                <AccordionTrigger className="text-left text-base font-semibold text-navy-600 hover:text-yellow-500 hover:no-underline py-5 gap-3">
+                <AccordionTrigger className="text-left text-base font-bold text-[#143694] hover:text-yellow-500 hover:no-underline py-5 gap-3">
                   <span className="flex items-center gap-2">
                     <LemonSimple className="w-4 h-4 text-yellow-400 shrink-0" />
                     {faq.q}

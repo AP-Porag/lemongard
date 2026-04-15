@@ -26,10 +26,10 @@ const HeroSection = () => {
                         </div>
 
                         {/* Heading */}
-                        <h1 className="text-navy-600 mt-6 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
-                            Your Complete CRM & Data Platform for{' '}
-                            <span className="text-yellow-500">
-                                Service Industry Excellence
+                        <h1 className="text-navy-600 mt-6 text-3xl leading-tight font-bold md:text-4xl lg:text-5xl font-sans">
+                            A client platform that respects your time –{' '}
+                            <br/><span className="text-yellow-500">
+                                and problem clients don’t slip through
                             </span>
                         </h1>
 
