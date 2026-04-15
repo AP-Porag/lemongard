@@ -29,8 +29,8 @@ import {
     Linkedin,
     Twitter,
 } from 'lucide-react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import Navigation from '@/components/public/Navigation';
+import Footer from '@/components/public/Footer';
 import {
     LemonSlice,
     LemonSimple,
