@@ -32,6 +32,7 @@ import {
     LemonHalf,
 } from '@/components/LemonIcon';
 import { Progress } from '@/components/ui/progress';
+import Footer from '@/components/public/Footer';
 
 /* ── Zod Schema ─────────────────────────────────────── */
 const registerSchema = z
@@ -822,7 +823,7 @@ const Register = () => {
             </main>
 
             {/* ── Footer ───────────────────────────────────── */}
-            <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
+            {/* <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                         <LemonWhole className="h-6 w-6" />© 2026 LemonGard. All
@@ -851,7 +852,8 @@ const Register = () => {
                         </Link>
                     </div>
                 </div>
-            </footer>
+            </footer> */}
+            <Footer></Footer>
         </div>
     );
 };

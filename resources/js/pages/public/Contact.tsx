@@ -787,7 +787,7 @@ const Contact = () => {
                         className="from-navy-600 to-navy-800 relative overflow-hidden rounded-2xl bg-gradient-to-br p-12 text-white lg:p-16"
                     >
                         {/* <LemonSlice className="absolute top-4 left-4 h-24 w-24 text-white opacity-[0.08]" /> */}
-                        <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" />
+                        {/* <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" /> */}
                         {/* <LemonHalf className="absolute top-4 right-4 h-16 w-16 text-white opacity-[0.08]" /> */}
 
                         <div className="relative z-10 text-center">
