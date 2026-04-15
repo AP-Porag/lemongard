@@ -48,7 +48,7 @@ const TeamSection = () => (
           <div className="w-14 h-14 rounded-full bg-yellow-50 flex items-center justify-center mx-auto mb-4">
             <r.icon className="w-7 h-7 text-yellow-500" />
           </div>
-          <h3 className="font-semibold text-navy-600 mb-2">{r.title}</h3>
+          <h3 className="font-bold text-navy-600 mb-2">{r.title}</h3>
           <p className="text-gray-600 text-sm">{r.desc}</p>
         </motion.div>
       ))}
