@@ -1,124 +1,3 @@
-// import { Form, Head } from '@inertiajs/react';
-// import InputError from '@/components/input-error';
-// import TextLink from '@/components/text-link';
-// import { Button } from '@/components/ui/button';
-// import { Checkbox } from '@/components/ui/checkbox';
-// import { Input } from '@/components/ui/input';
-// import { Label } from '@/components/ui/label';
-// import { Spinner } from '@/components/ui/spinner';
-// import AuthLayout from '@/layouts/auth-layout';
-// import { register } from '@/routes';
-// import { store } from '@/routes/login';
-// import { request } from '@/routes/password';
-
-// type Props = {
-//     status?: string;
-//     canResetPassword: boolean;
-//     canRegister: boolean;
-// };
-
-// export default function Login({
-//     status,
-//     canResetPassword,
-//     canRegister,
-// }: Props) {
-//     return (
-//         <AuthLayout
-//             title="Log in to your account"
-//             description="Enter your email and password below to log in"
-//         >
-//             <Head title="Log in" />
-
-//             <Form
-//                 {...store.form()}
-//                 resetOnSuccess={['password']}
-//                 className="flex flex-col gap-6"
-//             >
-//                 {({ processing, errors }) => (
-//                     <>
-//                         <div className="grid gap-6">
-//                             <div className="grid gap-2">
-//                                 <Label htmlFor="email">Email address</Label>
-//                                 <Input
-//                                     id="email"
-//                                     type="email"
-//                                     name="email"
-//                                     required
-//                                     autoFocus
-//                                     tabIndex={1}
-//                                     autoComplete="email"
-//                                     placeholder="email@example.com"
-//                                 />
-//                                 <InputError message={errors.email} />
-//                             </div>
-
-//                             <div className="grid gap-2">
-//                                 <div className="flex items-center">
-//                                     <Label htmlFor="password">Password</Label>
-//                                     {canResetPassword && (
-//                                         <TextLink
-//                                             href={request()}
-//                                             className="ml-auto text-sm"
-//                                             tabIndex={5}
-//                                         >
-//                                             Forgot password?
-//                                         </TextLink>
-//                                     )}
-//                                 </div>
-//                                 <Input
-//                                     id="password"
-//                                     type="password"
-//                                     name="password"
-//                                     required
-//                                     tabIndex={2}
-//                                     autoComplete="current-password"
-//                                     placeholder="Password"
-//                                 />
-//                                 <InputError message={errors.password} />
-//                             </div>
-
-//                             <div className="flex items-center space-x-3">
-//                                 <Checkbox
-//                                     id="remember"
-//                                     name="remember"
-//                                     tabIndex={3}
-//                                 />
-//                                 <Label htmlFor="remember">Remember me</Label>
-//                             </div>
-
-//                             <Button
-//                                 type="submit"
-//                                 className="mt-4 w-full"
-//                                 tabIndex={4}
-//                                 disabled={processing}
-//                                 data-test="login-button"
-//                             >
-//                                 {processing && <Spinner />}
-//                                 Log in
-//                             </Button>
-//                         </div>
-
-//                         {canRegister && (
-//                             <div className="text-center text-sm text-muted-foreground">
-//                                 Don't have an account?{' '}
-//                                 <TextLink href={register()} tabIndex={5}>
-//                                     Sign up
-//                                 </TextLink>
-//                             </div>
-//                         )}
-//                     </>
-//                 )}
-//             </Form>
-
-//             {status && (
-//                 <div className="mb-4 text-center text-sm font-medium text-green-600">
-//                     {status}
-//                 </div>
-//             )}
-//         </AuthLayout>
-//     );
-// }
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -139,7 +18,12 @@ import {
     HelpCircle,
     AlertCircle,
 } from 'lucide-react';
-import { LemonWhole, LemonSlice, LemonSimple } from '@/components/LemonIcon';
+import {
+    LemonWhole,
+    LemonSlice,
+    LemonSimple,
+    Logo,
+} from '@/components/public/LemonIcon';
 import Footer from '@/components/public/Footer';
 
 const loginSchema = z.object({
@@ -183,10 +67,7 @@ const Login = () => {
             <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     <Link href="/" className="group flex items-center gap-2">
-                        <LemonWhole className="h-8 w-8 transition-transform group-hover:rotate-12" />
-                        <span className="text-2xl font-bold text-[#1E3A8A]">
-                            LemonGard
-                        </span>
+                        <Logo className="h-12 w-auto" />
                     </Link>
                     <p className="text-sm text-gray-600">
                         Don't have an account?{' '}
