@@ -42,7 +42,7 @@ export default function EditIndustry() {
             return;
         }
 
-        router.put(route('industries.update', industry.id), form, {
+        router.put(route('admin.industries.update', industry.id), form, {
             preserveScroll: true,
 
             onError: (err) => {

@@ -174,9 +174,9 @@ export function AppSidebar() {
                     <NavMain items={appSidebar} />
                 )}
             </SidebarContent>
-            <SidebarFooter>
+            <SidebarFooter className="group">
                 {auth.user.role === 'user' && (
-                    <div className="rounded-xl bg-gray-100 p-4">
+                    <div className="rounded-xl bg-gray-100 p-4 transition-all duration-200 group-data-[state=collapsed]:hidden">
                         <h3 className="text-sm font-semibold text-gray-900">
                             Grow with LemonGard
                         </h3>

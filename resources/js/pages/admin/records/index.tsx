@@ -23,7 +23,7 @@ export default function Index({ records, filters: initialFilters }) {
     const { auth } = usePage().props;
 
     useEffect(() => {
-        router.get(route('adminrecords.index'), filters, {
+        router.get(route('admin.records.index'), filters, {
             preserveState: true,
             replace: true,
         });
@@ -72,7 +72,7 @@ export default function Index({ records, filters: initialFilters }) {
 
                     <Button
                         onClick={() =>
-                            router.visit(route('adminrecords.create'))
+                            router.visit(route('admin.records.create'))
                         }
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"
                     >
@@ -91,14 +91,14 @@ export default function Index({ records, filters: initialFilters }) {
                         last_page: records.last_page,
                     }}
                     actions={(row) => ({
-                        view: true,
+                        view: false,
                         edit: true,
                         delete: true,
                         search_filter: true,
                         status_filter: true,
                         per_page_filter: true,
                     })}
-                    baseRoute="records"
+                    baseRoute="admin.records"
                     filters={filters}
                     onFilterChange={setFilters}
                 />

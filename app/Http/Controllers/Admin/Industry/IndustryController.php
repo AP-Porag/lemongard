@@ -52,7 +52,7 @@ class IndustryController extends Controller
         $this->service->create($validated);
 
         return redirect()
-            ->route('industries.index')
+            ->route('admin.industries.index')
             ->with('success', 'Industry created successfully.');
     }
 
@@ -88,7 +88,7 @@ class IndustryController extends Controller
         $this->service->update($industry, $validated);
 
         return redirect()
-            ->route('industries.index')
+            ->route('admin.industries.index')
             ->with('success', 'Industry updated successfully.');
     }
 
@@ -100,7 +100,7 @@ class IndustryController extends Controller
         $this->service->delete($industry);
 
         return redirect()
-            ->route('industries.index')
+            ->route('admin.industries.index')
             ->with('success', 'Industry deleted successfully.');
     }
 }

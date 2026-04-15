@@ -40,7 +40,7 @@ export default function CreateIndustry() {
             return;
         }
 
-        router.post(route('industries.store'), form, {
+        router.post(route('admin.industries.store'), form, {
             preserveScroll: true,
 
             onError: (err) => {

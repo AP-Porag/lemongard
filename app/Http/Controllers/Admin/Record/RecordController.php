@@ -32,7 +32,7 @@ class RecordController extends Controller
 
     public function create()
     {
-        return Inertia::render('app/records/create');
+        return Inertia::render('admin/records/create');
     }
 
     public function store(StoreRecordRequest $request)
@@ -45,7 +45,7 @@ class RecordController extends Controller
         // return redirect()->back()->with('success', 'Record created successfully.');
         $this->recordService->store($request->all(), $request->user()->id);
 
-        return redirect()->route('records.index')
+        return redirect()->route('admin.records.index')
             ->with('success', 'Record Submitted Successfully');
     }
 
@@ -53,7 +53,7 @@ class RecordController extends Controller
     {
         $record = $this->recordService->find($id);
 
-        return Inertia::render('app/records/show', [
+        return Inertia::render('admin/records/show', [
             'record' => $record
         ]);
     }
@@ -62,7 +62,7 @@ class RecordController extends Controller
     {
         $record = $this->recordService->find($id);
 
-        return Inertia::render('app/records/edit', [
+        return Inertia::render('admin/records/edit', [
             'record' => $record
         ]);
     }
@@ -75,7 +75,7 @@ class RecordController extends Controller
             $request->user()
         );
 
-        return redirect()->route('records.index')
+        return redirect()->route('admin.records.index')
             ->with('success', 'Record updated successfully');
     }
 
