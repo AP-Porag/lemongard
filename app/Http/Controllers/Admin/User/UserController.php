@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\Admin\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -15,6 +16,13 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function index(Request $request)
     {
@@ -70,43 +78,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'firstName' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'userType' => 'required',
+        $data = $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'email' => 'required|email',
+            'role' => 'required|in:admin,user',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
+        $this->userService->createUser($data);
 
-        try {
-            $user = User::create([
-                'first_name' => $request->firstName,
-                'last_name' => $request->lastName,
-                'email' => $request->email,
-                'user_type' => $request->userType,
-                'password' => Hash::make('12345678'),
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'User created successfully',
-                'data' => $user
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to create user',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User created successfully');
     }
-
     /**
      * Display the specified resource.
      */
@@ -130,24 +113,24 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'firstName' => 'required|string|min:3',
-            'lastName' => 'required|string|min:3',
+            'name' => 'required|string|min:3',
             'email' => 'required|email',
-            'userType' => 'required|in:admin,waiter',
+            'role' => 'required|in:admin,user',
             'status' => 'required|in:0,1',
         ]);
 
         $user = User::findOrFail($id);
-        $user->first_name = $validated['firstName'];
-        $user->last_name = $validated['lastName'];
+
+        $user->name = $validated['name'];
         $user->email = $validated['email'];
-        $user->user_type = $validated['userType'];
+        $user->role = $validated['role'];
         $user->status = $validated['status'];
+
         $user->save();
 
-        return response()->json(['success' => true, 'message' => 'User updated successfully!']);
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User Updated successfully');
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -155,6 +138,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 }

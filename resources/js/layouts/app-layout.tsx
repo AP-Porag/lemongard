@@ -28,9 +28,15 @@ export default function AppLayout({
     const warning = pageProps.flash?.warning;
 
     useEffect(() => {
-        if (success) toast.success(success);
-        if (error) toast.error(error);
-        if (warning) toast.warning(warning);
+        if (!success && !error && !warning) return;
+
+        const timer = setTimeout(() => {
+            if (success) toast.success(success);
+            if (error) toast.error(error);
+            if (warning) toast.warning(warning);
+        }, 50);
+
+        return () => clearTimeout(timer);
     }, [success, error, warning]);
 
     return (

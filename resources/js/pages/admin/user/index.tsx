@@ -22,7 +22,7 @@ export default function Index({ users, filters: initialFilters }) {
 
     useEffect(() => {
         // Push new filters to URL and reload data
-        router.get(route('users.index'), filters, {
+        router.get(route('admin.users.index'), filters, {
             preserveState: true,
             replace: true,
         });
@@ -84,7 +84,9 @@ export default function Index({ users, filters: initialFilters }) {
                 <div className="my-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Users</h1>
                     <Button
-                        onClick={() => router.visit(route('users.create'))}
+                        onClick={() =>
+                            router.visit(route('admin.users.create'))
+                        }
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2" /> Create User
@@ -109,7 +111,7 @@ export default function Index({ users, filters: initialFilters }) {
                         status_filter: true,
                         per_page_filter: true,
                     })}
-                    baseRoute="users"
+                    baseRoute="admin.users"
                     filters={filters}
                     onFilterChange={setFilters}
                 />

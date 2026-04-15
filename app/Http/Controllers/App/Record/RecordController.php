@@ -82,7 +82,7 @@ class RecordController extends Controller
         );
 
         return redirect()
-            ->route('records.index')
+            ->route('app.records.index')
             ->with('success', 'Record updated successfully');
     }
     public function destroy($id)
