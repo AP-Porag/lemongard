@@ -79,7 +79,9 @@ export default function Index({ records, filters: initialFilters }) {
                 <div className="my-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">My Records</h1>
                     <Button
-                        onClick={() => router.visit(route('records.create'))}
+                        onClick={() =>
+                            router.visit(route('app.records.create'))
+                        }
                         className="cursor-pointer bg-black text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2" /> Create Record

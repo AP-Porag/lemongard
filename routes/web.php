@@ -27,6 +27,7 @@ Route::group([], function () {
     Route::get('/pricing', fn() => Inertia::render('public/Pricing'));
 
     Route::get('/how-it-works', fn() => Inertia::render('public/HowItWorks'));
+    Route::get('/contact', fn() => Inertia::render('public/Contact'));
 });
 
 /*
