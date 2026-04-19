@@ -214,6 +214,7 @@ const Contact = () => {
 
     const onSubmit = async (data: ContactFormData) => {
         router.post('/contact', data, {
+            preserveScroll: true,
             onSuccess: () => {
                 setShowSuccess(true);
                 reset();
