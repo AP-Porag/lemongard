@@ -21,7 +21,7 @@ export default function MailContent({ mail, onBack }: any) {
                         ← Back
                     </button>
 
-                    <div className="h-10 w-10 rounded-full bg-orange-200" />
+                    {/* <div className="h-10 w-10 rounded-full bg-orange-200" /> */}
 
                     <div>
                         <p className="font-semibold">

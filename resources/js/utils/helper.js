@@ -20,38 +20,50 @@ export const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
 };
 
-export const formatMailTime = (dateString) => {
-    if (!dateString) return 'N/A';
+// export const formatMailTime = (dateString) => {
+//     if (!dateString) return 'N/A';
 
-    const date = new Date(dateString);
-    const now = new Date();
+//     const date = new Date(dateString);
+//     const now = new Date();
 
-    const isToday = date.toDateString() === now.toDateString();
+//     const isToday = date.toDateString() === now.toDateString();
 
-    const yesterday = new Date();
-    yesterday.setDate(now.getDate() - 1);
-    const isYesterday = date.toDateString() === yesterday.toDateString();
+//     const yesterday = new Date();
+//     yesterday.setDate(now.getDate() - 1);
+//     const isYesterday = date.toDateString() === yesterday.toDateString();
 
-    const diffTime = now - date;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+//     const diffTime = now - date;
+//     const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
-    if (isToday) {
-        return date.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-    }
+//     if (isToday) {
+//         return date.toLocaleTimeString([], {
+//             hour: '2-digit',
+//             minute: '2-digit',
+//         });
+//     }
 
-    if (isYesterday) {
-        return 'Yesterday';
-    }
+//     if (isYesterday) {
+//         return 'Yesterday';
+//     }
 
-    if (diffDays < 7) {
-        return date.toLocaleDateString([], { weekday: 'short' });
-    }
+//     if (diffDays < 7) {
+//         return date.toLocaleDateString([], { weekday: 'short' });
+//     }
 
-    return date.toLocaleDateString([], {
+//     return date.toLocaleDateString([], {
+//         day: '2-digit',
+//         month: 'short',
+//     });
+// };
+export function formatMailTime(date) {
+    if (!date) return '';
+
+    return new Date(date).toLocaleString('en-GB', {
         day: '2-digit',
         month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
     });
-};
+}

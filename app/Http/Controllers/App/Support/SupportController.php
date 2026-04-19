@@ -5,8 +5,10 @@ namespace App\Http\Controllers\App\Support;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Support\StoreSupportRequest;
+use App\Models\Support;
 use App\Services\Subscriber\Support\SupportService;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class SupportController extends Controller
 {

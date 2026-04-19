@@ -10,6 +10,12 @@ export const GlobalConstant = {
     TIER_VIEW_ONLY: 'tier_1',
     TIER_FULL_ACCESS: 'tier_2',
 
+    PENDING: 'pending',
+    OPEN: 'open',
+    IN_PROGRESS: 'in_progress',
+    RESOLVED: 'resolved',
+    CLOSED: 'closed',
+
     TIER_PRICE: {
         tier_1: 14.99,
         tier_2: 19.99,
