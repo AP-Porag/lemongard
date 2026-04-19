@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Industry\IndustryController;
 use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
+use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
@@ -89,6 +90,10 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
         //Industry
         Route::resource('industries', IndustryController::class);
+
+        //Support
+        Route::get('/supports', [AdminSupport::class, 'index'])
+            ->name('supports.index');
     });
 
 /*

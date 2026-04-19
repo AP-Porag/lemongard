@@ -13,6 +13,7 @@ import {
     User,
     Users,
     Zap,
+    LifeBuoy,
 } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -55,6 +56,11 @@ export const mainNavItems: NavItem[] = [
         title: 'Industries',
         href: '/admin/industries',
         icon: Factory,
+    },
+    {
+        title: 'Supports',
+        href: '/admin/supports',
+        icon: LifeBuoy,
     },
     {
         title: 'Records Management',
