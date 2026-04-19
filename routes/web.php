@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\App\Support\SupportController;
 use App\Http\Middleware\SubscriptionActiveMiddleware;
 use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,9 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
+
+        //Contact
+        Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
     });
 
 /*

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { router } from '@inertiajs/react';
 import {
     ChevronRight,
     Mail,
@@ -206,10 +207,15 @@ const Contact = () => {
     const messageVal = watch('message');
     const messageLength = messageVal?.length || 0;
 
-    const onSubmit = async (data: ContactFormData) => {
-        await new Promise((r) => setTimeout(r, 2000));
-        setShowSuccess(true);
-        reset();
+    // const onSubmit = async (data: ContactFormData) => {
+    //     await new Promise((r) => setTimeout(r, 2000));
+    //     setShowSuccess(true);
+    //     reset();
+    // };
+    const onSubmit = (data) => {
+        router.post('/app/contact', data, {
+            onSuccess: () => setShowSuccess(true),
+        });
     };
 
     const inputBase =
@@ -256,7 +262,7 @@ const Contact = () => {
                             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
                                 <LemonSimple className="h-4 w-4" /> Get in Touch
                             </span>
-                            <h1 className="text-navy-600 mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+                            <h1 className="mb-6 text-4xl font-bold text-navy-600 md:text-5xl lg:text-6xl">
                                 We're Here to Help
                             </h1>
                             <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
@@ -287,7 +293,7 @@ const Contact = () => {
                                 <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                     <m.icon className="h-8 w-8 text-yellow-500" />
                                 </div>
-                                <h3 className="text-navy-600 mb-2 text-xl font-semibold">
+                                <h3 className="mb-2 text-xl font-semibold text-navy-600">
                                     {m.title}
                                 </h3>
                                 <p className="mb-4 text-sm text-muted-foreground">
@@ -315,7 +321,7 @@ const Contact = () => {
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Send Us a Message
                         </div>
-                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
+                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
                             Contact Form
                         </h2>
                         <p className="text-lg text-muted-foreground">
@@ -339,7 +345,7 @@ const Contact = () => {
                                 <div className="py-12 text-center">
                                     <div className="inline-block rounded-2xl border border-green-200 bg-green-50 p-8">
                                         <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-green-500" />
-                                        <h3 className="text-navy-600 mb-2 text-2xl font-bold">
+                                        <h3 className="mb-2 text-2xl font-bold text-navy-600">
                                             Message Sent Successfully! 🎉
                                         </h3>
                                         <p className="mb-6 text-muted-foreground">
@@ -366,7 +372,7 @@ const Contact = () => {
                                         <div>
                                             <label
                                                 htmlFor="firstName"
-                                                className="text-navy-600 mb-2 block text-sm font-medium"
+                                                className="mb-2 block text-sm font-medium text-navy-600"
                                             >
                                                 First Name *
                                             </label>
@@ -388,7 +394,7 @@ const Contact = () => {
                                         <div>
                                             <label
                                                 htmlFor="lastName"
-                                                className="text-navy-600 mb-2 block text-sm font-medium"
+                                                className="mb-2 block text-sm font-medium text-navy-600"
                                             >
                                                 Last Name *
                                             </label>
@@ -413,7 +419,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="email"
-                                            className="text-navy-600 mb-2 block text-sm font-medium"
+                                            className="mb-2 block text-sm font-medium text-navy-600"
                                         >
                                             Email Address *
                                         </label>
@@ -438,7 +444,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="phone"
-                                            className="text-navy-600 mb-2 block text-sm font-medium"
+                                            className="mb-2 block text-sm font-medium text-navy-600"
                                         >
                                             Phone Number (Optional)
                                         </label>
@@ -458,7 +464,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="subject"
-                                            className="text-navy-600 mb-2 block text-sm font-medium"
+                                            className="mb-2 block text-sm font-medium text-navy-600"
                                         >
                                             What can we help you with? *
                                         </label>
@@ -491,7 +497,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="message"
-                                            className="text-navy-600 mb-2 block text-sm font-medium"
+                                            className="mb-2 block text-sm font-medium text-navy-600"
                                         >
                                             Message *
                                         </label>
@@ -569,7 +575,7 @@ const Contact = () => {
                             {...fadeIn}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h3 className="text-navy-600 mb-6 text-2xl font-bold">
+                            <h3 className="mb-6 text-2xl font-bold text-navy-600">
                                 Why Reach Out?
                             </h3>
                             <div className="space-y-5">
@@ -581,7 +587,7 @@ const Contact = () => {
                                         <item.icon className="mt-1 h-5 w-5 shrink-0 text-yellow-500" />
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-navy-600 font-semibold">
+                                                <span className="font-semibold text-navy-600">
                                                     {item.title}
                                                 </span>
                                                 <LemonSimple className="h-3 w-3 text-yellow-400" />
@@ -600,7 +606,7 @@ const Contact = () => {
                             <div className="relative overflow-hidden rounded-r-xl border-l-4 border-yellow-400 bg-yellow-50 p-6">
                                 <LemonWhole className="absolute top-2 right-2 h-10 w-10 opacity-[0.1]" />
                                 <Clock className="mb-3 h-6 w-6 text-yellow-500" />
-                                <h4 className="text-navy-600 mb-2 font-semibold">
+                                <h4 className="mb-2 font-semibold text-navy-600">
                                     Response Time
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -615,7 +621,7 @@ const Contact = () => {
                             <div className="my-8 border-t border-border" />
 
                             {/* Social */}
-                            <h4 className="text-navy-600 mb-4 font-semibold">
+                            <h4 className="mb-4 font-semibold text-navy-600">
                                 Connect With Us
                             </h4>
                             <div className="space-y-3">
@@ -653,7 +659,7 @@ const Contact = () => {
                                 <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                                 Frequently Asked Questions
                             </div>
-                            <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
+                            <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
                                 Common Questions
                             </h2>
                             <p className="text-lg text-muted-foreground">
@@ -669,7 +675,7 @@ const Contact = () => {
                                         value={`faq-${i}`}
                                         className="border-b border-border"
                                     >
-                                        <AccordionTrigger className="text-navy-600 py-6 text-left text-base font-semibold hover:text-yellow-500 hover:no-underline">
+                                        <AccordionTrigger className="py-6 text-left text-base font-semibold text-navy-600 hover:text-yellow-500 hover:no-underline">
                                             <span className="flex items-center gap-2">
                                                 <LemonSimple className="h-4 w-4 shrink-0 text-yellow-400" />{' '}
                                                 {faq.q}
@@ -692,7 +698,7 @@ const Contact = () => {
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Our Presence
                         </div>
-                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
+                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
                             Global & Remote
                         </h2>
                     </motion.div>
@@ -706,7 +712,7 @@ const Contact = () => {
                             <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                 <Globe className="h-8 w-8 text-yellow-500" />
                             </div>
-                            <h3 className="text-navy-600 mb-3 text-xl font-semibold">
+                            <h3 className="mb-3 text-xl font-semibold text-navy-600">
                                 Fully Remote Team
                             </h3>
                             <p className="text-muted-foreground">
@@ -725,7 +731,7 @@ const Contact = () => {
                             <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                 <Clock className="h-8 w-8 text-yellow-500" />
                             </div>
-                            <h3 className="text-navy-600 mb-3 text-xl font-semibold">
+                            <h3 className="mb-3 text-xl font-semibold text-navy-600">
                                 Business Hours
                             </h3>
                             <div className="space-y-1 text-sm text-muted-foreground">
@@ -746,7 +752,7 @@ const Contact = () => {
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Other Ways to Get Help
                         </div>
-                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
+                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
                             Alternative Resources
                         </h2>
                     </motion.div>
@@ -763,7 +769,7 @@ const Contact = () => {
                             >
                                 <LemonSlice className="absolute top-2 right-2 h-16 w-16 opacity-[0.05]" />
                                 <r.icon className="mx-auto mb-4 h-10 w-10 text-yellow-500" />
-                                <h3 className="text-navy-600 mb-2 text-xl font-semibold">
+                                <h3 className="mb-2 text-xl font-semibold text-navy-600">
                                     {r.title}
                                 </h3>
                                 <p className="mb-6 text-sm text-muted-foreground">
@@ -784,7 +790,7 @@ const Contact = () => {
                 <section className="section-container py-20 lg:py-32">
                     <motion.div
                         {...fadeIn}
-                        className="from-navy-600 to-navy-800 relative overflow-hidden rounded-2xl bg-gradient-to-br p-12 text-white lg:p-16"
+                        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-navy-600 to-navy-800 p-12 text-white lg:p-16"
                     >
                         <LemonSlice className="absolute top-4 left-4 h-24 w-24 text-white opacity-[0.08]" />
                         <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" />
