@@ -61,9 +61,6 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
-
-        //Contact
-        Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
     });
 
 /*
@@ -102,6 +99,9 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+//Contact
+Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
 
 /*
 |--------------------------------------------------------------------------

@@ -263,7 +263,7 @@ const Contact = () => {
                                 <LemonSimple className="h-4 w-4" /> Get in Touch
                             </span>
                             <h1 className="mb-6 text-4xl font-bold text-navy-600 md:text-5xl lg:text-6xl">
-                                We're Here to Help
+                                We're Here to Help 2
                             </h1>
                             <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                                 Have questions about LemonGard? Want to learn
