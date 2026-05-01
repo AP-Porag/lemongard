@@ -8,10 +8,10 @@ const steps = [
     icon: UserPlus,
     title: "Sign Up & Start Free Trial",
     duration: "Day 1",
-    description: "Create your account in under 2 minutes. No credit card required. Get instant access to the full platform.",
+    description: "Create your account in under two minutes. No credit card required. Get instant access to all features.",
     points: [
       "Quick registration form",
-      "Email verification",
+      "Email verification required",
       "30-day full access begins immediately",
       "No payment information needed",
     ],
@@ -21,12 +21,11 @@ const steps = [
     icon: Database,
     title: "Explore & Contribute Data",
     duration: "Days 1-30",
-    description: "Browse shared industry records, search across the platform, and add your own data to benefit the community.",
+    description: "Browse shared records, search industry data, and add your own.",
     points: [
-      "Search all existing records",
-      "View shared industry data",
-      "Add your own client records",
-      "Learn the platform features",
+      "Search all records",
+      "View data shared by other professionals",
+      "Add and manage your own client records",
     ],
   },
   {
@@ -34,12 +33,12 @@ const steps = [
     icon: TrendingUp,
     title: "Subscribe & Continue Growing",
     duration: "Day 30+",
-    description: "After your trial, choose to continue with monthly or annual subscription. Keep your data and access.",
+    description: "After your trial, choose a monthly or annual subscription to continue using the service without interruption. Your data and access are fully retained.",
     points: [
-      "Simple monthly billing",
-      "All features included",
-      "Your data stays yours",
-      "Cancel anytime, no penalties",
+      "Simple monthly or annual billing",
+      "Full access to all features included",
+      "You retain ownership of your data",
+      "Cancel anytime with no penalties",
     ],
   },
 ];
@@ -62,7 +61,7 @@ const OverviewTimeline = () => {
           Your Journey to Success
         </h2>
         <p className="text-lg text-muted-foreground mt-4">
-          Three clear steps to transform how you manage your business data
+          A simple three-step process to track and manage your data.
         </p>
       </motion.div>
 

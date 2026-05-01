@@ -3,13 +3,12 @@ import { motion } from "framer-motion";
 import { LemonSimple, LemonSlice } from "../LemonIcon";
 
 const viewFeatures = [
-  "View all records in shared database",
-  "Advanced search and filtering across all fields",
-  "Access to complete data including industry, contacts, services",
+  "Advanced search and filters",
+  "View client, contact, and service records",
   "Export search results",
-  "Mobile-responsive access",
-  "Email support",
+  "Mobile-friendly access",
   "Read-only access",
+  "Email support",
 ];
 
 const viewExcluded = [
@@ -19,11 +18,11 @@ const viewExcluded = [
 ];
 
 const fullFeatures = [
-  "All View Only features included",
-  "Add unlimited new records to shared database",
+  "Full access to all View Only features",
+  "Add new records to the shared database",
   "Edit your own records anytime",
   "Delete your own records",
-  "Full data contribution rights",
+  "Full rights to contribute your data",
   "Priority email support",
   "Early access to new features",
   "Data ownership protection",
@@ -47,7 +46,7 @@ const PricingCards = () => (
           <Eye className="w-6 h-6 text-navy-600" />
           <h3 className="text-2xl font-bold text-navy-600">View Only</h3>
         </div>
-        <p className="text-muted-foreground mb-6">Perfect for researchers and data analysts</p>
+        <p className="text-muted-foreground mb-6">See client history and shared insights to help you make better booking decisions</p>
 
         <div className="flex items-baseline gap-2 mb-2">
           <span className="text-5xl font-bold text-navy-600">$14.99</span>
@@ -102,7 +101,7 @@ const PricingCards = () => (
           <Zap className="w-6 h-6 text-yellow-500" />
           <h3 className="text-2xl font-bold text-navy-600">Full Access</h3>
         </div>
-        <p className="text-muted-foreground mb-6">Complete control for active professionals</p>
+        <p className="text-muted-foreground mb-6">Add, edit, and manage your own client records with complete control.</p>
 
         <div className="flex items-baseline gap-2 mb-2">
           <span className="text-5xl font-bold text-navy-600">$19.99</span>

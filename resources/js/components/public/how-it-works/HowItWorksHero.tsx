@@ -66,8 +66,7 @@ const HowItWorksHero = () => {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl"
                 >
-                    From signup to subscription: Your journey to better CRM
-                    management in three simple steps
+                    Start tracking your client data in three easy steps.
                 </motion.p>
             </div>
             </div>

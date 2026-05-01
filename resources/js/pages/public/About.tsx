@@ -27,7 +27,7 @@ export default function About() {
             <ProblemSolutionSection />
             <TeamSection />
             <WhyChooseUsSection />
-            <TimelineSection />
+            {/* <TimelineSection /> */}
             <TestimonialsSection />
             <TrustBadgesSection />
             <AboutCTA />

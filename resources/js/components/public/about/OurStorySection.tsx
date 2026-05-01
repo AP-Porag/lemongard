@@ -3,10 +3,10 @@ import { CheckCircle2 } from "lucide-react";
 import { LemonSimple, LemonWhole } from "@/components/LemonIcon";
 
 const goals = [
-  "Make industry data accessible to everyone who needs it",
-  "Ensure data contributors maintain ownership of their information",
-  "Provide enterprise-grade security and reliability",
-  "Keep pricing fair and transparent for all professionals",
+  "Make industry data easier to access for the people who need it",
+  "Ensure contributors always retain ownership of their information",
+  "Provide secure, reliable infrastructure professionals can trust",
+  "Keep pricing fair and transparent",
 ];
 
 const OurStorySection = () => (
@@ -28,7 +28,7 @@ const OurStorySection = () => (
           <span className="text-sm font-semibold text-yellow-600 uppercase tracking-wide">Our Story</span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-navy-600 mb-4">How LemonGard Came to Be</h2>
-        <p className="text-lg text-gray-600">The journey from idea to platform</p>
+        <p className="text-lg text-gray-600">The journey from idea to product</p>
       </motion.div>
 
       <motion.div
@@ -38,9 +38,9 @@ const OurStorySection = () => (
         transition={{ duration: 0.6, delay: 0.2 }}
         className="max-w-4xl mx-auto text-gray-700 leading-relaxed space-y-6"
       >
-        <p>LemonGard was born from a simple observation: service industry professionals were repeatedly solving the same problems, often without knowing that solutions already existed within their network.</p>
-        <p>Our founders, who spent years working in various service industries, noticed that valuable information was scattered across individual contact lists, spreadsheets, and handwritten notes. There had to be a better way.</p>
-        <p className="font-medium text-navy-600">We set out to create a platform that would:</p>
+        <p>LemonGard started with a simple observation: service professionals were solving the same problems over and over again, often unaware that solutions already existed within their own networks.</p>
+        <p>Our founders spent years working across different service industries and saw the same pattern everywhere—valuable knowledge scattered across contact lists, spreadsheets, and handwritten notes. There had to be a better way.</p>
+        <p className="font-medium text-navy-600">We set out to build something different:</p>
 
         <ul className="space-y-3">
           {goals.map((goal) => (
@@ -52,7 +52,7 @@ const OurStorySection = () => (
           ))}
         </ul>
 
-        <p>Today, LemonGard serves hundreds of service professionals, helping them save time, make better decisions, and grow their businesses with confidence.</p>
+        <p>Today, LemonGard supports hundreds of service professionals, helping them save time, make better decisions, and grow their businesses with confidence.</p>
       </motion.div>
       </div>
     </div>

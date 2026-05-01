@@ -81,47 +81,38 @@ const contactMethods = [
         response: 'Response within 24 hours',
         responseIcon: Clock,
     },
-    {
-        icon: HelpCircle,
-        title: 'Help Center',
-        desc: 'Browse our documentation',
-        link: '#help',
-        linkText: 'View Help Articles',
-        response: 'Available 24/7',
-        responseIcon: Clock,
-    },
-    {
-        icon: Briefcase,
-        title: 'Sales Inquiries',
-        desc: 'Questions about plans?',
-        link: '#sales',
-        linkText: 'Talk to Sales',
-        response: 'Mon-Fri, 9AM-5PM EST',
-        responseIcon: Clock,
-    },
+    // {
+    //     icon: HelpCircle,
+    //     title: 'Help Center',
+    //     desc: 'Browse our documentation',
+    //     link: '#help',
+    //     linkText: 'View Help Articles',
+    //     response: 'Available 24/7',
+    //     responseIcon: Clock,
+    // },
+    // {
+    //     icon: Briefcase,
+    //     title: 'Sales Inquiries',
+    //     desc: 'Questions about plans?',
+    //     link: '#sales',
+    //     linkText: 'Talk to Sales',
+    //     response: 'Mon-Fri, 9AM-5PM EST',
+    //     responseIcon: Clock,
+    // },
 ];
 
 const whyReachOut = [
     {
         icon: CheckCircle2,
-        title: 'Pre-Sales Questions',
-        text: 'Learn about features, pricing, and how LemonGard can help your business',
-    },
-    {
-        icon: LifeBuoy,
         title: 'Technical Support',
         text: 'Get help with platform issues, data import, or account setup',
     },
     {
-        icon: MessageSquare,
+        icon: LifeBuoy,
         title: 'Feature Requests',
         text: 'Share ideas for new features or improvements',
     },
-    {
-        icon: Building2,
-        title: 'Enterprise Inquiries',
-        text: 'Discuss custom solutions for larger teams',
-    },
+   
 ];
 
 const faqs = [
@@ -152,12 +143,12 @@ const faqs = [
 ];
 
 const resources = [
-    {
-        icon: Book,
-        title: 'Help Center',
-        desc: 'Browse our comprehensive documentation and guides',
-        btn: 'Visit Help Center',
-    },
+    // {
+    //     icon: Book,
+    //     title: 'Help Center',
+    //     desc: 'Browse our comprehensive documentation and guides',
+    //     btn: 'Visit Help Center',
+    // },
     {
         icon: Video,
         title: 'Video Tutorials',
@@ -260,9 +251,7 @@ const Contact = () => {
                                 We're Here to Help
                             </h1>
                             <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                                Have questions about LemonGard? Want to learn
-                                more about our platform? We'd love to hear from
-                                you.
+                                Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
                             </p>
                         </motion.div>
                         </div>
@@ -321,8 +310,7 @@ const Contact = () => {
                             Contact Form
                         </h2>
                         <p className="text-lg text-muted-foreground">
-                            Fill out the form below and we'll get back to you as
-                            soon as possible
+                            Please complete the form below, and our team will respond as soon as possible.
                         </p>
                     </motion.div>
 
@@ -648,7 +636,7 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="py-10 lg:py-10">
+                {/* <section className="py-10 lg:py-10">
                     <div className="bg-muted p-8 lg:p-16">
                         <div className="section-container">
                         <motion.div {...fadeIn} className="mb-12 text-center">
@@ -687,10 +675,10 @@ const Contact = () => {
                         </motion.div>
                         </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Location */}
-                <section className="section-container py-20 lg:py-32">
+                {/* <section className="section-container pb-12 lg:pb-24">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -741,10 +729,10 @@ const Contact = () => {
                             </div>
                         </motion.div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Resources */}
-                <section className="section-container py-10 lg:py-10">
+                {/* <section className="section-container py-10 lg:py-10">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -765,7 +753,6 @@ const Contact = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="relative overflow-hidden rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-card p-8 text-center"
                             >
-                                {/* <LemonSlice className="absolute top-2 right-2 h-16 w-16 opacity-[0.05]" /> */}
                                 <r.icon className="mx-auto mb-4 h-10 w-10 text-yellow-500" />
                                 <h3 className="text-navy-600 mb-2 text-xl font-semibold">
                                     {r.title}
@@ -782,7 +769,7 @@ const Contact = () => {
                             </motion.div>
                         ))}
                     </div>
-                </section>
+                </section> */}
 
                 {/* CTA */}
                 <section className="pt-20 lg:pt-32">

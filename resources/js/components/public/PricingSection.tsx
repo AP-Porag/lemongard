@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import LemonIcon from './LemonIcon';
 
 const pricingFeatures = [
-    'Full platform access from day one',
+    'Full access from day one',
     'Search across all shared records',
     'Secure data ownership and privacy',
     'Priority support included',
@@ -12,10 +12,9 @@ const pricingFeatures = [
 
 const planFeatures = [
     'Unlimited record access',
-    'Ability to add/remove records',
-    'Advanced search & filters',
+    'Add and remove records with ease',
+    'Advanced search and filtering',
     'Data export tools',
-    'API access',
 ];
 
 /**
@@ -50,9 +49,7 @@ const PricingSection = () => {
 
                         {/* Description */}
                         <p className="mt-6 text-lg text-gray-500">
-                            Everything you need to manage your clients and grow
-                            your business, with transparent pricing and no
-                            surprises.
+                            Everything you need to manage your clients and grow your business, with transparent pricing and no surprises.
                         </p>
 
                         {/* Features List */}
@@ -98,12 +95,12 @@ const PricingSection = () => {
 
                         {/* Price */}
                         <div className="mt-6">
-                            <span className="text-navy-600 text-5xl font-bold ">
-                                $19<span className="text-2xl">99</span>
+                            <span className="text-navy-600 text-2xl font-bold ">
+                                $19.99 per month
                             </span>
-                            <span className="text-xl text-gray-500">
-                                /month
-                            </span>
+                            {/* <span className="text-xl text-gray-500">
+                                per month
+                            </span> */}
                         </div>
 
                         {/* Savings */}
@@ -113,6 +110,7 @@ const PricingSection = () => {
 
                         {/* Features List */}
                         <div className="mt-8 space-y-4">
+                            <p className="text-navy-600 font-semibold text-[16px]">Core features include:</p>
                             {planFeatures.map((feature) => (
                                 <div
                                     key={feature}

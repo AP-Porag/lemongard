@@ -36,16 +36,14 @@ const AboutHero = () => (
             </div>
 
             <h1 className="text-navy-600 text-4xl font-bold md:text-5xl lg:text-6xl">
-                Building Better Tools for{' '}
+                Building Better Tools for {' '}<br/>
                 <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
                     Service Industry Professionals
                 </span>
             </h1>
 
             <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-600 md:text-xl">
-                LemonGard was created to solve a real problem: giving service
-                professionals easy access to shared industry data while
-                maintaining control over their own contributions.
+                LemonGard was built to provide service professionals with shared industry data to support better client management and risk awareness, while ensuring full ownership of their own contributions.
             </p>
         </motion.div>
         </div>

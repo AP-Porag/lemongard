@@ -27,7 +27,7 @@ const CoreValuesSection = () => (
         <span className="text-sm font-semibold text-yellow-600 uppercase tracking-wide">Core Values</span>
       </div>
       <h2 className="text-3xl md:text-4xl font-bold text-navy-600 mb-4">The Principles That Guide Us</h2>
-      <p className="text-lg text-gray-600">Everything we do is shaped by these commitments</p>
+      <p className="text-lg text-gray-600">These are the commitments that guide every decision we make.</p>
     </motion.div>
 
     <motion.div

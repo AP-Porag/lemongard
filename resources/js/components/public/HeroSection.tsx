@@ -35,9 +35,8 @@ const HeroSection = () => {
 
                         {/* Subtext */}
                         <p className="mt-6 text-lg leading-relaxed text-gray-500 md:text-xl">
-                            Access shared industry data, manage client
-                            relationships, and grow your business with
-                            confidence. 30-day free trial included.
+                            Access shared industry data, manage client relationships, and grow your business with confidence. <br/>
+                            A 30-day free trial is included. Begin adding and reviewing client records today!
                         </p>
 
                         {/* Buttons */}

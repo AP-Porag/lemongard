@@ -37,7 +37,7 @@ const Footer = () => {
                         <LogoWhite className="h-15 w-auto" />
                     </a>
                     <p className="footer-link-text mt-4 text-sm leading-relaxed">
-                        Professional CRM & Data Platform for Service Industry
+                        A Better Way for Service Professionals to Manage Client Data
                     </p>
                     <div className="mt-6 flex gap-4">
                         <a

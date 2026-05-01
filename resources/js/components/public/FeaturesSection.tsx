@@ -7,21 +7,21 @@ const features = [
         icon: Database,
         title: 'Shared Data Access',
         description:
-            'Search and view all records across the platform. Access the collective knowledge of your industry in real-time.',
+            'Search and view records contributed by industry professionals like you. Access your industry’s collective knowledge in real time.',
         badge: { icon: Shield, text: 'Enterprise Security' },
     },
     {
         icon: Lock,
         title: 'Your Data, Your Control',
         description:
-            'Edit and manage only the records you create. Your contributions remain yours while benefiting from shared visibility.',
+            'Edit and manage only the records you create. Your contributions remain yours, while you benefit from shared data contributed by other professionals.',
         badge: { icon: Zap, text: 'Lightning Fast' },
     },
     {
         icon: CreditCard,
         title: 'Subscription Simplicity',
         description:
-            'Transparent monthly billing with instant access. Start with 30 days free, cancel anytime with no penalties.',
+            'Transparent monthly billing with instant access. Start with a 30-day free trial to explore and access client data. Cancel anytime with no penalties.',
         badge: { icon: Tag, text: 'Flexible Pricing' },
     },
 ];
@@ -48,7 +48,7 @@ const FeaturesSection = () => {
                     </h2>
                 </div>
                 <p className="font-sans mx-auto mt-4 max-w-5xl text-lg text-gray-500 md:text-xl">
-                    Built for professionals who demand reliable clients, protected schedules and stress-free appointments
+                    Built for professionals who demand reliable clients, protected schedules and stress-free appointments.
                 </p>
             </motion.div>
 

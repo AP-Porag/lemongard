@@ -53,8 +53,7 @@ const PricingHero = () => (
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl"
             >
-                Start with a 30-day free trial. No credit card required. Choose
-                the plan that fits your needs.
+                Start with a 30-day free trial—no credit card required. After your trial, choose the plan that fits your needs.
             </motion.p>
 
             <motion.div
