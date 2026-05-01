@@ -11,7 +11,7 @@ const productLinks = [
 ];
 
 const legalLinks = [
-    { label: 'Privacy Policy', href: '#privacy' },
+    { label: 'Privacy Policy', href: 'privacy-policy' },
     { label: 'Terms & Conditions', href: '#terms' },
     { label: 'Cookie Policy', href: '#cookies' },
 ];

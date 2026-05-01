@@ -111,7 +111,7 @@ export default function Login() {
                         </h1>
 
                         <p className="text-gray-600">
-                            Access your CRM dashboard and shared industry data
+                            Access your dashboard and shared industry data for service professionals.
                         </p>
                     </div>
 
