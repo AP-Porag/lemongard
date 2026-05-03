@@ -182,6 +182,7 @@ export default function MyPlan({ auth }: Props) {
                                                 router.post(
                                                     route(
                                                         'app.subscription.checkout',
+                                                        { tier: tier.key },
                                                     ),
                                                     {
                                                         plan: tier.key,

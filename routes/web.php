@@ -67,8 +67,10 @@ Route::prefix(GlobalConstant::ROUTE_APP)
             ->name('myplan');
 
         //Checkout
-        Route::post('/subscription/checkout', [SubscriptionController::class, 'checkout'])
+        Route::post('/subscription/checkout/{tier}', [SubscriptionController::class, 'checkout'])
             ->name('subscription.checkout');
+
+        Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
         Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
         Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel']);

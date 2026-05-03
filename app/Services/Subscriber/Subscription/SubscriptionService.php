@@ -74,12 +74,13 @@ class SubscriptionService extends BaseService
 
     public function checkout(User $user, string $tier)
     {
+
         $priceId = SubscriptionPlan::priceId($tier);
 
         return $user->newSubscription('default', $priceId)
             ->checkout([
                 'success_url' => route('app.dashboard'),
-                'cancel_url' => route('pricing'),
+                'cancel_url' => route('app.subscription.index'),
             ]);
     }
 

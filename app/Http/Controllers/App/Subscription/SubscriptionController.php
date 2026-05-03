@@ -41,10 +41,12 @@ class SubscriptionController extends Controller
     }
     public function checkout(Request $request)
     {
-        return $this->service->checkout(
-            auth()->user(),
+        $session = $this->service->checkout(
+            $request->user(),
             $request->plan
         );
+
+        return Inertia::location($session->url);
     }
     public function subscribe(Request $request)
     {
