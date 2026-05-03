@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link } from "@inertiajs/react";
 import {
     ChevronRight,
     Mail,
