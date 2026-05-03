@@ -28,6 +28,8 @@ Route::group([], function () {
     Route::get('/how-it-works', fn() => Inertia::render('public/HowItWorks'));
     Route::get('/contact', fn() => Inertia::render('public/Contact'));
     Route::get('/privacy-policy', fn() => Inertia::render('public/PrivacyPolicy'));
+    Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
+    Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
 });
 
 /*

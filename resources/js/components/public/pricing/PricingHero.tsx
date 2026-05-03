@@ -5,7 +5,7 @@ import { LemonSimple, LemonSlice } from '../LemonIcon';
 import Banner from "@/components/BannerSec";
 
 const PricingHero = () => (
-    <section className="relative overflow-hidden py-16 lg:py-24">
+    <section className="relative overflow-hidden pt-20 lg:py-24">
        {/* Botanical Lemon Background */}
          <Banner/>
          
