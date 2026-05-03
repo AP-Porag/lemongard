@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link } from '@inertiajs/react';
 import {
     ChevronRight,
     Mail,
@@ -81,47 +81,38 @@ const contactMethods = [
         response: 'Response within 24 hours',
         responseIcon: Clock,
     },
-    {
-        icon: HelpCircle,
-        title: 'Help Center',
-        desc: 'Browse our documentation',
-        link: '#help',
-        linkText: 'View Help Articles',
-        response: 'Available 24/7',
-        responseIcon: Clock,
-    },
-    {
-        icon: Briefcase,
-        title: 'Sales Inquiries',
-        desc: 'Questions about plans?',
-        link: '#sales',
-        linkText: 'Talk to Sales',
-        response: 'Mon-Fri, 9AM-5PM EST',
-        responseIcon: Clock,
-    },
+    // {
+    //     icon: HelpCircle,
+    //     title: 'Help Center',
+    //     desc: 'Browse our documentation',
+    //     link: '#help',
+    //     linkText: 'View Help Articles',
+    //     response: 'Available 24/7',
+    //     responseIcon: Clock,
+    // },
+    // {
+    //     icon: Briefcase,
+    //     title: 'Sales Inquiries',
+    //     desc: 'Questions about plans?',
+    //     link: '#sales',
+    //     linkText: 'Talk to Sales',
+    //     response: 'Mon-Fri, 9AM-5PM EST',
+    //     responseIcon: Clock,
+    // },
 ];
 
 const whyReachOut = [
     {
         icon: CheckCircle2,
-        title: 'Pre-Sales Questions',
-        text: 'Learn about features, pricing, and how LemonGard can help your business',
-    },
-    {
-        icon: LifeBuoy,
         title: 'Technical Support',
         text: 'Get help with platform issues, data import, or account setup',
     },
     {
-        icon: MessageSquare,
+        icon: LifeBuoy,
         title: 'Feature Requests',
         text: 'Share ideas for new features or improvements',
     },
-    {
-        icon: Building2,
-        title: 'Enterprise Inquiries',
-        text: 'Discuss custom solutions for larger teams',
-    },
+   
 ];
 
 const faqs = [
@@ -152,12 +143,12 @@ const faqs = [
 ];
 
 const resources = [
-    {
-        icon: Book,
-        title: 'Help Center',
-        desc: 'Browse our comprehensive documentation and guides',
-        btn: 'Visit Help Center',
-    },
+    // {
+    //     icon: Book,
+    //     title: 'Help Center',
+    //     desc: 'Browse our comprehensive documentation and guides',
+    //     btn: 'Visit Help Center',
+    // },
     {
         icon: Video,
         title: 'Video Tutorials',
@@ -225,7 +216,7 @@ const Contact = () => {
 
             <main>
                 {/* Hero */}
-                <section className="section-container section-padding relative overflow-hidden">
+                <section className="section-padding relative overflow-hidden">
                     <div
                         className="absolute inset-0 z-0"
                         style={{
@@ -235,10 +226,9 @@ const Contact = () => {
                             opacity: 0.12,
                         }}
                     />
-                    <LemonSlice className="absolute top-0 right-0 z-0 h-64 w-64 text-yellow-400 opacity-[0.05]" />
-                    <LemonSlice className="absolute bottom-0 left-0 z-0 h-48 w-48 text-yellow-400 opacity-[0.05]" />
 
-                    <div className="relative z-10">
+                    <div className="section-container">
+                    <div className="relative z-10 mt-3">
                         <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
                             <Link
                                 to="/"
@@ -263,8 +253,10 @@ const Contact = () => {
                                 Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
                             </p>
                         </motion.div>
+                        </div>
                     </div>
                 </section>
+
 
                 {/* Contact Methods */}
                 <section className="section-container py-12">
@@ -281,7 +273,7 @@ const Contact = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="relative overflow-hidden rounded-2xl border-2 border-border bg-card p-8 text-center transition-all duration-300 hover:border-yellow-400 hover:shadow-xl"
                             >
-                                <LemonSlice className="absolute top-2 right-2 h-20 w-20 opacity-[0.05]" />
+                                {/* <LemonSlice className="absolute top-2 right-2 h-20 w-20 opacity-[0.05]" /> */}
                                 <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                     <m.icon className="h-8 w-8 text-yellow-500" />
                                 </div>
@@ -317,8 +309,7 @@ const Contact = () => {
                             Contact Form
                         </h2>
                         <p className="text-lg text-muted-foreground">
-                            Fill out the form below and we'll get back to you as
-                            soon as possible
+                            Please complete the form below, and our team will respond as soon as possible.
                         </p>
                     </motion.div>
 
@@ -328,10 +319,10 @@ const Contact = () => {
                             {...fadeIn}
                             className="relative overflow-hidden rounded-2xl border-2 border-border bg-card p-8 shadow-xl lg:p-10"
                         >
-                            <LemonWhole className="absolute top-3 left-3 h-12 w-12 opacity-[0.08]" />
+                            {/* <LemonWhole className="absolute top-3 left-3 h-12 w-12 opacity-[0.08]" /> */}
                             <LemonWhole className="absolute top-3 right-3 h-12 w-12 opacity-[0.08]" />
                             <LemonWhole className="absolute bottom-3 left-3 h-12 w-12 opacity-[0.08]" />
-                            <LemonWhole className="absolute right-3 bottom-3 h-12 w-12 opacity-[0.08]" />
+                            {/* <LemonWhole className="absolute right-3 bottom-3 h-12 w-12 opacity-[0.08]" /> */}
 
                             {showSuccess ? (
                                 <div className="py-12 text-center">
@@ -568,7 +559,7 @@ const Contact = () => {
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <h3 className="text-navy-600 mb-6 text-2xl font-bold">
-                                Why Reach Out?
+                                Why Reach Out 3?
                             </h3>
                             <div className="space-y-5">
                                 {whyReachOut.map((item) => (
@@ -644,8 +635,9 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="section-container py-20 lg:py-10">
-                    <div className="rounded-2xl bg-muted p-8 lg:p-16">
+                {/* <section className="py-10 lg:py-10">
+                    <div className="bg-muted p-8 lg:p-16">
+                        <div className="section-container">
                         <motion.div {...fadeIn} className="mb-12 text-center">
                             <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                                 <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -680,11 +672,12 @@ const Contact = () => {
                                 ))}
                             </Accordion>
                         </motion.div>
+                        </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Location */}
-                <section className="section-container py-20 lg:py-32">
+                {/* <section className="section-container pb-12 lg:pb-24">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -735,10 +728,10 @@ const Contact = () => {
                             </div>
                         </motion.div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Resources */}
-                <section className="section-container py-20 lg:py-32">
+                {/* <section className="section-container py-10 lg:py-10">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
@@ -759,7 +752,6 @@ const Contact = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="relative overflow-hidden rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-card p-8 text-center"
                             >
-                                <LemonSlice className="absolute top-2 right-2 h-16 w-16 opacity-[0.05]" />
                                 <r.icon className="mx-auto mb-4 h-10 w-10 text-yellow-500" />
                                 <h3 className="text-navy-600 mb-2 text-xl font-semibold">
                                     {r.title}
@@ -776,18 +768,33 @@ const Contact = () => {
                             </motion.div>
                         ))}
                     </div>
-                </section>
+                </section> */}
 
                 {/* CTA */}
-                <section className="section-container py-20 lg:py-32">
+                <section className="pt-20 lg:pt-32">
                     <motion.div
                         {...fadeIn}
-                        className="from-navy-600 to-navy-800 relative overflow-hidden rounded-2xl bg-gradient-to-br p-12 text-white lg:p-16"
+                        className="from-navy-600 to-navy-800 relative overflow-hidden bg-gradient-to-br p-12 text-white lg:p-16"
                     >
-                        <LemonSlice className="absolute top-4 left-4 h-24 w-24 text-white opacity-[0.08]" />
-                        <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" />
-                        <LemonHalf className="absolute top-4 right-4 h-16 w-16 text-white opacity-[0.08]" />
+                         {/* Decorative Lemon Slices */}
+                                        <LemonSlice
+                                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
+                                            opacity={0.12}
+                                        />
+                                        <LemonSlice
+                                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
+                                            opacity={0.12}
+                                        />
+                                        <LemonSlice
+                                            className="absolute top-1/2 left-1/4 h-24 w-24"
+                                            opacity={0.06}
+                                        />
+                                        <LemonSlice
+                                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
+                                            opacity={0.05}
+                                        />
 
+                        <div className="section-container">
                         <div className="relative z-10 text-center">
                             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
                                 Ready to Get Started?
@@ -809,6 +816,7 @@ const Contact = () => {
                                 <LemonSimple className="h-3 w-3" /> Cancel
                                 anytime
                             </p>
+                        </div>
                         </div>
                     </motion.div>
                 </section>
