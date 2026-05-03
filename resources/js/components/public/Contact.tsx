@@ -568,7 +568,7 @@ const Contact = () => {
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <h3 className="text-navy-600 mb-6 text-2xl font-bold">
-                                Why Reach Out?
+                                Why Reach Out2?
                             </h3>
                             <div className="space-y-5">
                                 {whyReachOut.map((item) => (
