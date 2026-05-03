@@ -226,10 +226,9 @@ const Contact = () => {
                             opacity: 0.12,
                         }}
                     />
-                    {/* <LemonSlice className="absolute top-0 right-0 z-0 h-64 w-64 text-yellow-400 opacity-[0.05]" />
-                    <LemonSlice className="absolute bottom-0 left-0 z-0 h-48 w-48 text-yellow-400 opacity-[0.05]" /> */}
+
                     <div className="section-container">
-                    <div className="relative z-10">
+                    <div className="relative z-10 mt-3">
                         <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
                             <Link
                                 to="/"

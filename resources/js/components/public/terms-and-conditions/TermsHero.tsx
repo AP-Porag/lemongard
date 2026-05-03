@@ -16,7 +16,7 @@ const TermsHero = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="mb-8 flex items-center gap-2 text-sm text-muted-foreground"
+                className="mb-8 -mt-8 flex items-center gap-2 text-sm text-muted-foreground"
                 aria-label="Breadcrumb"
             >
                 <Link
