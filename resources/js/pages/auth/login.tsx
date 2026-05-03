@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Link } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
 import { request } from '@/routes/password';
+import heroBg from '@/assets/hero-bg.png';
 import {
     Mail,
     Lock,
@@ -63,6 +64,7 @@ const Login = () => {
 
     return (
         <div className="flex min-h-screen flex-col bg-[#FAFAFA]">
+            
             {/* Simplified Nav */}
             <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -81,19 +83,22 @@ const Login = () => {
                 </div>
             </nav>
 
+             <div
+                        className="absolute inset-0 z-0"
+                        style={{
+                            backgroundImage: `url(${heroBg})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            opacity: 0.12,
+                        }}
+                    />
+                      
             {/* Login Section */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-                {/* Background Lemons */}
-                <LemonSlice
-                    className="pointer-events-none absolute top-0 left-0 -mt-32 -ml-32 h-96 w-96"
-                    opacity={0.05}
-                />
-                <LemonSlice
-                    className="pointer-events-none absolute right-0 bottom-0 -mr-20 -mb-20 h-64 w-64"
-                    opacity={0.05}
-                />
-
+                
+               
                 <div className="w-full max-w-md">
+                     
                     {/* Welcome */}
                     <div className="mb-8 text-center">
                         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
@@ -104,7 +109,7 @@ const Login = () => {
                             Login to LemonGard
                         </h1>
                         <p className="text-gray-600">
-                            Access your CRM dashboard and shared industry data
+                            Access your dashboard and shared industry data for service professionals.
                         </p>
                     </div>
 

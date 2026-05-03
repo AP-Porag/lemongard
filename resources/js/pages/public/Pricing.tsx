@@ -11,15 +11,13 @@ import PricingCTA from '@/components/public/pricing/PricingCTA';
 export default function Pricing() {
     return (
         <PublicLayout>
-            <div className="pt-16">
-                <PricingHero />
-                <PricingCards />
-                <ComparisonTable />
-                <PricingFAQ />
-                <PricingTrust />
-                <PricingTestimonial />
-                <PricingCTA />
-            </div>
+            <PricingHero />
+            <PricingCards />
+            <ComparisonTable />
+            <PricingFAQ />
+            <PricingTrust />
+            <PricingTestimonial />
+            <PricingCTA />
         </PublicLayout>
     );
 }

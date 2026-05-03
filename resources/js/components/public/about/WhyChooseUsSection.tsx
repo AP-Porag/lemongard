@@ -2,19 +2,37 @@ import { motion } from "framer-motion";
 import { LemonSimple } from "@/components/LemonIcon";
 
 const reasons = [
-  { num: "01", title: "Purpose-Built for Your Industry", desc: "Unlike generic CRM tools, LemonGard is designed specifically for service professionals with features that matter to your work." },
-  { num: "02", title: "Fair Data Ownership", desc: "You maintain complete control over your contributions while benefiting from the collective knowledge base." },
-  { num: "03", title: "No Vendor Lock-in", desc: "Export your data anytime. Cancel whenever you need. No penalties, no questions asked." },
-  { num: "04", title: "Proven Reliability", desc: "99.9% uptime, daily backups, and enterprise-grade security you can trust." },
-  { num: "05", title: "Affordable Pricing", desc: "Professional tools at prices that make sense for small businesses and independent professionals." },
-  { num: "06", title: "Continuous Improvement", desc: "Regular updates based on user feedback. We listen to what you need and build it." },
+  { num: "01",
+    title: "Purpose-Built for Your Industry", 
+    desc: "Built specifically for service professionals, LemonGard delivers the tools you actually need—nothing extra, nothing unnecessary."
+  },
+  { num: "02", 
+    title: "Fair Data Ownership", 
+    desc: "You maintain complete control over your contributions while benefiting from the collective knowledge base." 
+  },
+  { num: "03", 
+    title: "Your Data, Your Choice", 
+    desc: "Download your data anytime and cancel whenever you need. No fees or penalties." 
+  },
+  { num: "04", 
+    title: "Proven Reliability", 
+    desc: "99.9% uptime, daily backups, and enterprise-grade security you can trust." 
+  },
+  { num: "05", 
+    title: "Affordable Pricing", 
+    desc: "Professional tools at prices that make sense for small businesses and independent professionals." 
+  },
+  { num: "06", 
+    title: "Continuous Improvement", 
+    desc: "We listen to user feedback and continuously build and improve based on what you need." 
+  },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 
 const WhyChooseUsSection = () => (
-  <section className="py-20 lg:py-32">
+  <section className="pt-16 pb-8 lg:pt-22">
     <div className="bg-gray-50 p-8 md:p-12 lg:p-16">
       <div className="section-container">
       <motion.div

@@ -4,13 +4,9 @@ import { motion } from 'framer-motion';
 import { LemonSimple, LemonSlice } from '@/components/public/LemonIcon';
 import Banner from "@/components/BannerSec";
 
-/**
- * How It Works - Page Hero
- * Breadcrumb, title badge, headline, and decorative lemon watermarks
- */
-const HowItWorksHero = () => {
+const CookiePolicyHero = () => {
     return (
-        <section className="relative overflow-hidden pt-20 pb-16 lg:pt-24 lg:pb-24">
+        <section className="relative overflow-hidden pt-24 pb-16 lg:pt-32 lg:pb-24">
             {/* Botanical Lemon Background */}
               <Banner/>
 
@@ -20,7 +16,7 @@ const HowItWorksHero = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="mb-8 flex items-center gap-2 text-sm text-muted-foreground"
+                className="mb-8 -mt-8 flex items-center gap-2 text-sm text-muted-foreground"
                 aria-label="Breadcrumb"
             >
                 <Link
@@ -32,7 +28,7 @@ const HowItWorksHero = () => {
 
                 <ChevronRight className="h-4 w-4" />
 
-                <span className="text-navy-600 font-medium">How It Works</span>
+                <span className="text-navy-600 font-medium">Cookie Policy</span>
             </motion.nav>
 
             {/* Page Header */}
@@ -56,7 +52,7 @@ const HowItWorksHero = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-navy-600 mt-6 text-4xl font-bold md:text-5xl lg:text-6xl"
                 >
-                    How LemonGard Works
+                    Cookie Policy
                 </motion.h1>
 
                 {/* Subtitle */}
@@ -66,7 +62,7 @@ const HowItWorksHero = () => {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl"
                 >
-                    Start tracking your client data in three easy steps.
+                   Last Updated: 12/1/2025
                 </motion.p>
             </div>
             </div>
@@ -74,4 +70,5 @@ const HowItWorksHero = () => {
     );
 };
 
-export default HowItWorksHero;
+export default CookiePolicyHero;
+

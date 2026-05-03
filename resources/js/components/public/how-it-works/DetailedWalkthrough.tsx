@@ -389,12 +389,14 @@ const DetailedWalkthrough = () => {
                   <LemonHalf className="absolute top-3 right-3 w-14 h-14" opacity={0.15} />
                   <span className="bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">Professional Plan</span>
                   <div className="mt-5">
-                    <span className="text-4xl font-bold text-navy-600">$49</span>
-                    <span className="text-lg text-muted-foreground">/month</span>
+                    <span className="text-2xl font-bold text-navy-600">$19.99 per month</span>
+                    {/* <span className="text-lg text-muted-foreground">/month</span> */}
                   </div>
-                  <p className="text-sm text-yellow-600 font-medium mt-1">or $490/year (Save 16%)</p>
+                  <p className="text-sm text-yellow-600 font-medium mt-1">or $199/year (Save 20%)</p>
+                  
                   <ul className="mt-5 space-y-2.5">
-                    {["Unlimited record access", "Full CRM features", "Advanced search & filters", "Data export tools", "API access"].map((f) => (
+                    <p className="text-[16px] font-semibold text-navy-600">Core features include:</p>
+                    {["Unlimited record access", "Add and remove records with ease", "Advanced search and filtering", "Data export tools"].map((f) => (
                       <li key={f} className="flex items-center gap-2 text-sm text-gray-700">
                         <CheckCircle2 className="w-4 h-4 text-yellow-500 shrink-0" />
                         {f}

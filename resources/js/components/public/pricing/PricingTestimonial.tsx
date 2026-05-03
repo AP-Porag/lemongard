@@ -15,9 +15,9 @@ const PricingTestimonial = () => (
 
       <Quote className="w-12 h-12 text-yellow-400 mx-auto mb-6" />
       <p className="text-xl md:text-2xl font-medium mb-6 leading-relaxed max-w-3xl mx-auto">
-        "LemonGard has transformed how we access industry data. The pricing is fair, the platform is fast, and knowing we own our data gives us confidence."
+        “LemonGard has changed the way we access and use industry data. It’s fast, fairly priced, and gives us full confidence knowing we retain ownership of the data we contribute.”
       </p>
-      <p className="text-gray-400">— Service Industry Professionals</p>
+      <p className="text-gray-400">— Service Professionals</p>
 
       <div className="flex flex-wrap justify-center gap-8 md:gap-12 mt-8 text-sm">
         {[

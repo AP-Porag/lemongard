@@ -3,9 +3,9 @@ import { Star, Quote } from "lucide-react";
 import { LemonSimple } from "@/components/LemonIcon";
 
 const testimonials = [
-  { quote: "LemonGard transformed how we manage client data. The shared database is invaluable for our team.", name: "Sarah M.", role: "Service Manager", initials: "SM" },
-  { quote: "Finally, a CRM that understands service professionals. Simple, affordable, and actually useful.", name: "James R.", role: "Independent Contractor", initials: "JR" },
-  { quote: "The data ownership model is exactly what we needed. We can contribute freely while keeping control.", name: "Elena K.", role: "Operations Director", initials: "EK" },
+  { quote: "“Since using Lemongard, I’ve been able to see patterns in repeat no-shows and difficult clients. It’s helped me avoid booking people who waste my time and focus on clients who respect my schedule.” Jill W., Industry Professional", name: "Sarah M.", role: "Service Manager", initials: "SM" },
+  { quote: "“As a salon owner, I used to only rely on my own experience. Now with Lemongard, I can see shared client notes from other stylists, which has helped me avoid problem appointments and protect my staff’s time.”  Brooke C., Owner/Operator", name: "James R.", role: "Independent Contractor", initials: "JR" },
+  { quote: "“Using Lemongard has changed how I book appointments. I can quickly spot clients with a history of cancellations or bad behavior, so I’m no longer blindsided. It’s made my day-to-day work a lot smoother and more predictable.” Jayson P., Industry Professional", name: "Elena K.", role: "Operations Director", initials: "EK" },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } };
@@ -36,7 +36,7 @@ const TestimonialsSection = () => (
       {testimonials.map((t) => (
         <motion.div key={t.name} variants={item} className="feature-card p-8 relative">
           <Quote className="w-8 h-8 text-yellow-400 mb-4" />
-          <p className="text-gray-600 leading-relaxed mb-6">"{t.quote}"</p>
+          <p className="text-gray-600 leading-relaxed mb-6">{t.quote}</p>
           <div className="flex items-center gap-2 mb-3">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />

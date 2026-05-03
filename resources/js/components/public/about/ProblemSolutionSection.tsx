@@ -6,46 +6,46 @@ import { LemonSimple, LemonSlice } from '@/components/LemonIcon';
 const problems = [
     {
         title: 'Isolated Information',
-        desc: 'Critical data locked in individual systems with no way to share or access collective knowledge',
+        desc: 'Critical data is locked in individual systems, with no easy way to share or access collective knowledge.',
     },
     {
         title: 'Wasted Time',
-        desc: 'Repeatedly researching the same clients, services, and pricing information',
+        desc: 'Professionals repeatedly research the same clients, services, and pricing information.',
     },
     {
-        title: 'No Ownership Control',
-        desc: "Existing platforms don't respect data ownership—you can't control what you contributed",
+        title: 'Lack of Control Over Data',
+        desc: "Existing tools often don’t give you control over the information you contribute or how it’s used.",
     },
     {
-        title: 'Expensive Solutions',
-        desc: "Enterprise CRM tools with features you don't need and prices you can't afford",
+        title: 'Expensive, Overbuilt Solutions',
+        desc: "Many tools are packed with unnecessary features and come at a cost that doesn’t fit most service businesses.",
     },
     {
-        title: 'Poor Search',
-        desc: 'Outdated interfaces that make finding information frustratingly slow',
+        title: 'Poor Search Experience',
+        desc: 'Slow, outdated systems make it difficult to quickly find the information you need.',
     },
 ];
 
 const solutions = [
     {
         title: 'Shared Database',
-        desc: 'Access industry-wide data while contributing your own insights',
+        desc: 'Access industry-wide data while contributing your own insights.',
     },
     {
-        title: 'Smart Ownership',
-        desc: "View everything, edit only what's yours",
+        title: 'Clear Ownership Controls',
+        desc: "View all data, while maintaining full control over what you contribute.",
     },
     {
-        title: 'Lightning Fast',
-        desc: 'Advanced search across all fields in milliseconds',
+        title: 'Lightning-Fast Search',
+        desc: 'Advanced search across all fields delivers results in milliseconds.',
     },
     {
-        title: 'Affordable',
-        desc: '$49/month for complete access—no hidden fees',
+        title: 'Simple, Affordable Pricing',
+        desc: '$19.99/month for full access—no hidden fees.',
     },
     {
-        title: 'Professional',
-        desc: 'Enterprise features at small business prices',
+        title: 'Built for Professionals',
+        desc: 'Enterprise-level capabilities at a price designed for small businesses',
     },
 ];
 
@@ -105,7 +105,7 @@ const ProblemSolutionSection = () => (
                 />
 
                 <h3 className="mb-6 text-2xl font-bold">
-                    LemonGard's Solution
+                    LemonGard’s Solution
                 </h3>
 
                 <div className="space-y-5">

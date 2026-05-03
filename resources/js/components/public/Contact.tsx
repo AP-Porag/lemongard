@@ -266,9 +266,7 @@ const Contact = () => {
                                 We're Here to Help 2
                             </h1>
                             <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                                Have questions about LemonGard? Want to learn
-                                more about our platform? We'd love to hear from
-                                you.
+                                Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
                             </p>
                         </motion.div>
                     </div>

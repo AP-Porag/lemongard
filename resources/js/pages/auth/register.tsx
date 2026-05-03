@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Link } from '@inertiajs/react';
 import { login } from '@/routes';
 import { router } from '@inertiajs/react';
+import heroBg from '@/assets/hero-bg.png';
 import {
     Mail,
     Lock,
@@ -219,21 +220,21 @@ const Register = () => {
                 </div>
             </nav>
 
+
+            <div
+                        className="absolute inset-0 z-0"
+                        style={{
+                            backgroundImage: `url(${heroBg})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            opacity: 0.12,
+                        }}
+                    />
+
             {/* ── Main ─────────────────────────────────────── */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
                 {/* Background watermarks */}
-                <LemonSlice
-                    className="pointer-events-none absolute top-0 left-0 -mt-32 -ml-32 h-96 w-96"
-                    opacity={0.05}
-                />
-                <LemonSlice
-                    className="pointer-events-none absolute right-0 bottom-0 -mr-20 -mb-20 h-64 w-64"
-                    opacity={0.05}
-                />
-                <LemonHalf
-                    className="pointer-events-none absolute top-1/2 right-0 h-48 w-48"
-                    opacity={0.05}
-                />
+                
 
                 <div className="w-full max-w-md">
                     {/* ── Header ─────────────────────────────── */}

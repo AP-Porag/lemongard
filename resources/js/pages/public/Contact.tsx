@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Link, router } from '@inertiajs/react';
+import { Link } from 'react-router-dom';
 import {
     ChevronRight,
     Mail,
@@ -206,23 +206,10 @@ const Contact = () => {
     const messageVal = watch('message');
     const messageLength = messageVal?.length || 0;
 
-    // const onSubmit = async (data: ContactFormData) => {
-    //     await new Promise((r) => setTimeout(r, 2000));
-    //     setShowSuccess(true);
-    //     reset();
-    // };
-
     const onSubmit = async (data: ContactFormData) => {
-        router.post('/contact', data, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setShowSuccess(true);
-                reset();
-            },
-            onError: (errors) => {
-                console.log(errors);
-            },
-        });
+        await new Promise((r) => setTimeout(r, 2000));
+        setShowSuccess(true);
+        reset();
     };
 
     const inputBase =
@@ -238,7 +225,7 @@ const Contact = () => {
 
             <main>
                 {/* Hero */}
-                <section className="section-padding relative overflow-hidden">
+                <section className="section-container section-padding relative overflow-hidden">
                     <div
                         className="absolute inset-0 z-0"
                         style={{
@@ -248,38 +235,34 @@ const Contact = () => {
                             opacity: 0.12,
                         }}
                     />
-                    {/* <LemonSlice className="absolute top-0 right-0 z-0 h-64 w-64 text-yellow-400 opacity-[0.05]" />
-                    <LemonSlice className="absolute bottom-0 left-0 z-0 h-48 w-48 text-yellow-400 opacity-[0.05]" /> */}
-                    <div className="section-container">
-                        <div className="relative z-10">
-                            <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
-                                <Link
-                                    to="/"
-                                    className="transition-colors hover:text-yellow-500"
-                                >
-                                    Home
-                                </Link>
-                                <ChevronRight className="h-4 w-4" />
-                                <span className="font-medium text-foreground">
-                                    Contact
-                                </span>
-                            </div>
+                    <LemonSlice className="absolute top-0 right-0 z-0 h-64 w-64 text-yellow-400 opacity-[0.05]" />
+                    <LemonSlice className="absolute bottom-0 left-0 z-0 h-48 w-48 text-yellow-400 opacity-[0.05]" />
 
-                            <motion.div {...fadeIn} className="text-center">
-                                <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
-                                    <LemonSimple className="h-4 w-4" /> Get in
-                                    Touch
-                                </span>
-                                <h1 className="mb-6 text-4xl font-bold text-navy-600 md:text-5xl lg:text-6xl">
-                                    We're Here to Help 2
-                                </h1>
-                                <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                                    Have questions about LemonGard? Want to
-                                    learn more about our platform? We'd love to
-                                    hear from you.
-                                </p>
-                            </motion.div>
+                    <div className="relative z-10">
+                        <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
+                            <Link
+                                to="/"
+                                className="transition-colors hover:text-yellow-500"
+                            >
+                                Home
+                            </Link>
+                            <ChevronRight className="h-4 w-4" />
+                            <span className="font-medium text-foreground">
+                                Contact
+                            </span>
                         </div>
+
+                        <motion.div {...fadeIn} className="text-center">
+                            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
+                                <LemonSimple className="h-4 w-4" /> Get in Touch
+                            </span>
+                            <h1 className="text-navy-600 mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+                                We're Here to Help
+                            </h1>
+                            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+                                Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
+                            </p>
+                        </motion.div>
                     </div>
                 </section>
 
@@ -298,11 +281,11 @@ const Contact = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="relative overflow-hidden rounded-2xl border-2 border-border bg-card p-8 text-center transition-all duration-300 hover:border-yellow-400 hover:shadow-xl"
                             >
-                                {/* <LemonSlice className="absolute top-2 right-2 h-20 w-20 opacity-[0.05]" /> */}
+                                <LemonSlice className="absolute top-2 right-2 h-20 w-20 opacity-[0.05]" />
                                 <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                     <m.icon className="h-8 w-8 text-yellow-500" />
                                 </div>
-                                <h3 className="mb-2 text-xl font-semibold text-navy-600">
+                                <h3 className="text-navy-600 mb-2 text-xl font-semibold">
                                     {m.title}
                                 </h3>
                                 <p className="mb-4 text-sm text-muted-foreground">
@@ -330,7 +313,7 @@ const Contact = () => {
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Send Us a Message
                         </div>
-                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
+                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
                             Contact Form
                         </h2>
                         <p className="text-lg text-muted-foreground">
@@ -345,16 +328,16 @@ const Contact = () => {
                             {...fadeIn}
                             className="relative overflow-hidden rounded-2xl border-2 border-border bg-card p-8 shadow-xl lg:p-10"
                         >
-                            {/* <LemonWhole className="absolute top-3 left-3 h-12 w-12 opacity-[0.08]" /> */}
+                            <LemonWhole className="absolute top-3 left-3 h-12 w-12 opacity-[0.08]" />
                             <LemonWhole className="absolute top-3 right-3 h-12 w-12 opacity-[0.08]" />
                             <LemonWhole className="absolute bottom-3 left-3 h-12 w-12 opacity-[0.08]" />
-                            {/* <LemonWhole className="absolute right-3 bottom-3 h-12 w-12 opacity-[0.08]" /> */}
+                            <LemonWhole className="absolute right-3 bottom-3 h-12 w-12 opacity-[0.08]" />
 
                             {showSuccess ? (
                                 <div className="py-12 text-center">
                                     <div className="inline-block rounded-2xl border border-green-200 bg-green-50 p-8">
                                         <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-green-500" />
-                                        <h3 className="mb-2 text-2xl font-bold text-navy-600">
+                                        <h3 className="text-navy-600 mb-2 text-2xl font-bold">
                                             Message Sent Successfully! 🎉
                                         </h3>
                                         <p className="mb-6 text-muted-foreground">
@@ -381,7 +364,7 @@ const Contact = () => {
                                         <div>
                                             <label
                                                 htmlFor="firstName"
-                                                className="mb-2 block text-sm font-medium text-navy-600"
+                                                className="text-navy-600 mb-2 block text-sm font-medium"
                                             >
                                                 First Name *
                                             </label>
@@ -403,7 +386,7 @@ const Contact = () => {
                                         <div>
                                             <label
                                                 htmlFor="lastName"
-                                                className="mb-2 block text-sm font-medium text-navy-600"
+                                                className="text-navy-600 mb-2 block text-sm font-medium"
                                             >
                                                 Last Name *
                                             </label>
@@ -428,7 +411,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="email"
-                                            className="mb-2 block text-sm font-medium text-navy-600"
+                                            className="text-navy-600 mb-2 block text-sm font-medium"
                                         >
                                             Email Address *
                                         </label>
@@ -453,7 +436,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="phone"
-                                            className="mb-2 block text-sm font-medium text-navy-600"
+                                            className="text-navy-600 mb-2 block text-sm font-medium"
                                         >
                                             Phone Number (Optional)
                                         </label>
@@ -473,7 +456,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="subject"
-                                            className="mb-2 block text-sm font-medium text-navy-600"
+                                            className="text-navy-600 mb-2 block text-sm font-medium"
                                         >
                                             What can we help you with? *
                                         </label>
@@ -506,7 +489,7 @@ const Contact = () => {
                                     <div>
                                         <label
                                             htmlFor="message"
-                                            className="mb-2 block text-sm font-medium text-navy-600"
+                                            className="text-navy-600 mb-2 block text-sm font-medium"
                                         >
                                             Message *
                                         </label>
@@ -584,7 +567,7 @@ const Contact = () => {
                             {...fadeIn}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h3 className="mb-6 text-2xl font-bold text-navy-600">
+                            <h3 className="text-navy-600 mb-6 text-2xl font-bold">
                                 Why Reach Out?
                             </h3>
                             <div className="space-y-5">
@@ -596,7 +579,7 @@ const Contact = () => {
                                         <item.icon className="mt-1 h-5 w-5 shrink-0 text-yellow-500" />
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-navy-600">
+                                                <span className="text-navy-600 font-semibold">
                                                     {item.title}
                                                 </span>
                                                 <LemonSimple className="h-3 w-3 text-yellow-400" />
@@ -615,7 +598,7 @@ const Contact = () => {
                             <div className="relative overflow-hidden rounded-r-xl border-l-4 border-yellow-400 bg-yellow-50 p-6">
                                 <LemonWhole className="absolute top-2 right-2 h-10 w-10 opacity-[0.1]" />
                                 <Clock className="mb-3 h-6 w-6 text-yellow-500" />
-                                <h4 className="mb-2 font-semibold text-navy-600">
+                                <h4 className="text-navy-600 mb-2 font-semibold">
                                     Response Time
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -630,7 +613,7 @@ const Contact = () => {
                             <div className="my-8 border-t border-border" />
 
                             {/* Social */}
-                            <h4 className="mb-4 font-semibold text-navy-600">
+                            <h4 className="text-navy-600 mb-4 font-semibold">
                                 Connect With Us
                             </h4>
                             <div className="space-y-3">
@@ -661,50 +644,42 @@ const Contact = () => {
                 </section>
 
                 {/* FAQ */}
-                <section className="py-10 lg:py-10">
-                    <div className="bg-muted p-8 lg:p-16">
-                        <div className="section-container">
-                            <motion.div
-                                {...fadeIn}
-                                className="mb-12 text-center"
-                            >
-                                <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                                    <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
-                                    Frequently Asked Questions
-                                </div>
-                                <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
-                                    Common Questions
-                                </h2>
-                                <p className="text-lg text-muted-foreground">
-                                    Quick answers to common questions
-                                </p>
-                            </motion.div>
+                <section className="section-container py-20 lg:py-10">
+                    <div className="rounded-2xl bg-muted p-8 lg:p-16">
+                        <motion.div {...fadeIn} className="mb-12 text-center">
+                            <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                                <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
+                                Frequently Asked Questions
+                            </div>
+                            <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
+                                Common Questions
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Quick answers to common questions
+                            </p>
+                        </motion.div>
 
-                            <motion.div
-                                {...fadeIn}
-                                className="mx-auto max-w-3xl"
-                            >
-                                <Accordion type="single" collapsible>
-                                    {faqs.map((faq, i) => (
-                                        <AccordionItem
-                                            key={i}
-                                            value={`faq-${i}`}
-                                            className="border-b border-border"
-                                        >
-                                            <AccordionTrigger className="py-6 text-left text-base font-semibold text-navy-600 hover:text-yellow-500 hover:no-underline">
-                                                <span className="flex items-center gap-2">
-                                                    <LemonSimple className="h-4 w-4 shrink-0 text-yellow-400" />{' '}
-                                                    {faq.q}
-                                                </span>
-                                            </AccordionTrigger>
-                                            <AccordionContent className="pb-6 leading-relaxed text-muted-foreground">
-                                                {faq.a}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))}
-                                </Accordion>
-                            </motion.div>
-                        </div>
+                        <motion.div {...fadeIn} className="mx-auto max-w-3xl">
+                            <Accordion type="single" collapsible>
+                                {faqs.map((faq, i) => (
+                                    <AccordionItem
+                                        key={i}
+                                        value={`faq-${i}`}
+                                        className="border-b border-border"
+                                    >
+                                        <AccordionTrigger className="text-navy-600 py-6 text-left text-base font-semibold hover:text-yellow-500 hover:no-underline">
+                                            <span className="flex items-center gap-2">
+                                                <LemonSimple className="h-4 w-4 shrink-0 text-yellow-400" />{' '}
+                                                {faq.q}
+                                            </span>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pb-6 leading-relaxed text-muted-foreground">
+                                            {faq.a}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </motion.div>
                     </div>
                 </section>
 
@@ -715,7 +690,7 @@ const Contact = () => {
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Our Presence
                         </div>
-                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
+                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
                             Global & Remote
                         </h2>
                     </motion.div>
@@ -729,7 +704,7 @@ const Contact = () => {
                             <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                 <Globe className="h-8 w-8 text-yellow-500" />
                             </div>
-                            <h3 className="mb-3 text-xl font-semibold text-navy-600">
+                            <h3 className="text-navy-600 mb-3 text-xl font-semibold">
                                 Fully Remote Team
                             </h3>
                             <p className="text-muted-foreground">
@@ -748,7 +723,7 @@ const Contact = () => {
                             <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-yellow-50 p-4">
                                 <Clock className="h-8 w-8 text-yellow-500" />
                             </div>
-                            <h3 className="mb-3 text-xl font-semibold text-navy-600">
+                            <h3 className="text-navy-600 mb-3 text-xl font-semibold">
                                 Business Hours
                             </h3>
                             <div className="space-y-1 text-sm text-muted-foreground">
@@ -763,13 +738,13 @@ const Contact = () => {
                 </section>
 
                 {/* Resources */}
-                <section className="section-container py-10 lg:py-10">
+                <section className="section-container py-20 lg:py-32">
                     <motion.div {...fadeIn} className="mb-12 text-center">
                         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                             <LemonSimple className="h-4 w-4 text-yellow-500" />{' '}
                             Other Ways to Get Help
                         </div>
-                        <h2 className="mb-4 text-3xl font-bold text-navy-600 md:text-4xl">
+                        <h2 className="text-navy-600 mb-4 text-3xl font-bold md:text-4xl">
                             Alternative Resources
                         </h2>
                     </motion.div>
@@ -784,9 +759,9 @@ const Contact = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="relative overflow-hidden rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-card p-8 text-center"
                             >
-                                {/* <LemonSlice className="absolute top-2 right-2 h-16 w-16 opacity-[0.05]" /> */}
+                                <LemonSlice className="absolute top-2 right-2 h-16 w-16 opacity-[0.05]" />
                                 <r.icon className="mx-auto mb-4 h-10 w-10 text-yellow-500" />
-                                <h3 className="mb-2 text-xl font-semibold text-navy-600">
+                                <h3 className="text-navy-600 mb-2 text-xl font-semibold">
                                     {r.title}
                                 </h3>
                                 <p className="mb-6 text-sm text-muted-foreground">
@@ -804,53 +779,36 @@ const Contact = () => {
                 </section>
 
                 {/* CTA */}
-                <section className="pt-20 lg:pt-32">
+                <section className="section-container py-20 lg:py-32">
                     <motion.div
                         {...fadeIn}
-                        className="relative overflow-hidden bg-gradient-to-br from-navy-600 to-navy-800 p-12 text-white lg:p-16"
+                        className="from-navy-600 to-navy-800 relative overflow-hidden rounded-2xl bg-gradient-to-br p-12 text-white lg:p-16"
                     >
-                        {/* Decorative Lemon Slices */}
-                        <LemonSlice
-                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
-                            opacity={0.12}
-                        />
-                        <LemonSlice
-                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
-                            opacity={0.12}
-                        />
-                        <LemonSlice
-                            className="absolute top-1/2 left-1/4 h-24 w-24"
-                            opacity={0.06}
-                        />
-                        <LemonSlice
-                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
-                            opacity={0.05}
-                        />
+                        <LemonSlice className="absolute top-4 left-4 h-24 w-24 text-white opacity-[0.08]" />
+                        <LemonSlice className="absolute right-4 bottom-4 h-32 w-32 text-white opacity-[0.08]" />
+                        <LemonHalf className="absolute top-4 right-4 h-16 w-16 text-white opacity-[0.08]" />
 
-                        <div className="section-container">
-                            <div className="relative z-10 text-center">
-                                <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-                                    Ready to Get Started?
-                                </h2>
-                                <p className="mb-10 text-lg text-gray-300 md:text-xl">
-                                    Don't wait for answers—try LemonGard free
-                                    for 30 days
-                                </p>
-                                <Link
-                                    to="/register"
-                                    className="btn-primary inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-bold"
-                                >
-                                    Start Your Free Trial{' '}
-                                    <ArrowRight className="h-5 w-5" />
-                                </Link>
-                                <p className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-400">
-                                    30 days free{' '}
-                                    <LemonSimple className="h-3 w-3" /> No
-                                    credit card required{' '}
-                                    <LemonSimple className="h-3 w-3" /> Cancel
-                                    anytime
-                                </p>
-                            </div>
+                        <div className="relative z-10 text-center">
+                            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+                                Ready to Get Started?
+                            </h2>
+                            <p className="mb-10 text-lg text-gray-300 md:text-xl">
+                                Don't wait for answers—try LemonGard free for 30
+                                days
+                            </p>
+                            <Link
+                                to="/register"
+                                className="btn-primary inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-bold"
+                            >
+                                Start Your Free Trial{' '}
+                                <ArrowRight className="h-5 w-5" />
+                            </Link>
+                            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-400">
+                                30 days free <LemonSimple className="h-3 w-3" />{' '}
+                                No credit card required{' '}
+                                <LemonSimple className="h-3 w-3" /> Cancel
+                                anytime
+                            </p>
                         </div>
                     </motion.div>
                 </section>
