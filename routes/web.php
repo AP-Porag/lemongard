@@ -8,9 +8,10 @@ use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\Support\SupportController;
-use App\Http\Middleware\SubscriptionActiveMiddleware;
+// use App\Http\Middleware\SubscriptionActiveMiddleware;
 use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
+use Laravel\Cashier\Http\Controllers\WebhookController;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 /*
@@ -46,7 +47,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'auth',
         'verified',
         'role:user',
-        'trial.active'
+        // 'trial.active'
     ])
     ->group(function () {
 
@@ -64,6 +65,15 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
+
+        //Checkout
+        Route::post('/subscription/checkout', [SubscriptionController::class, 'checkout'])
+            ->name('subscription.checkout');
+
+        Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+        Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel']);
+        Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
+        Route::post('/subscription/swap', [SubscriptionController::class, 'swap']);
     });
 
 /*
@@ -108,6 +118,9 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
+    ->name('cashier.webhook');
 
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');

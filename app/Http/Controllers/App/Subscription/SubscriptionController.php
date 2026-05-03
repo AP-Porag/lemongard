@@ -39,4 +39,54 @@ class SubscriptionController extends Controller
     {
         return $this->service->destroy($id);
     }
+    public function checkout(Request $request)
+    {
+        return $this->service->checkout(
+            auth()->user(),
+            $request->plan
+        );
+    }
+    public function subscribe(Request $request)
+    {
+        $request->validate([
+            'tier' => 'required|string',
+            'payment_method' => 'required|string',
+        ]);
+
+        $this->service->createSubscription(
+            auth()->user(),
+            $request->tier,
+            $request->payment_method
+        );
+
+        return redirect()->route('app.dashboard');
+    }
+
+    public function cancel()
+    {
+        $this->service->cancelSubscription(auth()->user());
+
+        return back();
+    }
+
+    public function resume()
+    {
+        $this->service->resumeSubscription(auth()->user());
+
+        return back();
+    }
+
+    public function swap(Request $request)
+    {
+        $request->validate([
+            'tier' => 'required|string',
+        ]);
+
+        $this->service->swapPlan(
+            auth()->user(),
+            $request->tier
+        );
+
+        return back();
+    }
 }

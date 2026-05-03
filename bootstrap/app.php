@@ -33,7 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Aliases (LemonGard + Laravel 12)
         $middleware->alias([
             'role' => RoleMiddleware::class,
-            'trial.active' => SubscriptionActiveMiddleware::class,
+            // 'trial.active' => SubscriptionActiveMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -5,6 +5,7 @@ namespace App\Services\Subscriber\Subscription;
 use App\Models\User;
 use App\Services\BaseService;
 use Carbon\Carbon;
+use App\Utils\SubscriptionPlan;
 
 class SubscriptionService extends BaseService
 {
@@ -69,5 +70,73 @@ class SubscriptionService extends BaseService
         return redirect()
             ->route('app.myplan')
             ->with('success', 'Cancelled successfully');
+    }
+
+    public function checkout(User $user, string $tier)
+    {
+        $priceId = SubscriptionPlan::priceId($tier);
+
+        return $user->newSubscription('default', $priceId)
+            ->checkout([
+                'success_url' => route('app.dashboard'),
+                'cancel_url' => route('pricing'),
+            ]);
+    }
+
+    public function createSubscription(User $user, string $tier, string $paymentMethod)
+    {
+        $priceId = SubscriptionPlan::priceId($tier);
+
+        return $user->newSubscription('default', $priceId)
+            ->create($paymentMethod, [
+                'email' => $user->email,
+            ]);
+    }
+
+    /**
+     * Cancel subscription (ends at period end)
+     */
+    public function cancelSubscription(User $user)
+    {
+        $subscription = $user->subscription('default');
+
+        if ($subscription && $subscription->active()) {
+            return $subscription->cancel();
+        }
+
+        return false;
+    }
+
+    /**
+     * Resume subscription
+     */
+    public function resumeSubscription(User $user)
+    {
+        $subscription = $user->subscription('default');
+
+        if ($subscription && $subscription->onGracePeriod()) {
+            return $subscription->resume();
+        }
+
+        return false;
+    }
+
+    /**
+     * Swap plan (upgrade/downgrade)
+     */
+    public function swapPlan(User $user, string $tier)
+    {
+        $priceId = SubscriptionPlan::priceId($tier);
+
+        return $user->subscription('default')
+            ->swap($priceId);
+    }
+
+    /**
+     * Check access
+     */
+    public function hasAccess(User $user): bool
+    {
+        return $user->subscribed('default');
     }
 }
