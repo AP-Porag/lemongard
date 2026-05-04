@@ -38,7 +38,7 @@ return new class extends Migration
                 ->default('trial')
                 ->index();
 
-            $table->timestamp('trial_ends_at')->nullable();
+            // $table->timestamp('trial_ends_at')->nullable();
 
             $table->string('stripe_customer_id')->nullable()->index();
 
