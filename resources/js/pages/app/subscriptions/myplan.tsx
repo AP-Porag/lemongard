@@ -34,7 +34,7 @@ export default function MyPlan({ auth }: Props) {
     const tiers = [
         {
             key: 'view_only' as SubscriptionTier,
-            title: 'Tier 1 – View Only',
+            name: 'tier_1_view_only',
             price: '$14.99/month',
             price_id: 'view_only',
             description:
@@ -179,14 +179,11 @@ export default function MyPlan({ auth }: Props) {
                                     ) : (
                                         <Button
                                             onClick={() =>
-                                                router.post(
+                                                router.get(
                                                     route(
-                                                        'app.subscription.checkout',
-                                                        { tier: tier.key },
+                                                        'app.checkout',
+                                                        tier.name,
                                                     ),
-                                                    {
-                                                        plan: tier.key,
-                                                    },
                                                 )
                                             }
                                         >

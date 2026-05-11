@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App\Subscription;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use App\Services\Subscriber\Subscription\SubscriptionService;
 use Illuminate\Http\Request;
 
@@ -39,14 +40,22 @@ class SubscriptionController extends Controller
     {
         return $this->service->destroy($id);
     }
-    public function checkout(Request $request)
+    public function checkout($name, Request $request)
     {
-        $session = $this->service->checkout(
-            $request->user(),
-            $request->plan
-        );
+        $plan = Plan::whereName($name)->firstOrFail();
 
-        return Inertia::location($session->url);
+        return $request->user()
+            ->newSubscription('default', $plan->stripe_price_id)
+            ->allowPromotionCodes()
+            ->checkout([
+                'success_url' => route('app.checkout.success'),
+                'cancel_url' => route('app.myplan'),
+            ]);
+    }
+
+    public function checkoutSuccess()
+    {
+        return "Hello";
     }
     public function subscribe(Request $request)
     {

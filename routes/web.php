@@ -67,8 +67,11 @@ Route::prefix(GlobalConstant::ROUTE_APP)
             ->name('myplan');
 
         //Checkout
-        Route::post('/subscription/checkout/{tier}', [SubscriptionController::class, 'checkout'])
-            ->name('subscription.checkout');
+        Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
+            ->name('checkout');
+        Route::get('/checkout/success', function () {
+            return Inertia::render('checkout/Success');
+        })->name('checkout.success');
 
         Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
