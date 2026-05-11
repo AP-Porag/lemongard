@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use App\Services\Subscriber\Subscription\SubscriptionService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SubscriptionController extends Controller
 {
@@ -44,18 +45,53 @@ class SubscriptionController extends Controller
     {
         $plan = Plan::whereName($name)->firstOrFail();
 
-        return $request->user()
-            ->newSubscription('default', $plan->stripe_price_id)
-            ->allowPromotionCodes()
-            ->checkout([
-                'success_url' => route('app.checkout.success'),
-                'cancel_url' => route('app.myplan'),
-            ]);
+        return redirect(
+            $request->user()
+                ->newSubscription('default', $plan->stripe_price_id)
+                ->allowPromotionCodes()
+                ->checkout([
+                    'success_url' => route('app.checkout.success'),
+                    'cancel_url' => route('app.myplan'),
+                ])->url
+        );
     }
 
-    public function checkoutSuccess()
+    // public function checkoutSuccess()
+    // {
+    //     dd("Hello");
+    //     return Inertia::render('app/checkout/success');
+    // }
+
+    public function success(Request $request)
     {
-        return "Hello";
+        $sessionId = $request->input('session_id');
+
+        // If session_id is missing, still render page safely
+        if (!$sessionId) {
+            return Inertia::render('app/checkout/success', [
+                'session_id' => null,
+                'session' => null,
+            ]);
+        }
+
+        // OPTIONAL: Verify session with Stripe (recommended for production)
+        $session = null;
+
+        try {
+            $stripe = new StripeClient(config('services.stripe.secret'));
+
+            $session = $stripe->checkout->sessions->retrieve($sessionId, [
+                'expand' => ['customer', 'subscription'],
+            ]);
+        } catch (\Exception $e) {
+            // Do not break UI if Stripe fails
+            $session = null;
+        }
+
+        return Inertia::render('app/checkout/success', [
+            'session_id' => $sessionId,
+            'session' => $session,
+        ]);
     }
     public function subscribe(Request $request)
     {

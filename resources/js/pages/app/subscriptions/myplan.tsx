@@ -48,7 +48,7 @@ export default function MyPlan({ auth }: Props) {
         },
         {
             key: 'full_access' as SubscriptionTier,
-            title: 'Tier 2 – Full Access',
+            name: 'tier_2_full_access',
             price: '$19.99/month',
             price_id: 'full_access',
             description:
@@ -179,12 +179,10 @@ export default function MyPlan({ auth }: Props) {
                                     ) : (
                                         <Button
                                             onClick={() =>
-                                                router.get(
-                                                    route(
-                                                        'app.checkout',
-                                                        tier.name,
-                                                    ),
-                                                )
+                                                (window.location.href = route(
+                                                    'app.checkout',
+                                                    tier.name,
+                                                ))
                                             }
                                         >
                                             Select Plan

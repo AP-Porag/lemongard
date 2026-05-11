@@ -69,9 +69,12 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         //Checkout
         Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
             ->name('checkout');
-        Route::get('/checkout/success', function () {
-            return Inertia::render('checkout/Success');
-        })->name('checkout.success');
+        Route::get('/checkout/success', [SubscriptionController::class, 'checkoutSuccess'])
+            ->name('checkout.success');
+
+        // Route::get('/checkout/success', function () {
+        //     return Inertia::render('app/checkout/success');
+        // })->name('checkout.success');
 
         Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
