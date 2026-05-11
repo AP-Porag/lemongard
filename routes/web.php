@@ -69,7 +69,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         //Checkout
         Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
             ->name('checkout');
-        Route::get('/checkout/success', [SubscriptionController::class, 'checkoutSuccess'])
+        Route::get('subscription/checkout/success', [SubscriptionController::class, 'checkoutSuccess'])
             ->name('checkout.success');
 
         // Route::get('/checkout/success', function () {

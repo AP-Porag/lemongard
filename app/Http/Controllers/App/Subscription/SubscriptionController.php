@@ -64,6 +64,7 @@ class SubscriptionController extends Controller
 
     public function success(Request $request)
     {
+        return "Hello";
         $sessionId = $request->input('session_id');
 
         // If session_id is missing, still render page safely
