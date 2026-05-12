@@ -43,17 +43,17 @@ class SubscriptionController extends Controller
     }
     public function checkout($name, Request $request)
     {
-        $plan = Plan::whereName($name)->firstOrFail();
 
-        return redirect(
-            $request->user()
-                ->newSubscription('default', $plan->stripe_price_id)
-                ->allowPromotionCodes()
-                ->checkout([
-                    'success_url' => route('app.checkout.success'),
-                    'cancel_url' => route('app.myplan'),
-                ])->url
-        );
+        $plan = Plan::whereName($name)->first();
+        $planPrice = $plan->stripe_price_id;
+        return $request->user()
+            ->newSubscription('default', $planPrice)
+            ->checkout([
+                'success_url' => route('app.checkout.success', [
+                    'plan' => $plan->name,
+                ]),
+                'cancel_url' => route('app.myplan'),
+            ]);
     }
 
     // public function checkoutSuccess()
@@ -64,34 +64,8 @@ class SubscriptionController extends Controller
 
     public function success(Request $request)
     {
-        return "Hello";
-        $sessionId = $request->input('session_id');
-
-        // If session_id is missing, still render page safely
-        if (!$sessionId) {
-            return Inertia::render('app/checkout/success', [
-                'session_id' => null,
-                'session' => null,
-            ]);
-        }
-
-        // OPTIONAL: Verify session with Stripe (recommended for production)
-        $session = null;
-
-        try {
-            $stripe = new StripeClient(config('services.stripe.secret'));
-
-            $session = $stripe->checkout->sessions->retrieve($sessionId, [
-                'expand' => ['customer', 'subscription'],
-            ]);
-        } catch (\Exception $e) {
-            // Do not break UI if Stripe fails
-            $session = null;
-        }
-
-        return Inertia::render('app/checkout/success', [
-            'session_id' => $sessionId,
-            'session' => $session,
+        return Inertia::render('app/subscriptions/success', [
+            'plan' => $request->plan,
         ]);
     }
     public function subscribe(Request $request)
