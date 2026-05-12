@@ -19,7 +19,10 @@ class SubscriptionController extends Controller
 
     public function myPlan(Request $request)
     {
-        return $this->service->myPlan($request->user()->id);
+        // return $this->service->myPlan($request->user()->id);
+        $data = $this->service->myPlan($request->user()->id);
+
+        return inertia('app/subscriptions/myplan', $data);
     }
 
     public function index(Request $request)
@@ -56,16 +59,29 @@ class SubscriptionController extends Controller
             ]);
     }
 
-    // public function checkoutSuccess()
-    // {
-    //     dd("Hello");
-    //     return Inertia::render('app/checkout/success');
-    // }
-
     public function success(Request $request)
     {
+        // return Inertia::render('app/subscriptions/success', [
+        //     'plan' => $request->plan,
+        // ]);
+
+        $user = $request->user();
+
+        $plan = Plan::whereName($request->plan)->firstOrFail();
+
+        // ✅ Update local subscription state
+        $user->update([
+            'subscription_status' => 'active',
+            'subscription_tier' => $plan->name,
+
+            // optional cleanup (important)
+            'trial_ends_at' => null,
+        ]);
+
         return Inertia::render('app/subscriptions/success', [
-            'plan' => $request->plan,
+            'plan' => $plan->name,
+            'subscription_status' => $user->subscription_status,
+            'subscription_tier' => $user->subscription_tier,
         ]);
     }
     public function subscribe(Request $request)

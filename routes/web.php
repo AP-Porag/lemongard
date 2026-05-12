@@ -78,6 +78,18 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 
         Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
+        Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
+            ->name('subscription.start-trial');
+
+        Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])
+            ->name('subscription.cancel');
+
+
+
+
+
+
+
         Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
         Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel']);
         Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);

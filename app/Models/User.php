@@ -26,12 +26,16 @@ class User extends Authenticatable
         'password',
         'status',
         'avatar',
+        'subscription_status',
+        'subscription_tier',
+        'stripe_customer_id',
         'role',
         'agree_to_terms',
         'trial_ends_at',
         'marketing_emails',
         'is_first_login',
         'is_social_login',
+        'agree_to_terms'
     ];
 
     /**

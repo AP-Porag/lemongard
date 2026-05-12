@@ -14,7 +14,7 @@ class PlanSeeder extends Seeder
     public function run(): void
     {
         $plans = [
-            ["name" => "tier_1_view_Only", "stripe_plan_id" => "prod_URppGOJSOJdBmB", "stripe_price_id" => "price_1TSwAKHKtXG9R7bGP5EtUGrg"],
+            ["name" => "tier_1_view_only", "stripe_plan_id" => "prod_URppGOJSOJdBmB", "stripe_price_id" => "price_1TSwAKHKtXG9R7bGP5EtUGrg"],
             ["name" => "tier_2_full_access", "stripe_plan_id" => "prod_URsLguJJ1NBvOM", "stripe_price_id" => "price_1TSyapHKtXG9R7bGgdo6OLrA"]
         ];
         foreach ($plans as $plan) {

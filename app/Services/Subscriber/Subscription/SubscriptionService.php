@@ -18,9 +18,18 @@ class SubscriptionService extends BaseService
     {
         $user = $this->model->findOrFail($userId);
 
-        return inertia('app/subscriptions/myplan', [
+        $subscription = $user->subscription('default');
+
+        return [
             'user' => $user,
-        ]);
+            'is_trial' => $user->onTrial('default'),
+            'is_subscribed' => $user->subscribed('default'),
+            'trial_ends_at' => optional($user->subscription('default'))->trial_ends_at,
+            'subscription_tier' => $user->subscription_tier,
+            'subscription_status' => $user->subscribed('default')
+                ? 'active'
+                : ($user->onTrial('default') ? 'trial' : 'expired'),
+        ];
     }
 
     public function index($request)
