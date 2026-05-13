@@ -5,6 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, Check, Pencil, Trash2, AlertTriangle } from 'lucide-react';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+} from '@/components/ui/dialog';
+
+import { useState } from 'react';
 
 type SubscriptionTier = 'tier_1_view_only' | 'tier_2_full_access';
 type SubscriptionStatus = 'trial' | 'active' | 'expired' | 'cancelled';
@@ -18,6 +28,10 @@ interface Props {
     is_trial: boolean;
     is_subscribed: boolean;
     trial_ends_at: string | null;
+    on_grace_period: boolean;
+    next_billing_date: string | null;
+    subscription_status: string | null;
+    is_cancelled: boolean;
 }
 
 export default function MyPlan({
@@ -25,7 +39,12 @@ export default function MyPlan({
     is_trial,
     is_subscribed,
     trial_ends_at,
+    on_grace_period,
+    next_billing_date,
+    subscription_status,
+    is_cancelled,
 }: Props) {
+    console.log(next_billing_date);
     // ✅ FIX: single source of truth (no fake status computation)
     const status = user.subscription_status;
 
@@ -41,7 +60,7 @@ export default function MyPlan({
     const tiers = [
         {
             key: 'tier_1_view_only' as SubscriptionTier,
-            name: 'Tier 1 view only',
+            name: 'tier_1_view_only',
             price: '$14.99/month',
             price_id: 'view_only',
             description:
@@ -55,7 +74,7 @@ export default function MyPlan({
         },
         {
             key: 'tier_2_full_access' as SubscriptionTier,
-            name: 'Tier 2 full access',
+            name: 'tier_2_full_access',
             price: '$19.99/month',
             price_id: 'full_access',
             description:
@@ -74,11 +93,12 @@ export default function MyPlan({
     const isFullAccess = () => {
         return user.subscription_tier === 'tier_2_full_access';
     };
-
-    // const isCurrent = (tier: SubscriptionTier) => {
+    const isViewOnly = user.subscription_tier === 'tier_1_view_only';
+    // const isCurrent = (tier: SubscriptionTier)=> {
     //     return String(user.subscription_tier) === String(tier);
     // };
-
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     return (
         <AppLayout>
             <Head title="Subscription Plan" />
@@ -107,7 +127,7 @@ export default function MyPlan({
                 {/* ❌ TRIAL EXPIRED */}
                 {isTrialExpired && status === 'trial' && (
                     <Card className="mb-6 border-red-200 bg-red-50">
-                        <CardContent className="flex items-start gap-3 pt-6">
+                        <CardContent className="flex items-start gap-3">
                             <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600" />
 
                             <div>
@@ -139,7 +159,7 @@ export default function MyPlan({
                 {/* ✅ TRIAL ACTIVE */}
                 {status === 'trial' && !isTrialExpired && (
                     <Card className="mb-6 border-yellow-200 bg-yellow-50">
-                        <CardContent className="flex items-start gap-3 pt-6">
+                        <CardContent className="flex items-start gap-3">
                             <AlertTriangle className="mt-0.5 h-5 w-5 text-yellow-600" />
 
                             <div>
@@ -170,9 +190,7 @@ export default function MyPlan({
                 {/* 💳 ACTIVE SUBSCRIPTION */}
                 {status === 'active' && (
                     <Card className="mb-6 border-green-200 bg-green-50">
-                        <CardContent className="flex items-start gap-3 pt-6">
-                            <Check className="mt-0.5 h-5 w-5 text-green-600" />
-
+                        <CardContent className="flex justify-between gap-3">
                             <div>
                                 <h3 className="font-semibold text-gray-900">
                                     Active Subscription
@@ -194,8 +212,27 @@ export default function MyPlan({
                                         </span>
                                     </p>
 
-                                    <p>Next billing: N/A</p>
+                                    <p>
+                                        Next billing:{' '}
+                                        {next_billing_date
+                                            ? new Date(
+                                                  Number(next_billing_date) *
+                                                      1000,
+                                              ).toLocaleDateString()
+                                            : 'N/A'}
+                                    </p>
                                 </div>
+                            </div>
+                            <div>
+                                <Button
+                                    disabled={is_cancelled}
+                                    onClick={() => setOpen(true)}
+                                    className="bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                                >
+                                    {is_cancelled
+                                        ? 'Plan Cancelled'
+                                        : 'Cancel Plan'}
+                                </Button>
                             </div>
                         </CardContent>
                     </Card>
@@ -204,7 +241,7 @@ export default function MyPlan({
                 {/* ❌ NO PLAN */}
                 {status !== 'trial' && status !== 'active' && (
                     <Card className="mb-6 border-gray-200 bg-gray-50">
-                        <CardContent className="pt-6">
+                        <CardContent className="">
                             <p className="text-sm text-gray-600">
                                 No active subscription found.
                             </p>
@@ -216,7 +253,9 @@ export default function MyPlan({
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     {tiers.map((tier) => {
                         const isCurrent = isCurrentPlan(tier.key);
-                        console.log(isCurrent);
+                        const disableButton =
+                            user.subscription_tier === 'tier_2_full_access' ||
+                            user.subscription_tier === tier.key;
 
                         return (
                             <Card
@@ -265,23 +304,42 @@ export default function MyPlan({
                                         })}
                                     </ul>
 
-                                    {isFullAccess ? (
+                                    {isFullAccess() ? (
                                         <Button
-                                            disabled
-                                            className="w-full bg-yellow-100 text-yellow-800"
+                                            disabled={
+                                                user.subscription_tier !==
+                                                tier.key
+                                            }
+                                            className={`w-full ${
+                                                user.subscription_tier ===
+                                                tier.key
+                                                    ? 'cursor-default bg-yellow-100 text-yellow-800 hover:bg-yellow-100 hover:text-yellow-800'
+                                                    : 'cursor-pointer bg-gray-100 text-gray-500 hover:bg-gray-200'
+                                            }`}
                                         >
-                                            Active Plan
+                                            {user.subscription_tier === tier.key
+                                                ? 'Active Plan'
+                                                : 'Select Plan'}
                                         </Button>
                                     ) : (
                                         <Button
+                                            disabled={disableButton}
                                             onClick={() =>
+                                                !disableButton &&
                                                 (window.location.href = route(
                                                     'app.checkout',
                                                     tier.name,
                                                 ))
                                             }
+                                            className={`cursor-pointer ${
+                                                disableButton
+                                                    ? 'cursor-not-allowed opacity-50'
+                                                    : ''
+                                            }`}
                                         >
-                                            Select Plan
+                                            {disableButton
+                                                ? 'Not Available'
+                                                : 'Select Plan'}
                                         </Button>
                                     )}
                                 </CardContent>
@@ -290,6 +348,46 @@ export default function MyPlan({
                     })}
                 </div>
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Cancel Subscription</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to cancel your plan? You will
+                            still have access until your billing period ends.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter className="flex gap-2">
+                        <Button
+                            variant="outline"
+                            onClick={() => setOpen(false)}
+                        >
+                            No, Keep Plan
+                        </Button>
+
+                        <Button
+                            className="bg-red-600 text-white hover:bg-red-700"
+                            disabled={loading}
+                            onClick={() => {
+                                setLoading(true);
+
+                                router.get(
+                                    route('app.subscription.plan.cancel'),
+                                    {
+                                        onFinish: () => {
+                                            setLoading(false);
+                                            setOpen(false);
+                                        },
+                                    },
+                                );
+                            }}
+                        >
+                            {loading ? 'Cancelling...' : 'Yes, Cancel'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </AppLayout>
     );
 }

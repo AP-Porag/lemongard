@@ -47,6 +47,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'auth',
         'verified',
         'role:user',
+        'tier.full'
         // 'trial.active'
     ])
     ->group(function () {
@@ -72,6 +73,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::get('subscription/checkout/success', [SubscriptionController::class, 'success'])
             ->name('checkout.success');
 
+
         // Route::get('/checkout/success', function () {
         //     return Inertia::render('app/checkout/success');
         // })->name('checkout.success');
@@ -81,8 +83,8 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
             ->name('subscription.start-trial');
 
-        Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])
-            ->name('subscription.cancel');
+        Route::get('/subscription/plan/cancel', [SubscriptionController::class, 'cancel'])
+            ->name('subscription.plan.cancel');
 
 
 

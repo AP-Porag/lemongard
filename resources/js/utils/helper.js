@@ -67,3 +67,21 @@ export function formatMailTime(date) {
         hour12: true,
     });
 }
+
+export const hasTierAccess = (user, requiredTier) => {
+    if (!user) return false;
+
+    const tier = user.subscription_tier;
+    const status = user.subscription_status;
+
+    // must be active subscription
+    if (status !== 'active') return false;
+
+    // Tier hierarchy
+    const tiers = {
+        view_only: 1,
+        full_access: 2,
+    };
+
+    return tiers[tier] >= tiers[requiredTier];
+};

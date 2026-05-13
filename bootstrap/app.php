@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Aliases (LemonGard + Laravel 12)
         $middleware->alias([
             'role' => RoleMiddleware::class,
+            'tier.full' => \App\Http\Middleware\EnsureFullAccessTier::class,
             // 'trial.active' => SubscriptionActiveMiddleware::class,
         ]);
     })
