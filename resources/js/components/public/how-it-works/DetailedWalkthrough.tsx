@@ -357,8 +357,8 @@ const DetailedWalkthrough = () => {
                   <h4 className="font-semibold text-navy-600">Billing Details</h4>
                   <ul className="space-y-1.5 text-sm text-gray-700">
                     {[
-                      "Monthly: $49/month",
-                      "Annual: $490/year (Save 16%)",
+                      "Monthly: $19.99 per month",
+                      "Annual: $199/year (Save 20%)",
                       "Automatic renewal",
                       "Cancel anytime",
                       "No long-term contracts",
