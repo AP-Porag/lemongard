@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
+
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
         // Cookies encryption
         $middleware->encryptCookies(except: [
             'appearance',
@@ -33,7 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Aliases (LemonGard + Laravel 12)
         $middleware->alias([
             'role' => RoleMiddleware::class,
-            'trial.active' => SubscriptionActiveMiddleware::class,
+            // 'trial.active' => SubscriptionActiveMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

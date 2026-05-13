@@ -6,39 +6,44 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, Check, Pencil, Trash2, AlertTriangle } from 'lucide-react';
 
-type SubscriptionTier = 'view_only' | 'full_access';
+type SubscriptionTier = 'tier_1_view_only' | 'tier_2_full_access';
 type SubscriptionStatus = 'trial' | 'active' | 'expired' | 'cancelled';
 
 interface Props {
-    auth: {
-        user: {
-            subscription_tier?: SubscriptionTier | null;
-            subscription_status: SubscriptionStatus;
-            trial_ends_at?: string | null;
-        };
+    user: {
+        subscription_tier?: SubscriptionTier | null;
+        subscription_status: SubscriptionStatus;
+        trial_ends_at?: string | null;
     };
+    is_trial: boolean;
+    is_subscribed: boolean;
+    trial_ends_at: string | null;
 }
 
-export default function MyPlan({ auth }: Props) {
-    const user = auth.user;
-
+export default function MyPlan({
+    user,
+    is_trial,
+    is_subscribed,
+    trial_ends_at,
+}: Props) {
+    // ✅ FIX: single source of truth (no fake status computation)
     const status = user.subscription_status;
 
     const purchasedPlan = user.subscription_tier ?? null;
 
-    /**
-     * ✅ NEW: client-side safety check (optional visual fallback)
-     */
+    // ✅ FIX: safe fallback + consistent date source
     const isTrialExpired =
         status === 'trial' &&
-        user.trial_ends_at &&
-        new Date(user.trial_ends_at).getTime() < Date.now();
+        (trial_ends_at || user.trial_ends_at) &&
+        new Date(trial_ends_at || (user.trial_ends_at as string)).getTime() <
+            Date.now();
 
     const tiers = [
         {
-            key: 'view_only' as SubscriptionTier,
-            title: 'Tier 1 – View Only',
+            key: 'tier_1_view_only' as SubscriptionTier,
+            name: 'Tier 1 view only',
             price: '$14.99/month',
+            price_id: 'view_only',
             description:
                 'View all shared records. No create, edit or delete permissions.',
             features: [
@@ -49,9 +54,10 @@ export default function MyPlan({ auth }: Props) {
             ],
         },
         {
-            key: 'full_access' as SubscriptionTier,
-            title: 'Tier 2 – Full Access',
+            key: 'tier_2_full_access' as SubscriptionTier,
+            name: 'Tier 2 full access',
             price: '$19.99/month',
+            price_id: 'full_access',
             description:
                 'Add, edit and delete your own records with full dataset access.',
             features: [
@@ -62,14 +68,16 @@ export default function MyPlan({ auth }: Props) {
             ],
         },
     ];
-
-    const handleSelectPlan = (tier: SubscriptionTier) => {
-        router.get(`/app/checkout/${tier}`);
-    };
-
     const isCurrentPlan = (tier: SubscriptionTier) => {
-        return purchasedPlan === tier;
+        return user.subscription_tier === tier;
     };
+    const isFullAccess = () => {
+        return user.subscription_tier === 'tier_2_full_access';
+    };
+
+    // const isCurrent = (tier: SubscriptionTier) => {
+    //     return String(user.subscription_tier) === String(tier);
+    // };
 
     return (
         <AppLayout>
@@ -86,54 +94,129 @@ export default function MyPlan({ auth }: Props) {
                         Choose a plan and upgrade anytime
                     </p>
 
-                    {/* STATUS BADGE (UNCHANGED) */}
                     <div className="mt-4 flex items-center gap-2">
                         <Badge className="bg-yellow-500 text-white">
-                            {status.toUpperCase()}
+                            {user.subscription_tier
+                                ?.replaceAll('_', ' ')
+                                .toLowerCase()
+                                .replace(/\b\w/g, (char) => char.toUpperCase())}
                         </Badge>
                     </div>
                 </div>
 
-                {/* ✅ NEW: Trial expired warning (logic only) */}
-                {isTrialExpired && (
+                {/* ❌ TRIAL EXPIRED */}
+                {isTrialExpired && status === 'trial' && (
                     <Card className="mb-6 border-red-200 bg-red-50">
                         <CardContent className="flex items-start gap-3 pt-6">
                             <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600" />
+
                             <div>
                                 <h3 className="font-semibold text-gray-900">
                                     Your trial has expired
                                 </h3>
+
                                 <p className="mt-1 text-sm text-gray-600">
                                     Please choose a subscription plan to
                                     continue using LemonGard.
                                 </p>
+
+                                <div className="mt-2 text-sm text-gray-500">
+                                    <p>
+                                        Trial ended on:{' '}
+                                        {trial_ends_at || user.trial_ends_at
+                                            ? new Date(
+                                                  trial_ends_at ||
+                                                      (user.trial_ends_at as string),
+                                              ).toLocaleDateString()
+                                            : 'N/A'}
+                                    </p>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* TRIAL INFO (UNCHANGED LOGIC) */}
+                {/* ✅ TRIAL ACTIVE */}
                 {status === 'trial' && !isTrialExpired && (
                     <Card className="mb-6 border-yellow-200 bg-yellow-50">
                         <CardContent className="flex items-start gap-3 pt-6">
                             <AlertTriangle className="mt-0.5 h-5 w-5 text-yellow-600" />
+
                             <div>
                                 <h3 className="font-semibold text-gray-900">
                                     Trial Mode Active
                                 </h3>
+
                                 <p className="mt-1 text-sm text-gray-600">
-                                    You are currently exploring the platform. No
-                                    subscription purchased yet.
+                                    You are currently exploring the platform.
                                 </p>
+
+                                <div className="mt-2 text-sm text-gray-500">
+                                    <p>
+                                        Trial ends on:{' '}
+                                        {trial_ends_at || user.trial_ends_at
+                                            ? new Date(
+                                                  trial_ends_at ||
+                                                      (user.trial_ends_at as string),
+                                              ).toLocaleDateString()
+                                            : 'N/A'}
+                                    </p>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* PLANS GRID (UNCHANGED) */}
+                {/* 💳 ACTIVE SUBSCRIPTION */}
+                {status === 'active' && (
+                    <Card className="mb-6 border-green-200 bg-green-50">
+                        <CardContent className="flex items-start gap-3 pt-6">
+                            <Check className="mt-0.5 h-5 w-5 text-green-600" />
+
+                            <div>
+                                <h3 className="font-semibold text-gray-900">
+                                    Active Subscription
+                                </h3>
+
+                                <p className="mt-1 text-sm text-gray-600">
+                                    You are on a paid plan.
+                                </p>
+
+                                <div className="mt-2 text-sm text-gray-500">
+                                    <p>
+                                        Plan:{' '}
+                                        <span className="font-medium text-gray-700">
+                                            {user.subscription_tier
+                                                ?.replaceAll('_', ' ')
+                                                .replace(/\b\w/g, (char) =>
+                                                    char.toUpperCase(),
+                                                )}
+                                        </span>
+                                    </p>
+
+                                    <p>Next billing: N/A</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* ❌ NO PLAN */}
+                {status !== 'trial' && status !== 'active' && (
+                    <Card className="mb-6 border-gray-200 bg-gray-50">
+                        <CardContent className="pt-6">
+                            <p className="text-sm text-gray-600">
+                                No active subscription found.
+                            </p>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* PLANS */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     {tiers.map((tier) => {
                         const isCurrent = isCurrentPlan(tier.key);
+                        console.log(isCurrent);
 
                         return (
                             <Card
@@ -150,7 +233,12 @@ export default function MyPlan({ auth }: Props) {
 
                                 <CardHeader>
                                     <CardTitle className="text-gray-900">
-                                        {tier.title}
+                                        {tier.name
+                                            .replace(/_/g, ' ')
+                                            .toLowerCase()
+                                            .replace(/\b\w/g, (c) =>
+                                                c.toUpperCase(),
+                                            )}
                                     </CardTitle>
                                     <p className="text-sm text-gray-500">
                                         {tier.description}
@@ -177,7 +265,7 @@ export default function MyPlan({ auth }: Props) {
                                         })}
                                     </ul>
 
-                                    {isCurrent ? (
+                                    {isFullAccess ? (
                                         <Button
                                             disabled
                                             className="w-full bg-yellow-100 text-yellow-800"
@@ -186,11 +274,12 @@ export default function MyPlan({ auth }: Props) {
                                         </Button>
                                     ) : (
                                         <Button
-                                            disabled
                                             onClick={() =>
-                                                handleSelectPlan(tier.key)
+                                                (window.location.href = route(
+                                                    'app.checkout',
+                                                    tier.name,
+                                                ))
                                             }
-                                            className="w-full bg-yellow-500 text-white hover:bg-yellow-600"
                                         >
                                             Select Plan
                                         </Button>

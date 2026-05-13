@@ -8,9 +8,10 @@ use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\Support\SupportController;
-use App\Http\Middleware\SubscriptionActiveMiddleware;
+// use App\Http\Middleware\SubscriptionActiveMiddleware;
 use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
+use Laravel\Cashier\Http\Controllers\WebhookController;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 /*
@@ -46,7 +47,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'auth',
         'verified',
         'role:user',
-        'trial.active'
+        // 'trial.active'
     ])
     ->group(function () {
 
@@ -64,6 +65,35 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
+
+        //Checkout
+        Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
+            ->name('checkout');
+        Route::get('subscription/checkout/success', [SubscriptionController::class, 'success'])
+            ->name('checkout.success');
+
+        // Route::get('/checkout/success', function () {
+        //     return Inertia::render('app/checkout/success');
+        // })->name('checkout.success');
+
+        Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+
+        Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
+            ->name('subscription.start-trial');
+
+        Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])
+            ->name('subscription.cancel');
+
+
+
+
+
+
+
+        Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+        Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel']);
+        Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
+        Route::post('/subscription/swap', [SubscriptionController::class, 'swap']);
     });
 
 /*
@@ -108,6 +138,9 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
+    ->name('cashier.webhook');
 
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');

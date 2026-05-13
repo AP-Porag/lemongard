@@ -39,5 +39,12 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+
+        'price_view_only' => env('STRIPE_PRICE_VIEW_ONLY'),
+        'price_full_access' => env('STRIPE_PRICE_FULL_ACCESS'),
+    ],
 
 ];
