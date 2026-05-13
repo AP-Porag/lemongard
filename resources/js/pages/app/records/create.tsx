@@ -77,7 +77,7 @@ export default function Create({ userId }) {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Record" />
 
             <div className="mx-auto mt-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
