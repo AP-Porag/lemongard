@@ -44,7 +44,7 @@ const PricingCards = () => (
 
         <div className="flex items-center gap-2 mb-2">
           <Eye className="w-6 h-6 text-navy-600" />
-          <h3 className="text-2xl font-bold text-navy-600">View Only</h3>
+          <h3 className="text-2xl font-bold text-black">View Only</h3>
         </div>
         <p className="text-muted-foreground mb-6">See client history and shared insights to help you make better booking decisions</p>
 
@@ -99,7 +99,7 @@ const PricingCards = () => (
 
         <div className="flex items-center gap-2 mb-2">
           <Zap className="w-6 h-6 text-yellow-500" />
-          <h3 className="text-2xl font-bold text-navy-600">Full Access</h3>
+          <h3 className="text-2xl font-bold text-black">Full Access</h3>
         </div>
         <p className="text-muted-foreground mb-6">Add, edit, and manage your own client records with complete control.</p>
 
@@ -116,7 +116,7 @@ const PricingCards = () => (
 
         <hr className="border-border mb-8" />
 
-        <p className="text-sm font-bold text-navy-600 mb-4">Everything in View Only, plus:</p>
+        <p className="text-sm font-bold text-black mb-4">Everything in View Only, plus:</p>
         <ul className="space-y-4">
           {fullFeatures.map((f) => (
             <li key={f} className="flex items-start gap-3">

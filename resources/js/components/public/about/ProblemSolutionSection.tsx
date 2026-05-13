@@ -41,7 +41,7 @@ const solutions = [
     },
     {
         title: 'Simple, Affordable Pricing',
-        desc: '$19.99/month for full access—no hidden fees.',
+        desc: '$19.99 per month for full access—no hidden fees.',
     },
     {
         title: 'Built for Professionals',
@@ -66,7 +66,7 @@ const ProblemSolutionSection = () => (
                     </span>
                 </div>
 
-                <h2 className="text-navy-600 mb-8 text-3xl font-bold md:text-4xl">
+                <h2 className="text-black mb-8 text-3xl font-bold md:text-4xl">
                     The Problems Service Professionals Face Every Day
                 </h2>
 
@@ -75,7 +75,7 @@ const ProblemSolutionSection = () => (
                         <div key={p.title} className="flex items-start gap-3">
                             <X className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                             <div>
-                                <h3 className="text-navy-600 font-bold">
+                                <h3 className="text-black  font-bold">
                                     {p.title}
                                 </h3>
                                 <p className="mt-1 text-sm text-gray-600">
