@@ -17,8 +17,24 @@ class SubscriptionService extends BaseService
     public function myPlan($userId)
     {
         $user = $this->model->findOrFail($userId);
-
         $subscription = $user->subscription('default');
+        $stripe = new \Stripe\StripeClient(config('cashier.secret'));
+
+        $stripeSubscription = $stripe->subscriptions->retrieve(
+            $subscription->stripe_id
+        );
+
+        // $nextBillingDate = $stripeSubscription->current_period_end;
+
+
+        $isCancelled =
+            $subscription &&
+            $subscription->ends_at !== null;
+
+        $nextBillingDate = $subscription
+            ? $subscription->asStripeSubscription()->current_period_end
+            : null;
+        //  dd($nextBillingDate);
 
         return [
             'user' => $user,
@@ -29,6 +45,8 @@ class SubscriptionService extends BaseService
             'subscription_status' => $user->subscribed('default')
                 ? 'active'
                 : ($user->onTrial('default') ? 'trial' : 'expired'),
+            'is_cancelled' => $isCancelled,
+            'next_billing_date' => $nextBillingDate
         ];
     }
 
@@ -81,66 +99,66 @@ class SubscriptionService extends BaseService
             ->with('success', 'Cancelled successfully');
     }
 
-    public function checkout(User $user, string $tier)
-    {
+    // public function checkout(User $user, string $tier)
+    // {
 
-        $priceId = SubscriptionPlan::priceId($tier);
+    //     $priceId = SubscriptionPlan::priceId($tier);
 
-        return $user->newSubscription('default', $priceId)
-            ->checkout([
-                'success_url' => route('app.dashboard'),
-                'cancel_url' => route('app.subscription.index'),
-            ]);
-    }
+    //     return $user->newSubscription('default', $priceId)
+    //         ->checkout([
+    //             'success_url' => route('app.dashboard'),
+    //             'cancel_url' => route('app.subscription.index'),
+    //         ]);
+    // }
 
-    public function createSubscription(User $user, string $tier, string $paymentMethod)
-    {
-        $priceId = SubscriptionPlan::priceId($tier);
+    // public function createSubscription(User $user, string $tier, string $paymentMethod)
+    // {
+    //     $priceId = SubscriptionPlan::priceId($tier);
 
-        return $user->newSubscription('default', $priceId)
-            ->create($paymentMethod, [
-                'email' => $user->email,
-            ]);
-    }
+    //     return $user->newSubscription('default', $priceId)
+    //         ->create($paymentMethod, [
+    //             'email' => $user->email,
+    //         ]);
+    // }
 
     /**
      * Cancel subscription (ends at period end)
      */
-    public function cancelSubscription(User $user)
-    {
-        $subscription = $user->subscription('default');
+    // public function cancelSubscription(User $user)
+    // {
+    //     $subscription = $user->subscription('default');
 
-        if ($subscription && $subscription->active()) {
-            return $subscription->cancel();
-        }
+    //     if ($subscription && $subscription->active()) {
+    //         return $subscription->cancel();
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     /**
      * Resume subscription
      */
-    public function resumeSubscription(User $user)
-    {
-        $subscription = $user->subscription('default');
+    // public function resumeSubscription(User $user)
+    // {
+    //     $subscription = $user->subscription('default');
 
-        if ($subscription && $subscription->onGracePeriod()) {
-            return $subscription->resume();
-        }
+    //     if ($subscription && $subscription->onGracePeriod()) {
+    //         return $subscription->resume();
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     /**
      * Swap plan (upgrade/downgrade)
      */
-    public function swapPlan(User $user, string $tier)
-    {
-        $priceId = SubscriptionPlan::priceId($tier);
+    // public function swapPlan(User $user, string $tier)
+    // {
+    //     $priceId = SubscriptionPlan::priceId($tier);
 
-        return $user->subscription('default')
-            ->swap($priceId);
-    }
+    //     return $user->subscription('default')
+    //         ->swap($priceId);
+    // }
 
     /**
      * Check access

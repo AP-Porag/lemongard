@@ -77,11 +77,19 @@ class SubscriptionController extends Controller
             // optional cleanup (important)
             'trial_ends_at' => null,
         ]);
+        $subscription = $user->subscription('default');
 
         return Inertia::render('app/subscriptions/success', [
             'plan' => $plan->name,
-            'subscription_status' => $user->subscription_status,
+            // 'subscription_status' => $user->subscription_status,
+            'subscription_status' => $user->subscription('default')?->stripe_status,
             'subscription_tier' => $user->subscription_tier,
+            'on_grace_period' => $subscription?->onGracePeriod(),
+            'subscription_ends_at' => $subscription?->ends_at,
+            'is_cancelled' => $subscription?->stripe_status === 'canceled',
+            'is_active' => $subscription?->stripe_status === 'active',
+            'is_expired' => $subscription?->ends_at?->isPast(),
+
         ]);
     }
     public function subscribe(Request $request)
@@ -100,31 +108,50 @@ class SubscriptionController extends Controller
         return redirect()->route('app.dashboard');
     }
 
-    public function cancel()
+    public function cancel(Request $request)
     {
-        $this->service->cancelSubscription(auth()->user());
+        $user = $request->user();
 
-        return back();
-    }
+        $subscription = $user->subscription('default');
 
-    public function resume()
-    {
-        $this->service->resumeSubscription(auth()->user());
 
-        return back();
-    }
 
-    public function swap(Request $request)
-    {
-        $request->validate([
-            'tier' => 'required|string',
+        if (!$subscription) {
+            return Inertia::render('app/subscriptions/error', [
+
+                'message' => 'No active subscription found.',
+            ]);
+        }
+
+        $subscription->cancel();
+        $isCancelled =
+            $subscription?->ends_at !== null &&
+            $subscription?->onGracePeriod();
+
+        return Inertia::render('app/subscriptions/cancel-success', [
+            'is_cancelled' => $isCancelled,
+            'message' => 'Subscription cancelled successfully.',
         ]);
-
-        $this->service->swapPlan(
-            auth()->user(),
-            $request->tier
-        );
-
-        return back();
     }
+
+    // public function resume()
+    // {
+    //     $this->service->resumeSubscription(auth()->user());
+
+    //     return back();
+    // }
+
+    // public function swap(Request $request)
+    // {
+    //     $request->validate([
+    //         'tier' => 'required|string',
+    //     ]);
+
+    //     $this->service->swapPlan(
+    //         auth()->user(),
+    //         $request->tier
+    //     );
+
+    //     return back();
+    // }
 }
