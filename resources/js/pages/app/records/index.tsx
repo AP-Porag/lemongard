@@ -21,6 +21,19 @@ export default function Index({ records, filters: initialFilters }) {
     });
 
     const { auth } = usePage().props;
+    const user = auth?.user;
+
+    const canCreateRecord =
+        user?.subscription_tier === 'tier_2_full_access' &&
+        user?.subscription_status === 'active';
+
+    const isFullAccessActive =
+        user?.subscription_tier === 'tier_2_full_access' &&
+        user?.subscription_status === 'active';
+
+    const canManageRecords =
+        user?.subscription_tier === 'tier_2_full_access' &&
+        user?.subscription_status === 'active';
 
     useEffect(() => {
         router.get(route('app.records.index'), filters, {
@@ -70,14 +83,16 @@ export default function Index({ records, filters: initialFilters }) {
                 <div className="my-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">All Records</h1>
 
-                    <Button
-                        onClick={() =>
-                            router.visit(route('app.records.create'))
-                        }
-                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
-                    >
-                        <Plus className="mr-2" /> Create Record
-                    </Button>
+                    {canCreateRecord && (
+                        <Button
+                            onClick={() =>
+                                router.visit(route('app.records.create'))
+                            }
+                            className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                        >
+                            <Plus className="mr-2" /> Create Record
+                        </Button>
+                    )}
                 </div>
 
                 <DataTable
@@ -93,13 +108,16 @@ export default function Index({ records, filters: initialFilters }) {
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;
 
+                        const canEditDelete = canManageRecords && isOwner;
+
                         return {
                             view: false,
-                            edit: isOwner,
-                            delete: isOwner,
 
-                            // 🔥 ONLY THIS IS IMPORTANT
-                            disabled: !isOwner,
+                            // 🔥 Only full access + owner can edit/delete
+                            edit: canEditDelete,
+                            delete: canEditDelete,
+
+                            disabled: !canEditDelete,
 
                             search_filter: true,
                             status_filter: true,

@@ -151,6 +151,27 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage().props as any;
+    const user = auth.user;
+
+    const canAddRecord =
+        user?.subscription_tier === 'tier_2_full_access' &&
+        user?.subscription_status === 'active';
+
+    const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
+        if (item.title === 'Records' && item.children) {
+            return {
+                ...item,
+                children: item.children.filter((child) => {
+                    if (child.title === 'Add Record') {
+                        return canAddRecord;
+                    }
+                    return true;
+                }),
+            };
+        }
+
+        return item;
+    });
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -177,7 +198,7 @@ export function AppSidebar() {
                 {auth.user.role === 'admin' ? (
                     <NavMain items={mainNavItems} />
                 ) : (
-                    <NavMain items={appSidebar} />
+                    <NavMain items={filteredAppSidebar} />
                 )}
             </SidebarContent>
             <SidebarFooter className="group">

@@ -47,6 +47,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'auth',
         'verified',
         'role:user',
+        'tier.full'
         // 'trial.active'
     ])
     ->group(function () {
