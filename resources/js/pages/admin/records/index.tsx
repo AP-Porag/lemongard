@@ -91,7 +91,7 @@ export default function Index({ records, filters: initialFilters }) {
                         last_page: records.last_page,
                     }}
                     actions={(row) => ({
-                        view: false,
+                        view: true,
                         edit: true,
                         delete: true,
                         search_filter: true,

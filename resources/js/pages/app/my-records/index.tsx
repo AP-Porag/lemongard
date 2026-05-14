@@ -35,7 +35,7 @@ export default function Index({
     const handleDelete = (row) => {
         if (!confirm('Are you sure you want to delete this record?')) return;
 
-        router.delete(route('app.records.destroy', row.id), {
+        router.delete(route('app.my-records.destroy', row.id), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Record deleted successfully');
@@ -44,7 +44,7 @@ export default function Index({
     };
 
     useEffect(() => {
-        router.get(route('app.my-records'), filters, {
+        router.get(route('app.my-records.index'), filters, {
             preserveState: true,
             replace: true,
         });
@@ -117,7 +117,7 @@ export default function Index({
                         const canModify = canCreateRecord && isOwner;
 
                         return {
-                            view: false,
+                            view: true,
 
                             edit: canModify,
                             delete: canModify,
@@ -127,7 +127,7 @@ export default function Index({
                             per_page_filter: true,
                         };
                     }}
-                    baseRoute="records"
+                    baseRoute="app.my-records"
                     filters={filters}
                     onFilterChange={setFilters}
                 />

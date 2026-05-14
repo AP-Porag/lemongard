@@ -1,0 +1,96 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/app-layout';
+import { Head } from '@inertiajs/react';
+import { FileText } from 'lucide-react';
+import { useState } from 'react';
+
+const breadcrumbs = [
+    { title: 'Record', href: '/records' },
+    { title: 'View Record' },
+];
+
+export default function Show({ record }: any) {
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Record Details" />
+
+            <div className="grid grid-cols-1 gap-10 p-4 lg:grid-cols-2 lg:gap-4">
+                {/* ================= CLIENT INFORMATION ================= */}
+                <Card className="rounded-xl">
+                    <CardHeader>
+                        <CardTitle>Reocrd Information</CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="space-y-4">
+                        <div>
+                            <p className="text-sm font-semibold">Name</p>
+                            <p className="text-sm text-gray-600">
+                                {`${record?.first_name || ''} ${record?.last_name || ''}`}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm font-semibold">Phone Cell</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.phone_cell}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm font-semibold">Phone Home</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.phone_home}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm font-semibold">Street</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.street}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm font-semibold">City</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.city}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">State</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.state}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">Zip</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.zip}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">Service</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.service}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">Price</p>
+                            <p className="text-sm text-gray-600">
+                                ${record?.price}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold">
+                                Incident Report
+                            </p>
+                            <p className="text-sm text-gray-600">
+                                {record?.incident_report}
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </AppLayout>
+    );
+}

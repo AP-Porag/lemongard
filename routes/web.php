@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\Industry\IndustryController;
 use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
 use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\App\DashboardController;
+use App\Http\Controllers\App\MyRecord\MyRecordController;
 use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
@@ -47,21 +49,26 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'auth',
         'verified',
         'role:user',
-        // 'tier.full'
+        'tier.full'
         // 'trial.active'
     ])
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return Inertia::render('app/dashboard');
-        })->name('dashboard');
+        // Route::get('/dashboard', function () {
+        //     return Inertia::render('app/dashboard');
+        // })->name('dashboard');
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('app.dashboard');
 
         // Record Data Store
         Route::resource('records', RecordController::class);
 
+        Route::resource('my-records', MyRecordController::class);
+
         // User Own Data
-        Route::get('/my/records', [RecordController::class, 'myRecords'])
-            ->name('my-records');
+        // Route::get('/my/records', [RecordController::class, 'myRecords'])
+        //     ->name('my-records');
 
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
@@ -109,7 +116,8 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
     ->middleware([
         'auth',
         'verified',
-        'role:admin'
+        'role:admin',
+        'subscription.active,'
     ])
     ->group(function () {
 

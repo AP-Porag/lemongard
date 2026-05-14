@@ -113,7 +113,7 @@ export default function Index({
                         const canEditDelete = canCreateRecord && isOwner;
 
                         return {
-                            view: false,
+                            view: true,
 
                             // 🔥 Only full access + owner can edit/delete
                             edit: canEditDelete,

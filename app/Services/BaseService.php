@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Carbon\Carbon;
 
 abstract class BaseService
 {
@@ -128,11 +129,17 @@ abstract class BaseService
             return false;
         }
 
+        $isTrialActive = $subscription->onTrial();
+
+        $isSubscriptionActive =
+            $subscription->active() ||
+            $subscription->onGracePeriod(); // covers ends_at safely
+
         return (
-            $subscription->stripe_status === 'trialing'
+            $isTrialActive
             || (
-                $subscription->stripe_status === 'active'
-                && $user->subscription_tier === 'tier_2_full_access'
+                $isSubscriptionActive &&
+                $user->subscription_tier === 'tier_2_full_access'
             )
         );
     }

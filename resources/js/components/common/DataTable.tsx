@@ -25,7 +25,7 @@ export default function DataTable({
     columns,
     meta,
     actions = {
-        view: false,
+        view: true,
         edit: true,
         delete: true,
         search_filter: true,
