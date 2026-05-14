@@ -20,20 +20,19 @@ class RecordController extends Controller
 
     public function index(Request $request)
     {
-
-        // $records = $this->recordService->paginate(10);
-
-        // return Inertia::render('app/records/index', [
-        //     'records' => $records,
-        // ]);
+        $user = $request->user();
 
         $filters = $request->only(['search', 'status', 'perPage']);
+
+        // 🔥 FULL ACCESS CHECK HERE
+        $hasFullAccess = $this->recordService->fullAccess($user);
 
         $records = $this->recordService->getPaginatedRecords($filters);
 
         return Inertia::render('app/records/index', [
             'records' => $records,
             'filters' => $filters,
+            'has_full_access' => $hasFullAccess, // 🔥 send to frontend
         ]);
     }
 
@@ -96,12 +95,9 @@ class RecordController extends Controller
     public function myRecords(Request $request)
 
     {
+        $user = $request->user();
 
-        // $records = $this->recordService->paginate(10);
-
-        // return Inertia::render('app/records/index', [
-        //     'records' => $records,
-        // ]);
+        $hasFullAccess = $this->recordService->fullAccess($user);
 
         $records = $this->recordService->getPaginatedMyRecords(
             $request->all()
@@ -110,6 +106,7 @@ class RecordController extends Controller
         return inertia('app/my-records/index', [
             'records' => $records,
             'filters' => $request->only(['search', 'status', 'perPage']),
+            'has_full_access' => $hasFullAccess, // 🔥 send to frontend
         ]);
     }
 }

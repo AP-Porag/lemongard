@@ -83,4 +83,9 @@ class RecordService extends BaseService
 
         return $record;
     }
+
+    public function fullAccess($user): bool
+    {
+        return $this->hasFullAccess($user);
+    }
 }

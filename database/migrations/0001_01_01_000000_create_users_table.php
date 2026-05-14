@@ -38,7 +38,6 @@ return new class extends Migration
                 ->default('trial')
                 ->index();
 
-            // $table->string('stripe_id')->nullable()->index();
 
             // =========================
             // PROFILE / BUSINESS INFO

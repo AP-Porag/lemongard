@@ -109,4 +109,31 @@ abstract class BaseService
 
         return (bool) $model->delete();
     }
+
+    public function getSubscription($user)
+    {
+        return $user->subscription('default');
+    }
+
+    public function getStripeStatus($user)
+    {
+        return $this->getSubscription($user)?->stripe_status;
+    }
+
+    public function hasFullAccess($user): bool
+    {
+        $subscription = $this->getSubscription($user);
+
+        if (!$subscription) {
+            return false;
+        }
+
+        return (
+            $subscription->stripe_status === 'trialing'
+            || (
+                $subscription->stripe_status === 'active'
+                && $user->subscription_tier === 'tier_2_full_access'
+            )
+        );
+    }
 }
