@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Admin\Industry\IndustryController;
 use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
 use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
@@ -117,13 +118,15 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         'auth',
         'verified',
         'role:admin',
-        'subscription.active,'
+        // 'subscription.active,'
     ])
     ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return Inertia::render('admin/dashboard');
-        });
+        // Route::get('/dashboard', function () {
+        //     return Inertia::render('admin/dashboard');
+        // });
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('admin.dashboard');
 
         //User
         Route::resource('users', UserController::class);

@@ -24,7 +24,11 @@ class SubscriptionService extends BaseService
             ? $subscription->asStripeSubscription()->current_period_end
             : null;
 
-        $isCancelled = $subscription && $subscription->ends_at !== null;
+        $isCancelled = $subscription
+            && (
+                $subscription->stripe_status === 'canceled'
+                || ($subscription->ends_at && now()->gte($subscription->ends_at))
+            );
 
         return [
             'user' => $user,
