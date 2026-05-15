@@ -38,7 +38,7 @@ class CreateNewUser implements CreatesNewUsers
     */
         $plan = Plan::where(
             'name',
-            'tier_1_view_only'
+            'trial'
         )->first();
 
         /*
@@ -46,12 +46,22 @@ class CreateNewUser implements CreatesNewUsers
     | Start Cashier Trial
     |--------------------------------------------------------------------------
     */
-        if ($plan && $plan->stripe_price_id) {
+        // if ($plan && $plan->stripe_price_id) {
+
+        //     $user->newSubscription(
+        //         'default',
+        //         $plan->stripe_price_id
+        //     )->trialUntil(now()->addMinute())
+        //         ->create();
+        //     // ->trialDays(30)->create();
+        // }
+        if ($user->role !== 'admin' && $plan && $plan->stripe_price_id) {
 
             $user->newSubscription(
                 'default',
                 $plan->stripe_price_id
-            )->trialDays(30)->create();
+            )->trialUntil(now()->addMinute())
+                ->create();
         }
 
         return $user;

@@ -14,7 +14,11 @@ const breadcrumbs = [
     },
 ];
 
-export default function Index({ records, filters: initialFilters }) {
+export default function Index({
+    records,
+    has_full_access,
+    filters: initialFilters,
+}) {
     const [filters, setFilters] = useState({
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
@@ -23,9 +27,7 @@ export default function Index({ records, filters: initialFilters }) {
     });
     const { auth } = usePage().props;
     const user = auth?.user;
-    const canCreateRecord =
-        user?.subscription_tier === 'tier_2_full_access' &&
-        user?.subscription_status === 'active';
+    const canCreateRecord = user?.has_full_access;
 
     const canManageRecords =
         user?.subscription_tier === 'tier_2_full_access' &&
@@ -33,7 +35,7 @@ export default function Index({ records, filters: initialFilters }) {
     const handleDelete = (row) => {
         if (!confirm('Are you sure you want to delete this record?')) return;
 
-        router.delete(route('app.records.destroy', row.id), {
+        router.delete(route('app.my-records.destroy', row.id), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Record deleted successfully');
@@ -42,7 +44,7 @@ export default function Index({ records, filters: initialFilters }) {
     };
 
     useEffect(() => {
-        router.get(route('app.my-records'), filters, {
+        router.get(route('app.my-records.index'), filters, {
             preserveState: true,
             replace: true,
         });
@@ -112,10 +114,10 @@ export default function Index({ records, filters: initialFilters }) {
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;
 
-                        const canModify = canManageRecords && isOwner;
+                        const canModify = canCreateRecord && isOwner;
 
                         return {
-                            view: false,
+                            view: true,
 
                             edit: canModify,
                             delete: canModify,
@@ -125,7 +127,7 @@ export default function Index({ records, filters: initialFilters }) {
                             per_page_filter: true,
                         };
                     }}
-                    baseRoute="records"
+                    baseRoute="app.my-records"
                     filters={filters}
                     onFilterChange={setFilters}
                 />

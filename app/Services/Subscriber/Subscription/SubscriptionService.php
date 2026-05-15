@@ -17,38 +17,77 @@ class SubscriptionService extends BaseService
     public function myPlan($userId)
     {
         $user = $this->model->findOrFail($userId);
+
         $subscription = $user->subscription('default');
-        $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-
-        $stripeSubscription = $stripe->subscriptions->retrieve(
-            $subscription->stripe_id
-        );
-
-        // $nextBillingDate = $stripeSubscription->current_period_end;
-
-
-        $isCancelled =
-            $subscription &&
-            $subscription->ends_at !== null;
 
         $nextBillingDate = $subscription
             ? $subscription->asStripeSubscription()->current_period_end
             : null;
-        //  dd($nextBillingDate);
+
+        $isCancelled = $subscription
+            && (
+                $subscription->stripe_status === 'canceled'
+                || ($subscription->ends_at && now()->gte($subscription->ends_at))
+            );
 
         return [
             'user' => $user,
-            'is_trial' => $user->onTrial('default'),
-            'is_subscribed' => $user->subscribed('default'),
-            'trial_ends_at' => optional($user->subscription('default'))->trial_ends_at,
+
             'subscription_tier' => $user->subscription_tier,
-            'subscription_status' => $user->subscribed('default')
-                ? 'active'
-                : ($user->onTrial('default') ? 'trial' : 'expired'),
+
+            'subscription_status' => $subscription?->stripe_status,
+
+            'is_trial' => $user->onTrial('default'),
+
+            'is_subscribed' => $user->subscribed('default'),
+
+            'trial_ends_at' => $subscription?->trial_ends_at,
+
             'is_cancelled' => $isCancelled,
-            'next_billing_date' => $nextBillingDate
+
+            'next_billing_date' => $nextBillingDate,
+
+            'has_full_access' => $this->hasFullAccess($user),
         ];
     }
+
+    // public function myPlan($userId)
+    // {
+    //     $user = $this->model->findOrFail($userId);
+    //     $subscription = $user->subscription('default');
+    //     // $stripe = new \Stripe\StripeClient(config('cashier.secret'));
+
+    //     // $stripeSubscription = $stripe->subscriptions->retrieve(
+    //     //     $subscription->stripe_id
+    //     // );
+
+    //     // $nextBillingDate = $stripeSubscription->current_period_end;
+
+
+    //     $isCancelled =
+    //         $subscription &&
+    //         $subscription->ends_at !== null;
+
+    //     $nextBillingDate = $subscription
+    //         ? $subscription->asStripeSubscription()->current_period_end
+    //         : null;
+    //     //  dd($nextBillingDate);
+
+    //     return [
+    //         'user' => $user,
+    //         'is_trial' => $user->onTrial('default'),
+    //         'is_subscribed' => $user->subscribed('default'),
+    //         'trial_ends_at' => optional($user->subscription('default'))->trial_ends_at,
+    //         'subscription_tier' => $user->subscription_tier,
+    //         'subscription_status' => $user->subscribed('default')
+    //             ? 'active'
+    //             : ($user->onTrial('default') ? 'trial' : 'expired'),
+    //         'is_cancelled' => $isCancelled,
+    //         'next_billing_date' => $nextBillingDate,
+    //         'has_full_access' => $this->hasFullAccess($user),
+    //         'stripe_status' => $this->getSubscription($user)?->stripe_status,
+    //     ];
+    // }
 
     public function index($request)
     {

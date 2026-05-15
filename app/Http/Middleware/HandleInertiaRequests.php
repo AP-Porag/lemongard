@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Subscriber\Subscription\SubscriptionService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -36,6 +37,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $subscriptionService = app(SubscriptionService::class);
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -44,8 +46,8 @@ class HandleInertiaRequests extends Middleware
                     'id' => $request->user()->id,
                     'name' => $request->user()->name,
                     'role' => $request->user()->role,
-                    'subscription_tier' => $request->user()->subscription_tier,
-                    'subscription_status' => $request->user()->subscription_status,
+
+                    'has_full_access' => $subscriptionService->hasFullAccess($request->user()),
                 ] : null,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',

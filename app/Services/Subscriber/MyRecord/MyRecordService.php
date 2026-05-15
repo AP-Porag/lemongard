@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Subscriber\Record;
+namespace App\Services\Subscriber\MyRecord;
 
 use App\Models\Record;
 use App\Models\User;
 use App\Services\BaseService;
 
-class RecordService extends BaseService
+class MyRecordService extends BaseService
 {
     public function __construct(Record $model)
     {
@@ -87,30 +87,5 @@ class RecordService extends BaseService
     public function fullAccess($user): bool
     {
         return $this->hasFullAccess($user);
-    }
-
-    public function baseQuery()
-    {
-        return DB::table('subscriptions');
-    }
-
-
-    public function getDashboardStats(User $user): array
-    {
-        return [
-            'total_records' => Record::count(),
-            'my_records' => Record::where('user_id', $user->id)->count(),
-            'recent_records' => Record::query()
-                ->latest()
-                ->take(5)
-                ->get([
-                    'id',
-                    'first_name',
-                    'last_name',
-                    'service',
-                    'city',
-                    'created_at',
-                ]),
-        ];
     }
 }

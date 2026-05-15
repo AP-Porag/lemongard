@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\App\Record;
+namespace App\Http\Controllers\App\MyRecord;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
-use App\Services\Subscriber\Record\RecordService;
+use App\Services\Subscriber\MyRecord\MyRecordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class RecordController extends Controller
+class MyRecordController extends Controller
 {
-    protected RecordService $recordService;
+    protected MyRecordService $recordService;
 
-    public function __construct(RecordService $recordService)
+    public function __construct(MyRecordService $recordService)
     {
         $this->recordService = $recordService;
     }
@@ -22,16 +22,15 @@ class RecordController extends Controller
     {
         $user = $request->user();
 
-        $filters = $request->only(['search', 'status', 'perPage']);
-
-        // 🔥 FULL ACCESS CHECK HERE
         $hasFullAccess = $this->recordService->fullAccess($user);
 
-        $records = $this->recordService->getPaginatedRecords($filters);
+        $records = $this->recordService->getPaginatedMyRecords(
+            $request->all()
+        );
 
-        return Inertia::render('app/records/index', [
+        return inertia('app/my-records/index', [
             'records' => $records,
-            'filters' => $filters,
+            'filters' => $request->only(['search', 'status', 'perPage']),
             'has_full_access' => $hasFullAccess, // 🔥 send to frontend
         ]);
     }
@@ -43,12 +42,6 @@ class RecordController extends Controller
 
     public function store(StoreRecordRequest $request)
     {
-        // $this->recordService->store(
-        //     $request->validated(),
-        //     Auth::id()
-        // );
-
-        // return redirect()->back()->with('success', 'Record created successfully.');
         $this->recordService->store($request->all(), $request->user()->id);
 
         return redirect()->route('app.records.index')
@@ -89,24 +82,5 @@ class RecordController extends Controller
         $this->recordService->delete($id);
 
         return redirect()->back()->with('success', 'Record deleted successfully.');
-    }
-
-
-    public function myRecords(Request $request)
-
-    {
-        $user = $request->user();
-
-        $hasFullAccess = $this->recordService->fullAccess($user);
-
-        $records = $this->recordService->getPaginatedMyRecords(
-            $request->all()
-        );
-
-        return inertia('app/my-records/index', [
-            'records' => $records,
-            'filters' => $request->only(['search', 'status', 'perPage']),
-            'has_full_access' => $hasFullAccess, // 🔥 send to frontend
-        ]);
     }
 }

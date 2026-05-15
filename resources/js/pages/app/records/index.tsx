@@ -12,7 +12,11 @@ const breadcrumbs = [
     },
 ];
 
-export default function Index({ records, filters: initialFilters }) {
+export default function Index({
+    records,
+    has_full_access,
+    filters: initialFilters,
+}) {
     const [filters, setFilters] = useState({
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
@@ -23,9 +27,7 @@ export default function Index({ records, filters: initialFilters }) {
     const { auth } = usePage().props;
     const user = auth?.user;
 
-    const canCreateRecord =
-        user?.subscription_tier === 'tier_2_full_access' &&
-        user?.subscription_status === 'active';
+    const canCreateRecord = user?.has_full_access;
 
     const isFullAccessActive =
         user?.subscription_tier === 'tier_2_full_access' &&
@@ -108,10 +110,10 @@ export default function Index({ records, filters: initialFilters }) {
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;
 
-                        const canEditDelete = canManageRecords && isOwner;
+                        const canEditDelete = canCreateRecord && isOwner;
 
                         return {
-                            view: false,
+                            view: true,
 
                             // 🔥 Only full access + owner can edit/delete
                             edit: canEditDelete,

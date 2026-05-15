@@ -113,7 +113,7 @@ export const appSidebar: NavItem[] = [
             },
             {
                 title: 'My Records',
-                href: '/app/my/records',
+                href: '/app/my-records',
                 icon: User,
             },
             {
@@ -132,11 +132,11 @@ export const appSidebar: NavItem[] = [
                 href: '/app/subscription',
                 icon: BadgeCheck,
             },
-            {
-                title: 'Billing History',
-                href: '/app/billing',
-                icon: Receipt,
-            },
+            // {
+            //     title: 'Billing History',
+            //     href: '/app/billing',
+            //     icon: Receipt,
+            // },
         ],
     },
 ];
@@ -153,9 +153,7 @@ export function AppSidebar() {
     const { auth } = usePage().props as any;
     const user = auth.user;
 
-    const canAddRecord =
-        user?.subscription_tier === 'tier_2_full_access' &&
-        user?.subscription_status === 'active';
+    const canCreateRecord = user?.has_full_access;
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
         if (item.title === 'Records' && item.children) {
@@ -163,7 +161,7 @@ export function AppSidebar() {
                 ...item,
                 children: item.children.filter((child) => {
                     if (child.title === 'Add Record') {
-                        return canAddRecord;
+                        return canCreateRecord;
                     }
                     return true;
                 }),

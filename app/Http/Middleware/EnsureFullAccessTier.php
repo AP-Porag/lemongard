@@ -11,13 +11,22 @@ class EnsureFullAccessTier
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-
         if (!$user) {
-            abort(401);
+            return redirect()->route('login');
         }
+        $subscription = $user->subscription('default');
 
-        if ($user->subscription_tier !== 'tier_2_full_access') {
-            abort(403, 'Upgrade your plan to access this feature.');
+        $hasAccess =
+            $subscription &&
+            (
+                $subscription->stripe_status === 'active' ||
+                ($subscription->trial_ends_at && now()->lt($subscription->trial_ends_at))
+            );
+
+        if (! $hasAccess) {
+            return redirect()
+                ->route('app.myplan')
+                ->with('error', 'Your subscription has expired.');
         }
 
         return $next($request);

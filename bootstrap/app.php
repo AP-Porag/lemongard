@@ -38,7 +38,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'tier.full' => \App\Http\Middleware\EnsureFullAccessTier::class,
-            // 'trial.active' => SubscriptionActiveMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
