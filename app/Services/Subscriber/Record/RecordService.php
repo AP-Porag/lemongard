@@ -89,6 +89,11 @@ class RecordService extends BaseService
         return $this->hasFullAccess($user);
     }
 
+    public function baseQuery()
+    {
+        return DB::table('subscriptions');
+    }
+
 
     public function getDashboardStats(User $user): array
     {

@@ -132,11 +132,11 @@ export const appSidebar: NavItem[] = [
                 href: '/app/subscription',
                 icon: BadgeCheck,
             },
-            {
-                title: 'Billing History',
-                href: '/app/billing',
-                icon: Receipt,
-            },
+            // {
+            //     title: 'Billing History',
+            //     href: '/app/billing',
+            //     icon: Receipt,
+            // },
         ],
     },
 ];

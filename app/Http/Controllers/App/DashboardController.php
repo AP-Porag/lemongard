@@ -24,6 +24,7 @@ class DashboardController extends Controller
             'auth' => [
                 'user' => $user,
             ],
+
         ]);
     }
 }
