@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Services\Subscriber\Subscription\SubscriptionService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,5 +65,11 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'is_first_login' => 'boolean',
         ];
+    }
+
+    public function hasFullAccess(): bool
+    {
+        return app(SubscriptionService::class)
+            ->hasFullAccess($this);
     }
 }
