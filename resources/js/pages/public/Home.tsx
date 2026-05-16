@@ -10,12 +10,14 @@ import FinalCTA from '@/components/public/FinalCTA';
 export default function Home() {
     return (
         <PublicLayout>
+            <div className="overflow-hidden">
             <HeroSection />
             <TrustIndicators />
             <FeaturesSection />
             <HowItWorksSection />
             <PricingSection />
             <FinalCTA />
+            </div>
         </PublicLayout>
     );
 }
