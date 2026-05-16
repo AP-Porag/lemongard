@@ -20,6 +20,7 @@ import AboutCTA from '@/components/public/about/AboutCTA';
 export default function About() {
     return (
         <PublicLayout>
+            <div className="overflow-hidden">
             <AboutHero />
             <MissionSection />
             <OurStorySection />
@@ -31,6 +32,7 @@ export default function About() {
             <TestimonialsSection />
             <TrustBadgesSection />
             <AboutCTA />
+            </div>
         </PublicLayout>
     );
 }

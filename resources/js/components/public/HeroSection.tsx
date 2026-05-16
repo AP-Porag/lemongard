@@ -70,7 +70,7 @@ const HeroSection = () => {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative"
+                        className="relative "
                     >
                         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#143590] to-[#0F2A5C] p-6 shadow-2xl lg:p-8">
                             {/* Window Dots */}
