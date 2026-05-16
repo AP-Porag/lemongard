@@ -114,19 +114,21 @@ class SubscriptionController extends Controller
 
         $subscription = $user->subscription('default');
 
-
-
+        // 1. Check before anything
         if (!$subscription) {
             return Inertia::render('app/subscriptions/error', [
-
                 'message' => 'No active subscription found.',
             ]);
         }
 
+        // 2. Cancel subscription
         $subscription->cancel();
-        $isCancelled =
-            $subscription?->ends_at !== null &&
-            $subscription?->onGracePeriod();
+
+        // 3. Refresh subscription to get updated state
+        $subscription = $subscription->fresh();
+
+        // 4. Reliable Cashier state check
+        $isCancelled = $subscription->canceled();
 
         return Inertia::render('app/subscriptions/cancel-success', [
             'is_cancelled' => $isCancelled,

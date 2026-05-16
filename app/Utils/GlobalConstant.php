@@ -36,14 +36,20 @@ class GlobalConstant
     | Subscription Tiers
     |--------------------------------------------------------------------------
     */
-    public const TIER_TRIAL = 'trial';
-    public const TIER_VIEW_ONLY = 'tier_1';
-    public const TIER_FULL_ACCESS = 'tier_2';
+    public const TIER_TRIAL_PRICE_ID = 'price_1TXH33HKtXG9R7bGb5heMCgK';
+    public const TIER_ONE_VIEW_ONLY_PRICE_ID = 'price_1TSwAKHKtXG9R7bGP5EtUGrg';
+    public const TIER_TWO_FULL_ACCESS_PRICE_ID = 'price_1TSyapHKtXG9R7bGgdo6OLrA';
 
-    public const TIER_PRICE = [
-        self::TIER_VIEW_ONLY => 14.99,
-        self::TIER_FULL_ACCESS => 19.99,
-    ];
+
+
+    public const TIER_TRIAL = 'trial';
+    public const TIER_ONE_VIEW_ONLY = 'tier_1_view_only';
+    public const TIER_TWO_FULL_ACCESS = 'tier_2_full_acces';
+
+    // public const TIER_PRICE = [
+    //     self::TIER_VIEW_ONLY => 14.99,
+    //     self::TIER_FULL_ACCESS => 19.99,
+    // ];
 
     /*
     |--------------------------------------------------------------------------

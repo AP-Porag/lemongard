@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Utils\GlobalConstant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -133,14 +134,40 @@ abstract class BaseService
 
         $isSubscriptionActive =
             $subscription->active() ||
-            $subscription->onGracePeriod(); // covers ends_at safely
+            $subscription->onGracePeriod();
 
         return (
             $isTrialActive
             || (
                 $isSubscriptionActive &&
-                $user->subscription_tier === 'tier_2_full_access'
+                $user->subscribedToPrice(
+                    GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID,
+                    'default'
+                )
             )
         );
     }
+
+    // public function hasFullAccess($user): bool
+    // {
+    //     $subscription = $this->getSubscription($user);
+
+    //     if (!$subscription) {
+    //         return false;
+    //     }
+
+    //     $isTrialActive = $subscription->onTrial();
+
+    //     $isSubscriptionActive =
+    //         $subscription->active() ||
+    //         $subscription->onGracePeriod(); // covers ends_at safely
+
+    //     return (
+    //         $isTrialActive
+    //         || (
+    //             $isSubscriptionActive &&
+    //             $user->subscription_tier === 'tier_2_full_access'
+    //         )
+    //     );
+    // }
 }

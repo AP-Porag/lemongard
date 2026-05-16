@@ -151,9 +151,10 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage().props as any;
-    const user = auth.user;
+    console.log(auth.user);
 
-    const canCreateRecord = user?.has_full_access;
+    const canCreateRecord = auth?.user?.has_full_access;
+    console.log(canCreateRecord);
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
         if (item.title === 'Records' && item.children) {
