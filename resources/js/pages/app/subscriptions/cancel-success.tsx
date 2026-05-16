@@ -14,7 +14,6 @@ export default function SubscriptionCancelSuccess({
     plan,
     is_cancelled,
 }: Props) {
-    console.log(is_cancelled);
     return (
         <AppLayout>
             <Head title="Subscription Cancelled" />

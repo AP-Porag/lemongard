@@ -24,11 +24,12 @@ class SubscriptionService extends BaseService
             ? $subscription->asStripeSubscription()->current_period_end
             : null;
 
-        $isCancelled = $subscription
-            && (
-                $subscription->stripe_status === 'canceled'
-                || ($subscription->ends_at && now()->gte($subscription->ends_at))
-            );
+        $isCancelled = $subscription?->canceled();
+        $stripeSub = $subscription?->asStripeSubscription();
+
+        $nextBillingDate = $stripeSub?->current_period_end
+            ? \Carbon\Carbon::createFromTimestamp($stripeSub->current_period_end)
+            : null;
 
         return [
             'user' => $user,
@@ -43,11 +44,14 @@ class SubscriptionService extends BaseService
 
             'trial_ends_at' => $subscription?->trial_ends_at,
 
+            'ends_at' => $subscription?->ends_at,
+
             'is_cancelled' => $isCancelled,
 
             'next_billing_date' => $nextBillingDate,
 
             'has_full_access' => $this->hasFullAccess($user),
+            'is_on_grace_period' => $subscription?->onGracePeriod(),
         ];
     }
 

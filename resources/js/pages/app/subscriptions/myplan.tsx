@@ -40,6 +40,7 @@ interface Props {
     next_billing_date: string | null;
     subscription_status: string | null;
     is_cancelled: boolean;
+    ends_at;
 }
 
 export default function MyPlan({
@@ -51,8 +52,9 @@ export default function MyPlan({
     next_billing_date,
     subscription_status,
     is_cancelled,
+    ends_at,
 }: Props) {
-    console.log('Canceled' + is_cancelled);
+    console.log('next date' + is_cancelled);
     // ✅ FIX: single source of truth (no fake status computation)
     const status = user.subscription_status;
 
@@ -64,6 +66,10 @@ export default function MyPlan({
         (trial_ends_at || user.trial_ends_at) &&
         new Date(trial_ends_at || (user.trial_ends_at as string)).getTime() <
             Date.now();
+
+    const isSubscriptionEnded = ends_at
+        ? new Date(ends_at).getTime() < Date.now()
+        : false;
 
     const tiers = [
         {
@@ -102,6 +108,7 @@ export default function MyPlan({
         return user.subscription_tier === 'tier_2_full_access';
     };
     const isViewOnly = user.subscription_tier === 'tier_1_view_only';
+
     // const isCurrent = (tier: SubscriptionTier)=> {
     //     return String(user.subscription_tier) === String(tier);
     // };
@@ -223,25 +230,21 @@ export default function MyPlan({
                                                 )}
                                         </span>
                                     </p>
-
                                     <p>
                                         Next billing:{' '}
                                         {next_billing_date
-                                            ? new Date(
-                                                  Number(next_billing_date) *
-                                                      1000,
-                                              ).toLocaleDateString()
+                                            ? next_billing_date
                                             : 'N/A'}
                                     </p>
                                 </div>
                             </div>
                             <div>
                                 <Button
-                                    disabled={!is_cancelled}
+                                    disabled={is_cancelled}
                                     onClick={() => setOpen(true)}
                                     className="bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
                                 >
-                                    {!is_cancelled
+                                    {is_cancelled
                                         ? 'Plan Cancelled'
                                         : 'Cancel Plan'}
                                 </Button>
@@ -250,16 +253,26 @@ export default function MyPlan({
                     </Card>
                 )}
 
-                {/* ❌ NO PLAN */}
-                {is_cancelled && (
+                {/* ❌ SUBCRIPTION CANCELLED*/}
+                {isSubscriptionEnded ? (
                     <Card className="mb-6 border-gray-200 bg-gray-50">
-                        <CardContent className="">
+                        <CardContent>
                             <p className="text-sm text-gray-600">
-                                No active subscription found.
+                                You have no active plan.
                             </p>
                         </CardContent>
                     </Card>
-                )}
+                ) : is_cancelled ? (
+                    <Card className="mb-6 border-gray-200 bg-gray-50">
+                        <CardContent>
+                            <p className="text-sm text-gray-600">
+                                Your subscription has been cancelled. You will
+                                continue to have access until the end of your
+                                billing period.
+                            </p>
+                        </CardContent>
+                    </Card>
+                ) : null}
 
                 {/* PLANS */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -268,6 +281,31 @@ export default function MyPlan({
                         const disableButton =
                             user.subscription_tier === 'tier_2_full_access' ||
                             user.subscription_tier === tier.key;
+                        const isPlanCancelledLocked =
+                            is_cancelled && user.subscription_tier === tier.key;
+
+                        const isSubscriptionEnded = ends_at
+                            ? new Date(ends_at).getTime() < Date.now()
+                            : false;
+
+                        // Current active tier
+                        const isCurrentTier =
+                            user.subscription_tier === tier.key;
+
+                        // Cancelled current tier
+                        const isPlanCancelled = is_cancelled && isCurrentTier;
+
+                        // FINAL CLICK LOGIC
+                        const isClickable = isSubscriptionEnded
+                            ? true // expired হলে সব clickable
+                            : user.subscription_tier === 'tier_2_full_access'
+                              ? false // tier_2_full_access active থাকলে কিছুই clickable না
+                              : user.subscription_tier === 'tier_1_view_only'
+                                ? tier.key === 'tier_2_full_access' // শুধু tier_2_full_access clickable
+                                : !disableButton;
+
+                        // Final disabled state
+                        const isDisabled = isPlanCancelled || !isClickable;
 
                         return (
                             <Card
@@ -319,47 +357,7 @@ export default function MyPlan({
                                     {/* {isFullAccess() ? (
                                         <Button
                                             disabled={
-                                                !is_cancelled &&
-                                                user.subscription_tier !==
-                                                    tier.key
-                                            }
-                                            className={`w-full ${
-                                                user.subscription_tier ===
-                                                tier.key
-                                                    ? 'cursor-default bg-yellow-100 text-yellow-800 hover:bg-yellow-100 hover:text-yellow-800'
-                                                    : 'cursor-pointer bg-gray-100 text-gray-500 hover:bg-gray-200'
-                                            }`}
-                                        >
-                                            {user.subscription_tier === tier.key
-                                                ? 'Active Plan'
-                                                : 'Select Plan'}
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            disabled={disableButton}
-                                            onClick={() =>
-                                                !disableButton &&
-                                                (window.location.href = route(
-                                                    'app.checkout',
-                                                    tier.name,
-                                                ))
-                                            }
-                                            className={`cursor-pointer ${
-                                                disableButton
-                                                    ? 'cursor-not-allowed opacity-50'
-                                                    : ''
-                                            }`}
-                                        >
-                                            {disableButton
-                                                ? 'Not Available'
-                                                : 'Select Plan'}
-                                        </Button>
-                                    )} */}
-
-                                    {isFullAccess() ? (
-                                        <Button
-                                            disabled={
-                                                !is_cancelled &&
+                                                is_cancelled &&
                                                 user.subscription_tier !==
                                                     tier.key
                                             }
@@ -412,6 +410,71 @@ export default function MyPlan({
                                                 : disableButton
                                                   ? 'Not Available'
                                                   : 'Select Plan'}
+                                        </Button>
+                                    )} */}
+
+                                    {isFullAccess() ? (
+                                        <Button
+                                            disabled={isDisabled}
+                                            onClick={() => {
+                                                if (isDisabled) return;
+
+                                                window.location.href = route(
+                                                    'app.checkout',
+                                                    tier.name,
+                                                );
+                                            }}
+                                            className={`w-full ${
+                                                user.subscription_tier ===
+                                                tier.key
+                                                    ? isSubscriptionEnded
+                                                        ? 'cursor-pointer bg-green-600 text-white hover:bg-green-700'
+                                                        : 'cursor-default bg-yellow-100 text-yellow-800 hover:bg-yellow-100 hover:text-yellow-800'
+                                                    : is_cancelled ||
+                                                        isSubscriptionEnded
+                                                      ? 'cursor-pointer bg-green-600 text-white hover:bg-green-700'
+                                                      : isDisabled
+                                                        ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
+                                                        : 'cursor-pointer bg-gray-100 text-gray-500 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            {isSubscriptionEnded
+                                                ? 'Select Plan'
+                                                : is_cancelled
+                                                  ? 'Plan Cancelled'
+                                                  : user.subscription_tier ===
+                                                      tier.key
+                                                    ? 'Active Plan'
+                                                    : 'Select Plan'}
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            disabled={isDisabled}
+                                            onClick={() => {
+                                                if (isDisabled) return;
+
+                                                window.location.href = route(
+                                                    'app.checkout',
+                                                    tier.name,
+                                                );
+                                            }}
+                                            className={`cursor-pointer ${
+                                                isSubscriptionEnded
+                                                    ? 'bg-navy-600 text-white hover:bg-green-700'
+                                                    : is_cancelled
+                                                      ? 'bg-navy-600 text-white hover:bg-green-700'
+                                                      : isDisabled
+                                                        ? 'cursor-not-allowed opacity-50'
+                                                        : ''
+                                            }`}
+                                        >
+                                            {isSubscriptionEnded
+                                                ? 'Select Plan'
+                                                : is_cancelled && isCurrentTier
+                                                  ? 'Plan Cancelled'
+                                                  : disableButton
+                                                    ? 'Not Available'
+                                                    : 'Select Plan'}
                                         </Button>
                                     )}
                                 </CardContent>
