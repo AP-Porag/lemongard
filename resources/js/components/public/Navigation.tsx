@@ -151,7 +151,8 @@ const Navigation = () => {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="text-navy-600 p-2 transition-colors hover:text-yellow-500 md:hidden"
+                        // className="text-navy-600 p-2 transition-colors hover:text-yellow-500 md:hidden"
+                        className="absolute top-4 right-4 z-9999 rounded-full transition-colors p-2 text-navy-600 shadow-lg hover:text-yellow-500 md:hidden"
                         aria-expanded={isMobileMenuOpen}
                         aria-label="Toggle menu"
                     >
@@ -172,7 +173,7 @@ const Navigation = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: '100%' }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl md:hidden"
+                        className="fixed top-0 right-0 z-999 h-screen w-64 bg-white shadow-2xl md:hidden"
                     >
                         <div className="flex flex-col gap-4 p-6 pt-20">
                             {navLinks.map((link) =>
