@@ -133,7 +133,7 @@ const Navigation = () => {
                             <>
                                 <Link
                                     href="/login"
-                                    className="text-navy-600 font-medium transition-colors hover:text-yellow-500"
+                                    className="text-navy-600 ml-3 font-medium transition-colors hover:text-yellow-500"
                                 >
                                     Login
                                 </Link>
