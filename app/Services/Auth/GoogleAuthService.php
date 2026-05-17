@@ -2,10 +2,12 @@
 
 namespace App\Services\Auth;
 
+use App\Models\Plan;
 use App\Services\BaseService;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use App\Utils\GlobalConstant;
 
 class GoogleAuthService extends BaseService
 {
@@ -32,7 +34,7 @@ class GoogleAuthService extends BaseService
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $user = $this->model->updateOrCreate(
+        $user = $this->model->firstOrCreate(
             [
                 'email' => $googleUser->getEmail(),
             ],
@@ -42,6 +44,25 @@ class GoogleAuthService extends BaseService
                 'is_social_login' => true,
             ]
         );
+
+        if (! $user->subscribed('default')) {
+
+            $plan = Plan::where(
+                'name',
+                GlobalConstant::TIER_TRIAL
+            )->first();
+
+            if ($plan) {
+
+                $user->createOrGetStripeCustomer();
+
+                $user->newSubscription(
+                    'default',
+                    $plan->stripe_price_id
+                )->trialUntil(now()->addDays(30))
+                    ->create();
+            }
+        }
 
         // ✅ Detect first login
         if ($user->wasRecentlyCreated) {
