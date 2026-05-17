@@ -135,7 +135,86 @@ class SubscriptionController extends Controller
             'message' => 'Subscription cancelled successfully.',
         ]);
     }
+    public function resume(Request $request)
+    {
+        $user = $request->user();
 
+        // যদি আপনি Laravel Cashier ব্যবহার করেন:
+        if ($user->subscription('default')->onGracePeriod()) {
+            $user->subscription('default')->resume();
+        }
+        $subscription = $user->subscription('default');
+
+        /*
+    // অথবা যদি ম্যানুয়াল ডাটাবেজ ফিল্ড মেইনটেইন করেন:
+    if ($user->is_cancelled && $user->on_grace_period) {
+        $user->update([
+            'is_cancelled' => false,
+            'subscription_status' => 'active'
+        ]);
+    }
+    */
+        $nextBillingDate = $subscription?->asStripeSubscription()?->current_period_end
+            ? \Carbon\Carbon::createFromTimestamp(
+                $subscription->asStripeSubscription()->current_period_end
+            )
+            : null;
+
+        return Inertia::render('app/subscriptions/resume', [
+            'plan' => $user->subscription_tier,
+            'nextBillingDate' => $nextBillingDate
+                ? $nextBillingDate->format('F d, Y')
+                : null,
+        ]);
+    }
+
+    public function billingInfo(): array
+    {
+        $user = auth()->user();
+
+        $subscription = $user->subscription('default');
+
+        $planPrices = [
+            'view_only' => '$14.99 / month',
+            'full_access' => '$19.99 / month',
+        ];
+
+        return [
+            'subscription_tier' => $user->subscription_tier
+                ? str($user->subscription_tier)->replace('_', ' ')->title()
+                : null,
+
+            'subscription_status' => $user->subscription_status,
+
+            'plan_price' => $planPrices[$user->subscription_tier] ?? null,
+
+            'next_billing_date' => $subscription && ! $subscription->ended()
+                ? optional($subscription->asStripeSubscription()->current_period_end)
+                ? \Carbon\Carbon::createFromTimestamp(
+                    $subscription->asStripeSubscription()->current_period_end
+                )->format('M d, Y')
+                : null
+                : null,
+
+            'trial_ends_at' => $user->trial_ends_at
+                ? \Carbon\Carbon::parse($user->trial_ends_at)->format('M d, Y')
+                : null,
+
+            'card_brand' => $user->pm_type
+                ? strtoupper($user->pm_type)
+                : null,
+
+            'card_last_four' => $user->pm_last_four,
+
+            'started_at' => $subscription && $subscription->created_at
+                ? $subscription->created_at->format('M d, Y')
+                : null,
+
+            'ends_at' => $subscription && $subscription->ends_at
+                ? \Carbon\Carbon::parse($subscription->ends_at)->format('M d, Y')
+                : null,
+        ];
+    }
     // public function resume()
     // {
     //     $this->service->resumeSubscription(auth()->user());

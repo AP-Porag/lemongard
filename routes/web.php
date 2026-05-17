@@ -74,6 +74,8 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
+        Route::get('/billing', [SubscriptionController::class, 'billingInfo'])
+            ->name('billing');
 
         //Checkout
         Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
@@ -90,6 +92,8 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 
         Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
             ->name('subscription.start-trial');
+
+        Route::get('/subscription/resume', [SubscriptionController::class, 'resume'])->name('subscription.plan.resume');
 
         Route::get('/subscription/plan/cancel', [SubscriptionController::class, 'cancel'])
             ->name('subscription.plan.cancel');
