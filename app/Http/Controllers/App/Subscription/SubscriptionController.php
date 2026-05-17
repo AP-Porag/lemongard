@@ -7,6 +7,8 @@ use App\Models\Plan;
 use App\Services\Subscriber\Subscription\SubscriptionService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
+use Laravel\Cashier\Cashier;
 
 class SubscriptionController extends Controller
 {
@@ -145,15 +147,6 @@ class SubscriptionController extends Controller
         }
         $subscription = $user->subscription('default');
 
-        /*
-    // অথবা যদি ম্যানুয়াল ডাটাবেজ ফিল্ড মেইনটেইন করেন:
-    if ($user->is_cancelled && $user->on_grace_period) {
-        $user->update([
-            'is_cancelled' => false,
-            'subscription_status' => 'active'
-        ]);
-    }
-    */
         $nextBillingDate = $subscription?->asStripeSubscription()?->current_period_end
             ? \Carbon\Carbon::createFromTimestamp(
                 $subscription->asStripeSubscription()->current_period_end
@@ -169,15 +162,30 @@ class SubscriptionController extends Controller
     }
 
 
-    use Inertia\Inertia;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-
 public function billingInfo(Request $request)
 {
     $user = $request->user();
     // Laravel Cashier এর ডিফল্ট সাবস্ক্রিপশন নেওয়া হচ্ছে
     $subscription = $user->subscription('default');
+
+    $planPriceLabel = 'N/A';
+
+    // আপনার ইউজার টেবিল বা সাবস্ক্রিপশন থেকে যদি Price ID পান
+    // উদাহরণস্বরূপ, স্ট্রাইপ থেকে সরাসরি ডেটা আনা:
+    if ($subscription && $subscription->stripe_price) {
+        try {
+            // Stripe API থেকে প্রাইস অবজেক্ট রিট্রিভ করা হচ্ছে
+            $stripePrice = Cashier::stripe()->prices->retrieve($subscription->stripe_price);
+            
+            // স্ট্রাইপ অ্যামাউন্ট সেন্ট (cents) এ দেয়, তাই ১০০ দিয়ে ভাগ করে ডলারে নেওয়া হয়েছে
+            $amount = number_format($stripePrice->unit_amount / 100, 2);
+            $currency = strtoupper($stripePrice->currency); // e.g., usd
+            
+            $planPriceLabel = "$Format $$amount / month"; // আউটপুট হবে: $19.99 / month
+        } catch (\Exception $e) {
+            $planPriceLabel = 'N/A';
+        }
+    }
 
     $planPrices = [
         'view_only'   => '$14.99 / month',
@@ -196,21 +204,27 @@ public function billingInfo(Request $request)
             $status = 'expired';
         }
     }
-
-    // ২. নেক্সট বিলিং ডেট বের করা (Stripe API থেকে অথবা অন-রেকর্ড ডেটা থেকে)
+   
     $nextBillingDate = null;
-    if ($subscription && $subscription->active() && !$subscription->onGracePeriod()) {
-        try {
-            // Stripe Subscription অবজেক্ট থেকে কারেন্ট পিরিয়ড এন্ড ডেট নেওয়া হচ্ছে
-            $stripeSubscription = $subscription->asStripeSubscription();
+if ($subscription && $subscription->active() && !$subscription->onGracePeriod()) {
+    try {
+        // Stripe Subscription অবজেক্ট নেওয়া হচ্ছে
+        $stripeSubscription = $subscription->asStripeSubscription();
+        
+        // current_period_end আছে কিনা এবং তা null না তা নিশ্চিত করা হচ্ছে
+        if (isset($stripeSubscription->current_period_end) && $stripeSubscription->current_period_end) {
             $nextBillingDate = Carbon::createFromTimestamp($stripeSubscription->current_period_end)
                 ->format('M d, Y');
-        } catch (\Exception $e) {
-            // যদি কোনো কারণে Stripe API ফেইল করে, কারেন্ট ডেটের ১ মাস পরের ব্যাকআপ ক্যালকুলেশন
+              
+        } else {
+            // যদি স্ট্রাইপ থেকে ডেট না পাওয়া যায়
             $nextBillingDate = $subscription->created_at->addMonth()->format('M d, Y');
         }
+    } catch (\Throwable $e) {
+        // \Exception এর বদলে \Throwable ব্যবহার করা হয়েছে যা TypeError-ও ক্যাচ করবে
+        $nextBillingDate = $subscription->created_at ? $subscription->created_at->addMonth()->format('M d, Y') : null;
     }
-
+}
     return Inertia::render('app/subscriptions/billing-info', [
         'billingInfo' => [
             'subscription_tier' => $user->subscription_tier
@@ -218,8 +232,6 @@ public function billingInfo(Request $request)
                 : 'N/A',
 
             'subscription_status' => $status,
-
-            'plan_price' => $planPrices[$user->subscription_tier] ?? 'N/A',
 
             'next_billing_date' => $nextBillingDate,
 
@@ -230,6 +242,8 @@ public function billingInfo(Request $request)
             'card_brand' => $user->pm_type
                 ? strtoupper($user->pm_type)
                 : null,
+
+                'plan_price' => $planPriceLabel,
 
             'card_last_four' => $user->pm_last_four,
 
@@ -243,82 +257,4 @@ public function billingInfo(Request $request)
         ]
     ]);
 }
-
-    //   public function billingInfo(Request $request)
-    // {
-       
-    //    $user = $request->user();
-
-    //     $subscription = $user->subscription('default');
-
-    //     $planPrices = [
-    //         'view_only' => '$14.99 / month',
-    //         'full_access' => '$19.99 / month',
-    //     ];
-
-    //     return [
-    //         'subscription_tier' => $user->subscription_tier
-    //             ? str($user->subscription_tier)->replace('_', ' ')->title()
-    //             : null,
-
-    //         'subscription_status' => $user->subscription_status,
-
-    //         'plan_price' => $planPrices[$user->subscription_tier] ?? null,
-
-    //         // 'next_billing_date' => $subscription && ! $subscription->ended()
-    //         //     ? optional($subscription->asStripeSubscription()->current_period_end)
-    //         //     ? \Carbon\Carbon::createFromTimestamp(
-    //         //         $subscription->asStripeSubscription()->current_period_end
-    //         //     )->format('M d, Y')
-    //         //     : null
-    //         //     : null,
-
-    //         'trial_ends_at' => $user->trial_ends_at
-    //             ? \Carbon\Carbon::parse($user->trial_ends_at)->format('M d, Y')
-    //             : null,
-
-    //         'card_brand' => $user->pm_type
-    //             ? strtoupper($user->pm_type)
-    //             : null,
-
-    //         'card_last_four' => $user->pm_last_four,
-
-    //         'started_at' => $subscription && $subscription->created_at
-    //             ? $subscription->created_at->format('M d, Y')
-    //             : null,
-
-    //         'ends_at' => $subscription && $subscription->ends_at
-    //             ? \Carbon\Carbon::parse($subscription->ends_at)->format('M d, Y')
-    //             : null,
-    //     ];
-    // }
-
-///
-
-
-
-
-
-
-
-    // public function resume()
-    // {
-    //     $this->service->resumeSubscription(auth()->user());
-
-    //     return back();
-    // }
-
-    // public function swap(Request $request)
-    // {
-    //     $request->validate([
-    //         'tier' => 'required|string',
-    //     ]);
-
-    //     $this->service->swapPlan(
-    //         auth()->user(),
-    //         $request->tier
-    //     );
-
-    //     return back();
-    // }
 }

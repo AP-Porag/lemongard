@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
+
 interface BillingInfoProps {
     billingInfo: {
         subscription_tier: string | null;
@@ -26,6 +27,15 @@ interface BillingInfoProps {
         ends_at: string | null;
     };
 }
+
+import type { BreadcrumbItem } from '@/types';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Billing Details',
+        href: '',
+    },
+];
 
 export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
     const getStatusBadge = () => {
@@ -64,7 +74,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Billing Information" />
 
             <div className="space-y-6 p-6">

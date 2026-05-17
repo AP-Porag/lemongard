@@ -54,7 +54,6 @@ export default function MyPlan({
     is_cancelled,
     ends_at,
 }: Props) {
-    console.log('next date' + is_cancelled);
 
     const status = user.subscription_status;
     const purchasedPlan = user.subscription_tier ?? null;
@@ -107,112 +106,6 @@ export default function MyPlan({
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // // ==========================================
-    // // 👑 TIER 1: VIEW ONLY BUTTON FUNCTIONS
-    // // ==========================================
-
-    // // ১. বাটনের টেক্সট নির্ধারণ
-    // const getTier1ButtonText = () => {
-    //     if (isSubscriptionEnded || !user.subscription_tier) {
-    //         return 'Select Plan';
-    //     }
-    //     if (user.subscription_tier === 'tier_1_view_only') {
-    //         if (is_cancelled || on_grace_period) {
-    //             return 'Resume Plan'; // ক্যান্সেল করা থাকলে এবং গ্রেস পিরিয়ডে থাকলে রিজুম
-    //         }
-    //         return 'Active Plan';
-    //     }
-    //     if (user.subscription_tier === 'tier_2_full_access') {
-    //         return 'Not Available'; // টায়ার ২ একটিভ থাকলে এটা লকড
-    //     }
-    //     return 'Select Plan';
-    // };
-
-    // // ২. বাটন ডিজেবল হবে কি না (Return true/false)
-    // const isTier1Disabled = () => {
-    //     if (isSubscriptionEnded || !user.subscription_tier) {
-    //         return false; // এক্সপায়ার বা প্ল্যান না থাকলে সবসময় একটিভ
-    //     }
-    //     if (user.subscription_tier === 'tier_1_view_only') {
-    //         if (is_cancelled || on_grace_period) {
-    //             return false; // রিজুম করার জন্য বাটনটি একটিভ থাকবে
-    //         }
-    //         return true; // নরমাল একটিভ থাকলে ক্লিক করার দরকার নাই (Disabled)
-    //     }
-    //     if (user.subscription_tier === 'tier_2_full_access') {
-    //         return true; // ফুল এক্সেস থাকলে ভিউ অনলি ডাউনগ্রেড বাটন ডিজেবল
-    //     }
-    //     return false;
-    // };
-
-    // // ৩. বাটনের ক্লিক হ্যান্ডলার অ্যাকশন
-    // const handleTier1Click = () => {
-    //     if (
-    //         user.subscription_tier === 'tier_1_view_only' &&
-    //         (is_cancelled || on_grace_period)
-    //     ) {
-    //         // যদি রিজুম কন্ডিশন হয়, তবে রিজুম রাউটে পাঠাবে
-    //         window.location.href = route('app.subscription.plan.resume'); // (এখানে আপনার সঠিক রিজুম রাউটের নাম দিন)
-    //         return;
-    //     }
-    //     // নরমাল চেকআউট
-    //     window.location.href = route('app.checkout', 'tier_1_view_only');
-    // };
-
-    // // ==========================================
-    // // 👑 TIER 2: FULL ACCESS BUTTON FUNCTIONS
-    // // ==========================================
-
-    // // ১. বাটনের টেক্সট নির্ধারণ
-    // const getTier2ButtonText = () => {
-    //     if (isSubscriptionEnded || !user.subscription_tier) {
-    //         return 'Select Plan';
-    //     }
-    //     if (user.subscription_tier === 'tier_2_full_access') {
-    //         if (is_cancelled || on_grace_period) {
-    //             return 'Resume Plan'; // ক্যান্সেল করা থাকলে এবং গ্রেস পিরিয়ডে থাকলে রিজুম
-    //         }
-    //         return 'Active Plan';
-    //     }
-    //     if (user.subscription_tier === 'tier_1_view_only') {
-    //         return 'Upgrade Plan'; // ভিউ অনলি থাকলে এটাকে আপগ্রেড দেখাবে
-    //     }
-    //     return 'Select Plan';
-    // };
-
-    // // ২. বাটন ডিজেবল হবে কি না (Return true/false)
-    // const isTier2Disabled = () => {
-    //     if (isSubscriptionEnded || !user.subscription_tier) {
-    //         return false; // এক্সপায়ার বা প্ল্যান না থাকলে সবসময় একটিভ
-    //     }
-    //     if (user.subscription_tier === 'tier_2_full_access') {
-    //         if (is_cancelled || on_grace_period) {
-    //             return false; // রিজুম করার সুযোগ দিতে বাটন একটিভ থাকবে
-    //         }
-    //         return true; // নরমাল একটিভ থাকলে ডিজেবল
-    //     }
-    //     if (user.subscription_tier === 'tier_1_view_only') {
-    //         return false; // ভিউ অনলি ইউজার ফুল এক্সেসে আপগ্রেড করতে পারবে (Active)
-    //     }
-    //     return false;
-    // };
-
-    // // ৩. বাটনের ক্লিক হ্যান্ডলার অ্যাকশন
-    // const handleTier2Click = () => {
-    //     if (
-    //         user.subscription_tier === 'tier_2_full_access' &&
-    //         (is_cancelled || on_grace_period)
-    //     ) {
-    //         // রিজুম রাউট অ্যাকশন
-    //         window.location.href = route('app.subscription.plan.resume'); // (এখানে আপনার সঠিক রিজুম রাউটের নাম দিন)
-    //         return;
-    //     }
-    //     // নরমাল চেকআউট বা আপগ্রেড
-    //     window.location.href = route('app.checkout', 'tier_2_full_access');
-    // };
-    // ==========================================
-    // 👑 TIER 1: VIEW ONLY BUTTON FUNCTIONS
-    // ==========================================
 
     // ১. বাটনের টেক্সট নির্ধারণ
     const getTier1ButtonText = () => {
