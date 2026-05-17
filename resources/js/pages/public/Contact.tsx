@@ -76,7 +76,7 @@ const contactMethods = [
         icon: Mail,
         title: 'Email Us',
         desc: 'Get in touch via email',
-        link: 'mailto:support@lemongard.com',
+        link: 'mailto:support@lemongard.com ? subject=Feedback&body=message',
         linkText: 'support@lemongard.com',
         response: 'Response within 24 hours',
         responseIcon: Clock,
