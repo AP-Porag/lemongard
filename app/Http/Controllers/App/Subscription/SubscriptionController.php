@@ -135,7 +135,38 @@ class SubscriptionController extends Controller
             'message' => 'Subscription cancelled successfully.',
         ]);
     }
+    public function resume(Request $request)
+    {
+        $user = $request->user();
 
+        // যদি আপনি Laravel Cashier ব্যবহার করেন:
+        if ($user->subscription('default')->onGracePeriod()) {
+            $user->subscription('default')->resume();
+        }
+        $subscription = $user->subscription('default');
+
+        /*
+    // অথবা যদি ম্যানুয়াল ডাটাবেজ ফিল্ড মেইনটেইন করেন:
+    if ($user->is_cancelled && $user->on_grace_period) {
+        $user->update([
+            'is_cancelled' => false,
+            'subscription_status' => 'active'
+        ]);
+    }
+    */
+        $nextBillingDate = $subscription?->asStripeSubscription()?->current_period_end
+            ? \Carbon\Carbon::createFromTimestamp(
+                $subscription->asStripeSubscription()->current_period_end
+            )
+            : null;
+
+        return Inertia::render('app/subscriptions/resume', [
+            'plan' => $user->subscription_tier,
+            'nextBillingDate' => $nextBillingDate
+                ? $nextBillingDate->format('F d, Y')
+                : null,
+        ]);
+    }
     // public function resume()
     // {
     //     $this->service->resumeSubscription(auth()->user());
