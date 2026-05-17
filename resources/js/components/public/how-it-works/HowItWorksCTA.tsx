@@ -44,10 +44,12 @@ const HowItWorksCTA = () => {
           <p className="text-lg md:text-xl text-gray-300 mt-6 max-w-2xl mx-auto">
             Join hundreds of service professionals already using LemonGard
           </p>
-          <button className="btn-primary !px-10 !py-5 !text-lg !font-bold !shadow-2xl mt-10">
+          <a href="/register">
+          <button className="cursor-pointer btn-primary !px-10 !py-5 !text-lg !font-bold !shadow-2xl mt-10">
             Start Your Free Trial
             <ArrowRight className="w-5 h-5" />
           </button>
+          </a>
           <div className="flex items-center justify-center gap-2 text-sm text-gray-400 mt-6">
             <span>30 days free</span>
             <LemonSimple className="w-3 h-3 text-yellow-400/50" />

@@ -20,16 +20,31 @@ class SubscriptionService extends BaseService
 
         $subscription = $user->subscription('default');
 
-        $nextBillingDate = $subscription
-            ? $subscription->asStripeSubscription()->current_period_end
-            : null;
-
+        $nextBillingDate = null;
+if ($subscription && $subscription->active() && !$subscription->onGracePeriod()) {
+    try {
+        // Stripe Subscription অবজেক্ট নেওয়া হচ্ছে
+        $stripeSubscription = $subscription->asStripeSubscription();
+        
+        // current_period_end আছে কিনা এবং তা null না তা নিশ্চিত করা হচ্ছে
+        if (isset($stripeSubscription->current_period_end) && $stripeSubscription->current_period_end) {
+            $nextBillingDate = Carbon::createFromTimestamp($stripeSubscription->current_period_end)
+                ->format('M d, Y');
+        } else {
+            // যদি স্ট্রাইপ থেকে ডেট না পাওয়া যায়
+            $nextBillingDate = $subscription->created_at->addMonth()->format('M d, Y');
+        }
+    } catch (\Throwable $e) {
+        // \Exception এর বদলে \Throwable ব্যবহার করা হয়েছে যা TypeError-ও ক্যাচ করবে
+        $nextBillingDate = $subscription->created_at ? $subscription->created_at->addMonth()->format('M d, Y') : null;
+    }
+}
         $isCancelled = $subscription?->canceled();
-        $stripeSub = $subscription?->asStripeSubscription();
+        // $stripeSub = $subscription?->asStripeSubscription();
 
-        $nextBillingDate = $stripeSub?->current_period_end
-            ? \Carbon\Carbon::createFromTimestamp($stripeSub->current_period_end)
-            : null;
+        // $nextBillingDate = $stripeSub?->current_period_end
+        //     ? \Carbon\Carbon::createFromTimestamp($stripeSub->current_period_end)
+        //     : null;
 
         return [
             'user' => $user,

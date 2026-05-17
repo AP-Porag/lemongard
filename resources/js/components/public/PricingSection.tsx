@@ -72,7 +72,7 @@ const PricingSection = () => {
                         </div>
 
                         {/* CTA Button */}
-                        <a href="#plans" className="btn-primary mt-8">
+                        <a href="/pricing" className="btn-primary mt-8">
                             View Pricing Plans
                             <ArrowRight className="h-5 w-5" />
                         </a>
@@ -127,7 +127,7 @@ const PricingSection = () => {
 
                         {/* CTA Button */}
                         <a
-                            href="#trial"
+                            href="/register"
                             className="btn-primary mt-8 w-full justify-center"
                         >
                             Start Free Trial

@@ -41,7 +41,7 @@ const AboutCTA = () => (
                 </p>
 
                 <Link
-                    href="/#trial"
+                    href="/register"
                     className="btn-primary inline-flex items-center gap-2 !px-10 !py-5 text-lg !shadow-2xl"
                 >
                     Start Your Free Trial Today

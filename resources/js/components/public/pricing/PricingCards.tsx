@@ -54,7 +54,7 @@ const PricingCards = () => (
         </div>
         <p className="text-sm text-yellow-600 font-medium mb-8">30 days free, then $14.99/month</p>
 
-        <a href="#trial" className="btn-secondary w-full justify-center mb-8">Start Free Trial</a>
+        <a href="/register" className="btn-secondary w-full justify-center mb-8">Start Free Trial</a>
 
         <hr className="border-border mb-8" />
 
@@ -110,7 +110,7 @@ const PricingCards = () => (
         <span className="text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full inline-block mb-2">Best Value - Full Features</span>
         <p className="text-sm text-yellow-600 font-medium mb-8">30 days free, then $19.99/month</p>
 
-        <a href="#trial" className="btn-primary w-full justify-center mb-8">
+        <a href="/register" className="btn-primary w-full justify-center mb-8">
           Start Free Trial <ArrowRight className="w-5 h-5" />
         </a>
 

@@ -48,7 +48,7 @@ const FinalCTA = () => {
 
                     {/* CTA Button */}
                     <a
-                        href="#trial"
+                        href="/register"
                         className="text-navy-900 mt-10 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 px-10 py-5 text-lg font-bold shadow-2xl transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-yellow-500/30"
                     >
                         Start Your Free Trial Today
