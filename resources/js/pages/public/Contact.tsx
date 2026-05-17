@@ -804,7 +804,7 @@ const Contact = () => {
                                 days
                             </p>
                             <Link
-                                to="/register"
+                                href="/register"
                                 className="btn-primary inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-bold"
                             >
                                 Start Your Free Trial{' '}

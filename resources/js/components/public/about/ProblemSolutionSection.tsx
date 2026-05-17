@@ -123,7 +123,7 @@ const ProblemSolutionSection = () => (
                 </div>
 
                 <Link
-                    href="/#trial"
+                    href="/register"
                     className="btn-primary mt-8 inline-flex items-center gap-2"
                 >
                     Start Your Free Trial

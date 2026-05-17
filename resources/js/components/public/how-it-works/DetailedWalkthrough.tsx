@@ -118,9 +118,11 @@ const DetailedWalkthrough = () => {
                       <div className="h-3 bg-white/20 rounded w-16 mb-2" />
                       <div className="h-8 bg-white/10 rounded w-full" />
                     </div>
+                    <a href="/register" className="cursor-pointer">
                     <div className="h-10 bg-gradient-to-r from-chart-4 to-chart-5 rounded-lg flex items-center justify-center">
                       <span className="text-navy-900 text-sm font-semibold">Create Account</span>
                     </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -292,9 +294,11 @@ const DetailedWalkthrough = () => {
                         <div className="h-7 bg-white/10 rounded w-full" />
                       </div>
                     ))}
+                    <a href="/register" className="cursor-pointer">
                     <div className="h-10 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center">
                       <span className="text-navy-900 text-sm font-semibold">Add Record</span>
                     </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -334,9 +338,11 @@ const DetailedWalkthrough = () => {
                       <li>• Maintain full access</li>
                       <li>• Simple monthly billing</li>
                     </ul>
-                    <button className="btn-primary !px-5 !py-2.5 !text-sm mt-4 w-full justify-center">
+                    <a href="/pricing">
+                    <button className="cursor-pointer btn-primary !px-5 !py-2.5 !text-sm mt-4 w-full justify-center">
                       View Pricing Plans
                     </button>
+                    </a>
                   </div>
                   <div className="border border-gray-200 rounded-xl p-5">
                     <div className="flex items-center gap-2 mb-2">
@@ -403,7 +409,9 @@ const DetailedWalkthrough = () => {
                       </li>
                     ))}
                   </ul>
-                  <button className="btn-primary w-full justify-center mt-6">Start Free Trial</button>
+                  <a href="/register">
+                  <button className="cursor-pointer btn-primary w-full justify-center mt-6">Start Free Trial</button>
+                  </a>
                   <p className="text-xs text-center text-muted-foreground mt-3">30 days free • No credit card required</p>
                 </div>
               </div>

@@ -42,7 +42,7 @@ const HeroSection = () => {
                         {/* Buttons */}
                         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                             <a
-                                href="#trial"
+                                href="/register"
                                 className="btn-primary flex items-center justify-center gap-2"
                             >
                                 Start Your Free Trial
@@ -50,7 +50,7 @@ const HeroSection = () => {
                             </a>
 
                             <a
-                                href="#how-it-works"
+                                href="/how-it-works"
                                 className="btn-secondary flex items-center justify-center gap-2"
                             >
                                 <PlayCircle className="h-5 w-5" />

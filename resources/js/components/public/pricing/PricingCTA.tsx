@@ -44,7 +44,7 @@ const PricingCTA = () => (
         Join hundreds of service professionals using LemonGard. Start your free trial today.
       </p>
 
-      <a href="#trial" className="btn-primary text-lg !px-10 !py-5">
+      <a href="/register" className="btn-primary text-lg !px-10 !py-5">
         Start Your 30-Day Free Trial <ArrowRight className="w-5 h-5" />
       </a>
 
