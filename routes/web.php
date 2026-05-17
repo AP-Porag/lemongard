@@ -74,6 +74,8 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         // My Plan
         Route::get('/subscription', [SubscriptionController::class, 'myPlan'])
             ->name('myplan');
+        Route::get('/billing', [SubscriptionController::class, 'billingInfo'])
+            ->name('billing');
 
         //Checkout
         Route::get('/checkout/{name}', [SubscriptionController::class, 'checkout'])
