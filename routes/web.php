@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\Admin\Dashboard\AdminDashboardController;
@@ -97,9 +98,6 @@ Route::prefix(GlobalConstant::ROUTE_APP)
 
         Route::get('/subscription/plan/cancel', [SubscriptionController::class, 'cancel'])
             ->name('subscription.plan.cancel');
-
-
-
 
 
 

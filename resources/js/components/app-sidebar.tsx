@@ -214,7 +214,7 @@ export function AppSidebar() {
 
                         <Link
                             href="/app/subscription"
-                            className="mt-3 block w-full rounded-lg bg-black px-3 py-2 text-center text-sm font-medium text-white transition hover:bg-gray-800"
+                            className="mt-3 block w-full rounded-lg bg-navy-600 px-3 py-2 text-center text-sm font-medium text-white transition hover:bg-gray-800"
                         >
                             <span className="flex items-center justify-center gap-2">
                                 <span className="h-2 w-2 rounded-full bg-green-500"></span>

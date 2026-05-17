@@ -535,7 +535,7 @@ export default function MyPlan({
                                             className={`w-full ${
                                                 isTier1Disabled()
                                                     ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
-                                                    : 'cursor-pointer bg-green-600 text-white hover:bg-green-700'
+                                                    : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
                                             }`}
                                         >
                                             {getTier1ButtonText()}
@@ -547,7 +547,7 @@ export default function MyPlan({
                                             className={`w-full ${
                                                 isTier2Disabled()
                                                     ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
-                                                    : 'cursor-pointer bg-green-600 text-white hover:bg-green-700'
+                                                    : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
                                             }`}
                                         >
                                             {getTier2ButtonText()}
