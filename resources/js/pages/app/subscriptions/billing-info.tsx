@@ -101,7 +101,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                     Subscription Overview
                                 </CardTitle>
 
-                                {getStatusBadge()}
+                                {/* {getStatusBadge()} */}
                             </CardHeader>
 
                             <CardContent className="space-y-6">
@@ -170,8 +170,9 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                             <Receipt className="h-5 w-5 text-slate-500" />
 
                                             <span className="font-medium text-slate-900">
-                                                {billingInfo.next_billing_date ||
-                                                    'N/A'}
+                                               {billingInfo.subscription_tier === 'trial'
+    ? billingInfo.trial_ends_at || 'N/A'
+    : billingInfo.next_billing_date || 'N/A'}
                                             </span>
                                         </div>
                                     </div>

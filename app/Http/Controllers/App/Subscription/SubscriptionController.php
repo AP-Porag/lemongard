@@ -236,8 +236,8 @@ class SubscriptionController extends Controller
 
                 'next_billing_date' => $nextBillingDate,
 
-                'trial_ends_at' => $user->trial_ends_at
-                    ? Carbon::parse($user->trial_ends_at)->format('M d, Y')
+                'trial_ends_at' => $user->subscription('default') && $user->subscription('default')->trial_ends_at
+                    ? Carbon::parse($user->subscription('default')->trial_ends_at)->format('M d, Y')
                     : null,
 
                 'card_brand' => $user->pm_type
