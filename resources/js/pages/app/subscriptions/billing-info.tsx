@@ -38,6 +38,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
+    console.log(billingInfo.subscription_tier) + "test";
     const getStatusBadge = () => {
         switch (billingInfo.subscription_status) {
             case 'active':
@@ -114,8 +115,9 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                             <CircleDollarSign className="h-5 w-5 text-[#FF6B00]" />
 
                                             <h3 className="text-lg font-semibold text-slate-900">
-                                                {billingInfo.subscription_tier ||
-                                                    'N/A'}
+                                                {billingInfo.subscription_tier
+    ?.replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase()) || 'N/A'}
                                             </h3>
                                         </div>
                                     </div>
@@ -126,8 +128,12 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                         </p>
 
                                         <h3 className="text-lg font-semibold text-slate-900">
-                                            {billingInfo.plan_price || 'N/A'}
-                                        </h3>
+    {billingInfo.subscription_tier === 'tier_1_view_only'
+        ? '$14.99'
+        : billingInfo.subscription_tier === 'tier_2_full_access'
+            ? '$19.99'
+            : 'N/A'}
+</h3>
                                     </div>
                                 </div>
 
@@ -136,7 +142,11 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                 <div className="grid gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <p className="text-sm text-slate-500">
-                                            Subscription Started
+                                           {billingInfo.started_at
+    ? billingInfo.subscription_tier === 'trial'
+        ? 'Trial started'
+        : 'Subscription started'
+    : ''}
                                         </p>
 
                                         <div className="flex items-center gap-2">
@@ -151,8 +161,10 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
 
                                     <div className="space-y-2">
                                         <p className="text-sm text-slate-500">
-                                            Next Billing Date
-                                        </p>
+    {billingInfo.subscription_tier === 'trial'
+        ? 'Trial Ends At'
+        : 'Next Billing Date'}
+</p>
 
                                         <div className="flex items-center gap-2">
                                             <Receipt className="h-5 w-5 text-slate-500" />
@@ -195,38 +207,39 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                         </Card>
 
                         {/* Billing Period */}
-                        <Card className="border-0 shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="text-lg">
-                                    Billing Period
-                                </CardTitle>
-                            </CardHeader>
+                        {billingInfo.subscription_tier !== 'trial' && (
+    <Card className="border-0 shadow-sm">
+        <CardHeader>
+            <CardTitle className="text-lg">
+                Billing Period
+            </CardTitle>
+        </CardHeader>
 
-                            <CardContent className="space-y-5">
-                                <div className="flex items-center justify-between rounded-xl border p-4">
-                                    <div>
-                                        <p className="text-sm text-slate-500">
-                                            Subscription Ends
-                                        </p>
+        <CardContent className="space-y-5">
+            <div className="flex items-center justify-between rounded-xl border p-4">
+                <div>
+                    <p className="text-sm text-slate-500">
+                        Subscription Ends
+                    </p>
 
-                                        <p className="mt-1 font-semibold text-slate-900">
-                                            {billingInfo.ends_at ||
-                                                'Auto Renew'}
-                                        </p>
-                                    </div>
+                    <p className="mt-1 font-semibold text-slate-900">
+                        {billingInfo.ends_at || 'Auto Renew'}
+                    </p>
+                </div>
 
-                                    <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-                                        Monthly Billing
-                                    </Badge>
-                                </div>
-                            </CardContent>
-                        </Card>
+                <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+                    Monthly Billing
+                </Badge>
+            </div>
+        </CardContent>
+    </Card>
+)}
                     </div>
 
                     {/* RIGHT SIDE */}
                     <div className="space-y-6">
                         {/* Payment Method */}
-                        <Card className="border-0 shadow-sm">
+                        {/* <Card className="border-0 shadow-sm">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-lg">
                                     <CreditCard className="h-5 w-5 text-[#FF6B00]" />
@@ -262,7 +275,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                     </div>
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
 
                         {/* Billing Notes */}
                         <Card className="border-0 shadow-sm">

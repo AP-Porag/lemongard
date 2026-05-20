@@ -59,14 +59,12 @@ class GoogleAuthService extends BaseService
                 \App\Utils\GlobalConstant::TIER_TRIAL
             )->first();
 
-            dd($plan);
-
             if ($plan && $plan->stripe_price_id) {
                 $user->newSubscription(
                     'default',
                     $plan->stripe_price_id
                 )
-                    ->trialUntil(now()->addMinutes(1)) // better than 1 minute
+                    ->trialUntil(now()->addMinutes())
                     ->create();
             }
         }
