@@ -43,11 +43,32 @@ class GoogleAuthService extends BaseService
             ]
         );
 
-        // ✅ Detect first login
-        if ($user->wasRecentlyCreated) {
+        // Detect first login
+        $isNewUser = $user->wasRecentlyCreated;
+
+        if ($isNewUser) {
             $user->update([
                 'is_first_login' => true,
             ]);
+
+            // ===============================
+            // STRIPE TRIAL SUBSCRIPTION
+            // ===============================
+            $plan = \App\Models\Plan::where(
+                'name',
+                \App\Utils\GlobalConstant::TIER_TRIAL
+            )->first();
+
+            dd($plan);
+
+            if ($plan && $plan->stripe_price_id) {
+                $user->newSubscription(
+                    'default',
+                    $plan->stripe_price_id
+                )
+                    ->trialUntil(now()->addMinutes(1)) // better than 1 minute
+                    ->create();
+            }
         }
 
         Auth::login($user);
