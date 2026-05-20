@@ -66,7 +66,7 @@ class CreateNewUser implements CreatesNewUsers
             $user->newSubscription(
                 'default',
                 $plan->stripe_price_id
-            )->trialUntil(now()->addMinute())
+            )->trialUntil(now()->addMonth())
                 ->create();
         }
 

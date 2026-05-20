@@ -64,7 +64,7 @@ class GoogleAuthService extends BaseService
                     'default',
                     $plan->stripe_price_id
                 )
-                    ->trialUntil(now()->addMinutes())
+                    ->trialUntil(now()->addMonth())
                     ->create();
             }
         }
