@@ -178,7 +178,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                     </div>
                                 </div>
 
-                                {billingInfo.trial_ends_at && (
+                                {/* {billingInfo.trial_ends_at && (
                                     <>
                                         <Separator />
 
@@ -203,7 +203,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                             </div>
                                         </div>
                                     </>
-                                )}
+                                )} */}
                             </CardContent>
                         </Card>
 
