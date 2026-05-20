@@ -154,7 +154,6 @@ export function AppSidebar() {
     console.log(auth.user);
 
     const canCreateRecord = auth?.user?.has_full_access;
-    console.log(canCreateRecord);
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
         if (item.title === 'Records' && item.children) {

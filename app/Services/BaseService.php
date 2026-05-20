@@ -132,6 +132,7 @@ abstract class BaseService
 
         $isTrialActive = $subscription->onTrial();
 
+
         $isSubscriptionActive =
             $subscription->active() ||
             $subscription->onGracePeriod();
