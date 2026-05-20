@@ -238,6 +238,16 @@ const LogoText = ({ className = 'h-8 w-auto' }: { className?: string }) => {
     );
 };
 
+const LogoBlack = ({ className = 'h-8 w-auto' }: { className?: string }) => {
+    return (
+        <img
+            src="/images/logo-rectangle-2.png"
+            alt="LemonGard Logo"
+            className={className}
+        />
+    );
+};
+
 const LogoWhite = ({ className = 'h-8 w-auto' }: { className?: string }) => {
     return (
         <img
@@ -248,6 +258,7 @@ const LogoWhite = ({ className = 'h-8 w-auto' }: { className?: string }) => {
     );
 };
 
+
 /**
  * Default export - LemonWhole for general use
  */
@@ -257,3 +268,4 @@ export { Logo };
 export { LogoWhite };
 export { LogoIcon };
 export { LogoText };
+export {LogoBlack}

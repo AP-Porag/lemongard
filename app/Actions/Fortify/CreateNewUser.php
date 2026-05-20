@@ -18,6 +18,9 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', 'min:8'],
+            'agree_to_terms' => ['required', 'boolean'],
+            'marketing_emails' => ['nullable', 'boolean'],
+
         ])->validate();
 
         /*
@@ -29,6 +32,8 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'marketing_emails' => (bool) $input['marketing_emails'],
+            'agree_to_terms' => (bool) $input['agree_to_terms'],
             'is_first_login' => true,
         ]);
 

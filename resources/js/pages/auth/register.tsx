@@ -234,7 +234,7 @@ const Register = () => {
             {/* ── Main ─────────────────────────────────────── */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
                 {/* Background watermarks */}
-                
+
 
                 <div className="w-full max-w-md">
                     {/* ── Header ─────────────────────────────── */}
@@ -387,72 +387,8 @@ const Register = () => {
                                         {errors.email.message}
                                     </p>
                                 )}
-                                {/* {formError && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {formError}
-                                    </p>
-                                )} */}
+
                             </div>
-
-                            {/* Company */}
-                            {/* <div>
-                                <label
-                                    htmlFor="company"
-                                    className="mb-2 block text-sm font-medium text-[#1E3A8A]"
-                                >
-                                    Company or Business Name{' '}
-                                    <span className="text-gray-400">
-                                        (Optional)
-                                    </span>
-                                </label>
-                                <div className="relative">
-                                    <Building2 className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                                    <input
-                                        id="company"
-                                        placeholder="Your Company Name"
-                                        {...register('company')}
-                                        className={inputCls('company')}
-                                    />
-                                </div>
-                            </div> */}
-
-                            {/* Industry */}
-                            {/* <div>
-                                <label
-                                    htmlFor="industry"
-                                    className="mb-2 block text-sm font-medium text-[#1E3A8A]"
-                                >
-                                    Industry{' '}
-                                    <span className="text-red-500">*</span>
-                                </label>
-                                <div className="relative">
-                                    <Briefcase className="pointer-events-none absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                                    <select
-                                        id="industry"
-                                        {...register('industry')}
-                                        className={`${inputCls('industry')} appearance-none`}
-                                        defaultValue=""
-                                    >
-                                        <option value="" disabled>
-                                            Select your industry
-                                        </option>
-                                        {industries.map((i) => (
-                                            <option key={i} value={i}>
-                                                {i}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                {errors.industry && (
-                                    <p
-                                        className="mt-1 flex items-center gap-1 text-sm text-red-500"
-                                        role="alert"
-                                    >
-                                        <AlertCircle className="h-3.5 w-3.5" />{' '}
-                                        {errors.industry.message}
-                                    </p>
-                                )}
-                            </div> */}
 
                             {/* Password */}
                             <div>
@@ -566,14 +502,14 @@ const Register = () => {
                                     <span className="text-sm text-gray-600">
                                         I agree to the{' '}
                                         <Link
-                                            to="/"
+                                            href="/terms"
                                             className="text-[#F8C734] underline hover:text-[#EAB308]"
                                         >
                                             Terms &amp; Conditions
                                         </Link>{' '}
                                         and{' '}
                                         <Link
-                                            to="/"
+                                            href="/privacy-policy"
                                             className="text-[#F8C734] underline hover:text-[#EAB308]"
                                         >
                                             Privacy Policy
@@ -821,37 +757,6 @@ const Register = () => {
                 </div>
             </main>
 
-            {/* ── Footer ───────────────────────────────────── */}
-            {/* <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
-                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <LemonWhole className="h-6 w-6" />© 2026 LemonGard. All
-                        rights reserved.
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Privacy Policy
-                        </Link>
-                        <LemonSimple className="h-3 w-3 text-[#F8C734]" />
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Terms
-                        </Link>
-                        <LemonSimple className="h-3 w-3 text-[#F8C734]" />
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Contact
-                        </Link>
-                    </div>
-                </div>
-            </footer> */}
             <Footer></Footer>
         </div>
     );

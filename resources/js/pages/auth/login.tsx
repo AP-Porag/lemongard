@@ -24,6 +24,8 @@ import {
     LemonSlice,
     LemonSimple,
     Logo,
+    LogoIcon,
+    LogoBlack,
 } from '@/components/public/LemonIcon';
 import Footer from '@/components/public/Footer';
 
@@ -51,25 +53,39 @@ const Login = () => {
         defaultValues: { rememberMe: false },
     });
 
-    const onSubmit = (data: LoginFormData) => {
-        setFormError(null);
+    // const onSubmit = (data: LoginFormData) => {
+    //     setFormError(null);
 
-        router.post('/login', data, {
-            onError: (errors: any) => {
-                if (errors.email) setFormError(errors.email);
-                if (errors.password) setFormError(errors.password);
-            },
-        });
-    };
+    //     router.post('/login', data, {
+    //         onError: (errors: any) => {
+    //             if (errors.email) setFormError(errors.email);
+    //             if (errors.password) setFormError(errors.password);
+    //         },
+    //     });
+    // };
+    const onSubmit = (data: LoginFormData) => {
+    setFormError(null);
+
+    router.post('/login', {
+        email: data.email,
+        password: data.password,
+        remember: data.rememberMe,
+    }, {
+        onError: (errors: any) => {
+            if (errors.email) setFormError(errors.email);
+            if (errors.password) setFormError(errors.password);
+        },
+    });
+};
 
     return (
         <div className="flex min-h-screen flex-col bg-[#FAFAFA]">
-            
+
             {/* Simplified Nav */}
             <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     <Link href="/" className="group flex items-center gap-2">
-                        <Logo className="h-12 w-auto" />
+                        <LogoBlack className="h-12 w-auto" />
                     </Link>
                     <p className="text-sm text-gray-600">
                         Don't have an account?{' '}
@@ -92,13 +108,13 @@ const Login = () => {
                             opacity: 0.12,
                         }}
                     />
-                      
+
             {/* Login Section */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-                
-               
+
+
                 <div className="w-full max-w-md">
-                     
+
                     {/* Welcome */}
                     <div className="mb-8 text-center">
                         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
@@ -234,12 +250,12 @@ const Login = () => {
                                         Remember me
                                     </span>
                                 </label>
-                                <Link
+                                {/* <Link
                                     href={request()}
                                     className="text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                                 >
                                     Forgot password?
-                                </Link>
+                                </Link> */}
                             </div>
 
                             {/* Submit */}
@@ -310,8 +326,8 @@ const Login = () => {
                         {/* Sign up link */}
                         <p className="mt-8 text-center text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <Link
-                                to="/register"
+                            <Link href='/register'
+
                                 className="font-semibold text-[#F8C734] transition-colors hover:text-[#EAB308]"
                             >
                                 Start your free trial
@@ -364,38 +380,6 @@ const Login = () => {
                     </div>
                 </div>
             </main>
-
-            {/* Minimal Footer */}
-            {/* <footer className="mx-auto w-full max-w-7xl border-t border-gray-200 px-4 py-8 sm:px-6 lg:px-8">
-                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <LemonWhole className="h-6 w-6" />© 2026 LemonGard. All
-                        rights reserved.
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Privacy Policy
-                        </Link>
-                        <LemonSimple className="h-3 w-3 text-[#F8C734]" />
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Terms
-                        </Link>
-                        <LemonSimple className="h-3 w-3 text-[#F8C734]" />
-                        <Link
-                            to="/"
-                            className="transition-colors hover:text-[#F8C734]"
-                        >
-                            Contact
-                        </Link>
-                    </div>
-                </div>
-            </footer> */}
             <Footer></Footer>
         </div>
     );

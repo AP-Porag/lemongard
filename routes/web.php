@@ -45,6 +45,12 @@ Route::group([], function () {
 |--------------------------------------------------------------------------
 */
 
+Route::middleware('guest.redirect')->group(function () {
+    Route::get('/login', function () {
+        return Inertia::render('Auth/Login');
+    })->name('login');
+});
+
 Route::prefix(GlobalConstant::ROUTE_APP)
     ->name('app.')
     ->middleware([
