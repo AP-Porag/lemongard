@@ -48,9 +48,9 @@ and problem clients don’t slip through." />
 
     <title inertia>{{ config('app.name', 'Lemongard') }}</title>
 
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/images/icon-logo.png" sizes="32x32">
+    {{-- <link rel="icon" href="/favicon.svg" type="image/svg+xml"> --}}
+    <link rel="apple-touch-icon" href="/images/icon-logo.png" sizes="180x180">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
