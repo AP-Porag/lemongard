@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import DataTable from '@/components/common/DataTable';
 import AppLayout from '@/layouts/app-layout.js';
+import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs = [
     {
@@ -76,6 +77,29 @@ export default function Index({
             ),
         },
         {
+            key: 'status',
+            label: 'Status',
+            render: (row) => (
+               <span className="block w-48 truncate">
+    <Badge
+    className={
+        row.status?.trim()
+            ? 'bg-green-600 text-white hover:bg-green-600 px-3 py-1'
+            : 'bg-yellow-500 text-white hover:bg-yellow-500 px-3 py-1'
+    }
+>
+    {row.status?.trim()
+        ? row.status
+              .toLowerCase()
+              .split(' ')
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ')
+        : 'Not Resolved'}
+</Badge>
+</span>
+            ),
+        },
+        {
             key: 'industry',
             label: 'Industry',
             render: (row) => (
@@ -117,12 +141,24 @@ export default function Index({
 
                         const canModify = canCreateRecord && isOwner;
 
+                        const canEditDelete = canCreateRecord && isOwner;
+
+                        const isResolved = row.status === 'resolved';
+
                         return {
                             view: true,
+                            resolve: true,
+
+
+
+                           disabled: !canEditDelete,
+
+                            resolve: !isResolved && canEditDelete,
+
+        disabled: isResolved,
 
                             edit: canModify,
-                            delete: canModify,
-
+                            delete: false,
                             search_filter: true,
                             status_filter: true,
                             per_page_filter: true,

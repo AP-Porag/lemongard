@@ -71,7 +71,7 @@ export default function Index({
         },
         {
             key: 'status',
-            label: 'Resolved Status',
+            label: 'Status',
             render: (row) => (
                <span className="block w-48 truncate">
     <Badge

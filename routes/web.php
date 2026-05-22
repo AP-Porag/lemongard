@@ -76,6 +76,9 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::patch('/record/{record}/resolve', [RecordController::class, 'resolve'])
             ->name('records.resolve');
 
+        Route::patch('/my-record/{record}/resolve', [RecordController::class, 'resolve'])
+            ->name('my-records.resolve');
+
         Route::resource('my-records', MyRecordController::class);
 
         // User Own Data
