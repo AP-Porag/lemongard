@@ -19,6 +19,7 @@ class Record extends Model
         'zip',
         'service',
         'price',
-        'incident_report'
+        'incident_report',
+        'status'
     ];
 }

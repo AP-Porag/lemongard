@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { MoreVertical, Edit, Trash2, EyeIcon } from 'lucide-react';
+import { MoreVertical, Edit, Trash2, EyeIcon, Check, CheckCircle } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input.js';
 import {
@@ -28,6 +28,7 @@ export default function DataTable({
         view: true,
         edit: true,
         delete: true,
+        resolve: true,
         search_filter: true,
         status_filter: true,
         per_page_filter: true,
@@ -38,6 +39,7 @@ export default function DataTable({
     perPageOptions = [5, 10, 25, 50],
 }) {
     const [deleteId, setDeleteId] = React.useState(null);
+    const [resolveId, setResolveId] = React.useState(null);
 
     // const handleDeleteConfirm = () => {
     //     router.delete(route(`${baseRoute}.destroy`, deleteId), {
@@ -71,6 +73,22 @@ export default function DataTable({
             },
         });
     };
+const handleResolve = () => {
+    router.patch(
+        route(`${baseRoute}.resolve`, resolveId),
+        {}, // data
+        {
+            onSuccess: () => {
+                setResolveId(null);
+                toast.success('Item resolved successfully!');
+                  router.reload();
+            },
+            onError: () => {
+                toast.error('Failed to resolve the item.');
+            },
+        }
+    );
+};
 
     const goToPage = (page) => {
         onFilterChange({
@@ -291,6 +309,17 @@ export default function DataTable({
                                                             </DropdownMenuItem>
                                                         )}
 
+                                                         {/* RESOLVE */}
+                                                        {rowActions.resolve && (
+    <DropdownMenuItem
+        onClick={() => setResolveId(row.id)}
+        className="cursor-pointer"
+    >
+        <CheckCircle className="mr-2 h-4 w-4 text-red-600" />
+        Resolve
+    </DropdownMenuItem>
+)}
+
                                                         {/* CUSTOM ACTIONS */}
                                                         {Object.entries(
                                                             rowActions,
@@ -300,6 +329,7 @@ export default function DataTable({
                                                                     [
                                                                         'view',
                                                                         'edit',
+                                                                        'resolve',
                                                                         'delete',
                                                                     ].includes(
                                                                         key,
@@ -404,6 +434,13 @@ export default function DataTable({
                 title="Are you sure you want to delete this item?"
                 message="Once deleted, you will not be able to recover this item."
             />
+            <CustomDeleteModal
+    open={!!resolveId}
+    onClose={() => setResolve(null)}
+    onConfirm={handleResolve}
+    title="Are you sure you want to resolve this item?"
+    message="This action will mark the item as resolved."
+/>
         </div>
     );
 }

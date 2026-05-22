@@ -33,7 +33,10 @@ class RecordService extends BaseService
     }
     public function getPaginatedRecords(array $filters)
     {
-        return $this->model
+
+        $authID = auth()->id();
+
+        $records = $this->model
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -49,6 +52,21 @@ class RecordService extends BaseService
             ->latest()
             ->paginate($filters['perPage'] ?? 5)
             ->withQueryString();
+
+        $records->setCollection(
+            $records->getCollection()->filter(function ($record) use ($authID) {
+
+                // নিজের data হলে সব show করবে
+                if ($record->user_id === $authID) {
+                    return true;
+                }
+
+                // অন্য user এর resolved hide করবে
+                return $record->status !== 'resolved';
+            })->values()
+        );
+
+        return $records;
     }
 
     public function getPaginatedMyRecords(array $filters)

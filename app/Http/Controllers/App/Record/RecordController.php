@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
+use App\Models\Record;
 use App\Services\Subscriber\Record\RecordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -108,5 +109,13 @@ class RecordController extends Controller
             'filters' => $request->only(['search', 'status', 'perPage']),
             'has_full_access' => $hasFullAccess, // 🔥 send to frontend
         ]);
+    }
+    public function resolve(Record $record)
+    {
+        $record->update([
+            'status' => 'resolved',
+        ]);
+
+        return back();
     }
 }

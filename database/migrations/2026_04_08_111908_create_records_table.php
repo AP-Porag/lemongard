@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->string('phone_cell')->index();
             $table->string('phone_home')->nullable();
+            $table->string('status')->nullable();
 
             $table->string('street')->nullable();
             $table->string('city')->index();
