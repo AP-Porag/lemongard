@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import DataTable from '@/components/common/DataTable';
 import AppLayout from '@/layouts/app-layout.js';
-import { Badge } from '@/components/public/ui/badge';
+import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs = [
     {
