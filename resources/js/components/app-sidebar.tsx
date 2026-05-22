@@ -153,7 +153,8 @@ export function AppSidebar() {
     const { auth } = usePage().props as any;
     console.log(auth.user);
 
-    const canCreateRecord = auth?.user?.has_full_access;
+    // const canCreateRecord = auth?.user?.has_full_access;
+    const canCreateRecord = Boolean(auth?.user?.has_full_access);
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
         if (item.title === 'Records' && item.children) {
