@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { LemonSimple, LemonSlice } from "../LemonIcon";
 
 const viewFeatures = [
-  "Advanced search and filters",
   "View client, contact, and service records",
+  "Advanced search and filters",
   "Export search results",
   "Mobile-friendly access",
   "Read-only access",
@@ -46,7 +46,7 @@ const PricingCards = () => (
           <Eye className="w-6 h-6 text-navy-600" />
           <h3 className="text-2xl font-bold text-black">View Only</h3>
         </div>
-        <p className="text-muted-foreground mb-6">See client history and shared insights to help you make better booking decisions</p>
+        <p className="text-muted-foreground mb-6">View client history and shared insights to help you make better informed decisions.</p>
 
         <div className="flex items-baseline gap-2 mb-2">
           <span className="text-5xl font-bold text-navy-600">$14.99</span>

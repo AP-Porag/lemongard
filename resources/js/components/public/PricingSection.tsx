@@ -42,10 +42,9 @@ const PricingSection = () => {
                         {/* Headline */}
                         <h2 className="text-navy-600 mt-6 text-3xl font-bold md:text-4xl">
                             Professional Tools,{' '}
-                            {/* <br /> */}
-                            <span className="text-yellow-500">
+                            <p className="text-yellow-500 pt-1">
                                 Predictable Pricing
-                            </span>
+                            </p>
                         </h2>
 
                         {/* Description */}

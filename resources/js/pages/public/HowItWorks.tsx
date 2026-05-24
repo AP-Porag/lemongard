@@ -20,9 +20,9 @@ export default function HowItWorks() {
             <HowItWorksHero />
             <OverviewTimeline />
             <DetailedWalkthrough />
-            <FeaturesDeepDive />
+            {/* <FeaturesDeepDive /> */}
             <FAQSection />
-            <DemoSection />
+            {/* <DemoSection /> */}
             <TrustSecurity />
             <HowItWorksCTA />
         </PublicLayout>

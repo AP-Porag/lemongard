@@ -174,7 +174,8 @@ const handleResolve = () => {
             </div>
 
             {/* Table */}
-            <table className="min-w-full table-auto">
+            <div className="overflow-x-auto">
+            <table className="min-w-full">
                 <thead className="border-b text-left">
                     <tr>
                         {columns.map((col) => (
@@ -242,7 +243,7 @@ const handleResolve = () => {
                                         <DropdownMenuTrigger asChild>
                                             <Button
                                                 size="action"
-                                                className="cursor-pointer text-white"
+                                                className="cursor-pointer bg-navy-600 text-white"
                                             >
                                                 <MoreVertical className="h-4 w-4" />
                                             </Button>
@@ -371,6 +372,7 @@ const handleResolve = () => {
                     )}
                 </tbody>
             </table>
+            </div>
 
             {/* Pagination Controls */}
             {meta && (

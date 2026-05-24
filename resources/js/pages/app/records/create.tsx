@@ -3,6 +3,8 @@ import { Head, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 import type { BreadcrumbItem } from '@/types';
 
@@ -11,6 +13,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Create Record',
         href: '',
     },
+];
+
+// Industry dropdown options
+const industryOptions = [
+    'Hair Salon',
+    'Aesthetician',
 ];
 
 export default function Create({ userId }) {
@@ -36,10 +44,67 @@ export default function Create({ userId }) {
 
     const [errors, setErrors] = useState({});
 
-    const handleChange = (e) => {
+    // const handleChange = (e) => {
+    //     setForm({
+    //         ...form,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
+
+       // Phone format handler
+  const formatPhoneNumber = (value) => {
+    // only digits, max 15
+    const numbers = value.replace(/\D/g, '').slice(0, 15);
+
+    // group digits dynamically
+    const parts = [];
+
+    for (let i = 0; i < numbers.length; i += 3) {
+        parts.push(numbers.slice(i, i + 3));
+    }
+
+    return parts.join('-');
+};
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        // Phone formatting
+        if (name === 'phone_cell' || name === 'phone_home') {
+            setForm({
+                ...form,
+                [name]: formatPhoneNumber(value),
+            });
+
+            return;
+        }
+
+        // Price = dollars only (no cents)
+        if (name === 'price') {
+            const numericValue = value.replace(/\D/g, '');
+
+            setForm({
+                ...form,
+                [name]: numericValue,
+            });
+
+            return;
+        }
+
+        // Reset service when industry changes
+        if (name === 'industry') {
+            setForm({
+                ...form,
+                industry: value,
+                service: '',
+            });
+
+            return;
+        }
+
         setForm({
             ...form,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
     };
 
@@ -76,6 +141,7 @@ export default function Create({ userId }) {
         });
     };
 
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Record" />
@@ -129,7 +195,7 @@ export default function Create({ userId }) {
                         </div>
 
                         {/* Phone Cell */}
-                        <div>
+                        {/* <div>
                             <label className="text-sm font-medium">
                                 Phone Cell
                             </label>
@@ -144,10 +210,10 @@ export default function Create({ userId }) {
                                     {errors.phone_cell}
                                 </p>
                             )}
-                        </div>
+                        </div> */}
 
                         {/* Phone Home */}
-                        <div>
+                        {/* <div>
                             <label className="text-sm font-medium">
                                 Phone Home
                             </label>
@@ -157,6 +223,50 @@ export default function Create({ userId }) {
                                 onChange={handleChange}
                                 className="w-full rounded border px-3 py-2"
                             />
+                        </div> */}
+
+                           {/* Phone Cell */}
+                        <div>
+                            <label className="text-sm font-medium">
+                                Phone Cell
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone_cell"
+                                value={form.phone_cell}
+                                onChange={handleChange}
+                                maxLength={15}
+                                className="w-full rounded border px-3 py-2"
+                            />
+
+                            {errors.phone_cell && (
+                                <p className="text-sm text-red-500">
+                                    {errors.phone_cell}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Phone Home */}
+                        <div>
+                            <label className="text-sm font-medium">
+                                Phone Home
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone_home"
+                                value={form.phone_home}
+                                onChange={handleChange}
+                                maxLength={15}
+                                className="w-full rounded border px-3 py-2"
+                            />
+
+                            {errors.phone_home && (
+                                <p className="text-sm text-red-500">
+                                    {errors.phone_home}
+                                </p>
+                            )}
                         </div>
 
                         {/* Industry */}
@@ -164,18 +274,72 @@ export default function Create({ userId }) {
                             <label className="text-sm font-medium">
                                 Industry
                             </label>
-                            <input
+                            {/* <input
                                 name="industry"
                                 value={form.industry}
                                 onChange={handleChange}
                                 className="w-full rounded border px-3 py-2"
-                            />
+                            /> */}
+
+                                <select
+                                name="industry"
+                                value={form.industry}
+                                onChange={handleChange}
+                                className="w-full rounded border px-2 py-2"
+                            >
+                                <option className="text-sm" value="">
+                                    Select Industry
+                                </option>
+
+                                {industryOptions.map((industry) => (
+                                    <option
+                                        key={industry}
+                                        value={industry}
+                                    >
+                                        {industry}
+                                    </option>
+                                ))}
+                            </select>
+
                             {errors.industry && (
                                 <p className="text-sm text-red-500">
                                     {errors.industry}
                                 </p>
                             )}
                         </div>
+
+
+                         {/* <div>
+                            <label className="text-sm font-medium">
+                                Industry
+                            </label>
+
+                            <select
+                                name="industry"
+                                value={form.industry}
+                                onChange={handleChange}
+                                className="w-full rounded border px-3 py-2"
+                            >
+                                <option className="text-red-300 text-sm" value="">
+                                    Select Industry
+                                </option>
+
+                                {industryOptions.map((industry) => (
+                                    <option
+                                        key={industry}
+                                        value={industry}
+                                    >
+                                        {industry}
+                                    </option>
+                                ))}
+                            </select>
+
+                            {errors.industry && (
+                                <p className="text-sm text-red-500">
+                                    {errors.industry}
+                                </p>
+                            )}
+                        </div> */}
 
                         {/* Street */}
                         <div>
@@ -264,13 +428,16 @@ export default function Create({ userId }) {
                         {/* Price */}
                         <div>
                             <label className="text-sm font-medium">Price</label>
+                            <div className="relative">
                             <input
                                 name="price"
                                 type="number"
                                 value={form.price}
                                 onChange={handleChange}
-                                className="w-full rounded border px-3 py-2"
+                                className="w-full rounded border pl-7 pr-3 py-2"
                             />
+                            <span className="absolute -top-1\2 translate-y-1/2 left-3 text-[14px]">$</span>
+                            </div>
                             {errors.price && (
                                 <p className="text-sm text-red-500">
                                     {errors.price}

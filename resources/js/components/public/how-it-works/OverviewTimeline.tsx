@@ -8,7 +8,7 @@ const steps = [
     icon: UserPlus,
     title: "Sign Up & Start Free Trial",
     duration: "Day 1",
-    description: "Create your account in under two minutes. No credit card required. Get instant access to all features.",
+    description: "Please do not have the word 'features' alone on the last line. Make the break at the beginning of the sentence.",
     points: [
       "Quick registration form",
       "Email verification required",

@@ -3,9 +3,9 @@ import { Star, Quote } from "lucide-react";
 import { LemonSimple } from "@/components/LemonIcon";
 
 const testimonials = [
-  { quote: "“Since using Lemongard, I’ve been able to see patterns in repeat no-shows and difficult clients. It’s helped me avoid booking people who waste my time and focus on clients who respect my schedule.” Jill W., Industry Professional", name: "Sarah M.", role: "Service Manager", initials: "SM" },
-  { quote: "“As a salon owner, I used to only rely on my own experience. Now with Lemongard, I can see shared client notes from other stylists, which has helped me avoid problem appointments and protect my staff’s time.”  Brooke C., Owner/Operator", name: "James R.", role: "Independent Contractor", initials: "JR" },
-  { quote: "“Using Lemongard has changed how I book appointments. I can quickly spot clients with a history of cancellations or bad behavior, so I’m no longer blindsided. It’s made my day-to-day work a lot smoother and more predictable.” Jayson P., Industry Professional", name: "Elena K.", role: "Operations Director", initials: "EK" },
+  { quote: "“Since using Lemongard, I’ve been able to see patterns in repeat no-shows and difficult clients. It’s helped me avoid booking people who waste my time and focus on clients who respect my schedule.”", name: "Jill W.", role: "Industry Professional", initials: "JW" },
+  { quote: "“As a salon owner, I used to only rely on my own experience. Now with Lemongard, I can see shared client notes from other stylists, which has helped me avoid problem appointments and protect my staff’s time.”", name: "Brooke C.", role: "Owner/Operator", initials: "BC" },
+  { quote: "“Using Lemongard has changed how I book appointments. I can quickly spot clients with a history of cancellations or bad behavior, so I’m no longer blindsided. It’s made my day-to-day work a lot smoother and more predictable.”", name: "Jayson P.", role: "Industry Professional", initials: "JP" },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } };

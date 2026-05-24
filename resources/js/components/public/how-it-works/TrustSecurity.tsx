@@ -17,7 +17,7 @@ const badges = ["SSL Secured", "Stripe Partner", "GDPR Compliant", "SOC 2"];
 const TrustSecurity = () => {
   return (
     <section className="section-padding">
-      <div className="bg-gray-50 p-8 lg:p-16">
+      <div className="p-8 lg:p-16">
         <div className="section-container">
         {/* Header */}
         <motion.div

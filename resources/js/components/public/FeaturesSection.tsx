@@ -21,7 +21,7 @@ const features = [
         icon: CreditCard,
         title: 'Subscription Simplicity',
         description:
-            'Transparent monthly billing with instant access. Start with a 30-day free trial to explore and access client data. Cancel anytime with no penalties.',
+            'Transparent monthly billing with instant access. Start with a 30-day free trial to add and explore client data. Cancel anytime with no penalties.',
         badge: { icon: Tag, text: 'Flexible Pricing' },
     },
 ];

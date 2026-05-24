@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     q: "What happens to my data if I don't subscribe?",
-    a: "If you choose not to subscribe after your trial, your account access ends immediately. However, we keep your data for 90 days in case you change your mind. After 90 days, all data is permanently deleted from our servers. You can export your data anytime during the trial or active subscription.",
+    a: "If you choose not to subscribe after your trial, your account access ends immediately. However, we keep your data for 90 days in case you change your mind. You can export your data anytime during the trial or active subscription.",
   },
   {
     q: "Can I edit or delete records added by other users?",
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "Can I cancel my subscription anytime?",
-    a: "Yes! There are no long-term contracts. You can cancel your subscription at any time from your account settings. Your access continues until the end of your current billing period, and you can export your data for 30 days after cancellation.",
+    a: "Yes! There are no long-term contracts. You can cancel your subscription at any time from your account settings. Your access continues until the end of your current billing period, and you can export your data for 30 days after cancellation. Lemongard does not offer refunds for the monthly or annual subscription.",
   },
   {
     q: "What payment methods do you accept?",
@@ -33,12 +33,12 @@ const faqs = [
   },
   {
     q: "How do I get support if I need help?",
-    a: "All subscribers get priority email support with response within 24 hours. We also have a comprehensive knowledge base, video tutorials, and active community forum. Live chat support is available for annual subscribers.",
+    a: "All subscribers get priority email support with response within 24 hours.",
   },
-  {
-    q: "Can I upgrade or downgrade my plan?",
-    a: "Currently, we offer one comprehensive Professional Plan that includes all features. We may introduce additional plan tiers in the future based on user feedback.",
-  },
+  // {
+  //   q: "Can I upgrade or downgrade my plan?",
+  //   a: "Currently, we offer one comprehensive Professional Plan that includes all features. We may introduce additional plan tiers in the future based on user feedback.",
+  // },
   {
     q: "Is my data backed up?",
     a: "Yes! We perform automated daily backups of all data to secure, geographically distributed servers. Your data is protected against hardware failure, and we maintain backup copies for disaster recovery.",

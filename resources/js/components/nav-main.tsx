@@ -15,8 +15,8 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
 
     return (
-        <SidebarGroup className="px-2 py-0">
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroup className="px-2 pt-3 pb-0">
+            {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
 
             <SidebarMenu>
                 {items.map((item) => {

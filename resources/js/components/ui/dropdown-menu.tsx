@@ -23,6 +23,7 @@ function DropdownMenuTrigger({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
   return (
     <DropdownMenuPrimitive.Trigger
+      // className="bg-navy-700"
       data-slot="dropdown-menu-trigger"
       {...props}
     />

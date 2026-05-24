@@ -64,7 +64,7 @@ const DetailedWalkthrough = () => {
                     { step: "1", title: "Visit Registration Page", details: ["Click \"Start Free Trial\" anywhere on site", "No credit card required upfront"] },
                     { step: "2", title: "Fill Basic Information", details: ["Business name and type", "Your name and email", "Create secure password"] },
                     { step: "3", title: "Verify Email", details: ["Check inbox for verification link", "Click to activate account", "Instant platform access"] },
-                    { step: "4", title: "Complete Profile (Optional)", details: ["Add business details", "Upload logo", "Set preferences"] },
+                    // { step: "4", title: "Complete Profile (Optional)", details: ["Add business details", "Upload logo", "Set preferences"] },
                   ].map((item) => (
                     <div key={item.step} className="flex gap-4">
                       <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0 mt-0.5">
