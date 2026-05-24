@@ -8,7 +8,11 @@ const steps = [
     icon: UserPlus,
     title: "Sign Up & Start Free Trial",
     duration: "Day 1",
-    description: "Please do not have the word 'features' alone on the last line. Make the break at the beginning of the sentence.",
+    description: [
+      "Create your account in under two minutes.",
+      "No credit card required.", 
+      "Get instant access to all features.",
+    ],
     points: [
       "Quick registration form",
       "Email verification required",
@@ -21,7 +25,9 @@ const steps = [
     icon: Database,
     title: "Explore & Contribute Data",
     duration: "Days 1-30",
-    description: "Browse shared records, search industry data, and add your own.",
+    description: [
+      "Browse shared records, search industry",
+       "data, and add your own."],
     points: [
       "Search all records",
       "View data shared by other professionals",
@@ -33,7 +39,12 @@ const steps = [
     icon: TrendingUp,
     title: "Subscribe & Continue Growing",
     duration: "Day 30+",
-    description: "After your trial, choose a monthly or annual subscription to continue using the service without interruption. Your data and access are fully retained.",
+    description: [
+      "After your trial, choose a monthly or annual", 
+      "subscription to continue using the service",
+      "without interruption. Your data and",
+      "access are fully retained.",
+    ],
     points: [
       "Simple monthly or annual billing",
       "Full access to all features included",
@@ -112,9 +123,17 @@ const OverviewTimeline = () => {
                 <h3 className="text-xl md:text-2xl font-bold text-navy-600 mt-4 text-center">
                   {step.title}
                 </h3>
-                <p className=" text-muted-foreground mt-3 text-center leading-relaxed text-sm">
+                {/* <p style={{ whiteSpace: "pre-line" }} className=" text-muted-foreground mt-3 text-center leading-relaxed text-sm">
                   {step.description}
-                </p>
+                </p> */}
+
+                 <ul className="mt-3 space-y-2">
+                  {step.description.map((desc) => (
+                    <li key={desc} className="flex items-center justify-center text-sm leading-tight">
+                      <span className="text-muted-foreground">{desc}</span>
+                    </li>
+                  ))}
+                </ul>
 
                 {/* Key points */}
                 <ul className="mt-5 space-y-2">

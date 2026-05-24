@@ -53,10 +53,8 @@ export default function Create({ userId }) {
 
        // Phone format handler
   const formatPhoneNumber = (value) => {
-    // only digits, max 15
     const numbers = value.replace(/\D/g, '').slice(0, 15);
 
-    // group digits dynamically
     const parts = [];
 
     for (let i = 0; i < numbers.length; i += 3) {
@@ -64,6 +62,7 @@ export default function Create({ userId }) {
     }
 
     return parts.join('-');
+    
 };
 
       const handleChange = (e) => {
@@ -74,18 +73,6 @@ export default function Create({ userId }) {
             setForm({
                 ...form,
                 [name]: formatPhoneNumber(value),
-            });
-
-            return;
-        }
-
-        // Price = dollars only (no cents)
-        if (name === 'price') {
-            const numericValue = value.replace(/\D/g, '');
-
-            setForm({
-                ...form,
-                [name]: numericValue,
             });
 
             return;
@@ -152,6 +139,7 @@ export default function Create({ userId }) {
 
                     <form onSubmit={submit} className="grid grid-cols-2 gap-4">
                         {/* Hidden user_id */}
+                        
                         <input
                             type="hidden"
                             name="user_id"
@@ -308,38 +296,6 @@ export default function Create({ userId }) {
                             )}
                         </div>
 
-
-                         {/* <div>
-                            <label className="text-sm font-medium">
-                                Industry
-                            </label>
-
-                            <select
-                                name="industry"
-                                value={form.industry}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2"
-                            >
-                                <option className="text-red-300 text-sm" value="">
-                                    Select Industry
-                                </option>
-
-                                {industryOptions.map((industry) => (
-                                    <option
-                                        key={industry}
-                                        value={industry}
-                                    >
-                                        {industry}
-                                    </option>
-                                ))}
-                            </select>
-
-                            {errors.industry && (
-                                <p className="text-sm text-red-500">
-                                    {errors.industry}
-                                </p>
-                            )}
-                        </div> */}
 
                         {/* Street */}
                         <div>
