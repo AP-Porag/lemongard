@@ -73,23 +73,23 @@ export default function Index({
             key: 'status',
             label: 'Status',
             render: (row) => (
-               <span className="block w-48 truncate">
-    <Badge
-    className={
-        row.status?.trim()
-            ? 'bg-green-600 text-white hover:bg-green-600 px-3 py-1'
-            : 'bg-yellow-500 text-white hover:bg-yellow-500 px-3 py-1'
-    }
->
-    {row.status?.trim()
-        ? row.status
-              .toLowerCase()
-              .split(' ')
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ')
-        : 'Not Resolved'}
-</Badge>
-</span>
+                <span className="block w-48 truncate">
+                    <Badge
+                        className={
+                            row.status?.trim()
+                                ? 'bg-green-600 text-white hover:bg-green-600 px-3 py-1'
+                                : 'bg-yellow-500 text-white hover:bg-yellow-500 px-3 py-1'
+                        }
+                    >
+                        {row.status?.trim()
+                            ? row.status
+                                .toLowerCase()
+                                .split(' ')
+                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ')
+                            : 'Not Resolved'}
+                    </Badge>
+                </span>
             ),
         },
         {
@@ -144,13 +144,12 @@ export default function Index({
                             // 🔥 Only full access + owner can edit/delete
                             edit: canEditDelete,
                             delete: false,
-                            resolve: true,
 
-                            disabled: !canEditDelete,
-
+                            // 🔥 Resolve: Only show if not resolved AND has permission
                             resolve: !isResolved && canEditDelete,
 
-        disabled: isResolved,
+                            // 🔥 Disabled: True if already resolved OR no permission
+                            disabled: isResolved || !canEditDelete,
 
                             search_filter: true,
                             status_filter: true,
