@@ -10,21 +10,23 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
-
             $table->string('first_name');
             $table->string('last_name');
-
             $table->string('email');
             $table->string('phone')->nullable();
-
             $table->string('subject');
             $table->text('message');
-
-            $table->boolean('consent')->default(false);
-
-            $table->string('status')->default('pending');
-
+            $table->string('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->enum('status', ['unread', 'read', 'replied', 'archived'])->default('unread');
+            $table->timestamp('replied_at')->nullable();
+            $table->text('admin_notes')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
+
+            // Index for faster queries
+            $table->index(['email', 'status']);
+            $table->index('created_at');
         });
     }
 
