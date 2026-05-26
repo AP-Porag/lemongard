@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+
 /*
 |--------------------------------------------------------------------------
 | Public Website Routes
