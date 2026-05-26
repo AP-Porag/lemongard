@@ -3,8 +3,8 @@ import { Head, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+// import 'react-phone-number-input/style.css';
+// import PhoneInput from 'react-phone-number-input';
 
 import type { BreadcrumbItem } from '@/types';
 
@@ -51,21 +51,21 @@ export default function Create({ userId }) {
     //     });
     // };
 
-       // Phone format handler
-  const formatPhoneNumber = (value) => {
-    const numbers = value.replace(/\D/g, '').slice(0, 15);
+    // Phone format handler
+    const formatPhoneNumber = (value) => {
+        const numbers = value.replace(/\D/g, '').slice(0, 15);
 
-    const parts = [];
+        const parts = [];
 
-    for (let i = 0; i < numbers.length; i += 3) {
-        parts.push(numbers.slice(i, i + 3));
-    }
+        for (let i = 0; i < numbers.length; i += 3) {
+            parts.push(numbers.slice(i, i + 3));
+        }
 
-    return parts.join('-');
-    
-};
+        return parts.join('-');
 
-      const handleChange = (e) => {
+    };
+
+    const handleChange = (e) => {
         const { name, value } = e.target;
 
         // Phone formatting
@@ -128,7 +128,7 @@ export default function Create({ userId }) {
         });
     };
 
-    
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Record" />
@@ -139,7 +139,7 @@ export default function Create({ userId }) {
 
                     <form onSubmit={submit} className="grid grid-cols-2 gap-4">
                         {/* Hidden user_id */}
-                        
+
                         <input
                             type="hidden"
                             name="user_id"
@@ -213,7 +213,7 @@ export default function Create({ userId }) {
                             />
                         </div> */}
 
-                           {/* Phone Cell */}
+                        {/* Phone Cell */}
                         <div>
                             <label className="text-sm font-medium">
                                 Phone Cell
@@ -269,7 +269,7 @@ export default function Create({ userId }) {
                                 className="w-full rounded border px-3 py-2"
                             /> */}
 
-                                <select
+                            <select
                                 name="industry"
                                 value={form.industry}
                                 onChange={handleChange}
@@ -385,14 +385,14 @@ export default function Create({ userId }) {
                         <div>
                             <label className="text-sm font-medium">Price</label>
                             <div className="relative">
-                            <input
-                                name="price"
-                                type="number"
-                                value={form.price}
-                                onChange={handleChange}
-                                className="w-full rounded border pl-7 pr-3 py-2"
-                            />
-                            <span className="absolute -top-1\2 translate-y-1/2 left-3 text-[14px]">$</span>
+                                <input
+                                    name="price"
+                                    type="number"
+                                    value={form.price}
+                                    onChange={handleChange}
+                                    className="w-full rounded border pl-7 pr-3 py-2"
+                                />
+                                <span className="absolute -top-1\2 translate-y-1/2 left-3 text-[14px]">$</span>
                             </div>
                             {errors.price && (
                                 <p className="text-sm text-red-500">
