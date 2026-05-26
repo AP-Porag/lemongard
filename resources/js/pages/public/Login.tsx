@@ -162,11 +162,10 @@ export default function Login() {
                                         autoComplete="email"
                                         placeholder="you@company.com"
                                         {...register('email')}
-                                        className={`w-full rounded-lg border py-3 pr-4 pl-10 text-gray-900 transition-all outline-none placeholder:text-gray-400 focus:border-[#F8C734] focus:ring-2 focus:ring-[#F8C734] ${
-                                            errors.email
-                                                ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                                                : 'border-gray-300'
-                                        }`}
+                                        className={`w-full rounded-lg border py-3 pr-4 pl-10 text-gray-900 transition-all outline-none placeholder:text-gray-400 focus:border-[#F8C734] focus:ring-2 focus:ring-[#F8C734] ${errors.email
+                                            ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                            : 'border-gray-300'
+                                            }`}
                                     />
                                 </div>
 
@@ -199,11 +198,10 @@ export default function Login() {
                                         autoComplete="current-password"
                                         placeholder="Enter your password"
                                         {...register('password')}
-                                        className={`w-full rounded-lg border py-3 pr-12 pl-10 text-gray-900 transition-all outline-none placeholder:text-gray-400 focus:border-[#F8C734] focus:ring-2 focus:ring-[#F8C734] ${
-                                            errors.password
-                                                ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                                                : 'border-gray-300'
-                                        }`}
+                                        className={`w-full rounded-lg border py-3 pr-12 pl-10 text-gray-900 transition-all outline-none placeholder:text-gray-400 focus:border-[#F8C734] focus:ring-2 focus:ring-[#F8C734] ${errors.password
+                                            ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                            : 'border-gray-300'
+                                            }`}
                                     />
 
                                     <button

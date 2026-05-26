@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Public Website Routes
@@ -37,6 +39,26 @@ Route::group([], function () {
     Route::get('/privacy-policy', fn() => Inertia::render('public/PrivacyPolicy'));
     Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
+});
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/verify-email', function () {
+        return inertia('auth/verify-email');
+    })->name('verification.notice');
+
+    Route::get('/verify-email/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect('/app/dashboard');
+    })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Verification link sent.');
+    })->middleware(['throttle:6,1'])->name('verification.send');
 });
 
 /*

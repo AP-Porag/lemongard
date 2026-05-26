@@ -64,19 +64,19 @@ const Login = () => {
     //     });
     // };
     const onSubmit = (data: LoginFormData) => {
-    setFormError(null);
+        setFormError(null);
 
-    router.post('/login', {
-        email: data.email,
-        password: data.password,
-        remember: data.rememberMe,
-    }, {
-        onError: (errors: any) => {
-            if (errors.email) setFormError(errors.email);
-            if (errors.password) setFormError(errors.password);
-        },
-    });
-};
+        router.post('/login', {
+            email: data.email,
+            password: data.password,
+            remember: data.rememberMe,
+        }, {
+            onError: (errors: any) => {
+                if (errors.email) setFormError(errors.email);
+                if (errors.password) setFormError(errors.password);
+            },
+        });
+    };
 
     return (
         <div className="flex min-h-screen flex-col bg-[#FAFAFA]">
@@ -99,15 +99,15 @@ const Login = () => {
                 </div>
             </nav>
 
-             <div
-                        className="absolute inset-0 z-0"
-                        style={{
-                            backgroundImage: `url(${heroBg})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            opacity: 0.12,
-                        }}
-                    />
+            <div
+                className="absolute inset-0 z-0"
+                style={{
+                    backgroundImage: `url(${heroBg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.12,
+                }}
+            />
 
             {/* Login Section */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
@@ -250,12 +250,12 @@ const Login = () => {
                                         Remember me
                                     </span>
                                 </label>
-                                {/* <Link
+                                <Link
                                     href={request()}
                                     className="text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                                 >
                                     Forgot password?
-                                </Link> */}
+                                </Link>
                             </div>
 
                             {/* Submit */}
@@ -371,7 +371,7 @@ const Login = () => {
                             Having trouble logging in? Contact our support team.
                         </p>
                         <a
-                            href="mailto:support@lemongard.com"
+                            href="/contact"
                             className="inline-flex items-center gap-1 text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                         >
                             Contact Support

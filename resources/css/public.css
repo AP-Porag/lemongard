@@ -74,7 +74,7 @@
 
       --color-navy-primary: hsl(224 76% 33%);
       --color-navy-dark: hsl(222 47% 11%);
-      --color-navy-600: hsl(224 76% 33%); 
+      --color-navy-600: hsl(224 76% 33%);
       --color-navy-700: hsl(224 71% 25%);
       --color-navy-800: hsl(222 47% 11%);
 }
@@ -167,6 +167,9 @@
 }
 
 @layer components {
+    button, a{
+        cursor: pointer;
+    }
     /* Primary Yellow Button */
     .btn-primary {
         @apply inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-600 px-8 py-4 font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:from-yellow-600 hover:to-yellow-800 hover:shadow-xl;
@@ -191,6 +194,7 @@
         transition: all 0.3s ease;
 
         color: hsl(var(--navy-dark));
+        cursor: pointer;
     }
 
     /* .btn-primary {
@@ -251,6 +255,7 @@
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 0.3s;
         animation-duration: 0.3s;
+        cursor:pointer;
     }
 
     /* Feature Card */
@@ -296,9 +301,9 @@
     .section-container {
         margin-left: auto;
         margin-right: auto;
-        max-width: 80rem; 
+        max-width: 80rem;
 
-        padding-left: 1rem; 
+        padding-left: 1rem;
         padding-right: 1rem;
     }
 
@@ -328,7 +333,7 @@
     }
 
     /* .section-padding {
-        padding-top: 5rem; 
+        padding-top: 5rem;
         padding-bottom: 5rem;
     } */
     .section-padding-remove-bt {

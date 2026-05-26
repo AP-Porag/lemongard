@@ -194,10 +194,9 @@ const Register = () => {
 
     /* helper: input class */
     const inputCls = (field: keyof RegisterFormData) =>
-        `w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 transition-all outline-none text-gray-900 placeholder:text-gray-400 ${
-            errors[field]
-                ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
-                : 'border-gray-300 focus:ring-[#F8C734] focus:border-[#F8C734]'
+        `w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 transition-all outline-none text-gray-900 placeholder:text-gray-400 ${errors[field]
+            ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+            : 'border-gray-300 focus:ring-[#F8C734] focus:border-[#F8C734]'
         }`;
 
     return (
@@ -222,14 +221,14 @@ const Register = () => {
 
 
             <div
-                        className="absolute inset-0 z-0"
-                        style={{
-                            backgroundImage: `url(${heroBg})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            opacity: 0.12,
-                        }}
-                    />
+                className="absolute inset-0 z-0"
+                style={{
+                    backgroundImage: `url(${heroBg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.12,
+                }}
+            />
 
             {/* ── Main ─────────────────────────────────────── */}
             <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
@@ -748,7 +747,7 @@ const Register = () => {
                             Our team is here to help you set up your account.
                         </p>
                         <a
-                            href="mailto:support@lemongard.com"
+                            href="/contact"
                             className="inline-flex items-center gap-1 text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                         >
                             Contact Support <LemonWhole className="h-4 w-4" />
