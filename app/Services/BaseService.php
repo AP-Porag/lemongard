@@ -130,24 +130,44 @@ abstract class BaseService
             return false;
         }
 
-        $isTrialActive = $subscription->onTrial();
+        // True trial (যেটা এখনও পেমেন্ট হয়নি)
+        $isRealTrial = $subscription->onTrial() && $subscription->stripe_status === 'trialing';
 
+        if ($isRealTrial) {
+            return true;
+        }
 
-        $isSubscriptionActive =
-            $subscription->active() ||
-            $subscription->onGracePeriod();
-
-        return (
-            $isTrialActive
-            || (
-                $isSubscriptionActive &&
-                $user->subscribedToPrice(
-                    GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID,
-                    'default'
-                )
-            )
-        );
+        // Active paid subscription with correct plan
+        return $subscription->stripe_status === 'active' &&
+            $user->subscribedToPrice(GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID, 'default');
     }
+
+    // public function hasFullAccess($user): bool
+    // {
+    //     $subscription = $this->getSubscription($user);
+
+    //     if (!$subscription) {
+    //         return false;
+    //     }
+
+    //     $isTrialActive = $subscription->onTrial();
+
+
+    //     $isSubscriptionActive =
+    //         $subscription->active() ||
+    //         $subscription->onGracePeriod();
+
+    //     return (
+    //         $isTrialActive
+    //         || (
+    //             $isSubscriptionActive &&
+    //             $user->subscribedToPrice(
+    //                 GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID,
+    //                 'default'
+    //             )
+    //         )
+    //     );
+    // }
 
     // public function hasFullAccess($user): bool
     // {
