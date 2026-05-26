@@ -42,24 +42,24 @@ Route::group([], function () {
 });
 
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
 
-    Route::get('/verify-email', function () {
-        return inertia('auth/verify-email');
-    })->name('verification.notice');
+//     Route::get('/verify-email', function () {
+//         return inertia('auth/verify-email');
+//     })->name('verification.notice');
 
-    Route::get('/verify-email/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
+//     Route::get('/verify-email/{id}/{hash}', function (EmailVerificationRequest $request) {
+//         $request->fulfill();
 
-        return redirect('/app/dashboard');
-    })->middleware(['signed'])->name('verification.verify');
+//         return redirect('/app/dashboard');
+//     })->middleware(['signed'])->name('verification.verify');
 
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
+//     Route::post('/email/verification-notification', function (Request $request) {
+//         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with('success', 'Verification link sent.');
-    })->middleware(['throttle:6,1'])->name('verification.send');
-});
+//         return back()->with('success', 'Verification link sent.');
+//     })->middleware(['throttle:6,1'])->name('verification.send');
+// });
 
 /*
 |--------------------------------------------------------------------------
