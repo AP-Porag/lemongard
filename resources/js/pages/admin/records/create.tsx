@@ -14,6 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create({ userId }) {
+
     const { flash } = usePage().props;
 
     const [loading, setLoading] = useState(false);

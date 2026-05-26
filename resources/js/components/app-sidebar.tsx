@@ -58,6 +58,11 @@ export const mainNavItems: NavItem[] = [
         icon: Factory,
     },
     {
+        title: 'Services',
+        href: '/admin/services',
+        icon: Factory,
+    },
+    {
         title: 'Supports',
         href: '/admin/supports',
         icon: LifeBuoy,

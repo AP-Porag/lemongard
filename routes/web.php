@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Admin\Industry\IndustryController;
 use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
+use App\Http\Controllers\Admin\Service\ServiceController;
 use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\DashboardController;
@@ -172,6 +173,9 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
 
         //Industry
         Route::resource('industries', IndustryController::class);
+
+        //Service
+        Route::resource('services', ServiceController::class);
 
         //Support
         Route::get('/supports', [AdminSupport::class, 'index'])

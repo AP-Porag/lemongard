@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
+use App\Models\Industry;
 use App\Models\Record;
 use App\Services\Subscriber\Record\RecordService;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,11 @@ class RecordController extends Controller
 
     public function create()
     {
-        return Inertia::render('app/records/create');
+        $industries = Industry::all();
+        return Inertia::render(
+            'app/records/create',
+            ['industries' => $industries]
+        );
     }
 
     public function store(StoreRecordRequest $request)
