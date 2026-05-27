@@ -3,6 +3,7 @@
 namespace App\Services\Subscriber\Record;
 
 use App\Models\Record;
+use Illuminate\Support\Facades\DB; // Add this
 use App\Models\User;
 use App\Services\BaseService;
 
@@ -13,23 +14,48 @@ class RecordService extends BaseService
         parent::__construct($model);
     }
 
+
     public function store(array $data, int $userId): Record
     {
         $data['user_id'] = $userId;
 
-        // ✅ create record
-        $record = $this->create($data);
+        // Extract services from data
+        $services = $data['services'] ?? [];
+        unset($data['services']); // Remove services from main data array
 
-        // ✅ update user first login
-        $user = User::find($userId);
+        // Use DB transaction to ensure both operations succeed or fail together
+        DB::beginTransaction();
 
-        if ($user && $user->is_first_login) {
-            $user->update([
-                'is_first_login' => false,
-            ]);
+        try {
+            // ✅ create record
+            $record = $this->create($data);
+
+            // ✅ Attach services to pivot table (record_service)
+            if (!empty($services)) {
+                $record->services()->attach($services);
+                // OR use sync if you want to replace existing (for update operations)
+                // $record->services()->sync($services);
+            }
+
+            // ✅ update user first login
+            $user = User::find($userId);
+
+            if ($user && $user->is_first_login) {
+                $user->update([
+                    'is_first_login' => false,
+                ]);
+            }
+
+            DB::commit();
+
+            // Load the services relationship before returning
+            $record->load('services');
+
+            return $record;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        return $record;
     }
     public function getPaginatedRecords(array $filters)
     {
@@ -93,13 +119,42 @@ class RecordService extends BaseService
             ->withQueryString();
     }
     //Record Update
-    public function updateRecord(int $id, array $data)
+    public function updateRecord(int $id, array $data): Record
     {
-        $record = $this->model->findOrFail($id);
+        // Extract services from data
+        $services = $data['services'] ?? [];
+        unset($data['services']); // Remove services from main data array
 
-        $record->update($data);
+        // Use DB transaction to ensure both operations succeed or fail together
+        DB::beginTransaction();
 
-        return $record;
+        try {
+            // Find and update the record
+            $record = $this->model->findOrFail($id);
+            $record->update($data);
+
+            // Sync services - this will handle pivot table
+            // sync() method will:
+            // 1. Add new services that aren't already attached
+            // 2. Remove services that are no longer selected
+            // 3. Keep existing services that are still selected
+            if (!empty($services)) {
+                $record->services()->sync($services);
+            } else {
+                // If no services selected, remove all existing services
+                $record->services()->detach();
+            }
+
+            DB::commit();
+
+            // Reload the services relationship
+            $record->load('services');
+
+            return $record;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function fullAccess($user): bool
@@ -125,7 +180,7 @@ class RecordService extends BaseService
                     'id',
                     'first_name',
                     'last_name',
-                    'service',
+                    // 'service',
                     'city',
                     'created_at',
                 ]),

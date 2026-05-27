@@ -22,4 +22,17 @@ class Record extends Model
         'incident_report',
         'status'
     ];
+
+    // Many-to-many relationship with Service
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'record_service', 'record_id', 'service_id')
+            ->withTimestamps();
+    }
+
+    // Relationship with User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

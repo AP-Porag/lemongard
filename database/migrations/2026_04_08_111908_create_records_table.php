@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('zip')->nullable();
 
-            $table->string('service')->index();
+            // $table->string('service')->index();
             $table->decimal('price', 10, 2)->nullable();
 
             $table->text('incident_report')->nullable();

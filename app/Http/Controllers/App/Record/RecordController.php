@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Models\Industry;
 use App\Models\Record;
+use App\Models\Service;
 use App\Services\Subscriber\Record\RecordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -38,15 +39,13 @@ class RecordController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $industries = Industry::all();
-        return Inertia::render(
-            'app/records/create',
-            ['industries' => $industries]
-        );
+        return Inertia::render('app/records/create', [
+            'industries' => Industry::all(),
+            'allServices' => Service::all(), // Load all services
+        ]);
     }
-
     public function store(StoreRecordRequest $request)
     {
         // $this->recordService->store(
@@ -70,12 +69,36 @@ class RecordController extends Controller
         ]);
     }
 
+    // public function edit($id)
+    // {
+    //     $record = $this->recordService->find($id);
+
+    //     return Inertia::render('app/records/edit', [
+    //         'record' => $record
+    //     ]);
+    // }
+
+    // app/Http/Controllers/RecordController.php
+
     public function edit($id)
     {
+        // Load record with its services relationship
         $record = $this->recordService->find($id);
 
+        // Get all industries and services
+        $industries = Industry::all();
+        $allServices = Service::all();
+
+        // Get selected service IDs from the record
+        $selectedServices = $record->services->pluck('id')->map(function ($id) {
+            return (string) $id; // Convert to string for JavaScript comparison
+        })->toArray();
+
         return Inertia::render('app/records/edit', [
-            'record' => $record
+            'record' => $record,
+            'industries' => $industries,
+            'allServices' => $allServices,
+            'selectedServices' => $selectedServices,
         ]);
     }
 
@@ -90,6 +113,19 @@ class RecordController extends Controller
             ->route('app.records.index')
             ->with('success', 'Record updated successfully');
     }
+
+
+    // public function update(StoreRecordRequest $request, $id)
+    // {
+    //     $record = $this->recordService->updateRecord(
+    //         $id,
+    //         $request->validated()
+    //     );
+
+    //     return redirect()
+    //         ->route('app.records.index')
+    //         ->with('success', 'Record updated successfully');
+    // }
     public function destroy($id)
     {
         $this->recordService->delete($id);

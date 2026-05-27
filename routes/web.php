@@ -181,8 +181,13 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         Route::get('/supports', [AdminSupport::class, 'index'])
             ->name('supports.index');
 
+
+
         Route::post('/support/{id}/status', [AdminSupport::class, 'updateStatus']);
     });
+
+Route::post('/support/store', [AdminSupport::class, 'store'])
+    ->name('supports.store');
 
 /*
 |--------------------------------------------------------------------------

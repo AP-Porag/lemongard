@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Industry;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Services\Admin\Industry\ServiceService;
+use App\Services\Admin\Service\ServiceService;
 
 class ServiceController extends Controller
 {
@@ -22,9 +23,8 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-
-        return Inertia::render('admin/industry/index', [
-            'industries' => $this->service->list(
+        return Inertia::render('admin/service/index', [
+            'services' => $this->service->list(
                 $request->perPage ?? 10,
                 $request->search ?? null
             ),
@@ -37,7 +37,10 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/service/create');
+        $industries = Industry::all();
+        return Inertia::render('admin/service/create', [
+            'industries' => $industries
+        ]);
     }
 
     /**
@@ -47,13 +50,14 @@ class ServiceController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:industries,name',
+            'industry_id' => 'required|exists:industries,id',
         ]);
 
         $this->service->create($validated);
 
         return redirect()
-            ->route('admin.industries.index')
-            ->with('success', 'Industry created successfully.');
+            ->route('admin.services.index')
+            ->with('success', 'Service created successfully.');
     }
 
     /**
@@ -69,38 +73,42 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Industry $industry)
+    public function edit($id)
     {
-        return Inertia::render('admin/industry/edit', [
-            'industry' => $industry,
+        $service = $this->service->find($id);
+        $industries = Industry::all();
+        return Inertia::render('admin/service/edit', [
+            'service' => $service,
+            'industries' => $industries
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Industry $industry)
+    public function update(Request $request, Service $service)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:industries,name,' . $industry->id,
+            'name' => 'required|string|max:255|unique:industries,name,' . $service->id,
+            'industry_id' => 'required|exists:industries,id',
         ]);
 
-        $this->service->update($industry, $validated);
+        $this->service->update($service, $validated);
 
         return redirect()
-            ->route('admin.industries.index')
-            ->with('success', 'Industry updated successfully.');
+            ->route('admin.services.index')
+            ->with('success', 'Service updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Industry $industry)
+    public function destroy(Service $service)
     {
-        $this->service->delete($industry);
+        $this->service->delete($service);
 
         return redirect()
-            ->route('admin.industries.index')
-            ->with('success', 'Industry deleted successfully.');
+            ->route('admin.services.index')
+            ->with('success', 'Service deleted successfully.');
     }
 }

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Services\Admin\Industry;
+namespace App\Services\Admin\Service;
 
 use App\Models\Industry;
+use App\Models\Service;
 
 class ServiceService
 {
     public function list($perPage = 10, $search = null)
     {
-        return Industry::query()
+        return Service::query()->with('industry')
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%");
             })
@@ -18,22 +19,22 @@ class ServiceService
 
     public function create(array $data)
     {
-        return Industry::create($data);
+        return Service::create($data);
     }
 
-    public function update(Industry $industry, array $data)
+    public function update(Service $service, array $data)
     {
-        $industry->update($data);
-        return $industry;
+        $service->update($data);
+        return $service;
     }
 
-    public function delete(Industry $industry)
+    public function delete(Service $service)
     {
-        return $industry->delete();
+        return $service->delete();
     }
 
     public function find($id)
     {
-        return Industry::findOrFail($id);
+        return Service::findOrFail($id);
     }
 }

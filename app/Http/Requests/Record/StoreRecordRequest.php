@@ -23,7 +23,8 @@ class StoreRecordRequest extends FormRequest
             'city' => ['required', 'string', 'max:100'],
             'state' => ['required', 'string', 'max:100'],
             'zip' => ['required', 'string', 'max:20'],
-            'service' => ['required', 'string', 'max:255'],
+            'services' => ['required', 'array'],
+            'services.*' => ['exists:services,id'],
             'price' => ['required', 'numeric'],
             'incident_report' => ['nullable', 'string'],
         ];
