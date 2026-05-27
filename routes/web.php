@@ -23,6 +23,27 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
+| Artisan command Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/execute-command', function () {
+    //    return redirect()->route('login');
+    //    Artisan::call('storage:link');
+    Artisan::call('migrate:fresh --seed');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('optimize');
+    dd('All commands executed successfully');
+
+    //deploy command
+    ///opt/alt/php84/usr/bin/php artisan migrate:fresh --seed -vvv
+
+});
+
+/*
+|--------------------------------------------------------------------------
 | Public Website Routes
 |--------------------------------------------------------------------------
 */
