@@ -54,6 +54,7 @@ class MyRecordService extends BaseService
     public function getPaginatedMyRecords(array $filters)
     {
         return $this->model
+            ->with(['industry', 'services']) // services রিলেশন যোগ করুন
             ->where('user_id', auth()->id()) // 🔥 ownership inside service
 
             ->when($filters['search'] ?? null, function ($query, $search) {
@@ -62,7 +63,9 @@ class MyRecordService extends BaseService
                         ->orWhere('last_name', 'like', "%{$search}%")
                         ->orWhere('phone_cell', 'like', "%{$search}%")
                         ->orWhere('city', 'like', "%{$search}%")
-                        ->orWhere('service', 'like', "%{$search}%");
+                        ->orWhereHas('services', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
                 });
             })
 

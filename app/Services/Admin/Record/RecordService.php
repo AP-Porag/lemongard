@@ -60,13 +60,17 @@ class RecordService extends BaseService
     public function getPaginatedRecords(array $filters)
     {
         return $this->model
+            ->with(['industry', 'services']) // services রিলেশন যোগ করুন
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%")
                         ->orWhere('phone_cell', 'like', "%{$search}%")
                         ->orWhere('city', 'like', "%{$search}%")
-                        ->orWhere('service', 'like', "%{$search}%");
+                        // সার্ভিসের নাম দিয়েও সার্চ করতে চাইলে
+                        ->orWhereHas('services', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
                 });
             })
             ->when($filters['status'] ?? null, function ($query, $status) {
@@ -76,7 +80,6 @@ class RecordService extends BaseService
             ->paginate($filters['perPage'] ?? 5)
             ->withQueryString();
     }
-
     // public function getPaginatedMyRecords(array $filters)
     // {
     //     return $this->model
@@ -101,17 +104,55 @@ class RecordService extends BaseService
     //         ->withQueryString();
     // }
     //Record Update
-    public function updateRecord(int $id, array $data, User $user)
+    // public function updateRecord(int $id, array $data, User $user)
+    // {
+    //     $record = $this->model->findOrFail($id);
+
+    //     if ($user->role !== 'admin' && $record->user_id !== $user->id) {
+    //         abort(403, 'Unauthorized');
+    //     }
+
+    //     $record->update($data);
+
+    //     return $record;
+    // }
+
+    public function updateRecord(int $id, array $data): Record
     {
-        $record = $this->model->findOrFail($id);
+        // Extract services from data
+        $services = $data['services'] ?? [];
+        unset($data['services']); // Remove services from main data array
 
-        if ($user->role !== 'admin' && $record->user_id !== $user->id) {
-            abort(403, 'Unauthorized');
+        // Use DB transaction to ensure both operations succeed or fail together
+        DB::beginTransaction();
+
+        try {
+            // Find and update the record
+            $record = $this->model->findOrFail($id);
+            $record->update($data);
+
+            // Sync services - this will handle pivot table
+            // sync() method will:
+            // 1. Add new services that aren't already attached
+            // 2. Remove services that are no longer selected
+            // 3. Keep existing services that are still selected
+            if (!empty($services)) {
+                $record->services()->sync($services);
+            } else {
+                // If no services selected, remove all existing services
+                $record->services()->detach();
+            }
+
+            DB::commit();
+
+            // Reload the services relationship
+            $record->load('services');
+
+            return $record;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $record->update($data);
-
-        return $record;
     }
 
     public function deleteRecord(int $id, User $user)

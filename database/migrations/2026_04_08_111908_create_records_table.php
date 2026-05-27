@@ -16,7 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');
-            $table->string('industry')->nullable();
+            $table->foreignId('industry')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->string('first_name');
             $table->string('last_name')->index();
 

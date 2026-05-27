@@ -14,6 +14,7 @@ import {
     Users,
     Zap,
     LifeBuoy,
+    Workflow,
 } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -60,7 +61,7 @@ export const mainNavItems: NavItem[] = [
     {
         title: 'Services',
         href: '/admin/services',
-        icon: Factory,
+        icon: Workflow,
     },
     {
         title: 'Supports',
@@ -83,22 +84,22 @@ export const mainNavItems: NavItem[] = [
             },
         ],
     },
-    {
-        title: 'Reports',
-        icon: BarChart3,
-        children: [
-            {
-                title: 'By Subscriber',
-                href: '/admin/reports/subscribers',
-                icon: Users,
-            },
-            {
-                title: 'By Records',
-                href: '/admin/reports/records',
-                icon: Database,
-            },
-        ],
-    },
+    // {
+    //     title: 'Reports',
+    //     icon: BarChart3,
+    //     children: [
+    //         {
+    //             title: 'By Subscriber',
+    //             href: '/admin/reports/subscribers',
+    //             icon: Users,
+    //         },
+    //         {
+    //             title: 'By Records',
+    //             href: '/admin/reports/records',
+    //             icon: Database,
+    //         },
+    //     ],
+    // },
 ];
 
 export const appSidebar: NavItem[] = [

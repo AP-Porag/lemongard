@@ -59,65 +59,50 @@ class RecordService extends BaseService
     }
     public function getPaginatedRecords(array $filters)
     {
-
-        $authID = auth()->id();
-
-        $records = $this->model
-            ->when($filters['search'] ?? null, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%{$search}%")
-                        ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('phone_cell', 'like', "%{$search}%")
-                        ->orWhere('city', 'like', "%{$search}%")
-                        ->orWhere('service', 'like', "%{$search}%");
-                });
-            })
-            ->when($filters['status'] ?? null, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            ->latest()
-            ->paginate($filters['perPage'] ?? 5)
-            ->withQueryString();
-
-        $records->setCollection(
-            $records->getCollection()->filter(function ($record) use ($authID) {
-
-                // নিজের data হলে সব show করবে
-                if ($record->user_id === $authID) {
-                    return true;
-                }
-
-                // অন্য user এর resolved hide করবে
-                return $record->status !== 'resolved';
-            })->values()
-        );
-
-        return $records;
-    }
-
-    public function getPaginatedMyRecords(array $filters)
-    {
         return $this->model
-            ->where('user_id', auth()->id()) // 🔥 ownership inside service
-
+            ->with(['industry', 'services']) // services রিলেশন যোগ করুন
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%")
                         ->orWhere('phone_cell', 'like', "%{$search}%")
                         ->orWhere('city', 'like', "%{$search}%")
-                        ->orWhere('service', 'like', "%{$search}%");
+                        // সার্ভিসের নাম দিয়েও সার্চ করতে চাইলে
+                        ->orWhereHas('services', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
                 });
             })
-
             ->when($filters['status'] ?? null, function ($query, $status) {
                 $query->where('status', $status);
             })
-
             ->latest()
             ->paginate($filters['perPage'] ?? 5)
             ->withQueryString();
     }
+    // public function getPaginatedMyRecords(array $filters)
+    // {
+    //     return $this->model
+    //         ->where('user_id', auth()->id()) // 🔥 ownership inside service
+
+    //         ->when($filters['search'] ?? null, function ($query, $search) {
+    //             $query->where(function ($q) use ($search) {
+    //                 $q->where('first_name', 'like', "%{$search}%")
+    //                     ->orWhere('last_name', 'like', "%{$search}%")
+    //                     ->orWhere('phone_cell', 'like', "%{$search}%")
+    //                     ->orWhere('city', 'like', "%{$search}%")
+    //                     ->orWhere('service', 'like', "%{$search}%");
+    //             });
+    //         })
+
+    //         ->when($filters['status'] ?? null, function ($query, $status) {
+    //             $query->where('status', $status);
+    //         })
+
+    //         ->latest()
+    //         ->paginate($filters['perPage'] ?? 5)
+    //         ->withQueryString();
+    // }
     //Record Update
     public function updateRecord(int $id, array $data): Record
     {

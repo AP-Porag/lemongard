@@ -26,9 +26,12 @@ class RecordController extends Controller
 
         $records = $this->recordService->getPaginatedRecords($filters);
 
+        $industries = Industry::all();
+
         return Inertia::render('admin/records/index', [
             'records' => $records,
             'filters' => $filters,
+            'industries' => $industries,
         ]);
     }
 
@@ -65,22 +68,35 @@ class RecordController extends Controller
 
     public function edit($id)
     {
+        // Load record with its services relationship
         $record = $this->recordService->find($id);
 
+        // Get all industries and services
+        $industries = Industry::all();
+        $allServices = Service::all();
+
+        // Get selected service IDs from the record
+        $selectedServices = $record->services->pluck('id')->map(function ($id) {
+            return (string) $id; // Convert to string for JavaScript comparison
+        })->toArray();
+
         return Inertia::render('admin/records/edit', [
-            'record' => $record
+            'record' => $record,
+            'industries' => $industries,
+            'allServices' => $allServices,
+            'selectedServices' => $selectedServices,
         ]);
     }
 
     public function update(StoreRecordRequest $request, $id)
     {
-        $this->recordService->updateRecord(
+        $record = $this->recordService->updateRecord(
             $id,
-            $request->validated(),
-            $request->user()
+            $request->validated()
         );
 
-        return redirect()->route('admin.records.index')
+        return redirect()
+            ->route('admin.records.index')
             ->with('success', 'Record updated successfully');
     }
 

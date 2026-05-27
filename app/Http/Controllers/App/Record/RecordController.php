@@ -31,11 +31,13 @@ class RecordController extends Controller
         $hasFullAccess = $this->recordService->fullAccess($user);
 
         $records = $this->recordService->getPaginatedRecords($filters);
+        $industries = Industry::all();
 
         return Inertia::render('app/records/index', [
             'records' => $records,
             'filters' => $filters,
             'has_full_access' => $hasFullAccess, // 🔥 send to frontend
+            'industries' => $industries,
         ]);
     }
 

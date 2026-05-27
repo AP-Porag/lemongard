@@ -35,4 +35,16 @@ class Record extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function industry()
+    {
+        // 'industry' is the foreign key in records table, 'id' is primary key in industries table
+        return $this->belongsTo(Industry::class, 'industry', 'id');
+    }
+
+    // Accessor for industry name
+    public function getIndustryNameAttribute()
+    {
+        return $this->industry ? $this->industry->name : 'N/A';
+    }
 }

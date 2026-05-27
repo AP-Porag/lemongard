@@ -17,6 +17,7 @@ const breadcrumbs = [
 
 export default function Index({
     records,
+    industries,
     has_full_access,
     filters: initialFilters,
 }) {
@@ -63,12 +64,42 @@ export default function Index({
             },
         },
         {
-            key: 'service',
-            label: 'Service',
+            key: 'industry',
+            label: 'Industry',
             render: (row) => (
-                <span className="block w-48 truncate">{row.service}</span>
+                <span className="block w-48 truncate">
+                    {/* Method 1: If using with('industry') */}
+                    {row.industry?.name || 'N/A'}
+
+                    {/* Method 2: If using join and select */}
+                    {/* {row.industry_name || 'N/A'} */}
+
+                    {/* Method 3: If using manual mapping */}
+                    {/* {industries?.find(i => i.id === row.industry)?.name || 'N/A'} */}
+                </span>
             ),
         },
+        {
+            key: 'services',
+            label: 'Services',
+            render: (row) => (
+                <div className="flex flex-wrap gap-1">
+                    {row.services?.length > 0 ? (
+                        row.services.map((service) => (
+                            <span
+                                key={service.id}
+                                className="inline-flex items-center rounded-sm bg-yellow-600 px-2 py-0.5 text-xs font-medium text-white"
+                            >
+                                {service.name}
+                            </span>
+                        ))
+                    ) : (
+                        <span className="text-gray-400">N/A</span>
+                    )}
+                </div>
+            ),
+        },
+
         {
             key: 'price',
             label: 'Price',
@@ -99,13 +130,7 @@ export default function Index({
                 </span>
             ),
         },
-        {
-            key: 'industry',
-            label: 'Industry',
-            render: (row) => (
-                <span className="block w-48 truncate">{row.industry}</span>
-            ),
-        },
+
     ];
 
     return (
