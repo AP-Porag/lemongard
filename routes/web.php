@@ -26,6 +26,10 @@ use Illuminate\Http\Request;
 | Artisan command Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/clear-config', function() {
+    Artisan::call('config:clear');
+    return "Config cleared! Now try your execute-command route again.";
+});
 
 Route::get('/execute-command', function () {
     //    Artisan::call('storage:link');
