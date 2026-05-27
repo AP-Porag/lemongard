@@ -109,7 +109,7 @@ export default function Create({ userId, industries, allServices }) {
         e.preventDefault();
         setLoading(true);
 
-        router.post(route('app.records.store'), form, {
+        router.post(route('admin.records.store'), form, {
             onError: (err) => {
                 setErrors(err);
             },
