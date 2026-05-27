@@ -28,7 +28,6 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/execute-command', function () {
-    //    return redirect()->route('login');
     //    Artisan::call('storage:link');
 
     // 1. Tell MySQL to stop checking for foreign key relations temporarily
