@@ -5,6 +5,8 @@ namespace App\Services\Admin\Record;
 use App\Models\Record;
 use App\Models\User;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
+
 
 class RecordService extends BaseService
 {
@@ -17,19 +19,43 @@ class RecordService extends BaseService
     {
         $data['user_id'] = $userId;
 
-        // ✅ create record
-        $record = $this->create($data);
+        // Extract services from data
+        $services = $data['services'] ?? [];
+        unset($data['services']); // Remove services from main data array
 
-        // ✅ update user first login
-        $user = User::find($userId);
+        // Use DB transaction to ensure both operations succeed or fail together
+        DB::beginTransaction();
 
-        if ($user && $user->is_first_login) {
-            $user->update([
-                'is_first_login' => false,
-            ]);
+        try {
+            // ✅ create record
+            $record = $this->create($data);
+
+            // ✅ Attach services to pivot table (record_service)
+            if (!empty($services)) {
+                $record->services()->attach($services);
+                // OR use sync if you want to replace existing (for update operations)
+                // $record->services()->sync($services);
+            }
+
+            // ✅ update user first login
+            $user = User::find($userId);
+
+            if ($user && $user->is_first_login) {
+                $user->update([
+                    'is_first_login' => false,
+                ]);
+            }
+
+            DB::commit();
+
+            // Load the services relationship before returning
+            $record->load('services');
+
+            return $record;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        return $record;
     }
     public function getPaginatedRecords(array $filters)
     {
