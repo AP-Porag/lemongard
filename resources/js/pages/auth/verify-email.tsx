@@ -147,7 +147,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
                             If you're not receiving the email, get in touch with support.
                         </p>
                         <a
-                            href="mailto:support@lemongard.com"
+                            href="/contact"
                             className="inline-flex items-center gap-1 text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                         >
                             Contact Support

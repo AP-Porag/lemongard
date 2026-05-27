@@ -129,8 +129,8 @@ const ForgotPassword = () => {
                                                         autoFocus
                                                         placeholder="you@company.com"
                                                         className={`w-full rounded-lg border py-3 pr-4 pl-10 text-gray-900 transition-all outline-none placeholder:text-gray-400 focus:border-[#F8C734] focus:ring-2 focus:ring-[#F8C734] ${errors.email
-                                                                ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                                                                : 'border-gray-300'
+                                                            ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                                                            : 'border-gray-300'
                                                             }`}
                                                         required
                                                     />
@@ -278,7 +278,7 @@ const ForgotPassword = () => {
                             Having trouble logging in? Contact our support team.
                         </p>
                         <a
-                            href="mailto:support@lemongard.com"
+                            href="/contact"
                             className="inline-flex items-center gap-1 text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                         >
                             Contact Support

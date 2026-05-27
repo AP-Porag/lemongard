@@ -451,7 +451,7 @@ export default function ResetPassword({ token, email }: Props) {
                             Having trouble resetting your password? Our support team is ready to assist.
                         </p>
                         <a
-                            href="mailto:support@lemongard.com"
+                            href="/contact"
                             className="inline-flex items-center gap-1 text-sm font-medium text-[#F8C734] transition-colors hover:text-[#EAB308]"
                         >
                             Contact Support{' '}

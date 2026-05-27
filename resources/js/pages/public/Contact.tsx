@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import {
     ChevronRight,
     Mail,
@@ -112,7 +113,7 @@ const whyReachOut = [
         title: 'Feature Requests',
         text: 'Share ideas for new features or improvements',
     },
-   
+
 ];
 
 const faqs = [
@@ -198,9 +199,19 @@ const Contact = () => {
     const messageLength = messageVal?.length || 0;
 
     const onSubmit = async (data: ContactFormData) => {
-        await new Promise((r) => setTimeout(r, 2000));
-        setShowSuccess(true);
-        reset();
+        router.post('/contact', data, {
+            onSuccess: () => {
+                setShowSuccess(true);
+                reset();
+                toast.success('Thank you for contacting us!');
+            },
+            onError: (errors) => {
+                console.log('Validation errors:', errors);
+                Object.keys(errors).forEach(key => {
+                    toast.error(errors[key]);
+                });
+            },
+        });
     };
 
     const inputBase =
@@ -228,31 +239,31 @@ const Contact = () => {
                     />
 
                     <div className="section-container">
-                    <div className="relative z-10 mt-3">
-                        <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
-                            <Link
-                                to="/"
-                                className="transition-colors hover:text-yellow-500"
-                            >
-                                Home
-                            </Link>
-                            <ChevronRight className="h-4 w-4" />
-                            <span className="font-medium text-foreground">
-                                Contact
-                            </span>
-                        </div>
+                        <div className="relative z-10 mt-3">
+                            <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
+                                <Link
+                                    to="/"
+                                    className="transition-colors hover:text-yellow-500"
+                                >
+                                    Home
+                                </Link>
+                                <ChevronRight className="h-4 w-4" />
+                                <span className="font-medium text-foreground">
+                                    Contact
+                                </span>
+                            </div>
 
-                        <motion.div {...fadeIn} className="text-center">
-                            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
-                                <LemonSimple className="h-4 w-4" /> Get in Touch
-                            </span>
-                            <h1 className="text-navy-600 mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-                                We're Here to Help
-                            </h1>
-                            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                                Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
-                            </p>
-                        </motion.div>
+                            <motion.div {...fadeIn} className="text-center">
+                                <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800">
+                                    <LemonSimple className="h-4 w-4" /> Get in Touch
+                                </span>
+                                <h1 className="text-navy-600 mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+                                    We're Here to Help
+                                </h1>
+                                <p className="mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+                                    Have questions about Lemongard or want to learn more about what we offer? We’d be happy to hear from you.
+                                </p>
+                            </motion.div>
                         </div>
                     </div>
                 </section>
@@ -776,47 +787,47 @@ const Contact = () => {
                         {...fadeIn}
                         className="from-navy-600 to-navy-800 relative overflow-hidden bg-gradient-to-br p-12 text-white lg:p-16"
                     >
-                         {/* Decorative Lemon Slices */}
-                                        <LemonSlice
-                                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
-                                            opacity={0.12}
-                                        />
-                                        <LemonSlice
-                                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
-                                            opacity={0.12}
-                                        />
-                                        <LemonSlice
-                                            className="absolute top-1/2 left-1/4 h-24 w-24"
-                                            opacity={0.06}
-                                        />
-                                        <LemonSlice
-                                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
-                                            opacity={0.05}
-                                        />
+                        {/* Decorative Lemon Slices */}
+                        <LemonSlice
+                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute top-1/2 left-1/4 h-24 w-24"
+                            opacity={0.06}
+                        />
+                        <LemonSlice
+                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
+                            opacity={0.05}
+                        />
 
                         <div className="section-container">
-                        <div className="relative z-10 text-center">
-                            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-                                Ready to Get Started?
-                            </h2>
-                            <p className="mb-10 text-lg text-gray-300 md:text-xl">
-                                Don't wait for answers—try LemonGard free for 30
-                                days
-                            </p>
-                            <Link
-                                href="/register"
-                                className="btn-primary inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-bold"
-                            >
-                                Start Your Free Trial{' '}
-                                <ArrowRight className="h-5 w-5" />
-                            </Link>
-                            <p className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-400">
-                                30 days free <LemonSimple className="h-3 w-3" />{' '}
-                                No credit card required{' '}
-                                <LemonSimple className="h-3 w-3" /> Cancel
-                                anytime
-                            </p>
-                        </div>
+                            <div className="relative z-10 text-center">
+                                <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+                                    Ready to Get Started?
+                                </h2>
+                                <p className="mb-10 text-lg text-gray-300 md:text-xl">
+                                    Don't wait for answers—try LemonGard free for 30
+                                    days
+                                </p>
+                                <Link
+                                    href="/register"
+                                    className="btn-primary inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-bold"
+                                >
+                                    Start Your Free Trial{' '}
+                                    <ArrowRight className="h-5 w-5" />
+                                </Link>
+                                <p className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-400">
+                                    30 days free <LemonSimple className="h-3 w-3" />{' '}
+                                    No credit card required{' '}
+                                    <LemonSimple className="h-3 w-3" /> Cancel
+                                    anytime
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
                 </section>

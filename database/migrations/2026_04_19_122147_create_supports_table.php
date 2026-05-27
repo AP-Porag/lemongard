@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('message');
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
-            $table->enum('status', ['unread', 'read', 'replied', 'archived'])->default('unread');
+            $table->enum('status', ['unread', 'read', 'resolved', 'replied', 'archived'])->default('unread');
             $table->timestamp('replied_at')->nullable();
             $table->text('admin_notes')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');

@@ -88,7 +88,7 @@ export default function Index({
                         row.services.map((service) => (
                             <span
                                 key={service.id}
-                                className="inline-flex items-center rounded-sm bg-yellow-600 px-2 py-0.5 text-xs font-medium text-white"
+                                className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
                             >
                                 {service.name}
                             </span>

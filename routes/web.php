@@ -42,6 +42,8 @@ Route::group([], function () {
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
 });
 
+Route::post('/contact', [SupportController::class, 'store'])->name('contact.store');
+
 
 // Route::middleware('auth')->group(function () {
 
