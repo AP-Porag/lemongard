@@ -30,7 +30,16 @@ use Illuminate\Http\Request;
 Route::get('/execute-command', function () {
     //    return redirect()->route('login');
     //    Artisan::call('storage:link');
-    Artisan::call('migrate:fresh --seed');
+
+    // 1. Tell MySQL to stop checking for foreign key relations temporarily
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+    // 2. Safely wipe and re-migrate (using array syntax for flags)
+    Artisan::call('migrate:fresh', ['--seed' => true]);
+
+    // 3. Turn the safety checks back on
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
     Artisan::call('cache:clear');
     Artisan::call('view:clear');
     Artisan::call('route:clear');
