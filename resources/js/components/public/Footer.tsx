@@ -4,10 +4,10 @@ import { Logo } from '@/components/public/LemonIcon';
 import { LogoWhite } from '@/components/public/LemonIcon';
 
 const productLinks = [
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'About Us', href: '#about' },
+    { label: 'How It Works', href: 'how-it-works' },
+    { label: 'Features', href: 'features' },
+    { label: 'Pricing', href: 'pricing' },
+    { label: 'About Us', href: 'about' },
 ];
 
 const legalLinks = [
@@ -17,8 +17,8 @@ const legalLinks = [
 ];
 
 const contactLinks = [
-    { label: 'Contact Us', href: '#contact' },
-    { label: 'Support', href: '#support' },
+    { label: 'Contact Us', href: 'contact' },
+    { label: 'Support', href: 'contact' },
 ];
 
 /**

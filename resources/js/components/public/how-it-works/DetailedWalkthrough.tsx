@@ -140,7 +140,7 @@ const DetailedWalkthrough = () => {
                     "Full platform access",
                     "Search unlimited records",
                     "Add your own data",
-                    "Use all CRM features",
+                    // "Use all CRM features",
                     "Export capabilities",
                     "Priority support",
                   ].map((item) => (
@@ -158,8 +158,8 @@ const DetailedWalkthrough = () => {
                     { icon: Database, name: "Shared Database Access", desc: "View and search all records" },
                     { icon: Upload, name: "Data Contribution", desc: "Add your own records" },
                     { icon: Search, name: "Advanced Search", desc: "Filter by any field" },
-                    { icon: Briefcase, name: "CRM Tools", desc: "Manage client relationships" },
-                    { icon: BarChart, name: "Reports & Analytics", desc: "Generate insights" },
+                    // { icon: Briefcase, name: "CRM Tools", desc: "Manage client relationships" },
+                    // { icon: BarChart, name: "Reports & Analytics", desc: "Generate insights" },
                     { icon: Download, name: "Data Export", desc: "Export your records anytime" },
                   ].map((f) => (
                     <div key={f.name} className="flex gap-3 p-3 rounded-lg border border-gray-100 hover:border-yellow-200 transition-colors">

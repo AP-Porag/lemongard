@@ -67,12 +67,16 @@ Route::group([], function () {
     Route::get('/about', fn() => Inertia::render('public/About'));
 
     Route::get('/pricing', fn() => Inertia::render('public/Pricing'));
+     Route::get('/features', fn() => Inertia::render('public/Features'));
 
     Route::get('/how-it-works', fn() => Inertia::render('public/HowItWorks'));
     Route::get('/contact', fn() => Inertia::render('public/Contact'));
     Route::get('/privacy-policy', fn() => Inertia::render('public/PrivacyPolicy'));
-    Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
+    Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
+
+   
+    
 });
 
 Route::post('/contact', [SupportController::class, 'store'])->name('contact.store');
