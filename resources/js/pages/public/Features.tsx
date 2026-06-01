@@ -69,9 +69,9 @@ const cardItem = {
 const primaryBtn =
   "bg-gradient-to-r from-[#FCD34D] to-[#F8C734] hover:from-[#F8C734] hover:to-[#EAB308] text-[#1E3A8A] font-bold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2";
 const outlineBtn =
-  "border-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2";
+  "border-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2";
 const whiteOutlineBtn =
-  "border-2 border-white/60 text-white hover:bg-white hover:text-[#1E3A8A] font-semibold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2";
+  "border-2 border-white/60 text-white hover:bg-white hover:text-[#1E3A8A] font-bold px-8 py-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2";
 
 // ---- Core feature data ----
 const coreFeatures = [
@@ -261,10 +261,8 @@ const Features = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
-              <span className="text-[#1E3A8A]">Powerful Shared</span>{" "}
-              <span className="bg-gradient-to-r from-[#F8C734] to-[#FBBF24] bg-clip-text text-transparent">
-                Client Data Tracking
-              </span>{" "}
+              <span className="text-[#1E3A8A]">Powerful Shared Client Data Tracking</span>{" "}
+              
               <span className="text-[#1E3A8A]">Platform for Service Professionals</span>
             </h1>
 
@@ -323,10 +321,10 @@ const Features = () => {
         <section className="section-container py-6">
           <motion.div
             {...fadeUp}
-            className="bg-gradient-to-r from-[#1E3A8A] to-[#1E40AF] rounded-2xl px-8 py-5 relative overflow-hidden"
+            className="bg-gradient-to-r from-navy-600 to-navy-700 rounded-2xl px-8 py-5 relative overflow-hidden"
           >
             <LemonSlice
-              className="absolute right-4 top-0 w-24 h-24 pointer-events-none"
+              className="absolute right-4 top-0 w-24 h-24 pointer-events-none "
               opacity={0.1}
             />
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6 relative">
@@ -577,9 +575,11 @@ const Features = () => {
         </section>
 
         {/* ================= SECTION 5: FEATURE SPOTLIGHT ================= */}
-        <section className="section-container py-20 lg:py-32">
-          <motion.div {...fadeUp} className="bg-gray-50 rounded-2xl p-8 md:p-12 lg:p-16">
-            <div className="text-center mb-16">
+        <section className="py-10">
+        
+          <motion.div {...fadeUp} className=" bg-gray-50 p-8 md:p-12 lg:p-16">
+            <div className="section-container">
+            <div className="text-center mb-16 section-container">
               <div className="inline-flex items-center gap-2 mb-4">
                 <LemonSimple className="w-6 h-6 text-[#F8C734]" />
                 <span className="text-sm font-semibold text-[#1E3A8A] uppercase tracking-wide">
@@ -705,11 +705,12 @@ const Features = () => {
                 </div>
               </div>
             </div>
+            </div>
           </motion.div>
         </section>
 
         {/* ================= SECTION 6: HOW IT WORKS (5 STEPS) ================= */}
-        <section className="section-container py-20 lg:py-32">
+        <section className="section-container pt-30 pb-10">
           <motion.div {...fadeUp} className="text-center mb-20">
             <div className="inline-flex items-center gap-2 mb-4">
               <LemonSimple className="w-6 h-6 text-[#F8C734]" />
@@ -895,7 +896,7 @@ const Features = () => {
         </section>
 
         {/* ================= SECTION 8: COMPARISON TABLE ================= */}
-        <section className="section-container py-20 lg:py-32">
+        <section className="section-container pt-10 pb-20">
           <motion.div {...fadeUp} className="text-center mb-12">
             <div className="inline-flex items-center gap-2 mb-4">
               <LemonSimple className="w-6 h-6 text-[#F8C734]" />
@@ -995,8 +996,9 @@ const Features = () => {
         </section>
 
         {/* ================= SECTION 9: SECURITY & TRUST ================= */}
-        <section className="section-container py-20 lg:py-32">
+        <section className=" pt-28 pb-10">
           <motion.div {...fadeUp} className="bg-gray-50 rounded-2xl p-8 md:p-12 lg:p-16">
+            <div className="section-container">
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 mb-4">
                 <LemonSimple className="w-6 h-6 text-[#F8C734]" />
@@ -1081,6 +1083,7 @@ const Features = () => {
                   </div>
                 );
               })}
+            </div>
             </div>
           </motion.div>
         </section>
@@ -1181,26 +1184,37 @@ const Features = () => {
         </section>
 
         {/* ================= SECTION 11: FINAL CTA ================= */}
-        <section className="section-container py-20 lg:py-32">
-          <motion.div
-            {...fadeUp}
-            className="bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#0F172A] rounded-2xl p-10 md:p-16 lg:p-20 relative overflow-hidden text-center"
-          >
-            <LemonSlice
-              className="absolute top-0 left-0 w-56 h-56 -mt-16 -ml-16 pointer-events-none"
-              opacity={0.08}
-            />
-            <LemonSlice
-              className="absolute bottom-0 right-0 w-72 h-72 -mb-20 -mr-20 pointer-events-none"
-              opacity={0.1}
-            />
-            <LemonWhole
-              className="absolute top-1/2 right-12 w-40 h-40 -translate-y-1/2 pointer-events-none hidden md:block"
-              opacity={0.05}
-            />
+        <section className="pt-7">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800 p-12 lg:p-16 overflow-hidden"
+      >
 
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-medium mb-8">
+
+          {/*Decorative Lemons */}
+        <LemonSlice
+                            className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute right-0 bottom-0 h-40 w-40 translate-x-1/4 translate-y-1/4"
+                            opacity={0.12}
+                        />
+                        <LemonSlice
+                            className="absolute top-1/2 left-1/4 h-24 w-24"
+                            opacity={0.06}
+                        />
+                        <LemonSlice
+                            className="absolute right-1/3 bottom-1/4 h-20 w-20"
+                            opacity={0.05}
+                        />
+
+         {/* Content */}
+        <div className="relative z-10 text-center">
+             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-medium mb-8">
                 <LemonSimple className="text-[#F8C734] w-4 h-4" />
                 <span>Ready to Start?</span>
               </div>
@@ -1216,36 +1230,39 @@ const Features = () => {
                 tracking. No credit card required. Full access from day one.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-5 justify-center mb-10">
-                <Link
-                  href="/register"
-                  className="bg-gradient-to-r from-[#FCD34D] to-[#F8C734] hover:from-[#F8C734] hover:to-[#EAB308] text-[#1E3A8A] font-bold px-10 py-5 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center justify-center gap-2"
-                >
-                  Start Free Trial <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link href="/pricing" className={whiteOutlineBtn}>
-                  <Tag className="w-5 h-5" /> View Pricing
-                </Link>
-              </div>
+    {/* <div className="inline-flex gap-6">
+          <a href="/register">
+          <button className="cursor-pointer btn-primary !px-10 !py-5 !text-lg !font-bold !shadow-2xl mt-10">
+            Start Your Free Trial
+            <ArrowRight className="w-5 h-5" />
+          </button>
+          </a>
+<a href="/pricing">
+          <button className="cursor-pointer border-2 border-white rounded-2xl text-white !px-10 !py-4 !text-lg !font-bold mt-10">
+            View Pricing
+          </button>
+          </a>
+</div> */}
 
-              <div className="flex items-center justify-center gap-3 flex-wrap text-sm text-gray-400">
-                {[
-                  "30 days free",
-                  "No credit card required",
-                  "Full access immediately",
-                  "Cancel anytime",
-                ].map((t, i, arr) => (
-                  <div key={t} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-400" /> {t}
-                    {i < arr.length - 1 && (
-                      <LemonSimple className="w-3 h-3 ml-1 text-[#F8C734]" opacity={0.4} />
-                    )}
-                  </div>
-                ))}
-              </div>
+<div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <Link href="/register" className={primaryBtn}>
+                Start Free Trial <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link href="/pricing" className={whiteOutlineBtn}>
+                <Tag className="w-5 h-5" /> View Pricing
+              </Link>
             </div>
-          </motion.div>
-        </section>
+
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-400 mt-6">
+            <span>30 days free</span>
+            <LemonSimple className="w-3 h-3 text-yellow-400/50" />
+            <span>No credit card required</span>
+            <LemonSimple className="w-3 h-3 text-yellow-400/50" />
+            <span>Cancel anytime</span>
+          </div>
+        </div>
+      </motion.div>
+    </section>
       </main>
 
       </PublicLayout>
