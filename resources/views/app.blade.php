@@ -9,7 +9,7 @@
     <meta property="og:description"
         content="A client platform that respects your time –
 and problem clients don’t slip through" />
-    <meta property="og:image" content="{{ asset('images/logo-rectangle.png') }}" />
+    <meta property="og:image" content="{{ asset('images/logo-rectangle-2.png') }}" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
 
@@ -18,7 +18,7 @@ and problem clients don’t slip through" />
     <meta name="twitter:description"
         content="A client platform that respects your time –
 and problem clients don’t slip through." />
-    <meta name="twitter:image" content="{{ asset('images/logo-rectangle.png') }}" />
+    <meta name="twitter:image" content="{{ asset('images/logo-rectangle-2.png') }}" />
 
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
     <script>
