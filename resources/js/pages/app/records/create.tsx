@@ -399,7 +399,7 @@ export default function Create({ userId, industries, allServices }) {
                                 onChange={handleChange}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="Enter state"
-                                maxLength={2}
+                                maxLength={20}
                             />
                             {errors.state && (
                                 <p className="mt-1 text-sm text-red-500">{errors.state}</p>
