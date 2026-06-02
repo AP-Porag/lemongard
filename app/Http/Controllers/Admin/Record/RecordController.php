@@ -45,12 +45,7 @@ class RecordController extends Controller
 
     public function store(StoreRecordRequest $request)
     {
-        // $this->recordService->store(
-        //     $request->validated(),
-        //     Auth::id()
-        // );
 
-        // return redirect()->back()->with('success', 'Record created successfully.');
         $this->recordService->store($request->all(), $request->user()->id);
 
         return redirect()->route('admin.records.index')
