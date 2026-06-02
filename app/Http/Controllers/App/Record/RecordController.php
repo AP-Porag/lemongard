@@ -68,7 +68,7 @@ class RecordController extends Controller
 
 
         if ($record) {
-            $record->load('services');
+            $record->load(['services', 'industry']);
         }
 
         return Inertia::render('app/records/show', [

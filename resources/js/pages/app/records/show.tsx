@@ -69,6 +69,13 @@ export default function Show({ record }: any) {
                                 {record?.zip}
                             </p>
                         </div>
+
+                        <div>
+                            <p className="text-sm font-semibold">Industry</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.industry.name}
+                            </p>
+                        </div>
                         {/* Service */}
                         <div>
                             <p className="text-sm font-semibold text-gray-700">Services</p>

@@ -55,8 +55,9 @@ class MyRecordController extends Controller
     {
         $record = $this->recordService->find($id);
 
+
         if ($record) {
-            $record->load('services');
+            $record->load(['services', 'industry']);
         }
 
         return Inertia::render('app/records/show', [
