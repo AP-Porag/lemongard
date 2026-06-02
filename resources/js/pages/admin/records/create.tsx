@@ -430,7 +430,7 @@ const formatPhoneNumber = (value) => {
                         {/* Price */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Price
+                                Price 2
                             </label>
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
@@ -441,7 +441,7 @@ const formatPhoneNumber = (value) => {
                                     onChange={handleChange}
                                     step="0.01"
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                     placeholder="0.00"
                                 />
                             </div>
@@ -473,7 +473,7 @@ const formatPhoneNumber = (value) => {
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-black py-2 text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full bg-navy-600 py-2 text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center">
