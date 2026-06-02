@@ -21,26 +21,30 @@ class RecordController extends Controller
         $this->recordService = $recordService;
     }
 
+    // RecordController.php
     public function index(Request $request)
     {
         $user = $request->user();
 
-        $filters = $request->only(['search', 'status', 'perPage']);
+        // ডিবাগ: দেখুন কি আসছে
+        // \Log::info('Request filters:', $request->all());
 
-        // 🔥 FULL ACCESS CHECK HERE
+        $filters = $request->only(['search', 'status', 'perPage', 'industry']);
+
+        // ডিবাগ: দেখুন industry ফিল্টার আছে কিনা
+        // \Log::info('Industry filter:', ['industry' => $filters['industry'] ?? 'not set']);
+
         $hasFullAccess = $this->recordService->fullAccess($user);
-
         $records = $this->recordService->getPaginatedRecords($filters);
         $industries = Industry::all();
 
         return Inertia::render('app/records/index', [
             'records' => $records,
             'filters' => $filters,
-            'has_full_access' => $hasFullAccess, // 🔥 send to frontend
+            'has_full_access' => $hasFullAccess,
             'industries' => $industries,
         ]);
     }
-
     public function create(Request $request)
     {
         return Inertia::render('app/records/create', [

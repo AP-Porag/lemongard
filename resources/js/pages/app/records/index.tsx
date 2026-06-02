@@ -15,12 +15,14 @@ const breadcrumbs = [
 
 export default function Index({
     records,
+    industries,
     has_full_access,
     filters: initialFilters,
 }) {
     const [filters, setFilters] = useState({
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
+        industry: initialFilters?.industry || '',
         perPage: initialFilters?.perPage || 5,
         page: records?.current_page || 1,
     });
@@ -43,7 +45,7 @@ export default function Index({
             preserveState: true,
             replace: true,
         });
-    }, [filters.search, filters.status, filters.perPage, filters.page]);
+    }, [filters.search, filters.status, filters.perPage, filters.page, filters.industry]);
 
     const columns = [
         {
@@ -203,11 +205,13 @@ export default function Index({
                             search_filter: true,
                             status_filter: true,
                             per_page_filter: true,
+                            industry_filter: true
                         };
                     }}
                     baseRoute="app.records"
                     filters={filters}
                     onFilterChange={setFilters}
+                    industries={industries}
                 />
             </div>
         </AppLayout>

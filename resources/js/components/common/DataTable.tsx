@@ -24,6 +24,7 @@ export default function DataTable({
     data,
     columns,
     meta,
+    industries = [],
     actions = {
         view: true,
         edit: true,
@@ -38,6 +39,7 @@ export default function DataTable({
     onFilterChange,
     perPageOptions = [5, 10, 25, 50],
 }) {
+    console.log(industries);
     const [deleteId, setDeleteId] = React.useState(null);
     const [resolveId, setResolveId] = React.useState(null);
 
@@ -50,6 +52,7 @@ export default function DataTable({
     const globalActions = {
         search_filter: true,
         status_filter: true,
+        industry_filter: true,
         per_page_filter: true,
         ...(typeof actions === 'object' ? actions : {}),
     };
@@ -73,22 +76,22 @@ export default function DataTable({
             },
         });
     };
-const handleResolve = () => {
-    router.patch(
-        route(`${baseRoute}.resolve`, resolveId),
-        {}, // data
-        {
-            onSuccess: () => {
-                setResolveId(null);
-                toast.success('Item resolved successfully!');
-                  router.reload();
-            },
-            onError: () => {
-                toast.error('Failed to resolve the item.');
-            },
-        }
-    );
-};
+    const handleResolve = () => {
+        router.patch(
+            route(`${baseRoute}.resolve`, resolveId),
+            {}, // data
+            {
+                onSuccess: () => {
+                    setResolveId(null);
+                    toast.success('Item resolved successfully!');
+                    router.reload();
+                },
+                onError: () => {
+                    toast.error('Failed to resolve the item.');
+                },
+            }
+        );
+    };
 
     const goToPage = (page) => {
         onFilterChange({
@@ -121,24 +124,32 @@ const handleResolve = () => {
                     />
                 )}
 
-                {/* {globalActions.status_filter && (
-                                                      <Select
-                                                          name="status"
-                                                          value={filters.status}
-                                                          // onChange={handleFilterChange}
-                                                          onValueChange={(value) => handleFilterChange({ target: { name: 'status', value } })}
-                                                          className="px-3 py-2 md:w-1/6"
-                                                      >
-                                                          <SelectTrigger className="w-[180px]">
-                                                              <SelectValue placeholder="Select Status" />
-                                                          </SelectTrigger>
-                                                          <SelectContent>
-                                                              <SelectItem value="all">All Status</SelectItem>
-                                                              <SelectItem value="1">Active</SelectItem>
-                                                              <SelectItem value="0">Inactive</SelectItem>
-                                                          </SelectContent>
-                                                      </Select>
-                                                  )} */}
+                {globalActions.industry_filter && (
+                    <div className="relative">
+                        <Select
+                            value={filters.industry || 'all'}  // ✅ industry ব্যবহার করুন, industries না
+                            onValueChange={(value) => {
+                                onFilterChange({
+                                    ...filters,
+                                    industry: value === 'all' ? '' : value,  // ✅ industry ফিল্ড আপডেট করুন
+                                    page: 1,
+                                });
+                            }}
+                        >
+                            <SelectTrigger className="w-[220px]">
+                                <SelectValue placeholder="Select Industry" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Industries</SelectItem>
+                                {industries?.map((industry) => (
+                                    <SelectItem key={industry.id} value={String(industry.id)}>
+                                        {industry.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
 
                 {globalActions.per_page_filter && (
                     <Select
@@ -175,203 +186,203 @@ const handleResolve = () => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-            <table className="min-w-full">
-                <thead className="border-b text-left">
-                    <tr>
-                        {columns.map((col) => (
-                            <th key={col.key} className="px-4 py-2">
-                                {col.label}
-                            </th>
-                            // <th
-                            //     key={col.key}
-                            //     className="cursor-pointer px-4 py-2 select-none"
-                            //     onClick={() => {
-                            //         if (!col.sortable) return;
-                            //
-                            //         const direction =
-                            //             filters.sort === col.key && filters.direction === 'asc'
-                            //                 ? 'desc'
-                            //                 : 'asc';
-                            //
-                            //         onFilterChange({
-                            //             ...filters,
-                            //             sort: col.key,
-                            //             direction,
-                            //             page: 1,
-                            //         });
-                            //     }}
-                            // >
-                            //     <div className="flex items-center gap-1">
-                            //         {col.label}
-                            //
-                            //         {col.sortable && filters.sort === col.key && (
-                            //             <span className="text-xs">
-                            //                 {filters.direction === 'asc' ? '▲' : '▼'}
-                            //             </span>
-                            //         )}
-                            //     </div>
-                            // </th>
-                        ))}
-                        <th className="px-4 py-2 text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.length === 0 ? (
+                <table className="min-w-full">
+                    <thead className="border-b text-left">
                         <tr>
-                            <td
-                                colSpan={columns.length + 1}
-                                className="px-4 py-4 text-center text-gray-500"
-                            >
-                                No data found.
-                            </td>
+                            {columns.map((col) => (
+                                <th key={col.key} className="px-4 py-2">
+                                    {col.label}
+                                </th>
+                                // <th
+                                //     key={col.key}
+                                //     className="cursor-pointer px-4 py-2 select-none"
+                                //     onClick={() => {
+                                //         if (!col.sortable) return;
+                                //
+                                //         const direction =
+                                //             filters.sort === col.key && filters.direction === 'asc'
+                                //                 ? 'desc'
+                                //                 : 'asc';
+                                //
+                                //         onFilterChange({
+                                //             ...filters,
+                                //             sort: col.key,
+                                //             direction,
+                                //             page: 1,
+                                //         });
+                                //     }}
+                                // >
+                                //     <div className="flex items-center gap-1">
+                                //         {col.label}
+                                //
+                                //         {col.sortable && filters.sort === col.key && (
+                                //             <span className="text-xs">
+                                //                 {filters.direction === 'asc' ? '▲' : '▼'}
+                                //             </span>
+                                //         )}
+                                //     </div>
+                                // </th>
+                            ))}
+                            <th className="px-4 py-2 text-right">Actions</th>
                         </tr>
-                    ) : (
-                        data.map((row) => (
-                            <tr
-                                key={row.id}
-                                className="border-b hover:bg-gray-50"
-                            >
-                                {columns.map((col) => (
-                                    <td key={col.key} className="px-4 py-2">
-                                        {col.render
-                                            ? col.render(row)
-                                            : row[col.key]}
-                                    </td>
-                                ))}
-                                <td className="px-4 py-2 text-right">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button
-                                                size="action"
-                                                className="cursor-pointer bg-navy-600 text-white"
-                                            >
-                                                <MoreVertical className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent
-                                            side="bottom"
-                                            align="end"
-                                            className="bg-white text-black"
-                                        >
-                                            {(() => {
-                                                const rowActions =
-                                                    resolveActions(row);
-
-                                                return (
-                                                    <>
-                                                        {/* EDIT */}
-                                                        {rowActions.edit && (
-                                                            <DropdownMenuItem
-                                                                onClick={() =>
-                                                                    router.visit(
-                                                                        route(
-                                                                            `${baseRoute}.edit`,
-                                                                            row.id,
-                                                                        ),
-                                                                    )
-                                                                }
-                                                                className="cursor-pointer"
-                                                            >
-                                                                <Edit className="mr-2 h-4 w-4" />{' '}
-                                                                Edit
-                                                            </DropdownMenuItem>
-                                                        )}
-
-                                                        {/* VIEW */}
-                                                        {rowActions.view && (
-                                                            <DropdownMenuItem
-                                                                onClick={() =>
-                                                                    router.visit(
-                                                                        route(
-                                                                            `${baseRoute}.show`,
-                                                                            row.id,
-                                                                        ),
-                                                                    )
-                                                                }
-                                                                className="cursor-pointer"
-                                                            >
-                                                                <EyeIcon className="mr-2 h-4 w-4" />{' '}
-                                                                View
-                                                            </DropdownMenuItem>
-                                                        )}
-
-                                                        {/* DELETE */}
-                                                        {rowActions.delete && (
-                                                            <DropdownMenuItem
-                                                                onClick={() =>
-                                                                    setDeleteId(
-                                                                        row.id,
-                                                                    )
-                                                                }
-                                                                className="cursor-pointer"
-                                                            >
-                                                                <Trash2 className="mr-2 h-4 w-4 text-red-600" />{' '}
-                                                                Delete
-                                                            </DropdownMenuItem>
-                                                        )}
-
-                                                         {/* RESOLVE */}
-                                                        {rowActions.resolve && (
-    <DropdownMenuItem
-        onClick={() => setResolveId(row.id)}
-        className="cursor-pointer"
-    >
-        <CheckCircle className="mr-2 h-4 w-4 text-red-600" />
-        Resolve
-    </DropdownMenuItem>
-)}
-
-                                                        {/* CUSTOM ACTIONS */}
-                                                        {Object.entries(
-                                                            rowActions,
-                                                        ).map(
-                                                            ([key, value]) => {
-                                                                if (
-                                                                    [
-                                                                        'view',
-                                                                        'edit',
-                                                                        'resolve',
-                                                                        'delete',
-                                                                    ].includes(
-                                                                        key,
-                                                                    ) ||
-                                                                    !value ||
-                                                                    typeof value !==
-                                                                        'object'
-                                                                )
-                                                                    return null;
-
-                                                                return (
-                                                                    <DropdownMenuItem
-                                                                        key={
-                                                                            key
-                                                                        }
-                                                                        onClick={
-                                                                            value.action
-                                                                        }
-                                                                        className="cursor-pointer"
-                                                                    >
-                                                                        {value.icon && (
-                                                                            <value.icon className="mr-2 h-4 w-4" />
-                                                                        )}
-                                                                        {
-                                                                            value.label
-                                                                        }
-                                                                    </DropdownMenuItem>
-                                                                );
-                                                            },
-                                                        )}
-                                                    </>
-                                                );
-                                            })()}
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                    </thead>
+                    <tbody>
+                        {data.length === 0 ? (
+                            <tr>
+                                <td
+                                    colSpan={columns.length + 1}
+                                    className="px-4 py-4 text-center text-gray-500"
+                                >
+                                    No data found.
                                 </td>
                             </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                        ) : (
+                            data.map((row) => (
+                                <tr
+                                    key={row.id}
+                                    className="border-b hover:bg-gray-50"
+                                >
+                                    {columns.map((col) => (
+                                        <td key={col.key} className="px-4 py-2">
+                                            {col.render
+                                                ? col.render(row)
+                                                : row[col.key]}
+                                        </td>
+                                    ))}
+                                    <td className="px-4 py-2 text-right">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    size="action"
+                                                    className="cursor-pointer bg-navy-600 text-white"
+                                                >
+                                                    <MoreVertical className="h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                side="bottom"
+                                                align="end"
+                                                className="bg-white text-black"
+                                            >
+                                                {(() => {
+                                                    const rowActions =
+                                                        resolveActions(row);
+
+                                                    return (
+                                                        <>
+                                                            {/* EDIT */}
+                                                            {rowActions.edit && (
+                                                                <DropdownMenuItem
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                `${baseRoute}.edit`,
+                                                                                row.id,
+                                                                            ),
+                                                                        )
+                                                                    }
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    <Edit className="mr-2 h-4 w-4" />{' '}
+                                                                    Edit
+                                                                </DropdownMenuItem>
+                                                            )}
+
+                                                            {/* VIEW */}
+                                                            {rowActions.view && (
+                                                                <DropdownMenuItem
+                                                                    onClick={() =>
+                                                                        router.visit(
+                                                                            route(
+                                                                                `${baseRoute}.show`,
+                                                                                row.id,
+                                                                            ),
+                                                                        )
+                                                                    }
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    <EyeIcon className="mr-2 h-4 w-4" />{' '}
+                                                                    View
+                                                                </DropdownMenuItem>
+                                                            )}
+
+                                                            {/* DELETE */}
+                                                            {rowActions.delete && (
+                                                                <DropdownMenuItem
+                                                                    onClick={() =>
+                                                                        setDeleteId(
+                                                                            row.id,
+                                                                        )
+                                                                    }
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    <Trash2 className="mr-2 h-4 w-4 text-red-600" />{' '}
+                                                                    Delete
+                                                                </DropdownMenuItem>
+                                                            )}
+
+                                                            {/* RESOLVE */}
+                                                            {rowActions.resolve && (
+                                                                <DropdownMenuItem
+                                                                    onClick={() => setResolveId(row.id)}
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    <CheckCircle className="mr-2 h-4 w-4 text-red-600" />
+                                                                    Resolve
+                                                                </DropdownMenuItem>
+                                                            )}
+
+                                                            {/* CUSTOM ACTIONS */}
+                                                            {Object.entries(
+                                                                rowActions,
+                                                            ).map(
+                                                                ([key, value]) => {
+                                                                    if (
+                                                                        [
+                                                                            'view',
+                                                                            'edit',
+                                                                            'resolve',
+                                                                            'delete',
+                                                                        ].includes(
+                                                                            key,
+                                                                        ) ||
+                                                                        !value ||
+                                                                        typeof value !==
+                                                                        'object'
+                                                                    )
+                                                                        return null;
+
+                                                                    return (
+                                                                        <DropdownMenuItem
+                                                                            key={
+                                                                                key
+                                                                            }
+                                                                            onClick={
+                                                                                value.action
+                                                                            }
+                                                                            className="cursor-pointer"
+                                                                        >
+                                                                            {value.icon && (
+                                                                                <value.icon className="mr-2 h-4 w-4" />
+                                                                            )}
+                                                                            {
+                                                                                value.label
+                                                                            }
+                                                                        </DropdownMenuItem>
+                                                                    );
+                                                                },
+                                                            )}
+                                                        </>
+                                                    );
+                                                })()}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
             </div>
 
             {/* Pagination Controls */}
@@ -401,11 +412,10 @@ const handleResolve = () => {
                                 <button
                                     key={page}
                                     onClick={() => goToPage(page)}
-                                    className={`cursor-pointer rounded px-3 py-1 ${
-                                        page === meta.current_page
-                                            ? 'bg-black text-white'
-                                            : 'bg-gray-200 text-black hover:bg-gray-300'
-                                    }`}
+                                    className={`cursor-pointer rounded px-3 py-1 ${page === meta.current_page
+                                        ? 'bg-black text-white'
+                                        : 'bg-gray-200 text-black hover:bg-gray-300'
+                                        }`}
                                 >
                                     {page}
                                 </button>
@@ -437,12 +447,12 @@ const handleResolve = () => {
                 message="Once deleted, you will not be able to recover this item."
             />
             <CustomDeleteModal
-    open={!!resolveId}
-    onClose={() => setResolve(null)}
-    onConfirm={handleResolve}
-    title="Are you sure you want to resolve this item?"
-    message="This action will mark the item as resolved."
-/>
+                open={!!resolveId}
+                onClose={() => setResolve(null)}
+                onConfirm={handleResolve}
+                title="Are you sure you want to resolve this item?"
+                message="This action will mark the item as resolved."
+            />
         </div>
     );
 }
