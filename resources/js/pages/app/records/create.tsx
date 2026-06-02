@@ -53,29 +53,57 @@ export default function Create({ userId, industries, allServices }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        // Phone formatting
-        if (name === 'phone_cell' || name === 'phone_home') {
-            setForm({
-                ...form,
-                [name]: formatPhoneNumber(value),
-            });
+        if (name === "phone_cell" || name === "phone_home") {
+            // শুধু ডিজিট রাখুন
+            let cleaned = value.replace(/\D/g, "");
+
+            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
+            if (cleaned.length > 10) {
+                cleaned = cleaned.slice(0, 10);
+            }
+
+            // ফরম্যাট করুন XXX-XXX-XXXX
+            let formatted = "";
+            if (cleaned.length <= 3) {
+                formatted = cleaned;
+            } else if (cleaned.length <= 6) {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            } else {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+            }
+
+            // স্টেট আপডেট করুন
+            setForm({ ...form, [name]: formatted });
             return;
         }
 
-        // Reset services when industry changes
-        if (name === 'industry') {
-            setForm({
-                ...form,
-                industry: value,
-                services: [], // Reset services array
-            });
+        // Price ফিল্ডের জন্য ভ্যালিডেশন
+        if (name === "price") {
+            // খালি মান অনুমোদন
+            if (value === "") {
+                setForm({ ...form, [name]: "" });
+                return;
+            }
+
+            // শুধু সংখ্যা এবং সর্বোচ্চ ২ দশমিক অনুমোদন
+            const regex = /^\d*\.?\d{0,2}$/;
+            if (regex.test(value)) {
+                setForm({ ...form, [name]: value });
+            }
             return;
         }
 
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        // অন্যান্য ফিল্ডের জন্য
+        setForm({ ...form, [name]: value });
+    };
+
+    // কিবোর্ড ইভেন্ট হ্যান্ডলার (আপ/ডাউন কী ডিজেবল করতে)
+    const handleKeyDown = (e) => {
+        if (e.target.name === "price") {
+            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                e.preventDefault();
+            }
+        }
     };
 
     // Handle checkbox change for service selection
@@ -196,11 +224,11 @@ export default function Create({ userId, industries, allServices }) {
                                 Phone Cell
                             </label>
                             <input
-                                type="text"
+                                type="tel"
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={14}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
@@ -215,11 +243,11 @@ export default function Create({ userId, industries, allServices }) {
                                 Phone Home
                             </label>
                             <input
-                                type="text"
+                                type="tel"
                                 name="phone_home"
                                 value={form.phone_home}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
@@ -409,9 +437,9 @@ export default function Create({ userId, industries, allServices }) {
                                     name="price"
                                     value={form.price}
                                     onChange={handleChange}
-                                    step="0.01"
+                                    onKeyDown={handleKeyDown}
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                     placeholder="0.00"
                                 />
                             </div>
@@ -443,7 +471,7 @@ export default function Create({ userId, industries, allServices }) {
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-black py-2 text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full bg-navy-600 py-2 text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center">

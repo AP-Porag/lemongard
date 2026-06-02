@@ -10,6 +10,7 @@ const breadcrumbs = [
 ];
 
 export default function Show({ record }: any) {
+    console.log(record)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Record Details" />
@@ -68,11 +69,23 @@ export default function Show({ record }: any) {
                                 {record?.zip}
                             </p>
                         </div>
+                        {/* Service */}
                         <div>
-                            <p className="text-sm font-semibold">Service</p>
-                            <p className="text-sm text-gray-600">
-                                {record?.service}
-                            </p>
+                            <p className="text-sm font-semibold text-gray-700">Services</p>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                                {record?.services?.length > 0 ? (
+                                    record.services.map((service) => (
+                                        <span
+                                            key={service.id}
+                                            className="inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                                        >
+                                            {service.name}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <p className="text-sm text-gray-500">No services</p>
+                                )}
+                            </div>
                         </div>
                         <div>
                             <p className="text-sm font-semibold">Price</p>

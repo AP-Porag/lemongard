@@ -71,22 +71,49 @@ export default function Index({
                 </span>
             ),
         },
+        // {
+        //     key: 'services',
+        //     label: 'Services',
+        //     render: (row) => (
+        //         <div className="flex flex-wrap gap-1">
+        //             {row.services?.length > 0 ? (
+        //                 row.services.map((service) => (
+        //                     <span
+        //                         key={service.id}
+        //                         className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+        //                     >
+        //                         {service.name}
+        //                     </span>
+        //                 ))
+        //             ) : (
+        //                 <span className="text-gray-400">N/A</span>
+        //             )}
+        //         </div>
+        //     ),
+        // },
         {
             key: 'services',
             label: 'Services',
             render: (row) => (
                 <div className="flex flex-wrap gap-1">
                     {row.services?.length > 0 ? (
-                        row.services.map((service) => (
-                            <span
-                                key={service.id}
-                                className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
-                            >
-                                {service.name}
-                            </span>
-                        ))
+                        <>
+                            {row.services.slice(0, 4).map((service) => (
+                                <span
+                                    key={service.id}
+                                    className="inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                                >
+                                    {service.name}
+                                </span>
+                            ))}
+                            {row.services.length > 4 && (
+                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white">
+                                    +{row.services.length - 4} more
+                                </span>
+                            )}
+                        </>
                     ) : (
-                        <span className="text-gray-400">N/A</span>
+                        <span className="text-gray-400 text-sm">N/A</span>
                     )}
                 </div>
             ),
@@ -136,7 +163,7 @@ export default function Index({
                             onClick={() =>
                                 router.visit(route('app.records.create'))
                             }
-                            className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                            className="cursor-pointer bg-navy-600 text-white hover:bg-gray-800"
                         >
                             <Plus className="mr-2" /> Create Record
                         </Button>

@@ -155,6 +155,15 @@ class RecordService extends BaseService
         }
     }
 
+    public function findWithServices($id)
+    {
+        $record = parent::find($id); // বেস সার্ভিসের find মেথড কল
+        if ($record) {
+            $record->load('services');
+        }
+        return $record;
+    }
+
     public function deleteRecord(int $id, User $user)
     {
         $record = $this->model->findOrFail($id);

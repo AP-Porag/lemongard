@@ -66,6 +66,11 @@ class RecordController extends Controller
     {
         $record = $this->recordService->find($id);
 
+
+        if ($record) {
+            $record->load('services');
+        }
+
         return Inertia::render('app/records/show', [
             'record' => $record
         ]);
