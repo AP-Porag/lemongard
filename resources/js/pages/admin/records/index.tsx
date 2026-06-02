@@ -104,7 +104,7 @@ export default function Index({ records, industries, services, filters: initialF
                         onClick={() =>
                             router.visit(route('admin.records.create'))
                         }
-                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                        className="cursor-pointer bg-navy-600 text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2" /> Create Record
                     </Button>
