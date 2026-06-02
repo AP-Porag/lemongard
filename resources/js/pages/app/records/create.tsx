@@ -159,7 +159,7 @@ export default function Create({ userId, industries, allServices }) {
                     incident_report: '',
                 });
                 setErrors({});
-                toast.success('Record created successfully!');
+                // toast.success('Record created successfully!');
             },
             onFinish: () => setLoading(false),
         });
@@ -228,7 +228,7 @@ export default function Create({ userId, industries, allServices }) {
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
-                                maxLength={14}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />

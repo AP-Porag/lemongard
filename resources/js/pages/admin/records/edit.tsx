@@ -68,29 +68,58 @@ export default function Edit({ record, industries, allServices, selectedServices
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        // Phone formatting
-        if (name === 'phone_cell' || name === 'phone_home') {
-            setForm({
-                ...form,
-                [name]: formatPhoneNumber(value),
-            });
+        // Phone Cell or Phone Home formatting
+        if (name === "phone_cell" || name === "phone_home") {
+            // শুধু ডিজিট রাখুন
+            let cleaned = value.replace(/\D/g, "");
+
+            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
+            if (cleaned.length > 10) {
+                cleaned = cleaned.slice(0, 10);
+            }
+
+            // ফরম্যাট করুন XXX-XXX-XXXX
+            let formatted = "";
+            if (cleaned.length <= 3) {
+                formatted = cleaned;
+            } else if (cleaned.length <= 6) {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            } else {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+            }
+
+            setForm({ ...form, [name]: formatted });
             return;
         }
 
         // Reset services when industry changes
-        if (name === 'industry') {
+        if (name === "industry") {
             setForm({
                 ...form,
                 industry: value,
-                services: [], // Reset services array when industry changes
+                services: [],
             });
             return;
         }
 
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        // Price field validation
+        if (name === "price") {
+            // খালি মান অনুমোদন
+            if (value === "") {
+                setForm({ ...form, [name]: "" });
+                return;
+            }
+
+            // শুধু সংখ্যা এবং সর্বোচ্চ ২ দশমিক অনুমোদন
+            const regex = /^\d*\.?\d{0,2}$/;
+            if (regex.test(value)) {
+                setForm({ ...form, [name]: value });
+            }
+            return;
+        }
+
+        // অন্যান্য ফিল্ডের জন্য
+        setForm({ ...form, [name]: value });
     };
 
     // Handle checkbox change for service selection
@@ -130,7 +159,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                 toast.error('Please check the form for errors');
             },
             onSuccess: () => {
-                toast.success('Record updated successfully!');
+                // toast.success('Record updated successfully!');
             },
             onFinish: () => setLoading(false),
         });
@@ -199,7 +228,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
@@ -218,7 +247,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="phone_home"
                                 value={form.phone_home}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />

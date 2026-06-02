@@ -40,30 +40,6 @@ export default function Create({ userId, industries, allServices }) {
         service => service.industry_id === parseInt(form.industry)
     ) || [];
 
-    // Format phone number
-    //  const formatPhoneNumber = (value) => {
-    //     const numbers = value.replace(/\D/g, '').slice(0, 10);
-
-    //     if (numbers.length <= 3) {
-    //         return numbers;
-    //     }
-
-    //     if (numbers.length <= 6) {
-    //         return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-    //     }
-
-    //     return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
-    // };
-    // const formatPhoneNumber = (value) => {
-    //     const numbers = value.replace(/\D/g, '').slice(0, 15);
-    //     const parts = [];
-    //     for (let i = 0; i < numbers.length; i += 3) {
-
-    //          parts.push(numbers.slice(i, i + 3));
-    //          }
-    //         return parts.join('-');
-    //     };
-
     const formatPhoneNumber = (value) => {
         const numbers = value.replace(/\D/g, '').slice(0, 10);
 
@@ -81,29 +57,58 @@ export default function Create({ userId, industries, allServices }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        // Phone formatting
-        if (name === 'phone_cell' || name === 'phone_home') {
-            setForm({
-                ...form,
-                [name]: formatPhoneNumber(value),
-            });
+        // Phone Cell or Phone Home formatting
+        if (name === "phone_cell" || name === "phone_home") {
+            // শুধু ডিজিট রাখুন
+            let cleaned = value.replace(/\D/g, "");
+
+            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
+            if (cleaned.length > 10) {
+                cleaned = cleaned.slice(0, 10);
+            }
+
+            // ফরম্যাট করুন XXX-XXX-XXXX
+            let formatted = "";
+            if (cleaned.length <= 3) {
+                formatted = cleaned;
+            } else if (cleaned.length <= 6) {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            } else {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+            }
+
+            setForm({ ...form, [name]: formatted });
             return;
         }
 
         // Reset services when industry changes
-        if (name === 'industry') {
+        if (name === "industry") {
             setForm({
                 ...form,
                 industry: value,
-                services: [], // Reset services array
+                services: [],
             });
             return;
         }
 
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        // Price field validation
+        if (name === "price") {
+            // খালি মান অনুমোদন
+            if (value === "") {
+                setForm({ ...form, [name]: "" });
+                return;
+            }
+
+            // শুধু সংখ্যা এবং সর্বোচ্চ ২ দশমিক অনুমোদন
+            const regex = /^\d*\.?\d{0,2}$/;
+            if (regex.test(value)) {
+                setForm({ ...form, [name]: value });
+            }
+            return;
+        }
+
+        // অন্যান্য ফিল্ডের জন্য
+        setForm({ ...form, [name]: value });
     };
 
     // Handle checkbox change for service selection
@@ -159,7 +164,7 @@ export default function Create({ userId, industries, allServices }) {
                     incident_report: '',
                 });
                 setErrors({});
-                toast.success('Record created successfully!');
+                // toast.success('Record created successfully!');
             },
             onFinish: () => setLoading(false),
         });
@@ -430,7 +435,7 @@ export default function Create({ userId, industries, allServices }) {
                         {/* Price */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Price 2
+                                Price
                             </label>
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>

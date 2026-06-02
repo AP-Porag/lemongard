@@ -116,7 +116,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                 toast.error('Please check the form for errors');
             },
             onSuccess: () => {
-                toast.success('Record updated successfully!');
+                // toast.success('Record updated successfully!');
             },
             onFinish: () => setLoading(false),
         });
@@ -396,7 +396,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                                     onChange={handleChange}
                                     step="0.01"
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                     placeholder="0.00"
                                 />
                             </div>
