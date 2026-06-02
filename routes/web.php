@@ -26,7 +26,8 @@ use Illuminate\Http\Request;
 | Artisan command Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/clear-config', function() {
+
+Route::get('/clear-config', function () {
     Artisan::call('config:clear');
     return "Config cleared! Now try your execute-command route again.";
 });
@@ -67,16 +68,13 @@ Route::group([], function () {
     Route::get('/about', fn() => Inertia::render('public/About'));
 
     Route::get('/pricing', fn() => Inertia::render('public/Pricing'));
-     Route::get('/features', fn() => Inertia::render('public/Features'));
+    Route::get('/features', fn() => Inertia::render('public/Features'));
 
     Route::get('/how-it-works', fn() => Inertia::render('public/HowItWorks'));
     Route::get('/contact', fn() => Inertia::render('public/Contact'));
     Route::get('/privacy-policy', fn() => Inertia::render('public/PrivacyPolicy'));
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
     Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
-
-   
-    
 });
 
 Route::post('/contact', [SupportController::class, 'store'])->name('contact.store');
@@ -164,7 +162,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         //     return Inertia::render('app/checkout/success');
         // })->name('checkout.success');
 
-        Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+        // Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
         Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
             ->name('subscription.start-trial');
