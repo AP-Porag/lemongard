@@ -54,7 +54,7 @@ class RecordController extends Controller
         $this->recordService->store($request->all(), $request->user()->id);
 
         return redirect()->route('admin.records.index')
-            ->with('success', 'Record Submitted Successfully');
+            ->with('success', 'Record Created Successfully');
     }
 
     public function show($id)
@@ -111,7 +111,7 @@ class RecordController extends Controller
             $request->user()
         );
 
-        return back()->with('success', 'Record deleted successfully.');
+        return back();
     }
 
 
