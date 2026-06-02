@@ -25,6 +25,8 @@ export default function Index({
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
         perPage: initialFilters?.perPage || 5,
+        industry: initialFilters?.industry || '',
+        industries: initialFilters?.industries || [],
         page: records?.current_page || 1,
     });
     const { auth } = usePage().props;
@@ -51,7 +53,7 @@ export default function Index({
             preserveState: true,
             replace: true,
         });
-    }, [filters.search, filters.status, filters.perPage, filters.page]);
+    }, [filters.search, filters.status, filters.perPage, filters.page, filters.industry, filters.industries,]);
 
     const columns = [
         {
@@ -167,6 +169,7 @@ export default function Index({
                         total: records.total,
                         current_page: records.current_page,
                         last_page: records.last_page,
+                        searchPlaceholderText: "Search by name, industry, service..."
                     }}
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;
@@ -188,11 +191,13 @@ export default function Index({
                             search_filter: true,
                             status_filter: true,
                             per_page_filter: true,
+                            industry_filter: true
                         };
                     }}
                     baseRoute="app.my-records"
                     filters={filters}
                     onFilterChange={setFilters}
+                    industries={industries}
                 />
             </div>
         </AppLayout>

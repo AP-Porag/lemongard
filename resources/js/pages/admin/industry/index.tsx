@@ -63,7 +63,7 @@ export default function Index({ industries, filters: initialFilters }) {
                         onClick={() =>
                             router.visit(route('admin.industries.create'))
                         }
-                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                        className="cursor-pointer bg-navy-600 text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2 h-4 w-4" />
                         Create Industry
@@ -79,6 +79,7 @@ export default function Index({ industries, filters: initialFilters }) {
                         total: industries.total,
                         current_page: industries.current_page,
                         last_page: industries.last_page,
+                        searchPlaceholderText: "Search by name..."
                     }}
                     actions={(row) => ({
                         view: false,

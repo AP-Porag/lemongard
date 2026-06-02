@@ -57,33 +57,49 @@ class RecordService extends BaseService
             throw $e;
         }
     }
-    // RecordService.php - getPaginatedRecords মেথড
+    // RecordService.php
     public function getPaginatedRecords(array $filters)
     {
-        return $this->model
-            ->with(['industry', 'services'])
-            ->when($filters['search'] ?? null, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%{$search}%")
-                        ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('phone_cell', 'like', "%{$search}%")
-                        ->orWhere('city', 'like', "%{$search}%")
-                        ->orWhereHas('services', function ($q) use ($search) {
-                            $q->where('name', 'like', "%{$search}%");
-                        });
-                });
-            })
-            ->when($filters['status'] ?? null, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            // ✅ শুধু industry ফিল্টার (সিঙ্গেল)
-            ->when(!empty($filters['industry']), function ($query) use ($filters) {
-                $query->where('industry', $filters['industry']);
-            })
-            ->latest()
+        $query = $this->model->with(['industry', 'services']);
+
+        // সার্চ ফিল্টার
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('phone_cell', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('state', 'like', "%{$search}%")
+                    ->orWhere('zip', 'like', "%{$search}%")
+                    ->orWhere('street', 'like', "%{$search}%")
+                    ->orWhere('incident_report', 'like', "%{$search}%")
+                    ->orWhereHas('industry', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('services', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // ✅ ইন্ডাস্ট্রি ফিল্টার - এটা নিশ্চিত করুন
+        if (isset($filters['industry']) && $filters['industry'] !== '' && $filters['industry'] !== 'all') {
+            $industryId = (int) $filters['industry'];
+            $query->where('industry', $industryId);
+        }
+
+        // মাল্টি ইন্ডাস্ট্রি
+        if (!empty($filters['industries']) && is_array($filters['industries'])) {
+            $industryIds = array_map('intval', $filters['industries']);
+            $query->whereIn('industry', $industryIds);
+        }
+
+        return $query->latest()
             ->paginate($filters['perPage'] ?? 5)
             ->withQueryString();
     }
+
     // public function getPaginatedMyRecords(array $filters)
     // {
     //     return $this->model

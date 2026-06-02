@@ -46,11 +46,11 @@ export const mainNavItems: NavItem[] = [
                 href: '/admin/users',
                 icon: User,
             },
-            {
-                title: 'Subscriptions',
-                href: '/admin/subscriptions',
-                icon: CreditCard,
-            },
+            // {
+            //     title: 'Subscriptions',
+            //     href: '/admin/subscriptions',
+            //     icon: CreditCard,
+            // },
         ],
     },
     {

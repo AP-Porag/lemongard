@@ -1,5 +1,6 @@
 import React from 'react';
 import { router } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -39,7 +40,6 @@ export default function DataTable({
     onFilterChange,
     perPageOptions = [5, 10, 25, 50],
 }) {
-    console.log(industries);
     const [deleteId, setDeleteId] = React.useState(null);
     const [resolveId, setResolveId] = React.useState(null);
 
@@ -48,6 +48,13 @@ export default function DataTable({
     //         onSuccess: () => setDeleteId(null),
     // });
     // };
+    const { url } = usePage();
+
+    // চেক করুন কোন রুটে আছেন
+    const isRecordsRoute = url === '/app/records' || url === '/admin/records' || url === '/app/my-records';
+    // অথবা route name দিয়ে চেক করতে
+    const routeName = route().current();
+    const isAllowedRoute = routeName === 'app.records.index' || routeName === 'admin.records.index' || routeName === 'app.my-records.index';
 
     const globalActions = {
         search_filter: true,
@@ -117,21 +124,23 @@ export default function DataTable({
                     <Input
                         type="text"
                         name="search"
-                        placeholder={meta.searchPlaceholderText}
+                        placeholder={meta.searchPlaceholderText || "Search..."}
                         value={filters.search}
                         onChange={handleFilterChange}
                         className="px-3 py-2 md:w-1/3"
                     />
                 )}
 
-                {globalActions.industry_filter && (
-                    <div className="relative">
+
+                {isAllowedRoute && globalActions.industry_filter && (
+                    <div className="relative min-w-[250px]">
                         <Select
-                            value={filters.industry || 'all'}  // ✅ industry ব্যবহার করুন, industries না
+                            value={filters.industry || 'all'}
                             onValueChange={(value) => {
+                                console.log('Selected value:', value);
                                 onFilterChange({
                                     ...filters,
-                                    industry: value === 'all' ? '' : value,  // ✅ industry ফিল্ড আপডেট করুন
+                                    industry: value === 'all' ? '' : value,
                                     page: 1,
                                 });
                             }}
@@ -454,5 +463,6 @@ export default function DataTable({
                 message="This action will mark the item as resolved."
             />
         </div>
+
     );
 }

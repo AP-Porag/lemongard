@@ -181,6 +181,7 @@ export default function Index({
                         total: records.total,
                         current_page: records.current_page,
                         last_page: records.last_page,
+                        searchPlaceholderText: "Search by name, industry, service..."
                     }}
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;

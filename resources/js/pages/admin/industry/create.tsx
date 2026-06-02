@@ -87,7 +87,7 @@ export default function CreateIndustry() {
 
                         <Button
                             type="submit"
-                            className="w-full cursor-pointer bg-black text-white"
+                            className="w-full cursor-pointer bg-navy-600 text-white"
                         >
                             Save Industry
                         </Button>

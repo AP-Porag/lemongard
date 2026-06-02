@@ -87,7 +87,7 @@ export default function Index({ users, filters: initialFilters }) {
                         onClick={() =>
                             router.visit(route('admin.users.create'))
                         }
-                        className="cursor-pointer bg-black text-white hover:bg-gray-800"
+                        className="cursor-pointer bg-navy-600 text-white hover:bg-gray-800"
                     >
                         <Plus className="mr-2" /> Create User
                     </Button>
@@ -101,6 +101,7 @@ export default function Index({ users, filters: initialFilters }) {
                         total: users.total,
                         current_page: users.current_page,
                         last_page: users.last_page,
+                        searchPlaceholderText: "Search by name, email, role..."
                     }}
                     // also we can -  edit: row.status === 'active',
                     actions={(row) => ({

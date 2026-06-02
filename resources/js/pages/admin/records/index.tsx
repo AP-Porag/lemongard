@@ -17,6 +17,7 @@ export default function Index({ records, industries, services, filters: initialF
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
         perPage: initialFilters?.perPage || 5,
+        industry: initialFilters?.industry || '',
         page: records?.current_page || 1,
     });
 
@@ -27,7 +28,7 @@ export default function Index({ records, industries, services, filters: initialF
             preserveState: true,
             replace: true,
         });
-    }, [filters.search, filters.status, filters.perPage, filters.page]);
+    }, [filters.search, filters.status, filters.perPage, filters.page, filters.industry]);
 
     const columns = [
         {
@@ -61,16 +62,23 @@ export default function Index({ records, industries, services, filters: initialF
             render: (row) => (
                 <div className="flex flex-wrap gap-1">
                     {row.services?.length > 0 ? (
-                        row.services.map((service) => (
-                            <span
-                                key={service.id}
-                                className="inline-flex items-center rounded-sm bg-yellow-600 px-2 py-0.5 text-xs font-medium text-white"
-                            >
-                                {service.name}
-                            </span>
-                        ))
+                        <>
+                            {row.services.slice(0, 4).map((service) => (
+                                <span
+                                    key={service.id}
+                                    className="inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                                >
+                                    {service.name}
+                                </span>
+                            ))}
+                            {row.services.length > 4 && (
+                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white">
+                                    +{row.services.length - 4} more
+                                </span>
+                            )}
+                        </>
                     ) : (
-                        <span className="text-gray-400">N/A</span>
+                        <span className="text-gray-400 text-sm">N/A</span>
                     )}
                 </div>
             ),
@@ -111,6 +119,7 @@ export default function Index({ records, industries, services, filters: initialF
                         total: records.total,
                         current_page: records.current_page,
                         last_page: records.last_page,
+                        searchPlaceholderText: "Search by name, industry, service..."
                     }}
                     actions={(row) => ({
                         view: true,
@@ -123,6 +132,7 @@ export default function Index({ records, industries, services, filters: initialF
                     baseRoute="admin.records"
                     filters={filters}
                     onFilterChange={setFilters}
+                    industries={industries}
                 />
             </div>
         </AppLayout>

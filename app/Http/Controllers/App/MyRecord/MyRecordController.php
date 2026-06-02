@@ -19,21 +19,23 @@ class MyRecordController extends Controller
         $this->recordService = $recordService;
     }
 
+    // MyRecordController.php
     public function index(Request $request)
     {
         $user = $request->user();
 
         $hasFullAccess = $this->recordService->fullAccess($user);
 
-        $records = $this->recordService->getPaginatedMyRecords(
-            $request->all()
-        );
+        // ✅ সব ফিল্টার নিন (industry, industries সহ)
+        $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
+
+        $records = $this->recordService->getPaginatedMyRecords($filters);
         $industries = Industry::all();
 
         return inertia('app/my-records/index', [
             'records' => $records,
-            'filters' => $request->only(['search', 'status', 'perPage']),
-            'has_full_access' => $hasFullAccess, // 🔥 send to frontend,
+            'filters' => $filters, // সব ফিল্টার পাঠান
+            'has_full_access' => $hasFullAccess,
             'industries' => $industries
         ]);
     }

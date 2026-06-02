@@ -26,13 +26,9 @@ class RecordController extends Controller
     {
         $user = $request->user();
 
-        // ডিবাগ: দেখুন কি আসছে
-        // \Log::info('Request filters:', $request->all());
 
-        $filters = $request->only(['search', 'status', 'perPage', 'industry']);
+        $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
 
-        // ডিবাগ: দেখুন industry ফিল্টার আছে কিনা
-        // \Log::info('Industry filter:', ['industry' => $filters['industry'] ?? 'not set']);
 
         $hasFullAccess = $this->recordService->fullAccess($user);
         $records = $this->recordService->getPaginatedRecords($filters);

@@ -5,7 +5,7 @@ import { FileText } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs = [
-    { title: 'Record', href: '/app/records' },
+    { title: 'Record', href: '/admin/records' },
     { title: 'View Record' },
 ];
 

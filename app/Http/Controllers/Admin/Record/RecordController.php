@@ -22,7 +22,7 @@ class RecordController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->only(['search', 'status', 'perPage']);
+        $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
 
         $records = $this->recordService->getPaginatedRecords($filters);
 
@@ -59,7 +59,11 @@ class RecordController extends Controller
 
     public function show($id)
     {
+
         $record = $this->recordService->find($id);
+        if ($record) {
+            $record->load(['services', 'industry']);
+        }
 
         return Inertia::render('admin/records/show', [
             'record' => $record

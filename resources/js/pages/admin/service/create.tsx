@@ -138,7 +138,7 @@ export default function CreateIndustry({ industries = [] }: Props) {
 
                         <Button
                             type="submit"
-                            className="w-full cursor-pointer bg-black text-white"
+                            className="w-full cursor-pointer bg-navy-600 text-white"
                         >
                             Save Service
                         </Button>
