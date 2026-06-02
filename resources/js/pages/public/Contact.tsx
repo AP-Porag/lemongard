@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Link } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
+
 import {
     ChevronRight,
     Mail,
@@ -77,30 +78,31 @@ const contactMethods = [
         icon: Mail,
         title: 'Email Us',
         desc: 'Get in touch via email',
-        link: 'mailto:support@lemongard.com ? subject=Feedback&body=message',
+        link: 'mailto:support@lemongard.com?subject=Feedback&body=Hello%20LemonGard%20Team',
         linkText: 'support@lemongard.com',
         response: 'Response within 24 hours',
         responseIcon: Clock,
     },
-    // {
-    //     icon: HelpCircle,
-    //     title: 'Help Center',
-    //     desc: 'Browse our documentation',
-    //     link: '#help',
-    //     linkText: 'View Help Articles',
-    //     response: 'Available 24/7',
-    //     responseIcon: Clock,
-    // },
-    // {
-    //     icon: Briefcase,
-    //     title: 'Sales Inquiries',
-    //     desc: 'Questions about plans?',
-    //     link: '#sales',
-    //     linkText: 'Talk to Sales',
-    //     response: 'Mon-Fri, 9AM-5PM EST',
-    //     responseIcon: Clock,
-    // },
 ];
+// {
+//     icon: HelpCircle,
+//     title: 'Help Center',
+//     desc: 'Browse our documentation',
+//     link: '#help',
+//     linkText: 'View Help Articles',
+//     response: 'Available 24/7',
+//     responseIcon: Clock,
+// },
+// {
+//     icon: Briefcase,
+//     title: 'Sales Inquiries',
+//     desc: 'Questions about plans?',
+//     link: '#sales',
+//     linkText: 'Talk to Sales',
+//     response: 'Mon-Fri, 9AM-5PM EST',
+//     responseIcon: Clock,
+// },
+
 
 const whyReachOut = [
     {
