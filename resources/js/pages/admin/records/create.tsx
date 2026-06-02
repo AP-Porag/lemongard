@@ -41,14 +41,42 @@ export default function Create({ userId, industries, allServices }) {
     ) || [];
 
     // Format phone number
-    const formatPhoneNumber = (value) => {
-        const numbers = value.replace(/\D/g, '').slice(0, 15);
-        const parts = [];
-        for (let i = 0; i < numbers.length; i += 3) {
-            parts.push(numbers.slice(i, i + 3));
-        }
-        return parts.join('-');
-    };
+//  const formatPhoneNumber = (value) => {
+//     const numbers = value.replace(/\D/g, '').slice(0, 10);
+
+//     if (numbers.length <= 3) {
+//         return numbers;
+//     }
+
+//     if (numbers.length <= 6) {
+//         return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+//     }
+
+//     return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+// };
+// const formatPhoneNumber = (value) => { 
+//     const numbers = value.replace(/\D/g, '').slice(0, 15);
+//     const parts = [];
+//     for (let i = 0; i < numbers.length; i += 3) {
+
+//          parts.push(numbers.slice(i, i + 3));
+//          }
+//         return parts.join('-'); 
+//     };
+
+const formatPhoneNumber = (value) => {
+    const numbers = value.replace(/\D/g, '').slice(0, 10);
+
+    if (numbers.length <= 3) {
+        return numbers;
+    }
+
+    if (numbers.length <= 6) {
+        return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    }
+
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+};
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -200,10 +228,12 @@ export default function Create({ userId, industries, allServices }) {
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
+
+                        
                             {errors.phone_cell && (
                                 <p className="mt-1 text-sm text-red-500">{errors.phone_cell}</p>
                             )}
@@ -219,7 +249,7 @@ export default function Create({ userId, industries, allServices }) {
                                 name="phone_home"
                                 value={form.phone_home}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />

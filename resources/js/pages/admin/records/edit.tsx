@@ -42,15 +42,29 @@ export default function Edit({ record, industries, allServices, selectedServices
     ) || [];
 
     // Format phone number
-    const formatPhoneNumber = (value) => {
-        const numbers = value.replace(/\D/g, '').slice(0, 15);
-        const parts = [];
-        for (let i = 0; i < numbers.length; i += 3) {
-            parts.push(numbers.slice(i, i + 3));
-        }
-        return parts.join('-');
-    };
+    // const formatPhoneNumber = (value) => {
+    //     const numbers = value.replace(/\D/g, '').slice(0, 15);
+    //     const parts = [];
+    //     for (let i = 0; i < numbers.length; i += 3) {
+    //         parts.push(numbers.slice(i, i + 3));
+    //     }
+    //     return parts.join('-');
+    // };
 
+    //new formate phone number
+    const formatPhoneNumber = (value) => {
+    const numbers = value.replace(/\D/g, '').slice(0, 10);
+
+    if (numbers.length <= 3) {
+        return numbers;
+    }
+
+    if (numbers.length <= 6) {
+        return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    }
+
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+};
     const handleChange = (e) => {
         const { name, value } = e.target;
 

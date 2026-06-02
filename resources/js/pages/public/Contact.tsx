@@ -60,7 +60,10 @@ const contactSchema = z.object({
         .string()
         .min(1, 'Email is required')
         .email('Please enter a valid email address'),
+
     phone: z.string().optional(),
+    
+
     subject: z.string().min(1, 'Please select a topic'),
     message: z
         .string()
@@ -183,6 +186,8 @@ const fadeIn = {
     transition: { duration: 0.6 },
 };
 
+ 
+
 const Contact = () => {
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -215,6 +220,7 @@ const Contact = () => {
             },
         });
     };
+
 
     const inputBase =
         'w-full pl-10 pr-4 py-3 border rounded-lg transition-all outline-none text-foreground placeholder:text-muted-foreground';
@@ -446,15 +452,44 @@ const Contact = () => {
                                         </label>
                                         <div className="relative">
                                             <Phone className="pointer-events-none absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                                            <input
+                                            {/* <input
                                                 id="phone"
                                                 type="tel"
                                                 {...register('phone')}
-                                                placeholder="+1 (555) 123-4567"
+                                                placeholder="XXX-XXX-XXXX"
                                                 className={`${inputBase} ${inputOk}`}
-                                            />
+                                            /> */}
+
+
+                                            <input
+    id="phone"
+    type="tel"
+    {...register('phone')}
+    placeholder="XXX-XXX-XXXX"
+    maxLength={12}
+    onInput={(e) => {
+        let value = e.currentTarget.value.replace(/\D/g, '');
+
+        if (value.length > 3 && value.length <= 6) {
+            value = `${value.slice(0, 3)}-${value.slice(3)}`;
+        } else if (value.length > 6) {
+            value = `${value.slice(0, 3)}-${value.slice(
+                3,
+                6
+            )}-${value.slice(6, 10)}`;
+        }
+
+        e.currentTarget.value = value;
+    }}
+    className={`${inputBase} ${errors.phone ? inputErr : inputOk}`}
+/>
+  
                                         </div>
                                     </div>
+
+                                    
+
+                                    
 
                                     {/* Subject */}
                                     <div>
