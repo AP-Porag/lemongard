@@ -46,6 +46,7 @@ Route::get('/execute-command', function () {
 
     Artisan::call('cache:clear');
     Artisan::call('view:clear');
+    Artisan::call('config:clear');
     Artisan::call('route:clear');
     Artisan::call('optimize');
     dd('All commands executed successfully');
@@ -158,7 +159,11 @@ Route::prefix(GlobalConstant::ROUTE_APP)
             ->name('checkout.success');
 
 
-        // Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+        // Route::get('/checkout/success', function () {
+        //     return Inertia::render('app/checkout/success');
+        // })->name('checkout.success');
+
+        Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
         Route::post('/subscription/start-trial', [SubscriptionController::class, 'startTrial'])
             ->name('subscription.start-trial');
