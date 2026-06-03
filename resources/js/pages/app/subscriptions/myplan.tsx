@@ -62,7 +62,7 @@ export default function MyPlan({
         status === 'trial' &&
         (trial_ends_at || user.trial_ends_at) &&
         new Date(trial_ends_at || (user.trial_ends_at as string)).getTime() <
-            Date.now();
+        Date.now();
 
     const isSubscriptionEnded = ends_at
         ? new Date(ends_at).getTime() < Date.now()
@@ -228,11 +228,11 @@ export default function MyPlan({
                             {is_cancelled
                                 ? 'You Have No Plan'
                                 : user.subscription_tier
-                                      ?.replaceAll('_', ' ')
-                                      .toLowerCase()
-                                      .replace(/\b\w/g, (char) =>
-                                          char.toUpperCase(),
-                                      )}
+                                    ?.replaceAll('_', ' ')
+                                    .toLowerCase()
+                                    .replace(/\b\w/g, (char) =>
+                                        char.toUpperCase(),
+                                    )}
                         </Badge>
                     </div>
                 </div>
@@ -258,9 +258,9 @@ export default function MyPlan({
                                         Trial ended on:{' '}
                                         {trial_ends_at || user.trial_ends_at
                                             ? new Date(
-                                                  trial_ends_at ||
-                                                      (user.trial_ends_at as string),
-                                              ).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+                                                trial_ends_at ||
+                                                (user.trial_ends_at as string),
+                                            ).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
                                             : 'N/A'}
                                     </p>
                                 </div>
@@ -289,9 +289,9 @@ export default function MyPlan({
                                         Trial ends on:{' '}
                                         {trial_ends_at || user.trial_ends_at
                                             ? new Date(
-                                                  trial_ends_at ||
-                                                      (user.trial_ends_at as string),
-                                              ).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+                                                trial_ends_at ||
+                                                (user.trial_ends_at as string),
+                                            ).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
                                             : 'N/A'}
                                     </p>
                                 </div>
@@ -425,11 +425,10 @@ export default function MyPlan({
                                         <Button
                                             disabled={isTier1Disabled()}
                                             onClick={handleTier1Click}
-                                            className={`w-full ${
-                                                isTier1Disabled()
-                                                    ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
-                                                    : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
-                                            }`}
+                                            className={`w-full ${isTier1Disabled()
+                                                ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
+                                                : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
+                                                }`}
                                         >
                                             {getTier1ButtonText()}
                                         </Button>
@@ -437,11 +436,10 @@ export default function MyPlan({
                                         <Button
                                             disabled={isTier2Disabled()}
                                             onClick={handleTier2Click}
-                                            className={`w-full ${
-                                                isTier2Disabled()
-                                                    ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
-                                                    : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
-                                            }`}
+                                            className={`w-full ${isTier2Disabled()
+                                                ? 'cursor-not-allowed bg-gray-100 text-gray-500 opacity-50'
+                                                : 'cursor-pointer bg-navy-600 text-white hover:bg-navy-700'
+                                                }`}
                                         >
                                             {getTier2ButtonText()}
                                         </Button>
@@ -470,7 +468,7 @@ export default function MyPlan({
                             No, Keep Plan
                         </Button>
 
-                        <Button
+                        {/* <Button
                             className="bg-red-600 text-white hover:bg-red-700"
                             disabled={loading}
                             onClick={() => {
@@ -479,6 +477,28 @@ export default function MyPlan({
                                 router.get(
                                     route('app.subscription.plan.cancel'),
                                     {
+                                        onFinish: () => {
+                                            setLoading(false);
+                                            setOpen(false);
+                                        },
+                                    },
+                                );
+                            }}
+                        >
+                            {loading ? 'Cancelling...' : 'Yes, Cancel'}
+                        </Button> */}
+                        <Button
+                            className="bg-red-600 text-white hover:bg-red-700"
+                            disabled={loading}
+                            onClick={() => {
+                                setLoading(true);
+
+                                router.get(
+                                    route('app.subscription.plan.cancel'),
+                                    {},
+                                    {
+                                        preserveState: false,
+                                        preserveScroll: false,
                                         onFinish: () => {
                                             setLoading(false);
                                             setOpen(false);
