@@ -41,20 +41,20 @@ export default function SubscriptionResumeSuccess({
                             <p className="mx-auto max-w-xl text-base leading-7 text-slate-600 dark:text-slate-300">
                                 Your{' '}
                                 <span className="font-semibold capitalize">
-                                    {plan}
+                                    {plan.replaceAll('_', ' ')}
                                 </span>{' '}
                                 subscription has been resumed successfully. Your
                                 LemonGard access will continue without
                                 interruption.
                             </p>
 
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                            {/* <p className="text-sm text-slate-500 dark:text-slate-400">
                                 Your next billing date is{' '}
                                 <span className="font-medium text-slate-700 dark:text-slate-200">
                                     {nextBillingDate ?? 'N/A'}
                                 </span>
                                 .
-                            </p>
+                            </p> */}
                         </div>
 
                         <div className="flex flex-col gap-3 pt-4 sm:flex-row">
