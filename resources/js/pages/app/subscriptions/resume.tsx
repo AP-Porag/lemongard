@@ -51,7 +51,7 @@ export default function SubscriptionResumeSuccess({
                             {/* <p className="text-sm text-slate-500 dark:text-slate-400">
                                 Your next billing date is{' '}
                                 <span className="font-medium text-slate-700 dark:text-slate-200">
-                                    {nextBillingDate ?? 'N/A'}
+                                    {nextBillingDate ?? 'Not/Applicable'}
                                 </span>
                                 .
                             </p> */}
