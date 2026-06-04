@@ -34,7 +34,7 @@ class MyRecordController extends Controller
 
         return inertia('app/my-records/index', [
             'records' => $records,
-            'filters' => $filters, // সব ফিল্টার পাঠান
+            'filters' => $filters,
             'has_full_access' => $hasFullAccess,
             'industries' => $industries
         ]);
