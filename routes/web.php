@@ -80,10 +80,7 @@ Route::group([], function () {
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
     Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
 });
-// Fortify-এর auth মিডলওয়্যার ছাড়া এই রুটটি ডিফাইন করুন
-Route::get('/email/verify/{id}/{hash}', [CustomVerifyEmailController::class, 'verify'])
-    ->middleware(['signed', 'throttle:6,1']) // এখানে 'auth' মিডলওয়্যারটি বাদ দেওয়া হয়েছে
-    ->name('verification.verify');
+
 
 Route::post('/contact', [SupportController::class, 'store'])->name('contact.store');
 
@@ -253,3 +250,8 @@ Route::post('/contact', [SupportController::class, 'store'])->name('support.stor
 */
 
 require __DIR__ . '/settings.php';
+
+// 📌 Fortify লোড হওয়ার পর আপনার কাস্টম রাউটটি দিন যেন এটি ওভাররাইড না হয়
+Route::get('/email/verify/{id}/{hash}', [CustomVerifyEmailController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
