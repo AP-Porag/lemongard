@@ -15,6 +15,7 @@ const navLinks: NavLinkItem[] = [
     { label: 'Home', href: '/', type: 'route' },
     { label: 'How It Works', href: '/how-it-works', type: 'route' },
     { label: 'About', href: '/about', type: 'route' },
+    { label: 'Features', href: '/features', type: 'route' },
     { label: 'Pricing', href: '/pricing', type: 'route' },
     { label: 'Contact', href: '/contact', type: 'route' },
 ];
