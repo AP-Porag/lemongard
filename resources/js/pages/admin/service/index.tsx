@@ -17,6 +17,8 @@ export default function Index({ services, filters: initialFilters }) {
         search: initialFilters?.search || '',
         perPage: initialFilters?.perPage || 5,
         page: services?.current_page || 1,
+        sortBy: initialFilters?.sortBy || 'name', // Service name by default
+        sortDirection: initialFilters?.sortDirection || 'asc',
     });
 
     // ✅ FIX: debounce search (important)
@@ -32,10 +34,40 @@ export default function Index({ services, filters: initialFilters }) {
         return () => clearTimeout(timeout);
     }, [filters.search, filters.perPage, filters.page]);
 
+    const getSortedData = () => {
+        if (!services?.data) return [];
+
+        const sorted = [...services.data];
+
+        sorted.sort((a, b) => {
+            let aValue, bValue;
+
+            // Handle different sort keys
+            if (filters.sortBy === 'industry') {
+                aValue = a.industry?.name?.toLowerCase() || '';
+                bValue = b.industry?.name?.toLowerCase() || '';
+            } else {
+                aValue = a[filters.sortBy]?.toLowerCase() || '';
+                bValue = b[filters.sortBy]?.toLowerCase() || '';
+            }
+
+            if (filters.sortDirection === 'asc') {
+                return aValue.localeCompare(bValue);
+            } else {
+                return bValue.localeCompare(aValue);
+            }
+        });
+
+        return sorted;
+    };
+
+    const sortedServices = getSortedData();
+
     const columns = [
         {
             key: 'name',
             label: 'Service Name',
+            sortable: true,
             render: (row) => (
                 <span className="block truncate font-medium text-gray-800">
                     {row.name}
@@ -45,6 +77,7 @@ export default function Index({ services, filters: initialFilters }) {
         {
             key: 'industry',
             label: 'Industry Name',
+            sortable: true, // Mark as sortable
             render: (row) => (
                 <span className="block truncate font-medium text-gray-800">
                     {row.industry?.name ?? '-'}
@@ -58,6 +91,15 @@ export default function Index({ services, filters: initialFilters }) {
         router.delete(route('admin.services.destroy', id), {
             preserveScroll: true,
         });
+    };
+    // Handle sort click
+    const handleSort = (key) => {
+        setFilters(prev => ({
+            ...prev,
+            sortBy: key,
+            sortDirection: prev.sortBy === key && prev.sortDirection === 'asc' ? 'desc' : 'asc',
+            page: 1, // Reset to first page when sorting
+        }));
     };
 
     return (
@@ -80,7 +122,7 @@ export default function Index({ services, filters: initialFilters }) {
                 </div>
 
                 <DataTable
-                    data={services.data}
+                    data={sortedServices}
                     columns={columns}
                     meta={{
                         from: services.from,
@@ -103,6 +145,7 @@ export default function Index({ services, filters: initialFilters }) {
                     baseRoute="admin.services"
                     filters={filters}
                     onFilterChange={setFilters}
+                    onSort={handleSort}
                 />
             </div>
         </AppLayout>

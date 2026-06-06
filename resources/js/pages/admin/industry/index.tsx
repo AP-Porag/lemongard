@@ -17,7 +17,31 @@ export default function Index({ industries, filters: initialFilters }) {
         search: initialFilters?.search || '',
         perPage: initialFilters?.perPage || 5,
         page: industries?.current_page || 1,
+        sortBy: initialFilters?.sortBy || 'name',
+        sortDirection: initialFilters?.sortDirection || 'asc',
     });
+
+
+    // ✅ Data sorting function
+    const getSortedData = () => {
+        if (!industries?.data) return [];
+
+        const sorted = [...industries.data];
+        sorted.sort((a, b) => {
+            const aVal = a[filters.sortBy]?.toLowerCase() || '';
+            const bVal = b[filters.sortBy]?.toLowerCase() || '';
+
+            if (filters.sortDirection === 'asc') {
+                return aVal.localeCompare(bVal);
+            } else {
+                return bVal.localeCompare(aVal);
+            }
+        });
+
+        return sorted;
+    };
+
+    const sortedIndustries = getSortedData();
 
     // ✅ FIX: debounce search (important)
     useEffect(() => {
@@ -71,7 +95,7 @@ export default function Index({ industries, filters: initialFilters }) {
                 </div>
 
                 <DataTable
-                    data={industries.data}
+                    data={sortedIndustries}
                     columns={columns}
                     meta={{
                         from: industries.from,
