@@ -13,6 +13,7 @@ use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\Support\SupportController;
+use App\Http\Controllers\Auth\CustomVerifyEmailController;
 // use App\Http\Middleware\SubscriptionActiveMiddleware;
 use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,8 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Pest\ArchPresets\Custom;
+
 /*
 |--------------------------------------------------------------------------
 | Artisan command Routes
@@ -77,6 +80,10 @@ Route::group([], function () {
     Route::get('/terms', fn() => Inertia::render('public/TermsAndConditions'));
     Route::get('/cookies', fn() => Inertia::render('public/CookiePolicy'));
 });
+// Fortify-এর auth মিডলওয়্যার ছাড়া এই রুটটি ডিফাইন করুন
+Route::get('/email/verify/{id}/{hash}', [CustomVerifyEmailController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1']) // এখানে 'auth' মিডলওয়্যারটি বাদ দেওয়া হয়েছে
+    ->name('verification.verify');
 
 Route::post('/contact', [SupportController::class, 'store'])->name('contact.store');
 
@@ -236,6 +243,8 @@ Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
 
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
+
+
 
 /*
 |--------------------------------------------------------------------------
