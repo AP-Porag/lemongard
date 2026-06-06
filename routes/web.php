@@ -116,6 +116,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
     ->name('app.')
     ->middleware([
         'auth',
+        'verified',
         'role:user',
         // 'tier.full'
         // 'trial.active'
@@ -175,7 +176,13 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
         Route::post('/subscription/swap', [SubscriptionController::class, 'swap']);
     });
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
 
+    $request->fulfill();
+
+    return redirect('/app/dashboard');
+})->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 /*
 |--------------------------------------------------------------------------
@@ -233,14 +240,6 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
     ->name('cashier.webhook');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-
-    $request->fulfill();
-
-    return redirect('/app/dashboard');
-})->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
 
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
