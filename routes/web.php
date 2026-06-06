@@ -176,13 +176,6 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
         Route::post('/subscription/swap', [SubscriptionController::class, 'swap']);
     });
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-
-    $request->fulfill();
-
-    return redirect('/app/dashboard');
-})->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
 
 /*
 |--------------------------------------------------------------------------
