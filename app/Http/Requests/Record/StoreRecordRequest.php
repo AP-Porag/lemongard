@@ -18,7 +18,7 @@ class StoreRecordRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'phone_cell' => ['required', 'string', 'max:20'],
-            'phone_home' => ['nullable', 'string', 'max:20'],
+            'phone_home' => ['required', 'string', 'max:20'],
             'street' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:100'],
             'state' => ['required', 'string', 'max:100'],
@@ -27,6 +27,19 @@ class StoreRecordRequest extends FormRequest
             'services.*' => ['exists:services,id'],
             'price' => ['required', 'numeric'],
             'incident_report' => ['nullable', 'string'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'phone_cell.required' => 'Cell phone number is required. Please enter a valid cell phone number.',
+            'phone_cell.string' => 'Cell phone number must be a valid string.',
+            'phone_cell.max' => 'Cell phone number cannot exceed 20 characters. Please enter a valid phone number.',
+
+            'phone_home.required' => 'Home phone number is required. Please enter a valid home phone number.',
+            'phone_home.string' => 'Home phone number must be a valid string.',
+            'phone_home.max' => 'Home phone number cannot exceed 20 characters. Please enter a valid phone number.',
         ];
     }
 }

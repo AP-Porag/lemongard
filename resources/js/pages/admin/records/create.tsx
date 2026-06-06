@@ -226,7 +226,7 @@ export default function Create({ userId, industries, allServices }) {
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Cell
+                                Cell Phone <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -247,7 +247,7 @@ export default function Create({ userId, industries, allServices }) {
                         {/* Phone Home */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Home
+                                Home Phone <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
