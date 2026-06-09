@@ -126,7 +126,8 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
-        // After Registration
+
+        // ✅ রেজিস্ট্রেশন রেসপন্স - এটা ঠিক করতে হবে
         $this->app->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
                 public function toResponse($request)
@@ -137,11 +138,23 @@ class FortifyServiceProvider extends ServiceProvider
                         return redirect('/admin/dashboard');
                     }
 
+                    // ✅ ইমেইল ভেরিফিকেশন প্রয়োজন কিনা চেক করুন
+                    if (Features::enabled(Features::emailVerification()) && !$user->hasVerifiedEmail()) {
+                        // ইমেইল ভেরিফিকেশন পেজে পাঠান
+                        return redirect()->route('verification.notice');
+                    }
+
+                    // ইন্ডাস্ট্রি সিলেক্ট না করলে
+                    if ($user->industries()->count() === 0) {
+                        return redirect()->route('app.onboarding.industry');
+                    }
+
                     return redirect('/app/dashboard');
                 }
             };
         });
     }
+
 
     /**
      * Configure rate limiting.

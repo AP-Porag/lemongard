@@ -51,10 +51,10 @@ export default function DataTable({
     const { url } = usePage();
 
     // চেক করুন কোন রুটে আছেন
-    const isRecordsRoute = url === '/app/records' || url === '/admin/records' || url === '/app/my-records';
+    const isRecordsRoute = url === '/admin/records';
     // অথবা route name দিয়ে চেক করতে
     const routeName = route().current();
-    const isAllowedRoute = routeName === 'app.records.index' || routeName === 'admin.records.index' || routeName === 'app.my-records.index';
+    const isAllowedRoute = routeName === 'admin.records.index';
 
     const globalActions = {
         search_filter: true,

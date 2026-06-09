@@ -57,10 +57,21 @@ class RecordService extends BaseService
             throw $e;
         }
     }
-    // RecordService.php
     public function getPaginatedRecords(array $filters)
     {
         $query = $this->model->with(['industry', 'services']);
+
+        // ✅ লগইন করা ইউজারের ইন্ডাস্ট্রি আইডি গুলো পাওয়া
+        $user = auth()->user();
+        $userIndustryIds = $user->industries()->pluck('industries.id')->toArray();
+
+        // ✅ শুধু ইউজারের ইন্ডাস্ট্রি সম্পর্কিত রেকর্ড দেখাবে
+        if (!empty($userIndustryIds)) {
+            $query->whereIn('industry', $userIndustryIds); // records টেবিলের industry_id কলাম
+        } else {
+            // যদি ইউজারের কোন ইন্ডাস্ট্রি না থাকে, তাহলে খালি রেজাল্ট রিটার্ন করবে
+            return $query->whereRaw('1=0')->paginate($filters['perPage'] ?? 5);
+        }
 
         // সার্চ ফিল্টার
         if (!empty($filters['search'])) {
@@ -83,22 +94,76 @@ class RecordService extends BaseService
             });
         }
 
-        // ✅ ইন্ডাস্ট্রি ফিল্টার - এটা নিশ্চিত করুন
+        // ✅ অতিরিক্ত ইন্ডাস্ট্রি ফিল্টার (যদি ড্রপডাউন থেকে সিলেক্ট করে)
         if (isset($filters['industry']) && $filters['industry'] !== '' && $filters['industry'] !== 'all') {
             $industryId = (int) $filters['industry'];
-            $query->where('industry', $industryId);
+            // চেক করুন এই ইন্ডাস্ট্রি ইউজারের ইন্ডাস্ট্রির মধ্যে আছে কিনা
+            if (in_array($industryId, $userIndustryIds)) {
+                $query->where('industry_id', $industryId);
+            }
         }
 
-        // মাল্টি ইন্ডাস্ট্রি
+        // মাল্টি ইন্ডাস্ট্রি ফিল্টার
         if (!empty($filters['industries']) && is_array($filters['industries'])) {
             $industryIds = array_map('intval', $filters['industries']);
-            $query->whereIn('industry', $industryIds);
+            // শুধু ইউজারের ইন্ডাস্ট্রির সাথে ম্যাচ করানো ইন্ডাস্ট্রিগুলো নিবে
+            $validIndustryIds = array_intersect($industryIds, $userIndustryIds);
+            if (!empty($validIndustryIds)) {
+                $query->whereIn('industry_id', $validIndustryIds);
+            }
         }
 
-        return $query->latest()
+        return $query->latest('id')
             ->paginate($filters['perPage'] ?? 5)
             ->withQueryString();
     }
+
+
+
+    // RecordService.php
+    // public function getPaginatedRecords(array $filters)
+    // {
+    //     $query = $this->model->with(['industry', 'services']);
+
+    //     // সার্চ ফিল্টার
+    //     if (!empty($filters['search'])) {
+    //         $search = $filters['search'];
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('first_name', 'like', "%{$search}%")
+    //                 ->orWhere('last_name', 'like', "%{$search}%")
+    //                 ->orWhere('phone_cell', 'like', "%{$search}%")
+    //                 ->orWhere('city', 'like', "%{$search}%")
+    //                 ->orWhere('state', 'like', "%{$search}%")
+    //                 ->orWhere('zip', 'like', "%{$search}%")
+    //                 ->orWhere('street', 'like', "%{$search}%")
+    //                 ->orWhere('incident_report', 'like', "%{$search}%")
+    //                 ->orWhereHas('industry', function ($q) use ($search) {
+    //                     $q->where('name', 'like', "%{$search}%");
+    //                 })
+    //                 ->orWhereHas('services', function ($q) use ($search) {
+    //                     $q->where('name', 'like', "%{$search}%");
+    //                 });
+    //         });
+    //     }
+
+    //     // ✅ ইন্ডাস্ট্রি ফিল্টার - এটা নিশ্চিত করুন
+    //     if (isset($filters['industry']) && $filters['industry'] !== '' && $filters['industry'] !== 'all') {
+    //         $industryId = (int) $filters['industry'];
+    //         $query->where('industry', $industryId);
+    //     }
+
+    //     // মাল্টি ইন্ডাস্ট্রি
+    //     if (!empty($filters['industries']) && is_array($filters['industries'])) {
+    //         $industryIds = array_map('intval', $filters['industries']);
+    //         $query->whereIn('industry', $industryIds);
+    //     }
+
+    //     return $query->latest()
+    //         ->paginate($filters['perPage'] ?? 5)
+    //         ->withQueryString();
+    // }
+
+
 
     // public function getPaginatedMyRecords(array $filters)
     // {

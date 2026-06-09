@@ -73,4 +73,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return app(SubscriptionService::class)
             ->hasFullAccess($this);
     }
+
+    // public function industries()
+    // {
+    //     return $this->belongsToMany(Industry::class, 'industry_user');
+    // }
+
+    public function industries()
+    {
+        return $this->belongsToMany(Industry::class, 'industry_user', 'user_id', 'industry_id')
+            ->withTimestamps();
+    }
 }

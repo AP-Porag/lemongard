@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureIndustrySelected;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RoleMiddleware;
@@ -38,6 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             // 'tier.full' => \App\Http\Middleware\EnsureFullAccessTier::class,
             'guest.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'industry.selected' => EnsureIndustrySelected::class,  // ✅ এখানে alias যোগ করুন
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

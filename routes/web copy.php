@@ -117,26 +117,14 @@ Route::post('/contact', [SupportController::class, 'store'])->name('contact.stor
 //     })->name('login');
 // });
 
-// ✅ ইন্ডাস্ট্রি অনবোর্ডিং রাউট (শুধু auth)
-Route::prefix(GlobalConstant::ROUTE_APP)
-    ->name('app.')
-    ->middleware(['auth'])
-    ->group(function () {
-
-        Route::get('/onboarding/industry', [IndustryOnboardingController::class, 'index'])
-            ->name('onboarding.industry');
-
-        Route::post('/onboarding/industry', [IndustryOnboardingController::class, 'store'])
-            ->name('onboarding.industry.store');
-    });
-
 Route::prefix(GlobalConstant::ROUTE_APP)
     ->name('app.')
     ->middleware([
         'auth',
         'verified',
         'role:user',
-        'industry.selected',  // ✅ এখন alias কাজ করবে
+        // 'tier.full'
+        // 'trial.active',
     ])
     ->group(function () {
 
@@ -144,7 +132,15 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         //     return Inertia::render('app/dashboard');
         // })->name('dashboard');
 
+
+        Route::get('/onboarding/industry', [IndustryOnboardingController::class, 'index'])
+            ->name('onboarding.industry');
+
+        Route::post('/app/onboarding/industry', [IndustryOnboardingController::class, 'store'])
+            ->name('app.onboarding.industry.store');
+
         Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->middleware(['industry.selected'])
             ->name('app.dashboard');
 
         // Record Data Store
