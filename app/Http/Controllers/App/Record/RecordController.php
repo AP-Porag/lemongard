@@ -43,8 +43,11 @@ class RecordController extends Controller
     }
     public function create(Request $request)
     {
+
+        $user = auth()->user();
+        $userIndustries = $user->industries;
         return Inertia::render('app/records/create', [
-            'industries' => Industry::all(),
+            'industries' => $userIndustries,
             'allServices' => Service::all(), // Load all services
         ]);
     }

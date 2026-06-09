@@ -57,13 +57,14 @@ export default function Index({
 
     const columns = [
         {
+            key: 'last_name',
+            label: 'Last Name',
+            render: (row) => row.last_name || '',
+        },
+        {
             key: 'first_name',
-            label: 'Name',
-            render: (row) => {
-                const first = row.first_name || '';
-                const last = row.last_name || '';
-                return `${first} ${last}`.trim();
-            },
+            label: 'Last Name',
+            render: (row) => row.first_name || '',
         },
         {
             key: 'industry',
@@ -114,6 +115,13 @@ export default function Index({
             label: 'Price',
             render: (row) => (
                 <span className="block w-48 truncate">$ {row.price}</span>
+            ),
+        },
+        {
+            key: 'incident_report',
+            label: 'Incident',
+            render: (row) => (
+                <span className="block w-48 truncate">{row.incident_report}</span>
             ),
         },
         {

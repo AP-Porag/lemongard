@@ -49,13 +49,14 @@ export default function Index({
 
     const columns = [
         {
+            key: 'last_name',
+            label: 'Last Name',
+            render: (row) => row.last_name || '',
+        },
+        {
             key: 'first_name',
-            label: 'Name',
-            render: (row) => {
-                const first = row.first_name || '';
-                const last = row.last_name || '';
-                return `${first} ${last}`.trim();
-            },
+            label: 'First Name',
+            render: (row) => row.first_name || '',
         },
         {
             key: 'industry',
@@ -73,26 +74,26 @@ export default function Index({
                 </span>
             ),
         },
-        // {
-        //     key: 'services',
-        //     label: 'Services',
-        //     render: (row) => (
-        //         <div className="flex flex-wrap gap-1">
-        //             {row.services?.length > 0 ? (
-        //                 row.services.map((service) => (
-        //                     <span
-        //                         key={service.id}
-        //                         className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
-        //                     >
-        //                         {service.name}
-        //                     </span>
-        //                 ))
-        //             ) : (
-        //                 <span className="text-gray-400">N/A</span>
-        //             )}
-        //         </div>
-        //     ),
-        // },
+        {
+            key: 'services',
+            label: 'Services',
+            render: (row) => (
+                <div className="flex flex-wrap gap-1">
+                    {row.services?.length > 0 ? (
+                        row.services.map((service) => (
+                            <span
+                                key={service.id}
+                                className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                            >
+                                {service.name}
+                            </span>
+                        ))
+                    ) : (
+                        <span className="text-gray-400">N/A</span>
+                    )}
+                </div>
+            ),
+        },
         {
             key: 'services',
             label: 'Services',
@@ -125,6 +126,13 @@ export default function Index({
             label: 'Price',
             render: (row) => (
                 <span className="block w-48 truncate">$ {row.price}</span>
+            ),
+        },
+        {
+            key: 'incident_report ',
+            label: 'Incident',
+            render: (row) => (
+                <span className="block w-48 truncate">{row.incident_report}</span>
             ),
         },
         {

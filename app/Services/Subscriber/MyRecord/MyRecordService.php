@@ -33,6 +33,8 @@ class MyRecordService extends BaseService
     }
     public function getPaginatedRecords(array $filters)
     {
+
+
         return $this->model
             ->when($filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -56,7 +58,9 @@ class MyRecordService extends BaseService
     {
         return $this->model
             ->with(['industry', 'services'])
-            ->where('user_id', auth()->id()) // শুধু লগইন ইউজারের রেকর্ড
+            ->where('user_id', auth()->id())
+            ->orderBy('last_name', 'asc')
+
 
             // সার্চ ফিল্টার
             ->when($filters['search'] ?? null, function ($query, $search) {

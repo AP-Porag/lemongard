@@ -60,6 +60,18 @@ class RecordService extends BaseService
     public function getPaginatedRecords(array $filters)
     {
         $query = $this->model->with(['industry', 'services']);
+        // ✅ লাস্ট নেম অনুযায়ী সাজানো
+        $sortBy = $filters['sort_by'] ?? 'last_name';
+        $sortOrder = $filters['sort_order'] ?? 'asc';
+
+        // সাজানোর জন্য অনুমোদিত কলাম
+        $allowedSortColumns = ['last_name', 'first_name', 'created_at', 'updated_at'];
+
+        if (in_array($sortBy, $allowedSortColumns)) {
+            $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->orderBy('last_name', 'asc'); // ডিফল্ট
+        }
 
         // সার্চ ফিল্টার
         if (!empty($filters['search'])) {

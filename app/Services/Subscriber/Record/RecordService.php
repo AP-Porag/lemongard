@@ -65,6 +65,19 @@ class RecordService extends BaseService
         $user = auth()->user();
         $userIndustryIds = $user->industries()->pluck('industries.id')->toArray();
 
+        // ✅ লাস্ট নেম অনুযায়ী সাজানো
+        $sortBy = $filters['sort_by'] ?? 'last_name';
+        $sortOrder = $filters['sort_order'] ?? 'asc';
+
+        // সাজানোর জন্য অনুমোদিত কলাম
+        $allowedSortColumns = ['last_name', 'first_name', 'created_at', 'updated_at'];
+
+        if (in_array($sortBy, $allowedSortColumns)) {
+            $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->orderBy('last_name', 'asc'); // ডিফল্ট
+        }
+
         // ✅ শুধু ইউজারের ইন্ডাস্ট্রি সম্পর্কিত রেকর্ড দেখাবে
         if (!empty($userIndustryIds)) {
             $query->whereIn('industry', $userIndustryIds); // records টেবিলের industry_id কলাম
