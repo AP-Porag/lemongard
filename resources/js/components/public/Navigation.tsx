@@ -49,10 +49,9 @@ const Navigation = () => {
     ) => {
         const active = isActive(link);
 
-        const className = `${
-            extraClass ||
+        const className = `${extraClass ||
             'text-navy-600 hover:text-yellow-500 font-medium transition-colors duration-300'
-        } ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
+            } ${active ? 'text-yellow-500 underline underline-offset-4' : ''}`;
 
         if (link.type === 'route') {
             return (
@@ -96,11 +95,10 @@ const Navigation = () => {
 
     return (
         <nav
-            className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-                isScrolled
-                    ? 'bg-white/95 shadow-md backdrop-blur-md'
-                    : 'bg-transparent'
-            }`}
+            className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${isScrolled
+                ? 'bg-white/95 shadow-md backdrop-blur-md'
+                : 'bg-transparent'
+                }`}
             aria-label="Main navigation"
         >
             <div className="section-container">
@@ -187,19 +185,34 @@ const Navigation = () => {
 
                             <hr className="my-2 border-gray-200" />
 
-                            <Link
-                                href="/login"
-                                className="text-navy-600 py-2 font-medium transition-colors hover:text-yellow-500"
-                            >
-                                Login
-                            </Link>
+                            {auth?.user ? (
+                                <Link
+                                    href={
+                                        auth?.user?.role === 'admin'
+                                            ? '/admin/dashboard'
+                                            : '/app/dashboard'
+                                    }
+                                    className="btn-primary !px-6 !py-2.5 !shadow-md"
+                                >
+                                    Dashboard
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link
+                                        href="/login"
+                                        className="text-navy-600 ml-3 font-medium transition-colors hover:text-yellow-500"
+                                    >
+                                        Login
+                                    </Link>
 
-                            <Link
-                                href="/register"
-                                className="btn-primary !rounded-lg text-center !shadow-md"
-                            >
-                                Start Free Trial
-                            </Link>
+                                    <Link
+                                        href="/register"
+                                        className="btn-primary !px-6 !py-2.5 !shadow-md"
+                                    >
+                                        Start Free Trial
+                                    </Link>
+                                </>
+                            )}
                         </div>
                     </motion.div>
                 )}
