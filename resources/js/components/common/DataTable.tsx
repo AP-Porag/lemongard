@@ -20,6 +20,9 @@ import {
 } from '@/components/ui/select';
 import CustomDeleteModal from '@/components/common/CustomDeleteModal.jsx';
 import { toast } from 'sonner';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/public/ui/popover';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
 
 export default function DataTable({
     data,
@@ -108,11 +111,16 @@ export default function DataTable({
     };
 
     // Handle filter changes (search, status, perPage)
-    const handleFilterChange = (e) => {
+    const handleFilterChange = (eOrObj) => {
+        const updated =
+            eOrObj?.target
+                ? { [eOrObj.target.name]: eOrObj.target.value }
+                : eOrObj;
+
         onFilterChange({
             ...filters,
-            [e.target.name]: e.target.value,
-            page: 1, // reset to first page on filter change
+            ...updated,
+            page: 1,
         });
     };
 
@@ -133,33 +141,84 @@ export default function DataTable({
 
 
                 {isAllowedRoute && globalActions.industry_filter && (
-                    <div className="relative min-w-[250px]">
-                        <Select
-                            value={filters.industry || 'all'}
-                            onValueChange={(value) => {
-                                console.log('Selected value:', value);
-                                onFilterChange({
-                                    ...filters,
-                                    industry: value === 'all' ? '' : value,
-                                    page: 1,
-                                });
-                            }}
-                        >
-                            <SelectTrigger className="w-[220px]">
-                                <SelectValue placeholder="Select Industry" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Industries</SelectItem>
-                                {industries?.map((industry) => (
-                                    <SelectItem key={industry.id} value={String(industry.id)}>
-                                        {industry.name}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <div className="min-w-[250px]">
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="w-[220px] justify-between">
+                                    Industries ({filters.industries.length})
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent className="w-[220px] p-2">
+                                {industries.map((industry) => {
+                                    const id = String(industry.id);
+                                    const checked = filters.industries.includes(id);
+
+                                    return (
+                                        <div
+                                            key={id}
+                                            className="flex items-center gap-2 py-1"
+                                        >
+                                            <Checkbox
+                                                checked={checked}
+                                                onCheckedChange={(val) => {
+                                                    const updated = val
+                                                        ? [...(filters.industries || []), id]
+                                                        : (filters.industries || []).filter(i => i !== id);
+
+                                                    onFilterChange({
+                                                        ...filters,
+                                                        industries: updated,
+                                                    });
+                                                }}
+                                            />
+                                            <span className="text-sm">
+                                                {industry.name}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                                <div className="mt-3 flex justify-end">
+                                    <Button
+                                        className="bg-navy-600 text-white hover:bg-gray-800"
+                                        onClick={() => {
+                                            onFilterChange({
+                                                ...filters,
+                                                page: 1,
+                                                apply: true,
+                                            });
+                                        }}
+                                    >
+                                        Filter
+                                    </Button>
+                                </div>
+                            </PopoverContent>
+
+                        </Popover>
+
+                        {/* Selected badges */}
+                        {/* <div className="mt-2 flex flex-wrap gap-1">
+                            {filters.industries.map((id) => {
+                                const ind = industries.find(i => String(i.id) === id);
+
+                                return (
+                                    <Badge
+                                        key={id}
+                                        className="cursor-pointer bg-navy-600"
+                                        onClick={() => {
+                                            onFilterChange({
+                                                ...filters,
+                                                industries: filters.industries.filter(x => x !== id),
+                                            });
+                                        }}
+                                    >
+                                        {ind?.name} ✕
+                                    </Badge>
+                                );
+                            })}
+                        </div> */}
                     </div>
                 )}
-
                 {globalActions.per_page_filter && (
                     <Select
                         name="perPage"

@@ -17,18 +17,27 @@ export default function Index({ records, industries, services, filters: initialF
         search: initialFilters?.search || '',
         status: initialFilters?.status || '',
         perPage: initialFilters?.perPage || 5,
-        industry: initialFilters?.industry || '',
+        industries: initialFilters?.industries || [],
         page: records?.current_page || 1,
+        apply: false,
     });
 
     const { auth } = usePage().props;
 
     useEffect(() => {
+        if (!filters.apply) return;
+
         router.get(route('admin.records.index'), filters, {
             preserveState: true,
             replace: true,
         });
-    }, [filters.search, filters.status, filters.perPage, filters.page, filters.industry]);
+
+        setFilters((prev) => ({
+            ...prev,
+            apply: false,
+        }));
+
+    }, [filters.apply]);
 
     const columns = [
         {
