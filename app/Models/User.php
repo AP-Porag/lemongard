@@ -38,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'marketing_emails',
         'is_first_login',
         'is_social_login',
-        'agree_to_terms'
+        'agree_to_terms',
+        'email_verified_at'
     ];
 
     /**
