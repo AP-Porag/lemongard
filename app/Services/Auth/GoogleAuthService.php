@@ -40,6 +40,7 @@ class GoogleAuthService extends BaseService
                 'name' => $googleUser->getName(),
                 'password' => bcrypt(uniqid()),
                 'is_social_login' => true,
+                'email_verified_at' => now(),
             ]
         );
 
