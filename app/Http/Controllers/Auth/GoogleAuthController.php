@@ -19,12 +19,37 @@ class GoogleAuthController extends Controller
         return $this->service->redirect();
     }
 
+    // public function callback()
+    // {
+    //     $data = $this->service->handleCallback();
+
+    //     return redirect('/app/dashboard')->with([
+    //         'showOnboardingModal' => $data['isFirstLogin'],
+    //     ]);
+    // }
+
     public function callback()
     {
         $data = $this->service->handleCallback();
 
-        return redirect('/app/dashboard')->with([
-            'showOnboardingModal' => $data['isFirstLogin'],
-        ]);
+        $user = $data['user'];
+
+        Auth::login($user);
+
+        // =========================
+        // SMART REDIRECT LOGIC
+        // =========================
+
+        // if ($user->is_social_login) {
+        //     return redirect('/app/dashboard')->with([
+        //         'showOnboardingModal' => $data['isFirstLogin'],
+        //     ]);
+        // }
+
+        if (!$user->hasVerifiedEmail()) {
+            return redirect('/email/verify');
+        }
+
+        return redirect('/app/dashboard');
     }
 }
