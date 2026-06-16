@@ -26,6 +26,7 @@ export default function Edit({ record, industries, allServices, selectedServices
         last_name: record.last_name || '',
         phone_cell: record.phone_cell || '',
         phone_home: record.phone_home || '',
+        email: record.email || '',
         industry: record.industry?.toString() || '',
         street: record.street || '',
         city: record.city || '',
@@ -68,6 +69,22 @@ export default function Edit({ record, industries, allServices, selectedServices
     const handleChange = (e) => {
         const { name, value } = e.target;
 
+        // ✅ First Name - শুধু alphabetic অনুমোদন
+        if (name === "first_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+            return;
+        }
+
+        // ✅ Last Name - শুধু alphabetic অনুমোদন
+        if (name === "last_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+            return;
+        }
+
         // Phone Cell or Phone Home formatting
         if (name === "phone_cell" || name === "phone_home") {
             // শুধু ডিজিট রাখুন
@@ -89,6 +106,14 @@ export default function Edit({ record, industries, allServices, selectedServices
             }
 
             setForm({ ...form, [name]: formatted });
+            return;
+        }
+
+        // ✅ ZIP Code - শুধু সংখ্যা অনুমোদন
+        if (name === "zip") {
+            // শুধু ডিজিট রাখুন এবং সর্বোচ্চ ৫ ডিজিট সীমাবদ্ধ
+            const digitsOnly = value.replace(/\D/g, '').slice(0, 5);
+            setForm({ ...form, [name]: digitsOnly });
             return;
         }
 
@@ -151,6 +176,41 @@ export default function Edit({ record, industries, allServices, selectedServices
 
     const submit = (e) => {
         e.preventDefault();
+        const cellDigits = form.phone_cell.replace(/\D/g, '');
+        const homeDigits = form.phone_home.replace(/\D/g, '');
+        const zipDigits = form.zip.replace(/\D/g, '');
+
+        const newErrors = {};
+
+        // First Name validation - শুধু alphabetic
+        if (!form.first_name.trim()) {
+            newErrors.first_name = 'First name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.first_name)) {
+            newErrors.first_name = 'First name can only contain letters';
+        }
+
+        // Last Name validation - শুধু alphabetic
+        if (!form.last_name.trim()) {
+            newErrors.last_name = 'Last name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
+            newErrors.last_name = 'Last name can only contain letters';
+        }
+
+
+        if (cellDigits.length !== 10) {
+            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+        }
+
+        if (homeDigits.length !== 10) {
+            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+        }
+        if (zipDigits.length !== 5) {
+            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+        }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
         setLoading(true);
 
         router.put(route('admin.records.update', record.id), form, {
@@ -221,7 +281,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Cell
+                                Phone Cell <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -240,7 +300,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                         {/* Phone Home */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Home
+                                Phone Home <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -256,8 +316,29 @@ export default function Edit({ record, industries, allServices, selectedServices
                             )}
                         </div>
 
+                        {/* Email */}
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.last_name
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter your email"
+                            />
+                            {errors.email && (
+                                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                            )}
+                        </div>
+
                         {/* Industry */}
-                        <div className="col-span-2">
+                        <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Industry <span className="text-red-500">*</span>
                             </label>

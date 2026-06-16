@@ -22,6 +22,7 @@ return new class extends Migration
                 ->nullOnDelete();
             $table->string('first_name');
             $table->string('last_name')->index();
+            $table->string('email');
 
             $table->string('phone_cell')->index();
             $table->string('phone_home')->nullable();

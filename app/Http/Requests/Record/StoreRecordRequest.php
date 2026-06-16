@@ -19,6 +19,7 @@ class StoreRecordRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'phone_cell' => ['required', 'string', 'max:20'],
             'phone_home' => ['required', 'string', 'max:20'],
+            'email' => ['nullable', 'string'],
             'street' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:100'],
             'state' => ['required', 'string', 'max:100'],

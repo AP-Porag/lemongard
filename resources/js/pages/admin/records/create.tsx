@@ -82,6 +82,50 @@ export default function Create({ userId, industries, allServices }) {
             return;
         }
 
+        // First Name - শুধু alphabetic অনুমোদন
+        if (name === "first_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    first_name: 'First name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.first_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Last Name - শুধু alphabetic অনুমোদন
+        if (name === "last_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    last_name: 'Last name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.last_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
         // Reset services when industry changes
         if (name === "industry") {
             setForm({
@@ -141,6 +185,42 @@ export default function Create({ userId, industries, allServices }) {
 
     const submit = (e) => {
         e.preventDefault();
+        const cellDigits = form.phone_cell.replace(/\D/g, '');
+        const homeDigits = form.phone_home.replace(/\D/g, '');
+        const zipDigits = form.zip.replace(/\D/g, '');
+
+        const newErrors = {};
+
+        // First Name validation - শুধু alphabetic
+        if (!form.first_name.trim()) {
+            newErrors.first_name = 'First name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.first_name)) {
+            newErrors.first_name = 'First name can only contain letters';
+        }
+
+        // Last Name validation - শুধু alphabetic
+        if (!form.last_name.trim()) {
+            newErrors.last_name = 'Last name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
+            newErrors.last_name = 'Last name can only contain letters';
+        }
+
+
+        if (cellDigits.length !== 10) {
+            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+        }
+
+        if (homeDigits.length !== 10) {
+            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+        }
+        if (zipDigits.length !== 5) {
+            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
         setLoading(true);
 
         router.post(route('admin.records.store'), form, {
@@ -280,7 +360,7 @@ export default function Create({ userId, industries, allServices }) {
                             </label>
                             <input
                                 type="text"
-                                name="last_name"
+                                name="email"
                                 value={form.email}
                                 onChange={handleChange}
                                 className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.email
@@ -295,7 +375,7 @@ export default function Create({ userId, industries, allServices }) {
                         </div>
 
                         {/* Industry */}
-                        <div className="col-span-2">
+                        <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Industry <span className="text-red-500">*</span>
                             </label>
@@ -303,7 +383,7 @@ export default function Create({ userId, industries, allServices }) {
                                 name="industry"
                                 value={form.industry}
                                 onChange={handleChange}
-                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
+                                className={`w-full rounded-lg border px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
                                     ? 'border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-yellow-400'
                                     }`}
@@ -441,7 +521,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="state"
                                 value={form.state}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.state
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter state"
                                 maxLength={20}
                             />
@@ -460,8 +543,11 @@ export default function Create({ userId, industries, allServices }) {
                                 name="zip"
                                 value={form.zip}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                                placeholder="Enter ZIP code"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.zip
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter zip"
                                 maxLength={10}
                             />
                             {errors.zip && (
@@ -483,7 +569,12 @@ export default function Create({ userId, industries, allServices }) {
                                     onChange={handleChange}
                                     step="0.01"
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    className={`w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    ${errors.price
+                                            ? 'border-red-500 focus:ring-red-500'
+                                            : 'border-gray-300 focus:border-yellow-400'
+                                        }`}
+
                                     placeholder="0.00"
                                 />
                             </div>

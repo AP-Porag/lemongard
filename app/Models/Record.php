@@ -13,6 +13,7 @@ class Record extends Model
         'last_name',
         'phone_cell',
         'phone_home',
+        'email',
         'street',
         'city',
         'state',
