@@ -16,8 +16,6 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use App\Models\User;
-// use Illuminate\Auth\Events\Registered;
-// use Illuminate\Support\Facades\Event;
 
 class FortifyServiceProvider extends ServiceProvider
 {
