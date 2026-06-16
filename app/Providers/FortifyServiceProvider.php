@@ -16,8 +16,8 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Event;
+// use Illuminate\Auth\Events\Registered;
+// use Illuminate\Support\Facades\Event;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -48,9 +48,9 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureRedirects();
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::redirects('login', '/app/dashboard');
-        Event::listen(function (Registered $event) {
-            $event->user->sendEmailVerificationNotification();
-        });
+        // Event::listen(function (Registered $event) {
+        //     $event->user->sendEmailVerificationNotification();
+        // });
 
         // ✅ LOGIN RESPONSE OVERRIDE
         // $this->app->singleton(LoginResponse::class, function () {
