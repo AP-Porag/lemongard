@@ -21,6 +21,7 @@ export default function Create({ userId, industries, allServices }) {
         user_id: userId || '',
         first_name: '',
         last_name: '',
+        email: '',
         phone_cell: '',
         phone_home: '',
         industry: '',
@@ -154,6 +155,7 @@ export default function Create({ userId, industries, allServices }) {
                     last_name: '',
                     phone_cell: '',
                     phone_home: '',
+                    email: '',
                     industry: '',
                     street: '',
                     city: '',
@@ -223,6 +225,8 @@ export default function Create({ userId, industries, allServices }) {
                             )}
                         </div>
 
+
+
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -234,7 +238,10 @@ export default function Create({ userId, industries, allServices }) {
                                 value={form.phone_cell}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_cell
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
 
@@ -255,11 +262,35 @@ export default function Create({ userId, industries, allServices }) {
                                 value={form.phone_home}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_home
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
                             {errors.phone_home && (
                                 <p className="mt-1 text-sm text-red-500">{errors.phone_home}</p>
+                            )}
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                name="last_name"
+                                value={form.email}
+                                onChange={handleChange}
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.email
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter your email"
+                            />
+                            {errors.email && (
+                                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
                             )}
                         </div>
 
@@ -368,7 +399,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="street"
                                 value={form.street}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.street
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter street address"
                             />
                             {errors.street && (
@@ -386,7 +420,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="city"
                                 value={form.city}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.city
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter city"
                             />
                             {errors.city && (
@@ -495,7 +532,7 @@ export default function Create({ userId, industries, allServices }) {
                         </div>
                     </form>
                 </div>
-            </div>
-        </AppLayout>
+            </div >
+        </AppLayout >
     );
 }

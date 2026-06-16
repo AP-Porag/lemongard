@@ -64,7 +64,7 @@ export const mainNavItems: NavItem[] = [
         icon: Workflow,
     },
     {
-        title: 'Supports',
+        title: 'Support',
         href: '/admin/supports',
         icon: LifeBuoy,
     },

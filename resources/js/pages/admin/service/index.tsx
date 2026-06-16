@@ -65,16 +65,6 @@ export default function Index({ services, filters: initialFilters }) {
 
     const columns = [
         {
-            key: 'name',
-            label: 'Service Name',
-            sortable: true,
-            render: (row) => (
-                <span className="block truncate font-medium text-gray-800">
-                    {row.name}
-                </span>
-            ),
-        },
-        {
             key: 'industry',
             label: 'Industry Name',
             sortable: true, // Mark as sortable
@@ -84,6 +74,16 @@ export default function Index({ services, filters: initialFilters }) {
                 </span>
             ),
         },
+        {
+            key: 'name',
+            label: 'Service Name',
+            sortable: true,
+            render: (row) => (
+                <span className="block truncate font-medium text-gray-800">
+                    {row.name}
+                </span>
+            ),
+        }
     ];
     const handleDelete = (id) => {
         if (!confirm('Are you sure you want to delete this industry?')) return;

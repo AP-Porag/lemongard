@@ -25,19 +25,37 @@ export default function Index({ records, industries, services, filters: initialF
     const { auth } = usePage().props;
 
     useEffect(() => {
-        if (!filters.apply) return;
+        const { apply, ...queryParams } = filters;
 
-        router.get(route('admin.records.index'), filters, {
-            preserveState: true,
-            replace: true,
-        });
+        // apply true হলে রিকোয়েস্ট পাঠান
+        if (filters.apply) {
+            router.get(route('admin.records.index'), queryParams, {
+                preserveState: true,
+                replace: true,
+            });
 
-        setFilters((prev) => ({
-            ...prev,
-            apply: false,
-        }));
-
+            // apply রিসেট করুন
+            setFilters((prev) => ({
+                ...prev,
+                apply: false,
+            }));
+        }
     }, [filters.apply]);
+
+    // useEffect(() => {
+    //     if (!filters.apply) return;
+
+    //     router.get(route('admin.records.index'), filters, {
+    //         preserveState: true,
+    //         replace: true,
+    //     });
+
+    //     setFilters((prev) => ({
+    //         ...prev,
+    //         apply: false,
+    //     }));
+
+    // }, [filters.apply]);
 
     const columns = [
         {
@@ -76,7 +94,7 @@ export default function Index({ records, industries, services, filters: initialF
                             {row.services.slice(0, 4).map((service) => (
                                 <span
                                     key={service.id}
-                                    className="inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                                    className="w-48 inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
                                 >
                                     {service.name}
                                 </span>

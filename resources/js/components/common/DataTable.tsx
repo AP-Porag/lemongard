@@ -106,7 +106,8 @@ export default function DataTable({
     const goToPage = (page) => {
         onFilterChange({
             ...filters,
-            page, // ✅ update page in filters
+            page,
+            apply: true,
         });
     };
 
@@ -121,6 +122,7 @@ export default function DataTable({
             ...filters,
             ...updated,
             page: 1,
+            apply: true,
         });
     };
 
@@ -169,6 +171,7 @@ export default function DataTable({
                                                     onFilterChange({
                                                         ...filters,
                                                         industries: updated,
+                                                        apply: true,
                                                     });
                                                 }}
                                             />
@@ -178,7 +181,7 @@ export default function DataTable({
                                         </div>
                                     );
                                 })}
-                                <div className="mt-3 flex justify-end">
+                                {/* <div className="mt-3 flex justify-end">
                                     <Button
                                         className="bg-navy-600 text-white hover:bg-gray-800"
                                         onClick={() => {
@@ -191,7 +194,7 @@ export default function DataTable({
                                     >
                                         Filter
                                     </Button>
-                                </div>
+                                </div> */}
                             </PopoverContent>
 
                         </Popover>

@@ -352,7 +352,7 @@ export default function Dashboard() {
             color: 'bg-emerald-600',
         },
         {
-            title: 'Trialing',
+            title: 'On Trial',
             value: stats.trialing,
             icon: Clock,
             color: 'bg-yellow-500',
@@ -497,8 +497,8 @@ export default function Dashboard() {
                                                     key={index}
                                                     fill={
                                                         COLORS[
-                                                            index %
-                                                                COLORS.length
+                                                        index %
+                                                        COLORS.length
                                                         ]
                                                     }
                                                 />
