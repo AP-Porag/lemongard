@@ -77,6 +77,24 @@ export default function Index({ records, industries, services, filters: initialF
             ),
         },
         {
+            key: 'phone_cell',
+            label: 'Cell Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_cell || ''}
+                </span>
+            ),
+        },
+        {
+            key: 'phone_home',
+            label: 'Home Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_home || ''}
+                </span>
+            ),
+        },
+        {
             key: 'industry',
             label: 'Industry',
             render: (row) => (

@@ -1,3 +1,5 @@
+//
+
 import React, { useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
@@ -21,6 +23,7 @@ export default function Create({ userId, industries, allServices }) {
         user_id: userId || '',
         first_name: '',
         last_name: '',
+        email: '',
         phone_cell: '',
         phone_home: '',
         industry: '',
@@ -40,19 +43,24 @@ export default function Create({ userId, industries, allServices }) {
         service => service.industry_id === parseInt(form.industry)
     ) || [];
 
-    // Format phone number
     const formatPhoneNumber = (value) => {
-        const numbers = value.replace(/\D/g, '').slice(0, 15);
-        const parts = [];
-        for (let i = 0; i < numbers.length; i += 3) {
-            parts.push(numbers.slice(i, i + 3));
+        const numbers = value.replace(/\D/g, '').slice(0, 10);
+
+        if (numbers.length <= 3) {
+            return numbers;
         }
-        return parts.join('-');
+
+        if (numbers.length <= 6) {
+            return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+        }
+
+        return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
+        // Phone Cell or Phone Home formatting
         if (name === "phone_cell" || name === "phone_home") {
             // শুধু ডিজিট রাখুন
             let cleaned = value.replace(/\D/g, "");
@@ -72,12 +80,85 @@ export default function Create({ userId, industries, allServices }) {
                 formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
             }
 
-            // স্টেট আপডেট করুন
             setForm({ ...form, [name]: formatted });
             return;
         }
 
-        // Price ফিল্ডের জন্য ভ্যালিডেশন
+        // First Name - শুধু alphabetic অনুমোদন
+        if (name === "first_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    first_name: 'First name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.first_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Last Name - শুধু alphabetic অনুমোদন
+        if (name === "last_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    last_name: 'Last name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.last_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Email validation in handleChange
+        if (name === "email") {
+            setForm({ ...form, [name]: value });
+
+            // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
+            if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                setErrors(prev => ({
+                    ...prev,
+                    email: 'Please enter a valid email address'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.email;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Reset services when industry changes
+        if (name === "industry") {
+            setForm({
+                ...form,
+                industry: value,
+                services: [],
+            });
+            return;
+        }
+
+        // Price field validation
         if (name === "price") {
             // খালি মান অনুমোদন
             if (value === "") {
@@ -95,15 +176,6 @@ export default function Create({ userId, industries, allServices }) {
 
         // অন্যান্য ফিল্ডের জন্য
         setForm({ ...form, [name]: value });
-    };
-
-    // কিবোর্ড ইভেন্ট হ্যান্ডলার (আপ/ডাউন কী ডিজেবল করতে)
-    const handleKeyDown = (e) => {
-        if (e.target.name === "price") {
-            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-                e.preventDefault();
-            }
-        }
     };
 
     // Handle checkbox change for service selection
@@ -135,6 +207,46 @@ export default function Create({ userId, industries, allServices }) {
 
     const submit = (e) => {
         e.preventDefault();
+        const cellDigits = form.phone_cell.replace(/\D/g, '');
+        const homeDigits = form.phone_home.replace(/\D/g, '');
+        const zipDigits = form.zip.replace(/\D/g, '');
+
+        const newErrors = {};
+
+        // First Name validation - শুধু alphabetic
+        if (!form.first_name.trim()) {
+            newErrors.first_name = 'First name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.first_name)) {
+            newErrors.first_name = 'First name can only contain letters';
+        }
+
+        // Last Name validation - শুধু alphabetic
+        if (!form.last_name.trim()) {
+            newErrors.last_name = 'Last name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
+            newErrors.last_name = 'Last name can only contain letters';
+        }
+
+
+        if (cellDigits.length !== 10) {
+            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+        }
+
+        if (homeDigits.length !== 10) {
+            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+        }
+        if (zipDigits.length !== 5) {
+            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+        }
+        // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
+        if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
         setLoading(true);
 
         router.post(route('app.records.store'), form, {
@@ -149,6 +261,7 @@ export default function Create({ userId, industries, allServices }) {
                     last_name: '',
                     phone_cell: '',
                     phone_home: '',
+                    email: '',
                     industry: '',
                     street: '',
                     city: '',
@@ -218,20 +331,27 @@ export default function Create({ userId, industries, allServices }) {
                             )}
                         </div>
 
+
+
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Cell Phone <span className="text-red-500">*</span>
                             </label>
                             <input
-                                type="tel"
+                                type="text"
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_cell
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
+
+
                             {errors.phone_cell && (
                                 <p className="mt-1 text-sm text-red-500">{errors.phone_cell}</p>
                             )}
@@ -243,12 +363,15 @@ export default function Create({ userId, industries, allServices }) {
                                 Home Phone <span className="text-red-500">*</span>
                             </label>
                             <input
-                                type="tel"
+                                type="text"
                                 name="phone_home"
                                 value={form.phone_home}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_home
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
                             {errors.phone_home && (
@@ -256,8 +379,29 @@ export default function Create({ userId, industries, allServices }) {
                             )}
                         </div>
 
+                        {/* Email */}
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.email
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter your email"
+                            />
+                            {errors.email && (
+                                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                            )}
+                        </div>
+
                         {/* Industry */}
-                        <div className="col-span-2">
+                        <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Industry <span className="text-red-500">*</span>
                             </label>
@@ -265,7 +409,7 @@ export default function Create({ userId, industries, allServices }) {
                                 name="industry"
                                 value={form.industry}
                                 onChange={handleChange}
-                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
+                                className={`w-full rounded-lg border px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
                                     ? 'border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-yellow-400'
                                     }`}
@@ -361,7 +505,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="street"
                                 value={form.street}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.street
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter street address"
                             />
                             {errors.street && (
@@ -379,7 +526,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="city"
                                 value={form.city}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.city
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter city"
                             />
                             {errors.city && (
@@ -397,7 +547,10 @@ export default function Create({ userId, industries, allServices }) {
                                 name="state"
                                 value={form.state}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.state
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter state"
                                 maxLength={20}
                             />
@@ -416,8 +569,11 @@ export default function Create({ userId, industries, allServices }) {
                                 name="zip"
                                 value={form.zip}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                                placeholder="Enter ZIP code"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.zip
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter zip"
                                 maxLength={10}
                             />
                             {errors.zip && (
@@ -437,9 +593,14 @@ export default function Create({ userId, industries, allServices }) {
                                     name="price"
                                     value={form.price}
                                     onChange={handleChange}
-                                    onKeyDown={handleKeyDown}
+                                    step="0.01"
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    className={`w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    ${errors.price
+                                            ? 'border-red-500 focus:ring-red-500'
+                                            : 'border-gray-300 focus:border-yellow-400'
+                                        }`}
+
                                     placeholder="0.00"
                                 />
                             </div>
@@ -488,7 +649,7 @@ export default function Create({ userId, industries, allServices }) {
                         </div>
                     </form>
                 </div>
-            </div>
-        </AppLayout>
+            </div >
+        </AppLayout >
     );
 }

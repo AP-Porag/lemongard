@@ -29,7 +29,8 @@ export default function Index({
 
     const { auth } = usePage().props;
     const user = auth?.user;
-
+    const hasFullAccess = user?.has_full_access === true;
+    const isSearchLocked = !hasFullAccess;
     const canCreateRecord = user?.has_full_access;
 
     const isFullAccessActive =
@@ -41,6 +42,17 @@ export default function Index({
         user?.subscription_status === 'active';
 
     useEffect(() => {
+        if (isSearchLocked && filters.search) {
+            setFilters((prev) => ({
+                ...prev,
+                search: '',
+            }));
+            return;
+        }
+
+        if (!hasFullAccess && filters.search?.trim()) {
+            return;
+        }
         router.get(route('app.records.index'), filters, {
             preserveState: true,
             replace: true,
@@ -51,18 +63,44 @@ export default function Index({
         {
             key: 'last_name',
             label: 'Last Name',
-            render: (row) => row.last_name || '',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.last_name || ''}
+                </span>
+            ),
         },
         {
             key: 'first_name',
             label: 'First Name',
-            render: (row) => row.first_name || '',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.first_name || ''}
+                </span>
+            ),
+        },
+        {
+            key: 'phone_cell',
+            label: 'Cell Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_cell || ''}
+                </span>
+            ),
+        },
+        {
+            key: 'phone_home',
+            label: 'Home Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_home || ''}
+                </span>
+            ),
         },
         {
             key: 'industry',
             label: 'Industry',
             render: (row) => (
-                <span className="block w-30 truncate">
+                <span className="block w-48 truncate">
                     {/* Method 1: If using with('industry') */}
                     {row.industry?.name || 'N/A'}
 
@@ -78,18 +116,26 @@ export default function Index({
             key: 'services',
             label: 'Services',
             render: (row) => (
-                <div className="flex flex-wrap gap-1">
+                <div className="gap-1 max-w-xs">
                     {row.services?.length > 0 ? (
-                        row.services.map((service) => (
-                            <span
-                                key={service.id}
-                                className="inline-flex items-center rounded-sm bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
-                            >
-                                {service.name}
-                            </span>
-                        ))
+                        <>
+                            {row.services.slice(0, 3).map((service) => (
+                                <span
+                                    key={service.id}
+                                    className="w-48 items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap mr-1"
+
+                                >
+                                    {service.name}
+                                </span>
+                            ))}
+                            {row.services.length > 2 && (
+                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap">
+                                    +{row.services.length - 3} more
+                                </span>
+                            )}
+                        </>
                     ) : (
-                        <span className="text-gray-400">N/A</span>
+                        <span className="text-gray-400 text-sm">N/A</span>
                     )}
                 </div>
             ),
@@ -98,11 +144,11 @@ export default function Index({
             key: 'price',
             label: 'Price',
             render: (row) => (
-                <span className="block w-48 truncate">$ {row.price}</span>
+                <span className="block w-20 truncate">$ {row.price}</span>
             ),
         },
         {
-            key: 'incident_report ',
+            key: 'incident_report',
             label: 'Incident',
             render: (row) => (
                 <span className="block w-48 truncate">{row.incident_report}</span>
@@ -162,7 +208,11 @@ export default function Index({
                         total: records.total,
                         current_page: records.current_page,
                         last_page: records.last_page,
-                        searchPlaceholderText: "Search by name, services..."
+                        searchPlaceholderText: hasFullAccess
+                            ? "Search by name, services..."
+                            : "Search disabled (Upgrade required)",
+
+                        searchDisabled: isSearchLocked, // 🔒 NEW FLAG
                     }}
                     actions={(row) => {
                         const isOwner = auth?.user?.id === row.user_id;

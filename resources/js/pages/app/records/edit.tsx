@@ -1,4 +1,4 @@
-// resources/js/pages/app/records/edit.jsx
+// // resources/js/pages/app/records/edit.jsx
 
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
@@ -26,6 +26,7 @@ export default function Edit({ record, industries, allServices, selectedServices
         last_name: record.last_name || '',
         phone_cell: record.phone_cell || '',
         phone_home: record.phone_home || '',
+        email: record.email || '',
         industry: record.industry?.toString() || '',
         street: record.street || '',
         city: record.city || '',
@@ -42,41 +43,128 @@ export default function Edit({ record, industries, allServices, selectedServices
     ) || [];
 
     // Format phone number
-    const formatPhoneNumber = (value) => {
-        const numbers = value.replace(/\D/g, '').slice(0, 15);
-        const parts = [];
-        for (let i = 0; i < numbers.length; i += 3) {
-            parts.push(numbers.slice(i, i + 3));
-        }
-        return parts.join('-');
-    };
+    // const formatPhoneNumber = (value) => {
+    //     const numbers = value.replace(/\D/g, '').slice(0, 15);
+    //     const parts = [];
+    //     for (let i = 0; i < numbers.length; i += 3) {
+    //         parts.push(numbers.slice(i, i + 3));
+    //     }
+    //     return parts.join('-');
+    // };
 
+    // Email validation in handleChange
+    if (name === "email") {
+        setForm({ ...form, [name]: value });
+
+        // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            setErrors(prev => ({
+                ...prev,
+                email: 'Please enter a valid email address'
+            }));
+        } else {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.email;
+                return newErrors;
+            });
+        }
+        return;
+    }
+
+    //new formate phone number
+    const formatPhoneNumber = (value) => {
+        const numbers = value.replace(/\D/g, '').slice(0, 10);
+
+        if (numbers.length <= 3) {
+            return numbers;
+        }
+
+        if (numbers.length <= 6) {
+            return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+        }
+
+        return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        // Phone formatting
-        if (name === 'phone_cell' || name === 'phone_home') {
-            setForm({
-                ...form,
-                [name]: formatPhoneNumber(value),
-            });
+        // ✅ First Name - শুধু alphabetic অনুমোদন
+        if (name === "first_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+            return;
+        }
+
+        // ✅ Last Name - শুধু alphabetic অনুমোদন
+        if (name === "last_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+            return;
+        }
+
+        // Phone Cell or Phone Home formatting
+        if (name === "phone_cell" || name === "phone_home") {
+            // শুধু ডিজিট রাখুন
+            let cleaned = value.replace(/\D/g, "");
+
+            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
+            if (cleaned.length > 10) {
+                cleaned = cleaned.slice(0, 10);
+            }
+
+            // ফরম্যাট করুন XXX-XXX-XXXX
+            let formatted = "";
+            if (cleaned.length <= 3) {
+                formatted = cleaned;
+            } else if (cleaned.length <= 6) {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            } else {
+                formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+            }
+
+            setForm({ ...form, [name]: formatted });
+            return;
+        }
+
+        // ✅ ZIP Code - শুধু সংখ্যা অনুমোদন
+        if (name === "zip") {
+            // শুধু ডিজিট রাখুন এবং সর্বোচ্চ ৫ ডিজিট সীমাবদ্ধ
+            const digitsOnly = value.replace(/\D/g, '').slice(0, 5);
+            setForm({ ...form, [name]: digitsOnly });
             return;
         }
 
         // Reset services when industry changes
-        if (name === 'industry') {
+        if (name === "industry") {
             setForm({
                 ...form,
                 industry: value,
-                services: [], // Reset services array when industry changes
+                services: [],
             });
             return;
         }
 
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        // Price field validation
+        if (name === "price") {
+            // খালি মান অনুমোদন
+            if (value === "") {
+                setForm({ ...form, [name]: "" });
+                return;
+            }
+
+            // শুধু সংখ্যা এবং সর্বোচ্চ ২ দশমিক অনুমোদন
+            const regex = /^\d*\.?\d{0,2}$/;
+            if (regex.test(value)) {
+                setForm({ ...form, [name]: value });
+            }
+            return;
+        }
+
+        // অন্যান্য ফিল্ডের জন্য
+        setForm({ ...form, [name]: value });
     };
 
     // Handle checkbox change for service selection
@@ -108,6 +196,46 @@ export default function Edit({ record, industries, allServices, selectedServices
 
     const submit = (e) => {
         e.preventDefault();
+        const cellDigits = form.phone_cell.replace(/\D/g, '');
+        const homeDigits = form.phone_home.replace(/\D/g, '');
+        const zipDigits = form.zip.replace(/\D/g, '');
+
+        const newErrors = {};
+
+        // First Name validation - শুধু alphabetic
+        if (!form.first_name.trim()) {
+            newErrors.first_name = 'First name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.first_name)) {
+            newErrors.first_name = 'First name can only contain letters';
+        }
+
+        // Last Name validation - শুধু alphabetic
+        if (!form.last_name.trim()) {
+            newErrors.last_name = 'Last name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
+            newErrors.last_name = 'Last name can only contain letters';
+        }
+
+        // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
+        if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
+        }
+
+
+        if (cellDigits.length !== 10) {
+            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+        }
+
+        if (homeDigits.length !== 10) {
+            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+        }
+        if (zipDigits.length !== 5) {
+            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+        }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
         setLoading(true);
 
         router.put(route('app.records.update', record.id), form, {
@@ -178,14 +306,14 @@ export default function Edit({ record, industries, allServices, selectedServices
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Cell
+                                Phone Cell <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 name="phone_cell"
                                 value={form.phone_cell}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
@@ -197,14 +325,14 @@ export default function Edit({ record, industries, allServices, selectedServices
                         {/* Phone Home */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Home
+                                Phone Home <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 name="phone_home"
                                 value={form.phone_home}
                                 onChange={handleChange}
-                                maxLength={15}
+                                maxLength={12}
                                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 placeholder="XXX-XXX-XXXX"
                             />
@@ -213,8 +341,29 @@ export default function Edit({ record, industries, allServices, selectedServices
                             )}
                         </div>
 
+                        {/* Email */}
+                        <div>
+                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.last_name
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter your email"
+                            />
+                            {errors.email && (
+                                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                            )}
+                        </div>
+
                         {/* Industry */}
-                        <div className="col-span-2">
+                        <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Industry <span className="text-red-500">*</span>
                             </label>

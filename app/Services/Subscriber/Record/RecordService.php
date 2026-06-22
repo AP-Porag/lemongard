@@ -59,6 +59,13 @@ class RecordService extends BaseService
     }
     public function getPaginatedRecords(array $filters)
     {
+
+        // Search না দিলে কোনো data দেখাবে না
+        if (empty($filters['search'])) {
+            return $this->model->whereRaw('1 = 0')
+                ->paginate($filters['perPage'] ?? 5)
+                ->withQueryString();
+        }
         $query = $this->model->with(['industry', 'services']);
 
         // ✅ লগইন করা ইউজারের ইন্ডাস্ট্রি আইডি গুলো পাওয়া

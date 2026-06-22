@@ -52,6 +52,26 @@ export default function Edit({ record, industries, allServices, selectedServices
     //     return parts.join('-');
     // };
 
+    // Email validation in handleChange
+    if (name === "email") {
+        setForm({ ...form, [name]: value });
+
+        // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            setErrors(prev => ({
+                ...prev,
+                email: 'Please enter a valid email address'
+            }));
+        } else {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.email;
+                return newErrors;
+            });
+        }
+        return;
+    }
+
     //new formate phone number
     const formatPhoneNumber = (value) => {
         const numbers = value.replace(/\D/g, '').slice(0, 10);
@@ -194,6 +214,11 @@ export default function Edit({ record, industries, allServices, selectedServices
             newErrors.last_name = 'Last name is required';
         } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
             newErrors.last_name = 'Last name can only contain letters';
+        }
+
+        // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
+        if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
         }
 
 

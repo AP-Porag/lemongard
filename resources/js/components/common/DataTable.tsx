@@ -304,7 +304,9 @@ export default function DataTable({
                                     colSpan={columns.length + 1}
                                     className="px-4 py-4 text-center text-gray-500"
                                 >
-                                    No data found.
+                                    {filters.search?.trim().length >= 3
+                                        ? 'This Individual Is Not In The Database'
+                                        : 'Search for record'}
                                 </td>
                             </tr>
                         ) : (

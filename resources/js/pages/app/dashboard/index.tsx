@@ -90,7 +90,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                     {/* KPI GRID */}
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {/* TOTAL RECORDS */}
-                        <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">
+                        {/* <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">
                             <CardContent className="p-6">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
@@ -106,7 +106,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                                     </div>
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
 
                         {/* MY RECORDS */}
                         <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">

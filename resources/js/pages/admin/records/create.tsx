@@ -126,6 +126,26 @@ export default function Create({ userId, industries, allServices }) {
             return;
         }
 
+        // Email validation in handleChange
+        if (name === "email") {
+            setForm({ ...form, [name]: value });
+
+            // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
+            if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                setErrors(prev => ({
+                    ...prev,
+                    email: 'Please enter a valid email address'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.email;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
         // Reset services when industry changes
         if (name === "industry") {
             setForm({
@@ -215,6 +235,10 @@ export default function Create({ userId, industries, allServices }) {
         }
         if (zipDigits.length !== 5) {
             newErrors.zip = 'ZIP code must be exactly 5 digits.';
+        }
+        // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
+        if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+            newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
         }
 
         if (Object.keys(newErrors).length > 0) {

@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
 use App\Http\Controllers\Admin\Service\ServiceController;
 use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
 use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\App\DashboardController;
+use App\Http\Controllers\App\Dashboard\DashboardController;
 use App\Http\Controllers\App\Industry\IndustryOnboardingController;
 use App\Http\Controllers\App\MyRecord\MyRecordController;
 use App\Http\Controllers\App\Record\RecordController;

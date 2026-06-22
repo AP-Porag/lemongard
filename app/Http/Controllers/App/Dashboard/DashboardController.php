@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\App;
+namespace App\Http\Controllers\App\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Services\Subscriber\Record\RecordService;

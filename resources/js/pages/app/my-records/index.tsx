@@ -59,18 +59,44 @@ export default function Index({
         {
             key: 'last_name',
             label: 'Last Name',
-            render: (row) => row.last_name || '',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.last_name || ''}
+                </span>
+            ),
         },
         {
             key: 'first_name',
-            label: 'Last Name',
-            render: (row) => row.first_name || '',
+            label: 'First Name',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.first_name || ''}
+                </span>
+            ),
+        },
+        {
+            key: 'phone_cell',
+            label: 'Cell Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_cell || ''}
+                </span>
+            ),
+        },
+        {
+            key: 'phone_home',
+            label: 'Home Phone',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.phone_home || ''}
+                </span>
+            ),
         },
         {
             key: 'industry',
             label: 'Industry',
             render: (row) => (
-                <span className="block w-30 truncate">
+                <span className="block w-48 truncate">
                     {/* Method 1: If using with('industry') */}
                     {row.industry?.name || 'N/A'}
 
@@ -86,20 +112,21 @@ export default function Index({
             key: 'services',
             label: 'Services',
             render: (row) => (
-                <div className="flex flex-wrap gap-1">
+                <div className="gap-1 max-w-xs">
                     {row.services?.length > 0 ? (
                         <>
-                            {row.services.slice(0, 4).map((service) => (
+                            {row.services.slice(0, 3).map((service) => (
                                 <span
                                     key={service.id}
-                                    className="inline-flex items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white"
+                                    className="w-48 items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap mr-1"
+
                                 >
                                     {service.name}
                                 </span>
                             ))}
-                            {row.services.length > 4 && (
-                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white">
-                                    +{row.services.length - 4} more
+                            {row.services.length > 2 && (
+                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap">
+                                    +{row.services.length - 3} more
                                 </span>
                             )}
                         </>
@@ -114,7 +141,7 @@ export default function Index({
             key: 'price',
             label: 'Price',
             render: (row) => (
-                <span className="block w-48 truncate">$ {row.price}</span>
+                <span className="block w-20 truncate">$ {row.price}</span>
             ),
         },
         {

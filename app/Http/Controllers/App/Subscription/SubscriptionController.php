@@ -58,6 +58,7 @@ class SubscriptionController extends Controller
                     'plan' => $plan->name,
                 ]),
                 'cancel_url' => route('app.myplan'),
+                'payment_method_types' => ['card'],
             ]);
     }
 
