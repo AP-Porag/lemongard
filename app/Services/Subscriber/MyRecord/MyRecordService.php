@@ -78,7 +78,8 @@ class MyRecordService extends BaseService
                         })
                         ->orWhereHas('services', function ($q) use ($search) {
                             $q->where('name', 'like', "%{$search}%");
-                        });
+                        })->orWhereRaw("CONCAT_WS(' ', first_name, last_name, phone_cell) LIKE ?", ["%{$search}%"])
+                        ->orWhereRaw("CONCAT_WS(' ', last_name, first_name, phone_cell) LIKE ?", ["%{$search}%"]);
                 });
             })
 

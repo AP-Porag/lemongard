@@ -137,6 +137,7 @@ export default function DataTable({
                         placeholder={meta.searchPlaceholderText || "Search..."}
                         value={filters.search}
                         onChange={handleFilterChange}
+                        disabled={meta?.searchDisabled}
                         className="px-3 py-2 md:w-1/3"
                     />
                 )}
