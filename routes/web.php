@@ -15,6 +15,7 @@ use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\Support\SupportController;
 use App\Http\Controllers\Auth\CustomVerifyEmailController;
+use App\Http\Controllers\Auth\OTPVerificationController;
 // use App\Http\Middleware\SubscriptionActiveMiddleware;
 use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Route;
@@ -117,10 +118,20 @@ Route::post('/contact', [SupportController::class, 'store'])->name('contact.stor
 //     })->name('login');
 // });
 
+Route::prefix(GlobalConstant::ROUTE_APP)
+    ->name('app.')
+    ->middleware(['auth', 'role:user']) // এখানে 'otp.verified' দেওয়া যাবে না
+    ->group(function () {
+        Route::get('/verify-otp', [OTPVerificationController::class, 'showView'])->name('otp.verify.view');
+        Route::post('/verify-otp', [OTPVerificationController::class, 'verify'])->name('otp.verify.submit');
+        Route::post('/resend-otp', [OTPVerificationController::class, 'resend'])->name('otp.resend');
+    });
+
+
 // ✅ ইন্ডাস্ট্রি অনবোর্ডিং রাউট (শুধু auth)
 Route::prefix(GlobalConstant::ROUTE_APP)
     ->name('app.')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'role:user', 'otp.verified'])
     ->group(function () {
 
         Route::get('/onboarding/industry', [IndustryOnboardingController::class, 'index'])
@@ -134,8 +145,9 @@ Route::prefix(GlobalConstant::ROUTE_APP)
     ->name('app.')
     ->middleware([
         'auth',
-        'verified',
+        // 'verified',
         'role:user',
+        'otp.verified',
         'industry.selected',  // ✅ এখন alias কাজ করবে
     ])
     ->group(function () {

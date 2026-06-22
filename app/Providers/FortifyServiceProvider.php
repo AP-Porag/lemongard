@@ -126,31 +126,31 @@ class FortifyServiceProvider extends ServiceProvider
 
 
         // ✅ রেজিস্ট্রেশন রেসপন্স - এটা ঠিক করতে হবে
-        $this->app->singleton(RegisterResponse::class, function () {
-            return new class implements RegisterResponse {
-                public function toResponse($request)
-                {
-                    $user = $request->user();
+        // $this->app->singleton(RegisterResponse::class, function () {
+        //     return new class implements RegisterResponse {
+        //         public function toResponse($request)
+        //         {
+        //             $user = $request->user();
 
-                    if ($user->role === GlobalConstant::ROLE_ADMIN) {
-                        return redirect('/admin/dashboard');
-                    }
+        //             if ($user->role === GlobalConstant::ROLE_ADMIN) {
+        //                 return redirect('/admin/dashboard');
+        //             }
 
-                    // ✅ ইমেইল ভেরিফিকেশন প্রয়োজন কিনা চেক করুন
-                    if (Features::enabled(Features::emailVerification()) && !$user->hasVerifiedEmail()) {
-                        // ইমেইল ভেরিফিকেশন পেজে পাঠান
-                        return redirect()->route('verification.notice');
-                    }
+        //             // ✅ ইমেইল ভেরিফিকেশন প্রয়োজন কিনা চেক করুন
+        //             if (Features::enabled(Features::emailVerification()) && !$user->hasVerifiedEmail()) {
+        //                 // ইমেইল ভেরিফিকেশন পেজে পাঠান
+        //                 return redirect()->route('verification.notice');
+        //             }
 
-                    // ইন্ডাস্ট্রি সিলেক্ট না করলে
-                    if ($user->industries()->count() === 0) {
-                        return redirect()->route('app.onboarding.industry');
-                    }
+        //             // ইন্ডাস্ট্রি সিলেক্ট না করলে
+        //             if ($user->industries()->count() === 0) {
+        //                 return redirect()->route('app.onboarding.industry');
+        //             }
 
-                    return redirect('/app/dashboard');
-                }
-            };
-        });
+        //             return redirect('/app/dashboard');
+        //         }
+        //     };
+        // });
     }
 
 

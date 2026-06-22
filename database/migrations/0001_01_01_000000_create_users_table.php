@@ -57,6 +57,13 @@ return new class extends Migration
             $table->boolean('is_first_login')->default(true);
             $table->boolean('is_social_login')->default(false);
 
+
+            // OTP
+
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_verified_at')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+
             // =========================
             // LARAVEL CORE
             // =========================

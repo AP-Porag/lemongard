@@ -2,33 +2,45 @@
 
 namespace App\Providers;
 
+namespace App\Providers;
+
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+
+// ⚠️ এই দুটি নেমস্পেস একদম হুবহু নিচের মতো হতে হবে:
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Features;
+use App\Utils\GlobalConstant;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
+    // app/Providers/AppServiceProvider.php
+
     public function register(): void
     {
-        // ✅ Fortify Register Response binding (CORRECT PLACE)
         $this->app->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
                 public function toResponse($request)
                 {
-                    return redirect('/app/dashboard')->with([
-                        'showOnboardingModal' => true,
-                    ]);
+                    $user = $request->user();
+
+                    // ✅ অ্যাডমিন চেক
+                    if ($user->role === GlobalConstant::ROLE_ADMIN) {
+                        return redirect('/admin/dashboard');
+                    }
+
+                    // ✅ OTP ভেরিফিকেশন পেজে রিডাইরেক্ট করুন
+                    return redirect()->route('app.otp.verify.view');
                 }
             };
         });
     }
-
     /**
      * Bootstrap any application services.
      */

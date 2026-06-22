@@ -12,7 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Cashier\Billable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
@@ -39,7 +39,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_first_login',
         'is_social_login',
         'agree_to_terms',
-        'email_verified_at'
+        'email_verified_at',
+        'otp',
+        'otp_verified_at',
+        'otp_expires_at'
+
     ];
 
     /**

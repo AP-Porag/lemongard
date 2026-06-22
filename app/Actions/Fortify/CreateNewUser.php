@@ -8,6 +8,8 @@ use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendOTPMail;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -28,6 +30,8 @@ class CreateNewUser implements CreatesNewUsers
     | Create User
     |--------------------------------------------------------------------------
     */
+        $otp = rand(100000, 990000);
+        $otpExpiresAt = now()->addMinutes(10);
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
@@ -35,7 +39,11 @@ class CreateNewUser implements CreatesNewUsers
             'marketing_emails' => (bool) $input['marketing_emails'],
             'agree_to_terms' => (bool) $input['agree_to_terms'],
             'is_first_login' => true,
+            'otp' => $otp,
+            'otp_expires_at' => $otpExpiresAt
         ]);
+
+        Mail::to($user->email)->send(new SendOTPMail($otp));
 
         /*
     |--------------------------------------------------------------------------
