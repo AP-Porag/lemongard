@@ -123,7 +123,7 @@ One User → One Active Subscription
 
 One Subscription → Many Subscription Items
 
-All Users → Can View All Records
+All Users → Can Search All Records
 
 Only Record Owner → Can Edit/Delete That Record
 

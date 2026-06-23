@@ -15,7 +15,7 @@ const sections: { title: string; rows: Row[] }[] = [
             { feature: 'Access Shared Database', view: true, full: true },
             { feature: 'Search All Fields', view: true, full: true },
             { feature: 'Advanced Filtering', view: true, full: true },
-            { feature: 'View All Records', view: true, full: true },
+            { feature: 'Search All Records', view: true, full: true },
             { feature: 'Export Data', view: true, full: true },
         ],
     },

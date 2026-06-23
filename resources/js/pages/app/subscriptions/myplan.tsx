@@ -77,7 +77,7 @@ export default function MyPlan({
             description:
                 'View all shared records. No create, edit or delete permissions.',
             features: [
-                { label: 'View all records', icon: Eye },
+                { label: 'Search all records', icon: Eye },
                 { label: 'Search & filter data', icon: Check },
                 { label: 'No create permissions', icon: Trash2 },
                 { label: 'No edit permissions', icon: Pencil },
@@ -91,7 +91,7 @@ export default function MyPlan({
             description:
                 'Add, edit and delete your own records with full dataset access.',
             features: [
-                { label: 'View all records', icon: Eye },
+                { label: 'Search all records', icon: Eye },
                 { label: 'Add records', icon: Check },
                 { label: 'Edit own records', icon: Pencil },
                 { label: 'Delete own records', icon: Trash2 },

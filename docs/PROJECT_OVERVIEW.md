@@ -45,7 +45,7 @@ ensure:
 **Tier 1 -- View Only (\$14.99/month)** - View and search shared data -
 No create/edit/delete permissions
 
-**Tier 2 -- Full Access (\$19.99/month)** - View all records - Add new
+**Tier 2 -- Full Access (\$19.99/month)** - Search All Records - Add new
 records - Edit/Delete only own records
 
 ### Trial Model
@@ -60,7 +60,7 @@ Payments handled via Stripe (monthly recurring billing).
 
 ## 4. Core System Principles
 
-1.  Shared Visibility -- All subscribers can view all records.
+1.  Shared Visibility -- All subscribers can Search All Records.
 2.  Ownership Enforcement -- Users may only modify/delete their own
     records.
 3.  Subscription Enforcement -- Access strictly tied to active
