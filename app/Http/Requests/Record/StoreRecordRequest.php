@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Record;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRecordRequest extends FormRequest
 {
@@ -16,7 +17,15 @@ class StoreRecordRequest extends FormRequest
         return [
             'industry' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            // last_name এবং phone_cell এর কম্বিনেশন ইউনিক চেক করা হচ্ছে
+            'last_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('records')->where(function ($query) {
+                    return $query->where('phone_cell', $this->phone_cell);
+                }),
+            ],
             'phone_cell' => ['required', 'string', 'max:20'],
             'phone_home' => ['required', 'string', 'max:20'],
             'email' => ['nullable', 'string'],
@@ -34,6 +43,7 @@ class StoreRecordRequest extends FormRequest
     public function messages()
     {
         return [
+            'last_name.unique' => 'Last Name/Cell Phone Already In Use',
             'phone_cell.required' => 'Cell phone number is required. Please enter a valid cell phone number.',
             'phone_cell.string' => 'Cell phone number must be a valid string.',
             'phone_cell.max' => 'Cell phone number cannot exceed 20 characters. Please enter a valid phone number.',
