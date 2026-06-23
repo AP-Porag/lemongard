@@ -10,7 +10,6 @@ const breadcrumbs = [
 ];
 
 export default function Show({ record }: any) {
-    console.log(record)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Record Details" />
@@ -19,7 +18,7 @@ export default function Show({ record }: any) {
                 {/* ================= CLIENT INFORMATION ================= */}
                 <Card className="rounded-xl">
                     <CardHeader>
-                        <CardTitle>Reocrd Information</CardTitle>
+                        <CardTitle>Record Information</CardTitle>
                     </CardHeader>
 
                     <CardContent className="space-y-4">
