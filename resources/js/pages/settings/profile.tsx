@@ -11,7 +11,7 @@ import SettingsLayout from '@/layouts/settings/layout';
 import type { BreadcrumbItem } from '@/types';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
+// import { send } from '@/routes/verification';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -91,7 +91,7 @@ export default function Profile({
                                     />
                                 </div>
 
-                                {mustVerifyEmail &&
+                                {/* {mustVerifyEmail &&
                                     auth.user.email_verified_at === null && (
                                         <div>
                                             <p className="-mt-4 text-sm text-muted-foreground">
@@ -109,14 +109,14 @@ export default function Profile({
 
                                             {status ===
                                                 'verification-link-sent' && (
-                                                <div className="mt-2 text-sm font-medium text-green-600">
-                                                    A new verification link has
-                                                    been sent to your email
-                                                    address.
-                                                </div>
-                                            )}
+                                                    <div className="mt-2 text-sm font-medium text-green-600">
+                                                        A new verification link has
+                                                        been sent to your email
+                                                        address.
+                                                    </div>
+                                                )}
                                         </div>
-                                    )}
+                                    )} */}
 
                                 <div className="flex items-center gap-4">
                                     <Button
