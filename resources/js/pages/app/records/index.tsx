@@ -209,7 +209,7 @@ export default function Index({
                         current_page: records.current_page,
                         last_page: records.last_page,
                         searchPlaceholderText: hasFullAccess
-                            ? "Search by name, services..."
+                            ? "Search by name, phone number"
                             : "Search disabled (Upgrade required)",
 
                         searchDisabled: isSearchLocked, // 🔒 NEW FLAG

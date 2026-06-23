@@ -94,25 +94,23 @@ class RecordService extends BaseService
         }
 
         // সার্চ ফিল্টার
+        //
         if (!empty($filters['search'])) {
-            $search = $filters['search'];
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                    ->orWhere('last_name', 'like', "%{$search}%")
-                    ->orWhere('phone_cell', 'like', "%{$search}%")
-                    ->orWhere('city', 'like', "%{$search}%")
-                    ->orWhere('state', 'like', "%{$search}%")
-                    ->orWhere('zip', 'like', "%{$search}%")
-                    ->orWhere('street', 'like', "%{$search}%")
-                    ->orWhere('incident_report', 'like', "%{$search}%")
-                    ->orWhereHas('industry', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    })
-                    ->orWhereHas('services', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    })->orWhereRaw("CONCAT_WS(' ', first_name, last_name, phone_cell) LIKE ?", ["%{$search}%"])
-                    ->orWhereRaw("CONCAT_WS(' ', last_name, first_name, phone_cell) LIKE ?", ["%{$search}%"]);
-            });
+            $search = trim($filters['search']);
+
+            if (strlen($search) < 3) {
+                // Return empty result with message
+                $query->whereRaw('1 = 0'); // No results
+                session()->flash('error', 'Please enter at least 3 characters to search.');
+            } else {
+                $query->where(function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('phone_cell', 'like', "%{$search}%")
+                        ->orWhereRaw("CONCAT_WS(' ', first_name, last_name, phone_cell) LIKE ?", ["%{$search}%"])
+                        ->orWhereRaw("CONCAT_WS(' ', last_name, first_name, phone_cell) LIKE ?", ["%{$search}%"]);
+                });
+            }
         }
 
         // ✅ অতিরিক্ত ইন্ডাস্ট্রি ফিল্টার (যদি ড্রপডাউন থেকে সিলেক্ট করে)
