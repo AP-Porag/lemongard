@@ -59,7 +59,6 @@ export default function Create() {
                     // );
                 },
                 onError: (errors) => {
-                    console.log('Server Errors:', errors);
                     toast.error(
                         Object.values(errors)[0] || 'Server validation failed',
                     );

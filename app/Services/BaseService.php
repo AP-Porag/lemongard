@@ -142,10 +142,17 @@ abstract class BaseService
             $user->subscribedToPrice(GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID, 'default');
     }
 
-    public function tier2FullAccess($user)
+    public function tier2FullAccess($user): bool
     {
         $subscription = $this->getSubscription($user);
         return $subscription?->stripe_status === 'active' &&
             $user->subscribedToPrice(GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID, 'default');
+    }
+
+    public function tier1ViewOnly($user): bool
+    {
+        $subscription = $this->getSubscription($user);
+        return  $subscription?->stripe_status === 'active' &&
+            $user->subscribedToPrice(GlobalConstant::TIER_ONE_VIEW_ONLY_PRICE_ID, 'default');
     }
 }

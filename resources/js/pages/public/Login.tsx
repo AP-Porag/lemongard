@@ -52,7 +52,6 @@ export default function Login() {
     const onSubmit = async (data: LoginFormData) => {
         setFormError(null);
 
-        console.log('Login data:', data);
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
 

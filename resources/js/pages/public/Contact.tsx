@@ -62,7 +62,7 @@ const contactSchema = z.object({
         .email('Please enter a valid email address'),
 
     phone: z.string().optional(),
-    
+
 
     subject: z.string().min(1, 'Please select a topic'),
     message: z
@@ -186,7 +186,7 @@ const fadeIn = {
     transition: { duration: 0.6 },
 };
 
- 
+
 
 const Contact = () => {
     const [showSuccess, setShowSuccess] = useState(false);
@@ -213,7 +213,6 @@ const Contact = () => {
                 toast.success('Thank you for contacting us!');
             },
             onError: (errors) => {
-                console.log('Validation errors:', errors);
                 Object.keys(errors).forEach(key => {
                     toast.error(errors[key]);
                 });
@@ -462,34 +461,34 @@ const Contact = () => {
 
 
                                             <input
-    id="phone"
-    type="tel"
-    {...register('phone')}
-    placeholder="XXX-XXX-XXXX"
-    maxLength={12}
-    onInput={(e) => {
-        let value = e.currentTarget.value.replace(/\D/g, '');
+                                                id="phone"
+                                                type="tel"
+                                                {...register('phone')}
+                                                placeholder="XXX-XXX-XXXX"
+                                                maxLength={12}
+                                                onInput={(e) => {
+                                                    let value = e.currentTarget.value.replace(/\D/g, '');
 
-        if (value.length > 3 && value.length <= 6) {
-            value = `${value.slice(0, 3)}-${value.slice(3)}`;
-        } else if (value.length > 6) {
-            value = `${value.slice(0, 3)}-${value.slice(
-                3,
-                6
-            )}-${value.slice(6, 10)}`;
-        }
+                                                    if (value.length > 3 && value.length <= 6) {
+                                                        value = `${value.slice(0, 3)}-${value.slice(3)}`;
+                                                    } else if (value.length > 6) {
+                                                        value = `${value.slice(0, 3)}-${value.slice(
+                                                            3,
+                                                            6
+                                                        )}-${value.slice(6, 10)}`;
+                                                    }
 
-        e.currentTarget.value = value;
-    }}
-    className={`${inputBase} ${errors.phone ? inputErr : inputOk}`}
-/>
-  
+                                                    e.currentTarget.value = value;
+                                                }}
+                                                className={`${inputBase} ${errors.phone ? inputErr : inputOk}`}
+                                            />
+
                                         </div>
                                     </div>
 
-                                    
 
-                                    
+
+
 
                                     {/* Subject */}
                                     <div>

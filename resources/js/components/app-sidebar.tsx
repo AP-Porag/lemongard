@@ -157,13 +157,13 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage().props as any;
-    // console.log(auth.user);
+
 
     // const canCreateRecord = auth?.user?.has_full_access;
     const canCreateRecord = Boolean(auth?.user?.has_full_access);
 
     const tier2FullAccess = Boolean(auth?.user?.tier_2_full_access);
-    console.log(tier2FullAccess);
+
 
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {

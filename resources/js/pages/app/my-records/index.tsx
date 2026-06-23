@@ -32,7 +32,6 @@ export default function Index({
     const { auth } = usePage().props;
     const user = auth?.user;
     const canCreateRecord = user?.has_full_access;
-    console.log(canCreateRecord);
 
     const canManageRecords =
         user?.subscription_tier === 'tier_2_full_access' &&

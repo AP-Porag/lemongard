@@ -166,7 +166,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                                 href="/app/records"
                                 className="text-sm font-medium text-indigo-600 hover:underline"
                             >
-                                View all
+                                Search All
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">

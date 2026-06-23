@@ -57,7 +57,6 @@ export default function Edit({ item }: any) {
                     // );
                 },
                 onError: (errors) => {
-                    console.log('Server Errors:', errors);
                     toast.error(
                         Object.values(errors)[0] || 'Server validation failed',
                     );

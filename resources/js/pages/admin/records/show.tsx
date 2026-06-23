@@ -10,7 +10,7 @@ const breadcrumbs = [
 ];
 
 export default function Show({ record }: any) {
-    console.log(record)
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Record Details" />

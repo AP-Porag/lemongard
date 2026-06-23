@@ -51,7 +51,6 @@
 //         fill: COLORS[index % COLORS.length],
 //     }));
 
-//     console.log(stats.monthly_revenue);
 
 //     return (
 //         <AppLayout>

@@ -102,6 +102,7 @@ class HandleInertiaRequests extends Middleware
         // 1. Safe Check: Only evaluate access if a user is logged in
         $hasFullAccess = $user ? (bool) $subscriptionService->hasFullAccess($user) : false;
         $tier2FullAccess = $user ? (bool) $subscriptionService->tier2FullAccess($user) : false;
+        $tier1ViewOnly = $user ? (bool) $subscriptionService->tier1ViewOnly($user) : false;
 
         return [
             ...parent::share($request),
@@ -114,6 +115,7 @@ class HandleInertiaRequests extends Middleware
                     'role' => $user->role,
                     'has_full_access' => $hasFullAccess, // ✅ Safe variable injection
                     'tier_2_full_access' => $tier2FullAccess,
+                    'tier_1_view_only' => $tier1ViewOnly,
                 ] : null,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',

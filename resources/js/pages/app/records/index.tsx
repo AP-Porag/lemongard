@@ -30,7 +30,13 @@ export default function Index({
     const { auth } = usePage().props;
     const user = auth?.user;
     const hasFullAccess = user?.has_full_access === true;
-    const isSearchLocked = !hasFullAccess;
+    const tier1ViewOnly = user?.tier_1_view_only === true;
+
+    console.log(tier1ViewOnly);
+
+
+
+    const isSearchLocked = !(hasFullAccess || tier1ViewOnly);
     const canCreateRecord = user?.has_full_access;
 
     const isFullAccessActive =
@@ -208,7 +214,7 @@ export default function Index({
                         total: records.total,
                         current_page: records.current_page,
                         last_page: records.last_page,
-                        searchPlaceholderText: hasFullAccess
+                        searchPlaceholderText: (hasFullAccess || tier1ViewOnly)
                             ? "Search by name, phone number"
                             : "Search disabled (Upgrade required)",
 
