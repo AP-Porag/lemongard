@@ -76,7 +76,7 @@ class RecordController extends Controller
 
         // Get selected service IDs from the record
         $selectedServices = $record->services->pluck('id')->map(function ($id) {
-            return (string) $id; // Convert to string for JavaScript comparison
+            return (string) $id;
         })->toArray();
 
         return Inertia::render('admin/records/edit', [
