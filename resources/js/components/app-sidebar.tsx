@@ -157,10 +157,13 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { auth } = usePage().props as any;
-    console.log(auth.user);
+    // console.log(auth.user);
 
     // const canCreateRecord = auth?.user?.has_full_access;
     const canCreateRecord = Boolean(auth?.user?.has_full_access);
+
+    const tier2FullAccess = Boolean(auth?.user?.tier_2_full_access);
+    console.log(tier2FullAccess);
 
 
     const filteredAppSidebar: NavItem[] = appSidebar.map((item) => {
@@ -208,7 +211,7 @@ export function AppSidebar() {
                 )}
             </SidebarContent>
             <SidebarFooter className="group">
-                {auth.user.role === 'user' && (
+                {auth.user.role === 'user' && !tier2FullAccess && (
                     <div className="rounded-xl bg-gray-100 p-4 transition-all duration-200 group-data-[state=collapsed]:hidden">
                         <h3 className="text-sm font-semibold text-gray-900">
                             Grow with LemonGard

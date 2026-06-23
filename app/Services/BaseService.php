@@ -141,4 +141,11 @@ abstract class BaseService
         return $subscription->stripe_status === 'active' &&
             $user->subscribedToPrice(GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID, 'default');
     }
+
+    public function tier2FullAccess($user)
+    {
+        $subscription = $this->getSubscription($user);
+        return $subscription->stripe_status === 'active' &&
+            $user->subscribedToPrice(GlobalConstant::TIER_TWO_FULL_ACCESS_PRICE_ID, 'default');
+    }
 }

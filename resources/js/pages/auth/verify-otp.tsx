@@ -1,5 +1,15 @@
-import React from 'react';
+// import React from 'react';
 import { useForm } from '@inertiajs/react';
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+
+import { Button } from '@/components/ui/button';
 
 export default function VerifyOTP() {
     const { data, setData, post, processing, errors } = useForm({
@@ -12,36 +22,56 @@ export default function VerifyOTP() {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
-            <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-                <h2 className="mb-6 text-center text-2xl font-bold">Verify Your Email</h2>
-                <p className="mb-4 text-center text-sm text-gray-600">
-                    We have sent a 6-digit OTP to your email address. Please enter it below.
-                </p>
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-yellow-50 to-white px-4">
+            <Card className="w-full max-w-md border border-gray-100 shadow-lg">
+                <CardHeader className="space-y-2 text-center">
+                    <CardTitle className="text-2xl font-semibold text-gray-900">
+                        Verify Your Email
+                    </CardTitle>
 
-                <form onSubmit={submit}>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Enter OTP</label>
-                        <input
-                            type="text"
-                            value={data.otp}
-                            onChange={e => setData('otp', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                            maxLength="6"
-                            required
-                        />
-                        {errors.otp && <span className="text-sm text-red-600">{errors.otp}</span>}
-                    </div>
+                    <CardDescription>
+                        We have sent a 6-digit OTP to your email address.
+                        Please enter it below.
+                    </CardDescription>
+                </CardHeader>
 
-                    <button
-                        type="submit"
-                        disabled={processing}
-                        className="mt-6 w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"
-                    >
-                        {processing ? 'Verifying...' : 'Verify & Proceed'}
-                    </button>
-                </form>
-            </div>
+                <CardContent>
+                    <form onSubmit={submit} className="space-y-5">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700">
+                                Enter OTP
+                            </label>
+
+                            <input
+                                type="text"
+                                value={data.otp}
+                                onChange={(e) =>
+                                    setData('otp', e.target.value)
+                                }
+                                maxLength="6"
+                                required
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            />
+
+                            {errors.otp && (
+                                <p className="text-sm text-red-600">
+                                    {errors.otp}
+                                </p>
+                            )}
+                        </div>
+
+                        <Button
+                            type="submit"
+                            className="w-full bg-yellow-400 text-black hover:bg-yellow-500"
+                            disabled={processing}
+                        >
+                            {processing
+                                ? 'Verifying...'
+                                : 'Verify & Proceed'}
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 }
