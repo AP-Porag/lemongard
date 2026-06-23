@@ -70,7 +70,6 @@ class RecordController extends Controller
         // Load record with its services relationship
         $record = $this->recordService->find($id);
 
-        // Get all industries and services
         $industries = Industry::all();
         $allServices = Service::all();
 
