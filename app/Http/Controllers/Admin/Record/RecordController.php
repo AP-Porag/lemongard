@@ -39,7 +39,7 @@ class RecordController extends Controller
     {
         return Inertia::render('admin/records/create', [
             'industries' => Industry::all(),
-            'allServices' => Service::all(), // Load all services
+            'allServices' => Service::all(),
         ]);
     }
 
