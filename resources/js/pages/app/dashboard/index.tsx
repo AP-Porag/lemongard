@@ -180,8 +180,8 @@ export default function Dashboard({
         <>
             <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.last_name || ''}</td>
             <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.first_name || ''}</td>
-            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.phone_cell || ''}</td>
-            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.phone_home || ''}</td>
+            <td className="min-w-[150px] px-4 py-4 text-sm text-slate-700">{row.phone_cell || ''}</td>
+            <td className="min-w-[150px] px-4 py-4 text-sm text-slate-700">{row.phone_home || ''}</td>
             <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.industry?.name || 'N/A'}</td>
             <td className="px-4 py-4">
                 <div className="flex flex-wrap items-center gap-1">
@@ -274,25 +274,25 @@ export default function Dashboard({
                         </CardHeader>
                         <CardContent className="p-6">
                             <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                                <div className="flex-1">
-                                    <label className="mb-1 block text-xs font-medium text-gray-600">First Name <span className="text-red-500">*</span></label>
-                                    <input name="first_name" value={searchForm.first_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('first_name')} placeholder="First name" />
-                                    {searchErrors.first_name && <p className="mt-1 text-xs text-red-500">{searchErrors.first_name}</p>}
-                                </div>
-                                <div className="flex-1">
+                                <div className="relative flex-1">
                                     <label className="mb-1 block text-xs font-medium text-gray-600">Last Name <span className="text-red-500">*</span></label>
                                     <input name="last_name" value={searchForm.last_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('last_name')} placeholder="Last name" />
-                                    {searchErrors.last_name && <p className="mt-1 text-xs text-red-500">{searchErrors.last_name}</p>}
+                                    {searchErrors.last_name && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.last_name}</p>}
                                 </div>
-                                <div className="flex-1">
+                                <div className="relative flex-1">
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">First Name <span className="text-red-500">*</span></label>
+                                    <input name="first_name" value={searchForm.first_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('first_name')} placeholder="First name" />
+                                    {searchErrors.first_name && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.first_name}</p>}
+                                </div>
+                                <div className="relative flex-1">
                                     <label className="mb-1 block text-xs font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
                                     <input name="email" value={searchForm.email} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('email')} placeholder="name@domain.com" />
-                                    {searchErrors.email && <p className="mt-1 text-xs text-red-500">{searchErrors.email}</p>}
+                                    {searchErrors.email && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.email}</p>}
                                 </div>
-                                <div className="flex-1">
+                                <div className="relative flex-1">
                                     <label className="mb-1 block text-xs font-medium text-gray-600">Phone <span className="text-red-500">*</span></label>
                                     <input name="phone" value={searchForm.phone} onChange={handleSearchChange} onKeyDown={handleKeyDown} maxLength={12} className={inputClass('phone')} placeholder="XXX-XXX-XXXX" />
-                                    {searchErrors.phone && <p className="mt-1 text-xs text-red-500">{searchErrors.phone}</p>}
+                                    {searchErrors.phone && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.phone}</p>}
                                 </div>
 
                                 {/* Search button — end of the fields, same row */}

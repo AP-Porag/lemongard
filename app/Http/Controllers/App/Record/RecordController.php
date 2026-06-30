@@ -22,23 +22,38 @@ class RecordController extends Controller
     }
 
     // RecordController.php
+    // public function index(Request $request)
+    // {
+    //     $user = $request->user();
+
+
+    //     $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
+
+
+    //     $hasFullAccess = $this->recordService->fullAccess($user);
+    //     $records = $this->recordService->getPaginatedRecords($filters);
+    //     $industries = Industry::all();
+
+    //     return Inertia::render('app/records/index', [
+    //         'records' => $records,
+    //         'filters' => $filters,
+    //         'has_full_access' => $hasFullAccess,
+    //         'industries' => $industries,
+    //     ]);
+    // }
+
     public function index(Request $request)
     {
         $user = $request->user();
 
-
-        $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
-
-
-        $hasFullAccess = $this->recordService->fullAccess($user);
-        $records = $this->recordService->getPaginatedRecords($filters);
-        $industries = Industry::all();
+        $criteria = $request->only(['first_name', 'last_name', 'email', 'phone']);
+        $searched = collect($criteria)->filter(fn($v) => filled($v))->isNotEmpty();
 
         return Inertia::render('app/records/index', [
-            'records' => $records,
-            'filters' => $filters,
-            'has_full_access' => $hasFullAccess,
-            'industries' => $industries,
+            'searchResults'   => $searched ? $this->recordService->searchRecords($criteria) : null,
+            'searchCriteria'  => $criteria,
+            'hasSearched'     => $searched,
+            'has_full_access' => $this->recordService->fullAccess($user),
         ]);
     }
     public function create(Request $request)
