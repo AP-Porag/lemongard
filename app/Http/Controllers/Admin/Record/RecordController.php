@@ -38,8 +38,8 @@ class RecordController extends Controller
     public function create(Request $request)
     {
         return Inertia::render('admin/records/create', [
-            'industries' => Industry::all(),
-            'allServices' => Service::all(),
+            'industries' => Industry::orderBy('name')->get(),
+            'allServices' => Service::orderBy('name')->get(),
         ]);
     }
 
