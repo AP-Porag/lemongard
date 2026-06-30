@@ -287,19 +287,44 @@ export default function Create({ userId, industries, allServices }) {
 
 
         if (cellDigits.length !== 10) {
-            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+            newErrors.phone_cell = 'Please Enter a Valid Cell Phone Number';
         }
 
         if (homeDigits.length !== 10) {
-            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+            newErrors.phone_home = 'Please Enter a Valid Home Phone Number';
         }
         if (zipDigits.length !== 5) {
-            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+            newErrors.zip = 'Please Enter Valid Zipcode';
         }
         // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
         if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
             newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
         }
+
+        // Industry - required
+        if (!form.industry) {
+            newErrors.industry = 'Please select an industry';
+        }
+
+        // Services - at least one required
+        if (!form.services || form.services.length === 0) {
+            newErrors.services = 'Please select at least one service';
+        }
+
+        if (!form.street.trim()) {
+            newErrors.street = 'Street is required';
+        }
+
+        if (!form.city.trim()) {
+            newErrors.city = 'City is required';
+        }
+        if (!form.state.trim()) {
+            newErrors.state = 'State is required';
+        }
+        if (!form.price.trim()) {
+            newErrors.price = 'State is required';
+        }
+
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
