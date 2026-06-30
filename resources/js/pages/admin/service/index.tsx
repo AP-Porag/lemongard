@@ -34,34 +34,9 @@ export default function Index({ services, filters: initialFilters }) {
         return () => clearTimeout(timeout);
     }, [filters.search, filters.perPage, filters.page]);
 
-    const getSortedData = () => {
-        if (!services?.data) return [];
 
-        const sorted = [...services.data];
 
-        sorted.sort((a, b) => {
-            let aValue, bValue;
-
-            // Handle different sort keys
-            if (filters.sortBy === 'industry') {
-                aValue = a.industry?.name?.toLowerCase() || '';
-                bValue = b.industry?.name?.toLowerCase() || '';
-            } else {
-                aValue = a[filters.sortBy]?.toLowerCase() || '';
-                bValue = b[filters.sortBy]?.toLowerCase() || '';
-            }
-
-            if (filters.sortDirection === 'asc') {
-                return aValue.localeCompare(bValue);
-            } else {
-                return bValue.localeCompare(aValue);
-            }
-        });
-
-        return sorted;
-    };
-
-    const sortedServices = getSortedData();
+    const sortedServices = services?.data || [];
 
     const columns = [
         {

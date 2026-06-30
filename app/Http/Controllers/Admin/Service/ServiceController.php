@@ -26,7 +26,9 @@ class ServiceController extends Controller
         return Inertia::render('admin/service/index', [
             'services' => $this->service->list(
                 $request->perPage ?? 10,
-                $request->search ?? null
+                $request->search ?? null,
+                $request->sortBy ?? 'name',        // Add sortBy
+                $request->sortDirection ?? 'asc'   // Add sortDirection
             ),
             'filters' => $request->only(['search', 'perPage', 'page']),
         ]);
