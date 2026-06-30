@@ -19,27 +19,26 @@ class ServiceService
 
     public function list($perPage = 10, $search = null, $sortBy = 'name', $sortDirection = 'asc')
     {
-        $query = Service::with('industry');
+        // Industry is ALWAYS the primary key. The sort headers only flip direction.
+        $industryDirection = $sortBy === 'industry' ? $sortDirection : 'asc';
+        $serviceDirection  = $sortBy === 'name'     ? $sortDirection : 'asc';
+
+        $query = Service::with('industry')
+            ->leftJoin('industries', 'services.industry_id', '=', 'industries.id')
+            ->select('services.*'); // prevent column collisions from the join
 
         // Apply search
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhereHas('industry', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    });
+                $q->where('services.name', 'like', "%{$search}%")
+                    ->orWhere('industries.name', 'like', "%{$search}%");
             });
         }
 
-        // Apply sorting
-        if ($sortBy === 'industry') {
-            // Sort by industry name
-            $query->leftJoin('industries', 'services.industry_id', '=', 'industries.id')
-                ->orderBy('industries.name', $sortDirection)
-                ->select('services.*'); // Prevent column conflicts
-        } else {
-            $query->orderBy($sortBy, $sortDirection);
-        }
+        // Industry first → service second → id as a deterministic tiebreaker
+        $query->orderBy('industries.name', $industryDirection)
+            ->orderBy('services.name', $serviceDirection)
+            ->orderBy('services.id', 'asc');
 
         return $query->paginate($perPage);
     }

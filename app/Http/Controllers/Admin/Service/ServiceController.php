@@ -30,7 +30,7 @@ class ServiceController extends Controller
                 $request->sortBy ?? 'name',        // Add sortBy
                 $request->sortDirection ?? 'asc'   // Add sortDirection
             ),
-            'filters' => $request->only(['search', 'perPage', 'page']),
+            'filters' => $request->only(['search', 'perPage', 'page', 'sortBy', 'sortDirection']),
         ]);
     }
 
