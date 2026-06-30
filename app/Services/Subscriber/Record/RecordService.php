@@ -255,24 +255,4 @@ class RecordService extends BaseService
     {
         return DB::table('subscriptions');
     }
-
-
-    public function getDashboardStats(User $user): array
-    {
-        return [
-            'total_records' => Record::count(),
-            'my_records' => Record::where('user_id', $user->id)->count(),
-            'recent_records' => Record::query()
-                ->latest()
-                ->take(5)
-                ->get([
-                    'id',
-                    'first_name',
-                    'last_name',
-                    // 'service',
-                    'city',
-                    'created_at',
-                ]),
-        ];
-    }
 }

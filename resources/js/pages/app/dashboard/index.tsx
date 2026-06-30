@@ -1,59 +1,234 @@
-import { Head } from '@inertiajs/react';
+import { useState } from 'react';
+import { Head, router, usePage, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { usePage } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-    Users,
-    UserCheck,
-    Zap,
-    ArrowRight,
-    Clock,
-    MapPin,
-    Briefcase,
-} from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { UserCheck, Search, Plus, Eye, Pencil, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/app/dashboard',
-    },
+    { title: 'Dashboard', href: '/app/dashboard' },
 ];
+
+interface ServiceItem {
+    id: number;
+    name: string;
+}
 
 interface Record {
     id: number;
+    user_id: number;
     first_name: string;
     last_name: string;
-    service: string;
+    email: string;
+    phone_cell: string;
+    phone_home: string;
+    industry: { id: number; name: string } | null;
+    services: ServiceItem[];
+    price: string | number;
+    incident_report: string;
+    status: string;
     city: string;
     created_at: string;
 }
 
 interface Stats {
-    total_records: number;
     my_records: number;
     recent_records: Record[];
 }
 
-export default function Dashboard({ stats }: { stats: Stats }) {
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export default function Dashboard({
+    stats,
+    searchResults = null,
+    searchCriteria = {},
+    hasSearched = false,
+}: {
+    stats: Stats;
+    searchResults?: Record[] | null;
+    searchCriteria?: Partial<Record>;
+    hasSearched?: boolean;
+}) {
     const { auth } = usePage().props;
     const user = auth?.user;
+    const canCreateRecord = user?.has_full_access === true;
 
-    // Subscription Status Logic
-    const getStatusColor = (status: string | undefined) => {
-        switch (status) {
-            case 'active':
-                return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'trial':
-                return 'bg-amber-100 text-amber-700 border-amber-200';
-            case 'expired':
-                return 'bg-rose-100 text-rose-700 border-rose-200';
-            default:
-                return 'bg-slate-100 text-slate-700 border-slate-200';
+    const [searchForm, setSearchForm] = useState({
+        first_name: searchCriteria?.first_name || '',
+        last_name: searchCriteria?.last_name || '',
+        email: searchCriteria?.email || '',
+        phone: searchCriteria?.phone || '',
+    });
+    const [searchErrors, setSearchErrors] = useState<{ [k: string]: string }>({});
+    const [searching, setSearching] = useState(false);
+
+    // ---- real-time field handling ----
+    const handleSearchChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'email') {
+            setSearchForm((p) => ({ ...p, email: value }));
+            setSearchErrors((p) => {
+                const n = { ...p };
+                if (value && !EMAIL_RE.test(value)) n.email = 'Please enter a valid email address';
+                else delete n.email;
+                return n;
+            });
+            return;
+        }
+
+        if (name === 'phone') {
+            const cleaned = value.replace(/\D/g, '').slice(0, 10);
+            let formatted = cleaned;
+            if (cleaned.length > 6) formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+            else if (cleaned.length > 3) formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            setSearchForm((p) => ({ ...p, phone: formatted }));
+            setSearchErrors((p) => {
+                const n = { ...p };
+                if (cleaned.length === 10) delete n.phone;
+                return n;
+            });
+            return;
+        }
+
+        if (name === 'first_name' || name === 'last_name') {
+            const alpha = value.replace(/[^A-Za-z\s]/g, '');
+            setSearchForm((p) => ({ ...p, [name]: alpha }));
+            setSearchErrors((p) => {
+                const n = { ...p };
+                if (alpha.trim()) delete n[name];
+                return n;
+            });
+            return;
+        }
+
+        setSearchForm((p) => ({ ...p, [name]: value }));
+    };
+
+    const handleSearch = () => {
+        const errs: { [k: string]: string } = {};
+
+        if (!searchForm.first_name.trim()) errs.first_name = 'First name is required';
+        if (!searchForm.last_name.trim()) errs.last_name = 'Last name is required';
+
+        if (!searchForm.email.trim()) {
+            errs.email = 'Email is required';
+        } else if (!EMAIL_RE.test(searchForm.email)) {
+            errs.email = 'Please enter a valid email address';
+        }
+
+        const phoneDigits = searchForm.phone.replace(/\D/g, '');
+        if (!phoneDigits) {
+            errs.phone = 'Phone is required';
+        } else if (phoneDigits.length !== 10) {
+            errs.phone = 'Please enter a valid 10-digit phone number';
+        }
+
+        if (Object.keys(errs).length) {
+            setSearchErrors(errs);
+            return;
+        }
+
+        setSearching(true);
+        router.get('/app/dashboard', searchForm, {
+            preserveState: true,
+            preserveScroll: true,
+            onFinish: () => setSearching(false),
+        });
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
         }
     };
+
+    const goToCreate = () => router.visit(route('app.records.create'));
+
+    const handleDelete = (id: number) => {
+        if (!confirm('Are you sure you want to delete this record?')) return;
+        router.delete(route('app.records.destroy', id), { preserveScroll: true });
+    };
+
+    const inputClass = (field: string) =>
+        `w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 ${searchErrors[field] ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-yellow-400'
+        }`;
+
+    // ---- shared table head ----
+    const TableHead = ({ showAction = true }: { showAction?: boolean }) => (
+        <thead className="bg-slate-50/50 text-xs font-semibold text-slate-500 uppercase">
+            <tr>
+                <th className="px-4 py-3">Last Name</th>
+                <th className="px-4 py-3">First Name</th>
+                <th className="px-4 py-3">Cell Phone</th>
+                <th className="px-4 py-3">Home Phone</th>
+                <th className="px-4 py-3">Industry</th>
+                <th className="px-4 py-3">Services</th>
+                <th className="px-4 py-3">Price</th>
+                <th className="px-4 py-3">Incident</th>
+                <th className="px-4 py-3">Status</th>
+                {showAction && <th className="px-4 py-3">Action</th>}
+            </tr>
+        </thead>
+    );
+
+    // ---- shared data cells (9 columns, no actions) ----
+    const DataCells = ({ row }: { row: Record }) => (
+        <>
+            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.last_name || ''}</td>
+            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.first_name || ''}</td>
+            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.phone_cell || ''}</td>
+            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.phone_home || ''}</td>
+            <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.industry?.name || 'N/A'}</td>
+            <td className="px-4 py-4">
+                <div className="flex flex-wrap items-center gap-1">
+                    {row.services?.length > 0 ? (
+                        <>
+                            {row.services.slice(0, 3).map((service) => (
+                                <span
+                                    key={service.id}
+                                    className="inline-block rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white"
+                                >
+                                    {service.name}
+                                </span>
+                            ))}
+                            {row.services.length > 3 && (
+                                <span className="inline-block rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white">
+                                    +{row.services.length - 3} more
+                                </span>
+                            )}
+                        </>
+                    ) : (
+                        <span className="text-sm text-gray-400">N/A</span>
+                    )}
+                </div>
+            </td>
+            <td className="min-w-[130px] px-4 py-4 text-sm text-slate-700">$ {row.price}</td>
+            <td className="px-4 py-4">
+                <span className="block max-w-[12rem] truncate text-sm text-slate-700">{row.incident_report}</span>
+            </td>
+            <td className="px-4 py-4">
+                <Badge
+                    className={
+                        row.status?.trim()
+                            ? 'bg-green-600 px-3 py-1 text-white hover:bg-green-600'
+                            : 'bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-500'
+                    }
+                >
+                    {row.status?.trim()
+                        ? row.status
+                            .toLowerCase()
+                            .split(' ')
+                            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                            .join(' ')
+                        : 'Not Resolved'}
+                </Badge>
+            </td>
+        </>
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -63,52 +238,19 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                 <div className="mx-auto max-w-7xl space-y-8">
                     {/* WELCOME BANNER */}
                     <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-[#0B1F3A] p-8 text-white shadow-lg">
-                        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between">
-                            <div>
-                                <h1 className="text-3xl font-bold tracking-tight">
-                                    Welcome back, {user?.name || 'User'}!
-                                </h1>
-                                <p className="mt-2 text-slate-300">
-                                    Manage your records and track subscription
-                                    insights in one place.
-                                </p>
-                            </div>
-                            {/* <div className="mt-6 md:mt-0">
-                                <Link
-                                    href={route('app.records.create')} // আপনার রাউট অনুযায়ী চেঞ্জ করুন
-                                    className="inline-flex items-center rounded-xl bg-yellow-500 px-5 py-2.5 text-sm font-semibold text-[#0B1F3A] transition hover:bg-yellow-400"
-                                >
-                                    Add New Record{' '}
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </div> */}
+                        <div className="relative z-10">
+                            <h1 className="text-3xl font-bold tracking-tight">
+                                Welcome back, {user?.name || 'User'}!
+                            </h1>
+                            <p className="mt-2 text-slate-300">
+                                Search for a client, or review the records you've added.
+                            </p>
                         </div>
-                        {/* Abstract Background Shape */}
                         <div className="absolute -top-10 -right-10 h-64 w-64 rounded-full bg-white/5 blur-3xl"></div>
                     </div>
 
-                    {/* KPI GRID */}
+                    {/* MY RECORDS KPI */}
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {/* TOTAL RECORDS */}
-                        {/* <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">
-                            <CardContent className="p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
-                                        <Users className="h-6 w-6" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
-                                            Total Records
-                                        </p>
-                                        <h3 className="text-3xl font-bold text-slate-900">
-                                            {stats.total_records.toLocaleString()}
-                                        </h3>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card> */}
-
-                        {/* MY RECORDS */}
                         <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">
                             <CardContent className="p-6">
                                 <div className="flex items-center gap-4">
@@ -116,147 +258,124 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                                         <UserCheck className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
-                                            My Records
-                                        </p>
-                                        <h3 className="text-3xl font-bold text-slate-900">
-                                            {stats.my_records.toLocaleString()}
-                                        </h3>
+                                        <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">My Records</p>
+                                        <h3 className="text-3xl font-bold text-slate-900">{stats.my_records.toLocaleString()}</h3>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
-
-                        {/* SUBSCRIPTION STATUS */}
-                        {/* <Card className="overflow-hidden border-none shadow-sm ring-1 ring-slate-200 transition-all hover:shadow-md">
-                            <CardContent className="p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
-                                        <Zap className="h-6 w-6" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
-                                            Status
-                                        </p>
-                                        <Badge
-                                            variant="outline"
-                                            className={`mt-1 font-semibold ${getStatusColor(user?.subscription_status)}`}
-                                        >
-                                            {user?.subscription_status ===
-                                            'trial'
-                                                ? 'Free Trial'
-                                                : user?.subscription_status ===
-                                                    'active'
-                                                  ? 'Premium Active'
-                                                  : 'Basic Access'}
-                                        </Badge>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card> */}
                     </div>
 
-                    {/* RECENT RECORDS TABLE SECTION */}
+                    {/* SEARCH SECTION */}
                     <Card className="border-none shadow-sm ring-1 ring-slate-200">
                         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 bg-white/50 px-6 py-4">
-                            <CardTitle className="text-lg font-bold text-slate-800">
-                                Recent Activity
-                            </CardTitle>
-                            <Link
-                                href="/app/records"
-                                className="text-sm font-medium text-indigo-600 hover:underline"
-                            >
-                                Search All
-                            </Link>
+                            <CardTitle className="text-lg font-bold text-slate-800">Search Records</CardTitle>
+
+                        </CardHeader>
+                        <CardContent className="p-6">
+                            <div className="flex flex-col gap-4 md:flex-row md:items-end">
+                                <div className="flex-1">
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">First Name <span className="text-red-500">*</span></label>
+                                    <input name="first_name" value={searchForm.first_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('first_name')} placeholder="First name" />
+                                    {searchErrors.first_name && <p className="mt-1 text-xs text-red-500">{searchErrors.first_name}</p>}
+                                </div>
+                                <div className="flex-1">
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">Last Name <span className="text-red-500">*</span></label>
+                                    <input name="last_name" value={searchForm.last_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('last_name')} placeholder="Last name" />
+                                    {searchErrors.last_name && <p className="mt-1 text-xs text-red-500">{searchErrors.last_name}</p>}
+                                </div>
+                                <div className="flex-1">
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
+                                    <input name="email" value={searchForm.email} onChange={handleSearchChange} onKeyDown={handleKeyDown} className={inputClass('email')} placeholder="name@domain.com" />
+                                    {searchErrors.email && <p className="mt-1 text-xs text-red-500">{searchErrors.email}</p>}
+                                </div>
+                                <div className="flex-1">
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">Phone <span className="text-red-500">*</span></label>
+                                    <input name="phone" value={searchForm.phone} onChange={handleSearchChange} onKeyDown={handleKeyDown} maxLength={12} className={inputClass('phone')} placeholder="XXX-XXX-XXXX" />
+                                    {searchErrors.phone && <p className="mt-1 text-xs text-red-500">{searchErrors.phone}</p>}
+                                </div>
+
+                                {/* Search button — end of the fields, same row */}
+                                <div className="shrink-0">
+                                    <Button
+                                        onClick={handleSearch}
+                                        disabled={searching}
+                                        className="bg-navy-600 text-white hover:bg-gray-800"
+                                    >
+                                        <Search className="mr-2 h-4 w-4" />
+                                        {searching ? 'Searching...' : 'Search'}
+                                    </Button>
+                                </div>
+                            </div>
+
+                            {/* RESULTS */}
+                            {hasSearched && (
+                                <div className="mt-6">
+                                    {searchResults && searchResults.length > 0 ? (
+                                        <>
+                                            <p className="mb-3 text-sm font-medium text-slate-600">
+                                                {searchResults.length} result(s) found
+                                            </p>
+                                            <div className="overflow-x-auto rounded-lg border border-slate-100">
+                                                <table className="w-full text-left">
+                                                    <TableHead showAction={true} />
+                                                    <tbody className="divide-y divide-slate-100 bg-white">
+                                                        {searchResults.map((row) => (
+                                                            <tr key={row.id} className="transition hover:bg-slate-50/80">
+                                                                <DataCells row={row} />
+                                                                <td className="px-4 py-4 text-right">
+                                                                    {/* Search results: VIEW only */}
+                                                                    <Link
+                                                                        href={route('app.records.show', row.id)}
+                                                                        className="inline-flex items-center gap-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                                                                    >
+                                                                        <Eye className="h-3.5 w-3.5" /> View
+                                                                    </Link>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 py-12 text-center">
+                                            <p className="text-slate-500">No record found for this search.</p>
+                                            {canCreateRecord && (
+                                                <Button onClick={goToCreate} className="bg-navy-600 text-white hover:bg-gray-800">
+                                                    <Plus className="mr-2 h-4 w-4" /> Create Record
+                                                </Button>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+
+                    {/* MY OWN RECORDS (max 5) */}
+                    <Card className="border-none shadow-sm ring-1 ring-slate-200">
+                        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 bg-white/50 px-6 py-4">
+                            <CardTitle className="text-lg font-bold text-slate-800">My Recent Records</CardTitle>
+                            {/* <Link href="/app/records" className="text-sm font-medium text-indigo-600 hover:underline">
+                                View All
+                            </Link> */}
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left">
-                                    <thead className="bg-slate-50/50 text-xs font-semibold text-slate-500 uppercase">
-                                        <tr>
-                                            <th className="px-6 py-3">
-                                                User Information
-                                            </th>
-                                            <th className="px-6 py-3">
-                                                Location & Service
-                                            </th>
-                                            <th className="px-6 py-3 text-right">
-                                                Date Added
-                                            </th>
-                                        </tr>
-                                    </thead>
+                                    <TableHead showAction={false} />
                                     <tbody className="divide-y divide-slate-100 bg-white">
                                         {stats.recent_records.length > 0 ? (
-                                            stats.recent_records.map(
-                                                (record) => (
-                                                    <tr
-                                                        key={record.id}
-                                                        className="group transition hover:bg-slate-50/80"
-                                                    >
-                                                        <td className="px-6 py-4">
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
-                                                                    {
-                                                                        record
-                                                                            .first_name[0]
-                                                                    }
-                                                                    {
-                                                                        record
-                                                                            .last_name[0]
-                                                                    }
-                                                                </div>
-                                                                <p className="font-semibold text-slate-900">
-                                                                    {
-                                                                        record.first_name
-                                                                    }{' '}
-                                                                    {
-                                                                        record.last_name
-                                                                    }
-                                                                </p>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            <div className="space-y-1">
-                                                                <div className="flex items-center text-sm text-slate-600">
-                                                                    <Briefcase className="mr-1.5 h-3.5 w-3.5 text-slate-400" />
-                                                                    {
-                                                                        record.service
-                                                                    }
-                                                                </div>
-                                                                <div className="flex items-center text-xs text-slate-400">
-                                                                    <MapPin className="mr-1.5 h-3 w-3" />
-                                                                    {
-                                                                        record.city
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-4 text-right text-sm text-slate-500">
-                                                            <div className="flex items-center justify-end gap-1.5">
-                                                                <Clock className="h-3.5 w-3.5" />
-                                                                {new Date(
-                                                                    record.created_at,
-                                                                ).toLocaleDateString(
-                                                                    undefined,
-                                                                    {
-                                                                        month: 'short',
-                                                                        day: 'numeric',
-                                                                        year: 'numeric',
-                                                                    },
-                                                                )}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ),
-                                            )
+                                            stats.recent_records.map((row) => (
+                                                <tr key={row.id} className="transition hover:bg-slate-50/80">
+                                                    <DataCells row={row} />
+                                                </tr>
+                                            ))
                                         ) : (
                                             <tr>
-                                                <td
-                                                    colSpan={3}
-                                                    className="px-6 py-12 text-center text-slate-400"
-                                                >
-                                                    No records found. Start
-                                                    adding some!
+                                                <td colSpan={9} className="px-6 py-12 text-center text-slate-400">
+                                                    No records found. Start adding some!
                                                 </td>
                                             </tr>
                                         )}
