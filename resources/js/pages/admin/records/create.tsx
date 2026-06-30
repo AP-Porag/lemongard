@@ -58,17 +58,61 @@ export default function Create({ userId, industries, allServices }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
+
+        // ZIP - digits only, max 5
+        if (name === "zip") {
+            const cleaned = value.replace(/\D/g, "").slice(0, 5);
+            setForm({ ...form, [name]: cleaned });
+
+            // Real-time validation
+            if (cleaned.length > 0 && cleaned.length !== 5) {
+                setErrors(prev => ({
+                    ...prev,
+                    zip: 'Please Enter Valid Zipcode.'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.zip;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Phone Cell or Phone Home formatting
+        // if (name === "phone_cell" || name === "phone_home") {
+        //     // শুধু ডিজিট রাখুন
+        //     let cleaned = value.replace(/\D/g, "");
+
+        //     // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
+        //     if (cleaned.length > 10) {
+        //         cleaned = cleaned.slice(0, 10);
+        //     }
+
+        //     // ফরম্যাট করুন XXX-XXX-XXXX
+        //     let formatted = "";
+        //     if (cleaned.length <= 3) {
+        //         formatted = cleaned;
+        //     } else if (cleaned.length <= 6) {
+        //         formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+        //     } else {
+        //         formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+        //     }
+
+        //     setForm({ ...form, [name]: formatted });
+        //     return;
+        // }
+
         // Phone Cell or Phone Home formatting
         if (name === "phone_cell" || name === "phone_home") {
-            // শুধু ডিজিট রাখুন
+            // digits only, max 10
             let cleaned = value.replace(/\D/g, "");
-
-            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
             if (cleaned.length > 10) {
                 cleaned = cleaned.slice(0, 10);
             }
 
-            // ফরম্যাট করুন XXX-XXX-XXXX
+            // format XXX-XXX-XXXX
             let formatted = "";
             if (cleaned.length <= 3) {
                 formatted = cleaned;
@@ -79,6 +123,22 @@ export default function Create({ userId, industries, allServices }) {
             }
 
             setForm({ ...form, [name]: formatted });
+
+            // Real-time validation
+            if (cleaned.length > 0 && cleaned.length !== 10) {
+                setErrors(prev => ({
+                    ...prev,
+                    [name]: name === "phone_cell"
+                        ? 'Please Enter a Valid Cell Phone Number'
+                        : 'Please Enter a Valid Home Phone Number'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[name];
+                    return newErrors;
+                });
+            }
             return;
         }
 
@@ -572,7 +632,7 @@ export default function Create({ userId, industries, allServices }) {
                                     : 'border-gray-300 focus:border-yellow-400'
                                     }`}
                                 placeholder="Enter zip"
-                                maxLength={10}
+                                maxLength={5}
                             />
                             {errors.zip && (
                                 <p className="mt-1 text-sm text-red-500">{errors.zip}</p>
