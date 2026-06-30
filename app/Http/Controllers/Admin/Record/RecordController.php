@@ -70,8 +70,8 @@ class RecordController extends Controller
         // Load record with its services relationship
         $record = $this->recordService->find($id);
 
-        $industries = Industry::all();
-        $allServices = Service::all();
+        $industries = Industry::orderBy('name')->get();
+        $allServices = Service::orderBy('name')->get();
 
         // Get selected service IDs from the record
         $selectedServices = $record->services->pluck('id')->map(function ($id) {

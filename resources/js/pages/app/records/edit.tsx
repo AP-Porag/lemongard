@@ -1,4 +1,4 @@
-// // resources/js/pages/app/records/edit.jsx
+// resources/js/pages/app/records/edit.jsx
 
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
@@ -17,62 +17,31 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Edit({ record, industries, allServices, selectedServices }) {
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState({});
 
-    // Initialize form with record data
     const [form, setForm] = useState({
         user_id: record.user_id || '',
         first_name: record.first_name || '',
         last_name: record.last_name || '',
+        email: record.email || '',
         phone_cell: record.phone_cell || '',
         phone_home: record.phone_home || '',
-        email: record.email || '',
         industry: record.industry?.toString() || '',
         street: record.street || '',
         city: record.city || '',
         state: record.state || '',
         zip: record.zip || '',
-        services: selectedServices || [], // Pre-selected services
-        price: record.price || '',
+        services: (selectedServices || []).map((id) => id.toString()), // Pre-selected services
+        price: record.price?.toString() || '',
         incident_report: record.incident_report || '',
     });
+
+    const [errors, setErrors] = useState({});
 
     // Filter services based on selected industry
     const filteredServices = allServices?.filter(
         service => service.industry_id === parseInt(form.industry)
     ) || [];
 
-    // Format phone number
-    // const formatPhoneNumber = (value) => {
-    //     const numbers = value.replace(/\D/g, '').slice(0, 15);
-    //     const parts = [];
-    //     for (let i = 0; i < numbers.length; i += 3) {
-    //         parts.push(numbers.slice(i, i + 3));
-    //     }
-    //     return parts.join('-');
-    // };
-
-    // Email validation in handleChange
-    if (name === "email") {
-        setForm({ ...form, [name]: value });
-
-        // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
-        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-            setErrors(prev => ({
-                ...prev,
-                email: 'Please enter a valid email address'
-            }));
-        } else {
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors.email;
-                return newErrors;
-            });
-        }
-        return;
-    }
-
-    //new formate phone number
     const formatPhoneNumber = (value) => {
         const numbers = value.replace(/\D/g, '').slice(0, 10);
 
@@ -86,36 +55,41 @@ export default function Edit({ record, industries, allServices, selectedServices
 
         return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6)}`;
     };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        // ✅ First Name - শুধু alphabetic অনুমোদন
-        if (name === "first_name") {
-            // শুধু letter এবং space অনুমোদন
-            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
-            setForm({ ...form, [name]: alphabeticOnly });
-            return;
-        }
 
-        // ✅ Last Name - শুধু alphabetic অনুমোদন
-        if (name === "last_name") {
-            // শুধু letter এবং space অনুমোদন
-            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
-            setForm({ ...form, [name]: alphabeticOnly });
+        // ZIP - digits only, max 5
+        if (name === "zip") {
+            const cleaned = value.replace(/\D/g, "").slice(0, 5);
+            setForm({ ...form, [name]: cleaned });
+
+            // Real-time validation
+            if (cleaned.length > 0 && cleaned.length !== 5) {
+                setErrors(prev => ({
+                    ...prev,
+                    zip: 'Please Enter Valid Zipcode.'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.zip;
+                    return newErrors;
+                });
+            }
             return;
         }
 
         // Phone Cell or Phone Home formatting
         if (name === "phone_cell" || name === "phone_home") {
-            // শুধু ডিজিট রাখুন
+            // digits only, max 10
             let cleaned = value.replace(/\D/g, "");
-
-            // সর্বোচ্চ ১০ ডিজিট সীমাবদ্ধ
             if (cleaned.length > 10) {
                 cleaned = cleaned.slice(0, 10);
             }
 
-            // ফরম্যাট করুন XXX-XXX-XXXX
+            // format XXX-XXX-XXXX
             let formatted = "";
             if (cleaned.length <= 3) {
                 formatted = cleaned;
@@ -126,14 +100,86 @@ export default function Edit({ record, industries, allServices, selectedServices
             }
 
             setForm({ ...form, [name]: formatted });
+
+            // Real-time validation
+            if (cleaned.length > 0 && cleaned.length !== 10) {
+                setErrors(prev => ({
+                    ...prev,
+                    [name]: name === "phone_cell"
+                        ? 'Please Enter a Valid Cell Phone Number'
+                        : 'Please Enter a Valid Home Phone Number'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[name];
+                    return newErrors;
+                });
+            }
             return;
         }
 
-        // ✅ ZIP Code - শুধু সংখ্যা অনুমোদন
-        if (name === "zip") {
-            // শুধু ডিজিট রাখুন এবং সর্বোচ্চ ৫ ডিজিট সীমাবদ্ধ
-            const digitsOnly = value.replace(/\D/g, '').slice(0, 5);
-            setForm({ ...form, [name]: digitsOnly });
+        // First Name - শুধু alphabetic অনুমোদন
+        if (name === "first_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    first_name: 'First name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.first_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Last Name - শুধু alphabetic অনুমোদন
+        if (name === "last_name") {
+            // শুধু letter এবং space অনুমোদন
+            const alphabeticOnly = value.replace(/[^A-Za-z\s]/g, '');
+            setForm({ ...form, [name]: alphabeticOnly });
+
+            // Real-time validation
+            if (alphabeticOnly.length > 0 && !/^[A-Za-z\s]+$/.test(alphabeticOnly)) {
+                setErrors(prev => ({
+                    ...prev,
+                    last_name: 'Last name can only contain letters'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.last_name;
+                    return newErrors;
+                });
+            }
+            return;
+        }
+
+        // Email validation in handleChange
+        if (name === "email") {
+            setForm({ ...form, [name]: value });
+
+            // শুধু মাত্র যদি value খালি না হয় তাহলে validate করবে
+            if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                setErrors(prev => ({
+                    ...prev,
+                    email: 'Please enter a valid email address'
+                }));
+            } else {
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.email;
+                    return newErrors;
+                });
+            }
             return;
         }
 
@@ -172,8 +218,8 @@ export default function Edit({ record, industries, allServices, selectedServices
         setForm(prev => ({
             ...prev,
             services: prev.services.includes(serviceId)
-                ? prev.services.filter(id => id !== serviceId)
-                : [...prev.services, serviceId]
+                ? prev.services.filter(id => id !== serviceId) // Remove if already selected
+                : [...prev.services, serviceId] // Add if not selected
         }));
     };
 
@@ -216,34 +262,59 @@ export default function Edit({ record, industries, allServices, selectedServices
             newErrors.last_name = 'Last name can only contain letters';
         }
 
+
+        if (cellDigits.length !== 10) {
+            newErrors.phone_cell = 'Please Enter a Valid Cell Phone Number';
+        }
+
+        if (homeDigits.length !== 10) {
+            newErrors.phone_home = 'Please Enter a Valid Home Phone Number';
+        }
+        if (zipDigits.length !== 5) {
+            newErrors.zip = 'Please Enter Valid Zipcode';
+        }
         // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
         if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
             newErrors.email = 'Please enter a valid email address (e.g., name@domain.com)';
         }
 
-
-        if (cellDigits.length !== 10) {
-            newErrors.phone_cell = 'Cell phone number must be exactly 10 digits.';
+        // Industry - required
+        if (!form.industry) {
+            newErrors.industry = 'Please select an industry';
         }
 
-        if (homeDigits.length !== 10) {
-            newErrors.phone_home = 'Home phone number must be exactly 10 digits.';
+        // Services - at least one required
+        if (!form.services || form.services.length === 0) {
+            newErrors.services = 'Please select at least one service';
         }
-        if (zipDigits.length !== 5) {
-            newErrors.zip = 'ZIP code must be exactly 5 digits.';
+
+        if (!form.street.trim()) {
+            newErrors.street = 'Street is required';
         }
+
+        if (!form.city.trim()) {
+            newErrors.city = 'City is required';
+        }
+        if (!form.state.trim()) {
+            newErrors.state = 'State is required';
+        }
+        if (!form.price.trim()) {
+            newErrors.price = 'Price is required';
+        }
+
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
         setLoading(true);
 
-        router.put(route('app.records.update', record.id), form, {
+        router.put(route('app.my-records.update', record.id), form, {
             onError: (err) => {
                 setErrors(err);
-                toast.error('Please check the form for errors');
             },
             onSuccess: () => {
+                setErrors({});
                 // toast.success('Record updated successfully!');
             },
             onFinish: () => setLoading(false),
@@ -303,10 +374,12 @@ export default function Edit({ record, industries, allServices, selectedServices
                             )}
                         </div>
 
+
+
                         {/* Phone Cell */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Cell <span className="text-red-500">*</span>
+                                Cell Phone <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -314,9 +387,14 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 value={form.phone_cell}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_cell
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
+
+
                             {errors.phone_cell && (
                                 <p className="mt-1 text-sm text-red-500">{errors.phone_cell}</p>
                             )}
@@ -325,7 +403,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                         {/* Phone Home */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Phone Home <span className="text-red-500">*</span>
+                                Home Phone <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -333,7 +411,10 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 value={form.phone_home}
                                 onChange={handleChange}
                                 maxLength={12}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.phone_home
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="XXX-XXX-XXXX"
                             />
                             {errors.phone_home && (
@@ -351,7 +432,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="email"
                                 value={form.email}
                                 onChange={handleChange}
-                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.last_name
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.email
                                     ? 'border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-yellow-400'
                                     }`}
@@ -371,7 +452,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="industry"
                                 value={form.industry}
                                 onChange={handleChange}
-                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
+                                className={`w-full rounded-lg border px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.industry
                                     ? 'border-red-500 focus:ring-red-500'
                                     : 'border-gray-300 focus:border-yellow-400'
                                     }`}
@@ -467,7 +548,10 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="street"
                                 value={form.street}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.street
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter street address"
                             />
                             {errors.street && (
@@ -485,7 +569,10 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="city"
                                 value={form.city}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.city
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter city"
                             />
                             {errors.city && (
@@ -503,7 +590,10 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="state"
                                 value={form.state}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.state
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
                                 placeholder="Enter state"
                                 maxLength={20}
                             />
@@ -522,9 +612,12 @@ export default function Edit({ record, industries, allServices, selectedServices
                                 name="zip"
                                 value={form.zip}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                                placeholder="Enter ZIP code"
-                                maxLength={10}
+                                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors.zip
+                                    ? 'border-red-500 focus:ring-red-500'
+                                    : 'border-gray-300 focus:border-yellow-400'
+                                    }`}
+                                placeholder="Enter zip"
+                                maxLength={5}
                             />
                             {errors.zip && (
                                 <p className="mt-1 text-sm text-red-500">{errors.zip}</p>
@@ -545,7 +638,10 @@ export default function Edit({ record, industries, allServices, selectedServices
                                     onChange={handleChange}
                                     step="0.01"
                                     min="0"
-                                    className="w-full rounded-lg border border-gray-300 pl-7 pr-3 py-2 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    className={`w-full rounded-lg border pl-7 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${errors.price
+                                        ? 'border-red-500 focus:ring-red-500'
+                                        : 'border-gray-300 focus:border-yellow-400'
+                                        }`}
                                     placeholder="0.00"
                                 />
                             </div>
@@ -594,7 +690,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                         </div>
                     </form>
                 </div>
-            </div>
-        </AppLayout>
+            </div >
+        </AppLayout >
     );
 }

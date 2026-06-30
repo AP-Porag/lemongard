@@ -5,6 +5,7 @@ namespace App\Http\Controllers\App\MyRecord;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
 use App\Models\Industry;
+use App\Models\Service;
 use App\Services\Subscriber\MyRecord\MyRecordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -71,8 +72,20 @@ class MyRecordController extends Controller
     {
         $record = $this->recordService->find($id);
 
-        return Inertia::render('app/records/edit', [
-            'record' => $record
+
+        $industries = Industry::orderBy('name')->get();
+        $allServices = Service::orderBy('name')->get();
+
+        // Get selected service IDs from the record
+        $selectedServices = $record->services->pluck('id')->map(function ($id) {
+            return (string) $id;
+        })->toArray();
+
+        return Inertia::render('app/my-records/edit', [
+            'record' => $record,
+            'industries' => $industries,
+            'allServices' => $allServices,
+            'selectedServices' => $selectedServices,
         ]);
     }
 
