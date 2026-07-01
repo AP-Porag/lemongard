@@ -183,26 +183,26 @@ export default function Dashboard({
             <td className="min-w-[150px] px-4 py-4 text-sm text-slate-700">{row.phone_cell || ''}</td>
             <td className="min-w-[150px] px-4 py-4 text-sm text-slate-700">{row.phone_home || ''}</td>
             <td className="min-w-[120px] px-4 py-4 text-sm text-slate-700">{row.industry?.name || 'N/A'}</td>
-            <td className="px-4 py-4">
-                <div className="flex flex-wrap items-center gap-1">
+            <td className="px-4 py-4 min-w-[150px]">
+                <div className="gap-1 max-w-xs">
                     {row.services?.length > 0 ? (
                         <>
                             {row.services.slice(0, 3).map((service) => (
                                 <span
                                     key={service.id}
-                                    className="inline-block rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white"
+                                    className="w-48 items-center rounded-md bg-yellow-500 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap mr-1"
                                 >
                                     {service.name}
                                 </span>
                             ))}
                             {row.services.length > 3 && (
-                                <span className="inline-block rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white">
+                                <span className="inline-flex items-center rounded-md bg-gray-400 px-2 py-0.5 text-xs font-medium text-white whitespace-nowrap">
                                     +{row.services.length - 3} more
                                 </span>
                             )}
                         </>
                     ) : (
-                        <span className="text-sm text-gray-400">N/A</span>
+                        <span className="text-gray-400 text-sm">N/A</span>
                     )}
                 </div>
             </td>
@@ -270,7 +270,6 @@ export default function Dashboard({
                     <Card className="border-none shadow-sm ring-1 ring-slate-200">
                         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 bg-white/50 px-6 py-4">
                             <CardTitle className="text-lg font-bold text-slate-800">Search Records</CardTitle>
-
                         </CardHeader>
                         <CardContent className="p-6">
                             <div className="flex flex-col gap-4 md:flex-row md:items-end">
