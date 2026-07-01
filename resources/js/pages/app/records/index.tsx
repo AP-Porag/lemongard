@@ -655,7 +655,7 @@ export default function Index({
                                         </>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 py-12 text-center">
-                                            <p className="text-slate-500">No record found for this search.</p>
+                                            <p className="text-slate-500">This Individual Is Not In The Database</p>
                                             {canCreateRecord && (
                                                 <Button onClick={goToCreate} className="bg-navy-600 text-white hover:bg-gray-800">
                                                     <Plus className="mr-2 h-4 w-4" /> Create Record

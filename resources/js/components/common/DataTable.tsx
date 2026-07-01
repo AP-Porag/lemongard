@@ -307,7 +307,7 @@ export default function DataTable({
                                 >
                                     {filters.search?.trim().length >= 3
                                         ? 'This Individual Is Not In The Database'
-                                        : 'Search for record'}
+                                        : "No Records Found. Start By Adding Your First Record."}
                                 </td>
                             </tr>
                         ) : (
