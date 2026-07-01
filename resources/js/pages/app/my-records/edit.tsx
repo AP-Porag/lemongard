@@ -309,7 +309,7 @@ export default function Edit({ record, industries, allServices, selectedServices
         }
         setLoading(true);
 
-        router.put(route('admin.records.update', record.id), form, {
+        router.put(route('app.records.update', record.id), form, {
             onError: (err) => {
                 setErrors(err);
             },
