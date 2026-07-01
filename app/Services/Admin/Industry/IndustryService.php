@@ -12,7 +12,7 @@ class IndustryService
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%");
             })
-            ->latest()
+            ->orderBy('name')
             ->paginate($perPage);
     }
 
