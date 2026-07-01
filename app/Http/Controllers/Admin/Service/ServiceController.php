@@ -39,7 +39,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        $industries = Industry::all();
+        $industries = Industry::orderBy('name')->get();
         return Inertia::render('admin/service/create', [
             'industries' => $industries
         ]);
