@@ -76,7 +76,7 @@ class RecordController extends Controller
         // return redirect()->back()->with('success', 'Record created successfully.');
         $this->recordService->store($request->all(), $request->user()->id);
 
-        return redirect()->route('app.records.index')
+        return redirect()->route('app.records.create')
             ->with('success', 'Record Submitted Successfully');
     }
 
