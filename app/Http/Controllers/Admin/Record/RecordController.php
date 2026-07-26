@@ -57,7 +57,7 @@ class RecordController extends Controller
 
         $record = $this->recordService->find($id);
         if ($record) {
-            $record->load(['services', 'industry']);
+            $record->load(['services', 'industry', 'user']);
         }
 
         return Inertia::render('admin/records/show', [

@@ -24,6 +24,25 @@ export default function Show({ record }: any) {
 
                     <CardContent className="space-y-4">
                         <div>
+                            <p className="text-sm font-semibold">Record Added By</p>
+                            <p className="text-sm text-gray-600">
+                                {record?.user ? (
+                                    <>
+                                        {record.user.name}
+                                        <span className="text-xs text-gray-400 ml-1">
+                                            ({new Date(record.created_at).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })})
+                                        </span>
+                                    </>
+                                ) : 'Unknown'}
+                            </p>
+                        </div>
+                        <div>
                             <p className="text-sm font-semibold">Name</p>
                             <p className="text-sm text-gray-600">
                                 {`${record?.first_name || ''} ${record?.last_name || ''}`}

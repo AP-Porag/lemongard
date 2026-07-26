@@ -522,7 +522,7 @@ export default function DataTable({
             />
             <CustomDeleteModal
                 open={!!resolveId}
-                onClose={() => setResolve(null)}
+                onClose={() => setResolveId(null)}
                 onConfirm={handleResolve}
                 title="Are you sure you want to resolve this item?"
                 message="This action will mark the item as resolved."
