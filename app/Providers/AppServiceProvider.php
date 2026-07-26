@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-namespace App\Providers;
-
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +48,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // ==============================================
+        // পাসওয়ার্ড রিসেট ইমেইল কাস্টমাইজ করার কোড (এখানে যোগ করুন)
+        // ==============================================
+        ResetPassword::toMailUsing(function ($notifiable, $token) {
+            // রিসেট লিংক তৈরি করা (এটি ১০০% কাজ করবে)
+            $url = URL::temporarySignedRoute(
+                'password.reset',
+                Carbon::now()->addMinutes(60),
+                [
+                    'token' => $token,
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                ]
+            );
+
+            // কাস্টম ভিউ সহ মেইল রিটার্ন করুন
+            return (new MailMessage)
+                ->subject('Reset Password Notification') // ইমেইলের সাবজেক্ট
+                ->view('emails.password.reset', ['url' => $url]); // আমাদের ব্লেড ফাইল
+        });
+        // ==============================================
         $this->configureDefaults();
     }
 
