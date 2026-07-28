@@ -50,7 +50,7 @@ export default function Show({ record }: any) {
                         </div>
 
                         <div>
-                            <p className="text-sm font-semibold">Name</p>
+                            <p className="text-sm font-semibold">Status</p>
                             <p className="text-sm text-gray-600">
                                 {record?.status ? "Resolved" : "Unresolved"}
                             </p>
