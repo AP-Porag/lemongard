@@ -17,12 +17,13 @@ class IndustryOnboardingController
     }
     public function store(Request $request, IndustryUserService $service)
     {
+
         $request->validate([
             'industry_id' => ['required', 'exists:industries,id']
         ]);
 
         $service->attach($request->user(), $request->industry_id);
 
-        return redirect('/app/dashboard');
+        return redirect()->route('app.app.dashboard');
     }
 }

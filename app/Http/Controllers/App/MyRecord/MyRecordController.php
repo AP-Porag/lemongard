@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App\MyRecord;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
+use App\Http\Requests\Record\UpdateRecordRequest;
 use App\Models\Industry;
 use App\Models\Service;
 use App\Services\Subscriber\MyRecord\MyRecordService;
@@ -89,7 +90,7 @@ class MyRecordController extends Controller
         ]);
     }
 
-    public function update(StoreRecordRequest $request, $id)
+    public function update(UpdateRecordRequest $request, $id)
     {
         $record = $this->recordService->updateRecord(
             $id,
@@ -97,7 +98,7 @@ class MyRecordController extends Controller
         );
 
         return redirect()
-            ->route('app.records.index')
+            ->route('app.my-records.index')
             ->with('success', 'Record updated successfully');
     }
     public function destroy($id)

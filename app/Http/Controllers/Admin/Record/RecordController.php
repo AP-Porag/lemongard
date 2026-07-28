@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Record;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Record\StoreRecordRequest;
+use App\Http\Requests\Record\UpdateRecordRequest;
 use App\Models\Industry;
 use App\Models\Service;
 use App\Services\Admin\Record\RecordService;
@@ -86,7 +87,7 @@ class RecordController extends Controller
         ]);
     }
 
-    public function update(StoreRecordRequest $request, $id)
+    public function update(UpdateRecordRequest $request, $id)
     {
         $record = $this->recordService->updateRecord(
             $id,

@@ -14,6 +14,7 @@ use App\Http\Controllers\App\Record\RecordController;
 use App\Http\Controllers\App\Subscription\SubscriptionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\App\Support\SupportController;
+use App\Http\Controllers\Auth\AuthRegisterController;
 use App\Http\Controllers\Auth\CustomVerifyEmailController;
 use App\Http\Controllers\Auth\OTPVerificationController;
 // use App\Http\Middleware\SubscriptionActiveMiddleware;
@@ -120,14 +121,14 @@ Route::post('/contact', [SupportController::class, 'store'])->name('contact.stor
 //     })->name('login');
 // });
 
-Route::prefix(GlobalConstant::ROUTE_APP)
-    ->name('app.')
-    ->middleware(['auth', 'role:user']) // এখানে 'otp.verified' দেওয়া যাবে না
-    ->group(function () {
-        Route::get('/verify-otp', [OTPVerificationController::class, 'showView'])->name('otp.verify.view');
-        Route::post('/verify-otp', [OTPVerificationController::class, 'verify'])->name('otp.verify.submit');
-        Route::post('/resend-otp', [OTPVerificationController::class, 'resend'])->name('otp.resend');
-    });
+// Route::prefix(GlobalConstant::ROUTE_APP)
+//     ->name('app.')
+//     ->middleware(['auth', 'role:user']) // এখানে 'otp.verified' দেওয়া যাবে না
+//     ->group(function () {
+//         Route::get('/verify-otp', [OTPVerificationController::class, 'showView'])->name('otp.verify.view');
+//         Route::post('/verify-otp', [OTPVerificationController::class, 'verify'])->name('otp.verify.submit');
+//         Route::post('/resend-otp', [OTPVerificationController::class, 'resend'])->name('otp.resend');
+//     });
 
 
 // ✅ ইন্ডাস্ট্রি অনবোর্ডিং রাউট (শুধু auth)
@@ -265,6 +266,30 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
     ->name('cashier.webhook');
 
+
+Route::middleware('guest')->group(function () {
+
+    // Registration Page
+    Route::get('/register', function () {
+        return Inertia::render('auth/register');
+    })->name('register');
+
+    // Registration Submit
+    Route::post('/register', [AuthRegisterController::class, 'store']);
+});
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/verify-otp', [OTPVerificationController::class, 'showView'])
+        ->name('otp.verify.view');
+
+    Route::post('/verify-otp', [OTPVerificationController::class, 'verify'])
+        ->name('otp.verify.submit');
+
+    Route::post('/resend-otp', [OTPVerificationController::class, 'resend'])
+        ->name('otp.resend');
+});
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
 

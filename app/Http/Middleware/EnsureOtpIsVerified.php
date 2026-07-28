@@ -21,17 +21,23 @@ class EnsureOtpIsVerified
         if (Auth::check()) {
             $user = Auth::user();
 
-            if ($user->otp_verified_at === null) {
+            if ($user->role === 'admin') {
+                return $next($request);
+            }
+
+            if ($user->email_verified_at === null) {
 
                 if (
-                    $request->routeIs('app.otp.verify.view') ||
-                    $request->routeIs('app.otp.verify.submit') ||
-                    $request->routeIs('app.otp.resend')
+                    $request->routeIs('otp.verify.view') ||
+                    $request->routeIs('otp.verify.submit') ||
+                    $request->routeIs('otp.resend')
                 ) {
                     return $next($request);
                 }
 
-                return redirect()->route('app.otp.verify.view');
+                return redirect()->route('otp.verify.view', [
+                    'email' => $user->email,
+                ]);
             }
         }
 

@@ -14,6 +14,7 @@ use App\Mail\SendOTPMail;
 class CreateNewUser implements CreatesNewUsers
 {
 
+
     public function create(array $input): User
     {
         Validator::make($input, [
@@ -22,6 +23,8 @@ class CreateNewUser implements CreatesNewUsers
             'password' => ['required', 'confirmed', 'min:8'],
             'agree_to_terms' => ['required', 'boolean'],
             'marketing_emails' => ['nullable', 'boolean'],
+            'otp' => ['nullable'],
+            'otp_expires_at' => ['nullable'],
 
         ])->validate();
 

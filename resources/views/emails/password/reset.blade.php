@@ -55,14 +55,14 @@
                             </div>
 
                             <!-- ব্যাকআপ টেক্সট লিংক -->
-                            <p
+                            {{-- <p
                                 style="font-size:14px;color:#6b7280;line-height:1.7;text-align:center;word-break:break-all;">
                                 Alternatively, copy and paste this link into your browser:<br>
                                 <a href="{{ $url }}" style="color:#facc15;">{{ $url }}</a>
-                            </p>
+                            </p> --}}
 
                             <p style="font-size:14px;color:#6b7280;line-height:1.7;text-align:center;margin-top:20px;">
-                                This password reset link will expire in 60 minutes.
+                                This password reset request will expire in 60 minutes.
                             </p>
 
                             <p style="font-size:14px;color:#6b7280;line-height:1.7;text-align:center;margin-top:20px;">
