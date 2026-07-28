@@ -22,9 +22,9 @@ class StoreRecordRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('records')->where(function ($query) {
-                    return $query->where('phone_cell', $this->phone_cell);
-                }),
+                // Rule::unique('records')->where(function ($query) {
+                //     return $query->where('phone_cell', $this->phone_cell);
+                // }),
             ],
             'phone_cell' => ['required', 'string', 'max:20'],
             'phone_home' => ['required', 'string', 'max:20'],
