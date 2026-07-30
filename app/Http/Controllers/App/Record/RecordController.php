@@ -60,8 +60,8 @@ class RecordController extends Controller
     {
 
         $user = auth()->user();
-        // $userIndustries = $user->industries()->orderBy('name')->get();
-        $userIndustries = $allIndustries = Industry::orderBy('name')->get();
+        $userIndustries = $user->industries()->orderBy('name')->get();
+        // $userIndustries = $allIndustries = Industry::orderBy('name')->get();
         return Inertia::render('app/records/create', [
             'industries' => $userIndustries,
             'allServices' => Service::orderBy('name')->get(), // Load all services
