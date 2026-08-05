@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureIndustrySelected;
 use App\Http\Middleware\EnsureOtpIsVerified;
+use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RoleMiddleware;
@@ -42,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'otp.verified' => EnsureOtpIsVerified::class,  // ✅ এখানে alias যোগ করুন
             'industry.selected' => EnsureIndustrySelected::class,  // ✅ এখানে alias যোগ করুন
+            'user.active' => EnsureUserIsActive::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

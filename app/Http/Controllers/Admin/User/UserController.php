@@ -10,6 +10,9 @@ use App\Services\Admin\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserInactiveMail;
+use App\Mail\AdminUserInactiveMail;
 
 class UserController extends Controller
 {
@@ -24,13 +27,83 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    // public function index(Request $request)
+    // {
+    //     $search = $request->input('search', '');
+    //     $status = $request->input('status', 'all');
+    //     $perPage = $request->input('perPage', 5);
+    //     $sortBy = $request->input('sort_by', 'name');
+    //     $sortOrder = $request->input('sort_order', 'asc');
+
+    //     $query = User::query()->with('industries');
+
+    //     if ($search) {
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('name', 'like', "%{$search}%")
+    //                 ->orWhere('role', 'like', "%{$search}%")
+    //                 ->orWhere('email', 'like', "%{$search}%");
+    //         });
+    //     }
+
+    //     // Sorting
+    //     switch ($sortBy) {
+
+    //         case 'industry':
+    //             $query->leftJoin('industry_user', 'users.id', '=', 'industry_user.user_id')
+    //                 ->leftJoin('industries', 'industry_user.industry_id', '=', 'industries.id')
+    //                 ->orderBy('industries.name', $sortOrder)
+    //                 ->select('users.*')
+    //                 ->distinct();
+    //             break;
+
+    //         case 'created_at':
+    //             $query->orderBy('users.created_at', $sortOrder);
+    //             break;
+
+    //         case 'name':
+    //         default:
+    //             $query->orderBy('users.name', $sortOrder);
+    //             break;
+    //     }
+
+    //     $users = $query->select(
+    //         'id',
+    //         'name',
+    //         'email',
+    //         'role',
+    //         'status',
+    //         'avatar',
+    //     )
+    //         ->paginate($perPage)
+    //         ->withQueryString();
+
+
+    //     //        return $users;
+    //     return Inertia::render('admin/user/index', [
+    //         'users' => $users,
+    //         'filters' => [
+    //             'search' => $search,
+    //             'status' => $status,
+    //             'perPage' => $perPage,
+    //             'sort_by' => $sortBy,
+    //             'sort_order' => $sortOrder,
+    //         ],
+    //     ]);
+    // }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+
     public function index(Request $request)
     {
         $search = $request->input('search', '');
         $status = $request->input('status', 'all');
         $perPage = $request->input('perPage', 5);
+        $sortBy = $request->input('sort_by', 'name');
+        $sortOrder = $request->input('sort_order', 'asc');
 
-        $query = User::query();
+        $query = User::query()->with('industries');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -40,34 +113,69 @@ class UserController extends Controller
             });
         }
 
-        // if ($status !== 'all') {
-        //     $query->where('status', (int) $status);
-        // }
+        switch ($sortBy) {
 
-        $users = $query->select(
-            'id',
-            'name',
-            'email',
-            'role',
-            'avatar',
-        )
+            case 'industry':
+                $query
+                    ->leftJoin('industry_user', 'users.id', '=', 'industry_user.user_id')
+                    ->leftJoin('industries', 'industry_user.industry_id', '=', 'industries.id')
+                    ->selectRaw('
+            users.id,
+            users.name,
+            users.email,
+            users.role,
+            users.status,
+            users.avatar,
+            MIN(industries.name) as industry_name
+        ')
+                    ->groupBy(
+                        'users.id',
+                        'users.name',
+                        'users.email',
+                        'users.role',
+                        'users.status',
+                        'users.avatar'
+                    )
+                    ->orderBy('industry_name', $sortOrder);
+
+                break;
+
+            case 'created_at':
+                $query->orderBy('users.created_at', $sortOrder);
+                break;
+
+            case 'name':
+            default:
+                $query->orderBy('users.name', $sortOrder);
+                break;
+        }
+
+        if ($sortBy !== 'industry') {
+            $query->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.role',
+                'users.status',
+                'users.avatar',
+            );
+        }
+
+        $users = $query
             ->paginate($perPage)
             ->withQueryString();
 
-        //        return $users;
         return Inertia::render('admin/user/index', [
             'users' => $users,
             'filters' => [
                 'search' => $search,
                 'status' => $status,
                 'perPage' => $perPage,
+                'sort_by' => $sortBy,
+                'sort_order' => $sortOrder,
             ],
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('admin/user/create');
@@ -110,6 +218,28 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request, string $id)
+    // {
+    //     $validated = $request->validate([
+    //         'name' => 'required|string|min:3',
+    //         'email' => 'required|email',
+    //         'role' => 'required|in:admin,user',
+    //         'status' => 'required|in:0,1',
+    //     ]);
+
+    //     $user = User::findOrFail($id);
+
+    //     $user->name = $validated['name'];
+    //     $user->email = $validated['email'];
+    //     $user->role = $validated['role'];
+    //     $user->status = $validated['status'];
+
+    //     $user->save();
+
+    //     return redirect()->route('admin.users.index')
+    //         ->with('success', 'User Updated successfully');
+    // }
+
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -121,15 +251,44 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->role = $validated['role'];
-        $user->status = $validated['status'];
+        $user->update([
+            'name'   => $validated['name'],
+            'email'  => $validated['email'],
+            'role'   => $validated['role'],
+            'status' => $validated['status'],
+        ]);
 
-        $user->save();
+        // User became inactive
+        if ((int) $validated['status'] === 0) {
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User Updated successfully');
+            // Cancel Stripe subscription
+            if ($user->subscribed('default')) {
+                $user->subscription('default')->cancelNow();
+            }
+
+            // Remove remember me token
+            $user->remember_token = null;
+            $user->save();
+
+            // Logout all devices (Database session driver)
+            DB::table('sessions')
+                ->where('user_id', $user->id)
+                ->delete();
+
+            // Send email
+            Mail::to($user->email)->send(new UserInactiveMail($user));
+            // Send confirmation mail to admin
+            Mail::to(auth()->user()->email)
+                ->send(new AdminUserInactiveMail(
+                    $user,
+                    auth()->user()
+                ));
+        }
+
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'User updated successfully.');
     }
     /**
      * Remove the specified resource from storage.

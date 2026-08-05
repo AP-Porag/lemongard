@@ -152,6 +152,7 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         'role:user',
         'otp.verified',
         'industry.selected',  // ✅ এখন alias কাজ করবে
+        'user.active',
     ])
     ->group(function () {
 
@@ -292,6 +293,12 @@ Route::middleware('auth')->group(function () {
 });
 //Contact
 Route::post('/contact', [SupportController::class, 'store'])->name('support.store');
+
+
+// User Inactive
+Route::get('/account-inactive', function () {
+    return Inertia::render('auth/AccountInactive');
+})->name('account.inactive');
 
 
 

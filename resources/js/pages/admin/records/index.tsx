@@ -20,6 +20,9 @@ export default function Index({ records, industries, services, filters: initialF
         industries: initialFilters?.industries || [],
         page: records?.current_page || 1,
         apply: false,
+
+        sort_by: initialFilters?.sort_by || 'last_name',
+        sort_order: initialFilters?.sort_order || 'asc',
     });
 
     const { auth } = usePage().props;
@@ -58,6 +61,15 @@ export default function Index({ records, industries, services, filters: initialF
     // }, [filters.apply]);
 
     const columns = [
+        {
+            key: 'user',
+            label: 'User',
+            render: (row) => (
+                <span className="block w-32">
+                    {row.user?.name || '-'}
+                </span>
+            ),
+        },
         {
             key: 'last_name',
             label: 'Last Name',

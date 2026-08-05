@@ -18,6 +18,12 @@ export default function Index({ users, filters: initialFilters }) {
         status: initialFilters?.status || '',
         perPage: initialFilters?.perPage || 5,
         page: users.current_page || 1,
+
+        sort_by: initialFilters?.sort_by || 'name',
+        sort_order: initialFilters?.sort_order || 'asc',
+
+
+
     });
 
     useEffect(() => {
@@ -26,7 +32,8 @@ export default function Index({ users, filters: initialFilters }) {
             preserveState: true,
             replace: true,
         });
-    }, [filters.search, filters.status, filters.perPage, filters.page]);
+    }, [filters.search, filters.status, filters.perPage, filters.page, filters.sort_by,
+    filters.sort_order,]);
 
     const columns = [
         {
@@ -41,6 +48,17 @@ export default function Index({ users, filters: initialFilters }) {
             ),
         },
         { key: 'name', label: 'Name' },
+        {
+            key: 'industry',
+            label: 'Industry',
+            render: (row) => (
+                <span className="block w-48 truncate">
+                    {row.industries?.length
+                        ? row.industries.map(industry => industry.name).join(', ')
+                        : '-'}
+                </span>
+            ),
+        },
         {
             key: 'email',
             label: 'Email',
@@ -65,12 +83,13 @@ export default function Index({ users, filters: initialFilters }) {
                     1: 'bg-green-100 text-green-800',
                     0: 'bg-red-100 text-red-800',
                 };
+
                 return (
                     <span
-                        className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[row.status] || 'bg-gray-100 text-gray-800'}`}
+                        className={`rounded px-2 py-1 text-xs font-medium ${statusStyles[Number(row.status)] || 'bg-gray-100 text-gray-800'
+                            }`}
                     >
-                        {/* {Number(row.status) === 1 ? 'Active' : 'Inactive'} */}
-                        Active
+                        {Number(row.status) === 1 ? 'Active' : 'Inactive'}
                     </span>
                 );
             },

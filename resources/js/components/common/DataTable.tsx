@@ -58,6 +58,8 @@ export default function DataTable({
     // অথবা route name দিয়ে চেক করতে
     const routeName = route().current();
     const isAllowedRoute = routeName === 'admin.records.index';
+    const isUserRoute = routeName === 'admin.users.index';
+    const isRecordRoute = routeName === 'admin.records.index';
 
     const globalActions = {
         search_filter: true,
@@ -223,6 +225,98 @@ export default function DataTable({
                         </div> */}
                     </div>
                 )}
+                {/* <Select
+                    value={`${filters.sort_by}|${filters.sort_order}`}
+                    onValueChange={(value) => {
+                        const [sort_by, sort_order] = value.split('|');
+
+                        onFilterChange({
+                            ...filters,
+                            sort_by,
+                            sort_order,
+                            page: 1,
+                            apply: true,
+                        });
+                    }}
+                >
+                    <SelectTrigger className="w-[220px]">
+                        <SelectValue placeholder="Sort By" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+
+                        <SelectItem value="last_name|asc">
+                            Last Name
+                        </SelectItem>
+                        <SelectItem value="industry|asc">
+                            Industry
+                        </SelectItem>
+                        <SelectItem value="user|asc">
+                            User
+                        </SelectItem>
+                        <SelectItem value="created_at|desc">
+                            Newest
+                        </SelectItem>
+
+                        <SelectItem value="created_at|asc">
+                            Oldest
+                        </SelectItem>
+
+                    </SelectContent>
+                </Select> */}
+                <Select
+                    value={`${filters.sort_by || ''}|${filters.sort_order || ''}`}
+                    onValueChange={(value) => {
+                        const [sort_by, sort_order] = value.split('|');
+
+                        onFilterChange({
+                            ...filters,
+                            sort_by,
+                            sort_order,
+                            page: 1,
+                            apply: true,
+                        });
+                    }}
+                >
+                    <SelectTrigger className="w-[220px]">
+                        <SelectValue placeholder="Sort By" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+
+                        {/* Users Page */}
+                        {isUserRoute && (
+                            <>
+                                <SelectItem value="name|asc">Name (A-Z)</SelectItem>
+                                <SelectItem value="name|desc">Name (Z-A)</SelectItem>
+
+                                <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
+                                <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
+
+                                <SelectItem value="created_at|desc">Newest</SelectItem>
+                                <SelectItem value="created_at|asc">Oldest</SelectItem>
+                            </>
+                        )}
+
+                        {/* Records Page */}
+                        {isRecordRoute && (
+                            <>
+                                <SelectItem value="last_name|asc">Last Name (A-Z)</SelectItem>
+                                <SelectItem value="last_name|desc">Last Name (Z-A)</SelectItem>
+
+                                <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
+                                <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
+
+                                <SelectItem value="user|asc">User (A-Z)</SelectItem>
+                                <SelectItem value="user|desc">User (Z-A)</SelectItem>
+
+                                <SelectItem value="created_at|desc">Newest</SelectItem>
+                                <SelectItem value="created_at|asc">Oldest</SelectItem>
+                            </>
+                        )}
+
+                    </SelectContent>
+                </Select>
                 {globalActions.per_page_filter && (
                     <Select
                         name="perPage"

@@ -23,7 +23,15 @@ class RecordController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->only(['search', 'status', 'perPage', 'industry', 'industries']);
+        $filters = $request->only([
+            'search',
+            'status',
+            'perPage',
+            'industry',
+            'industries',
+            'sort_by',
+            'sort_order',
+        ]);
 
         $records = $this->recordService->getPaginatedRecords($filters);
 

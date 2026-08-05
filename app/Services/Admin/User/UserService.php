@@ -2,8 +2,10 @@
 
 namespace App\Services\Admin\User;
 
+use App\Models\Plan;
 use App\Models\User;
 use App\Services\BaseService;
+use App\Utils\GlobalConstant;
 use Illuminate\Support\Facades\Hash;
 
 class UserService extends BaseService
@@ -18,12 +20,37 @@ class UserService extends BaseService
      */
     public function createUser(array $data)
     {
-        return $this->model->create([
-            'name' => $data['first_name'] . ' ' . $data['last_name'],
-            'email'      => $data['email'],
-            'role'       => $data['role'],
-            'password'   => Hash::make('password'), // default password
+        $user = $this->model->create([
+            'name'     => $data['first_name'] . ' ' . $data['last_name'],
+            'email'    => $data['email'],
+            'role'     => $data['role'],
+            'password' => Hash::make('password'),
         ]);
+
+        $plan = Plan::where(
+            'name',
+            GlobalConstant::TIER_TRIAL
+        )->first();
+
+        if (
+            $user->role !== 'admin' &&
+            $plan &&
+            $plan->stripe_price_id
+        ) {
+            // Create Stripe customer if it doesn't exist
+            if (!$user->stripe_id) {
+                $user->createAsStripeCustomer();
+            }
+
+            $user->newSubscription(
+                'default',
+                $plan->stripe_price_id
+            )
+                ->trialUntil(now()->addMonth())
+                ->create();
+        }
+
+        return $user;
     }
 
     /**
