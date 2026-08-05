@@ -440,14 +440,14 @@ export default function Index({
 
         const errs: { [k: string]: string } = {};
 
-        if (!searchForm.first_name.trim()) errs.first_name = 'First name is required';
+        // if (!searchForm.first_name.trim()) errs.first_name = 'First name is required';
         if (!searchForm.last_name.trim()) errs.last_name = 'Last name is required';
 
-        if (!searchForm.email.trim()) {
-            errs.email = 'Email is required';
-        } else if (!EMAIL_RE.test(searchForm.email)) {
-            errs.email = 'Please enter a valid email address';
-        }
+        // if (!searchForm.email.trim()) {
+        //     errs.email = 'Email is required';
+        // } else if (!EMAIL_RE.test(searchForm.email)) {
+        //     errs.email = 'Please enter a valid email address';
+        // }
 
         const phoneDigits = searchForm.phone.replace(/\D/g, '');
         if (!phoneDigits) {
@@ -595,12 +595,12 @@ export default function Index({
                                     {searchErrors.last_name && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.last_name}</p>}
                                 </div>
                                 <div className="relative flex-1">
-                                    <label className="mb-1 block text-xs font-medium text-gray-600">First Name <span className="text-red-500">*</span></label>
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">First Name</label>
                                     <input name="first_name" value={searchForm.first_name} onChange={handleSearchChange} onKeyDown={handleKeyDown} disabled={!canSearch} className={inputClass('first_name')} placeholder="First name" />
                                     {searchErrors.first_name && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.first_name}</p>}
                                 </div>
                                 <div className="relative flex-1">
-                                    <label className="mb-1 block text-xs font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
+                                    <label className="mb-1 block text-xs font-medium text-gray-600">Email</label>
                                     <input name="email" value={searchForm.email} onChange={handleSearchChange} onKeyDown={handleKeyDown} disabled={!canSearch} className={inputClass('email')} placeholder="name@domain.com" />
                                     {searchErrors.email && <p className="absolute left-0 top-full mt-1 text-xs text-red-500">{searchErrors.email}</p>}
                                 </div>

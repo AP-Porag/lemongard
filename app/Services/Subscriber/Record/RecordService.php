@@ -60,24 +60,31 @@ class RecordService extends BaseService
 
     public function searchRecords(array $criteria)
     {
-        $required = ['first_name', 'last_name', 'email', 'phone'];
-        foreach ($required as $field) {
-            if (blank($criteria[$field] ?? null)) {
-                return collect();
-            }
+        if (blank($criteria['last_name'] ?? null) || blank($criteria['phone'] ?? null)) {
+            return collect();
         }
 
         $phone = $criteria['phone'];
 
-        return $this->model->query()
+        $query = $this->model->query()
             ->with(['industry', 'services'])
-            ->where('first_name', 'like', '%' . $criteria['first_name'] . '%')
             ->where('last_name', 'like', '%' . $criteria['last_name'] . '%')
-            ->where('email', 'like', '%' . $criteria['email'] . '%')
             ->where(function ($q) use ($phone) {
                 $q->where('phone_cell', 'like', '%' . $phone . '%')
                     ->orWhere('phone_home', 'like', '%' . $phone . '%');
-            })
+            });
+
+        // Optional first name filter
+        if (!blank($criteria['first_name'] ?? null)) {
+            $query->where('first_name', 'like', '%' . $criteria['first_name'] . '%');
+        }
+
+        // Optional email filter
+        if (!blank($criteria['email'] ?? null)) {
+            $query->where('email', 'like', '%' . $criteria['email'] . '%');
+        }
+
+        return $query
             ->latest('id')
             ->take(50)
             ->get()
