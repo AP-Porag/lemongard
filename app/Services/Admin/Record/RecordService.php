@@ -60,7 +60,13 @@ class RecordService extends BaseService
     }
     public function getPaginatedRecords(array $filters)
     {
-        $query = $this->model->with(['user', 'industry', 'services']);
+        $query = $this->model->with([
+            'user' => function ($query) {
+                $query->withTrashed();
+            },
+            'industry',
+            'services',
+        ]);
 
         // লাস্ট নেম অনুযায়ী সাজানো
         $sortBy = $filters['sort_by'] ?? 'last_name';

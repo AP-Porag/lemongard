@@ -14,12 +14,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
-    use Billable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, Billable, SoftDeletes;
+
 
 
     public function sendPasswordResetNotification($token)

@@ -30,7 +30,7 @@ class DashboardService extends BaseService
 
     public function searchRecords(array $criteria)
     {
-        $required = ['first_name', 'last_name', 'email', 'phone'];
+        $required = ['last_name', 'phone'];
         foreach ($required as $field) {
             if (blank($criteria[$field] ?? null)) {
                 return collect();

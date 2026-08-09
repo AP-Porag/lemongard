@@ -295,20 +295,19 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // ১. ইউজারের সব সেশন ডিলিট করুন (যাতে লগআউট হয়)
-        DB::table('sessions')->where('user_id', $user->id)->delete();
+        // ১. ইউজারের সব session permanently delete করুন
+        DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->delete();
 
-        // ২. ব্যাকআপ: কোনো সেশন বাদ পড়লে user_id null করে দিন (foreign key error এড়াতে)
-        DB::table('sessions')->where('user_id', $user->id)->update(['user_id' => null]);
-
-        // ৩. remember_token মুছে দিন (অটো-লগইন বন্ধ করতে)
+        // ২. remember_token মুছে দিন
         $user->remember_token = null;
         $user->save();
 
-        // ৪. ইউজার ডিলিট করুন
+        // ৩. User soft delete করুন
         $user->delete();
 
-        // ৫. Success Message সহ রিডাইরেক্ট করুন
+        // ৪. Success Message সহ redirect
         return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully!');
     }

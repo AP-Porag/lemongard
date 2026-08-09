@@ -64,6 +64,10 @@ return new class extends Migration
             $table->timestamp('otp_verified_at')->nullable();
             $table->timestamp('otp_expires_at')->nullable();
 
+            //SofDelete
+            $table->softDeletes();
+
+
             // =========================
             // LARAVEL CORE
             // =========================
