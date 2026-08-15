@@ -90,7 +90,7 @@ const ComparisonTable = () => (
                                     <Eye className="h-5 w-5" /> View Only
                                 </span>
                                 <span className="text-xs text-muted-foreground">
-                                    $14.99/mo
+                                    $8.99/mo
                                 </span>
                             </th>
                             <th className="w-1/4 bg-yellow-50 p-4 text-center">
@@ -99,7 +99,7 @@ const ComparisonTable = () => (
                                     Full Access
                                 </span>
                                 <span className="text-xs font-medium text-yellow-600">
-                                    $19.99/mo
+                                    $12.99/mo
                                 </span>
                             </th>
                         </tr>

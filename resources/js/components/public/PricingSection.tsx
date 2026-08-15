@@ -96,7 +96,7 @@ const PricingSection = () => {
                         {/* Price */}
                         <div className="mt-6">
                             <span className="text-navy-600 text-2xl font-bold ">
-                                $19.99 per month
+                                $12.99 per month
                             </span>
                             {/* <span className="text-xl text-gray-500">
                                 per month
@@ -105,7 +105,7 @@ const PricingSection = () => {
 
                         {/* Savings */}
                         <p className="mt-2 text-sm font-medium text-yellow-600">
-                            or $199/year (Save 20%)
+                            or $124.7/year (Save 20%)
                         </p>
 
                         {/* Features List */}

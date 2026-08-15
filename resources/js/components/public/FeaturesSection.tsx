@@ -48,7 +48,7 @@ const FeaturesSection = () => {
                     </h2>
                 </div>
                 <p className="font-sans mx-auto mt-4 max-w-5xl text-lg text-gray-500 md:text-xl">
-                    Built for professionals who demand reliable clients, protected schedules and stress-free appointments.
+                    Built for professionals to document experiences, identified patterns, and help protect one another.
                 </p>
             </motion.div>
 

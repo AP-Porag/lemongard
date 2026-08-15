@@ -470,7 +470,7 @@ const Features = () => {
                                     <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
                                         <Eye className="w-4 h-4 text-[#1E3A8A]" /> View Only
                                     </span>
-                                    <span className="font-bold text-[#1E3A8A]">$14.99/mo</span>
+                                    <span className="font-bold text-[#1E3A8A]">$8.99/mo</span>
                                 </div>
                                 <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-200 flex justify-between items-center">
                                     <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -479,7 +479,7 @@ const Features = () => {
                                             Popular
                                         </span>
                                     </span>
-                                    <span className="font-bold text-[#1E3A8A]">$19.99/mo</span>
+                                    <span className="font-bold text-[#1E3A8A]">$12.99/mo</span>
                                 </div>
                             </div>
                             <div className="relative mt-auto pt-2">
@@ -922,12 +922,12 @@ const Features = () => {
                             <div className="p-6 text-center">
                                 <Eye className="w-8 h-8 text-[#F8C734] mx-auto mb-2" />
                                 <div className="font-bold text-white text-xl">View Only</div>
-                                <div className="text-[#F8C734] font-semibold mt-1">$14.99/month</div>
+                                <div className="text-[#F8C734] font-semibold mt-1">$8.99/month</div>
                             </div>
                             <div className="p-6 text-center bg-[#F8C734]/15">
                                 <Zap className="w-8 h-8 text-[#F8C734] mx-auto mb-2" />
                                 <div className="font-bold text-white text-xl">Full Access</div>
-                                <div className="text-[#F8C734] font-semibold mt-1">$19.99/month</div>
+                                <div className="text-[#F8C734] font-semibold mt-1">$12.99/month</div>
                                 <span className="bg-[#F8C734] text-[#1E3A8A] px-3 py-1 rounded-full text-xs font-bold mt-2 inline-block">
                                     Most Popular
                                 </span>
@@ -973,7 +973,7 @@ const Features = () => {
                                 <span className="text-sm text-gray-600">Start with 30 days free</span>
                             </div>
                             <div className="text-center">
-                                <div className="text-xl font-bold text-[#1E3A8A] mb-3">$14.99/month</div>
+                                <div className="text-xl font-bold text-[#1E3A8A] mb-3">$8.99/month</div>
                                 <Link
                                     href="/register"
                                     className="border-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 inline-flex items-center gap-2 text-sm"
@@ -982,7 +982,7 @@ const Features = () => {
                                 </Link>
                             </div>
                             <div className="text-center">
-                                <div className="text-xl font-bold text-[#1E3A8A] mb-3">$19.99/month</div>
+                                <div className="text-xl font-bold text-[#1E3A8A] mb-3">$12.99/month</div>
                                 <Link
                                     href="/register"
                                     className="bg-gradient-to-r from-[#FCD34D] to-[#F8C734] hover:from-[#F8C734] hover:to-[#EAB308] text-[#1E3A8A] font-bold px-5 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 text-sm"

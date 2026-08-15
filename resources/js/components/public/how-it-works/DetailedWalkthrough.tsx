@@ -363,8 +363,8 @@ const DetailedWalkthrough = () => {
                                     <h4 className="font-semibold text-navy-600">Billing Details</h4>
                                     <ul className="space-y-1.5 text-sm text-gray-700">
                                         {[
-                                            "Monthly: $19.99 per month",
-                                            "Annual: $199/year (Save 20%)",
+                                            "Monthly: $12.99 per month",
+                                            "Annual: 124.7/year (Save 20%)",
                                             "Automatic renewal",
                                             "Cancel anytime",
                                             "No long-term contracts",
@@ -395,10 +395,10 @@ const DetailedWalkthrough = () => {
                                     <LemonHalf className="absolute top-3 right-3 w-14 h-14" opacity={0.15} />
                                     <span className="bg-navy-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">Professional Plan</span>
                                     <div className="mt-5">
-                                        <span className="text-2xl font-bold text-navy-600">$19.99 per month</span>
+                                        <span className="text-2xl font-bold text-navy-600">$12.99 per month</span>
                                         {/* <span className="text-lg text-muted-foreground">/month</span> */}
                                     </div>
-                                    <p className="text-sm text-yellow-600 font-medium mt-1">or $199/year (Save 20%)</p>
+                                    <p className="text-sm text-yellow-600 font-medium mt-1">or $124.7/year (Save 20%)</p>
 
                                     <ul className="mt-5 space-y-2.5">
                                         <p className="text-[16px] font-semibold text-navy-600">Core features include:</p>

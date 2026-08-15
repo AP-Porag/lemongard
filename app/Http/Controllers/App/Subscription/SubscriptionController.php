@@ -182,15 +182,15 @@ class SubscriptionController extends Controller
                 $amount = number_format($stripePrice->unit_amount / 100, 2);
                 $currency = strtoupper($stripePrice->currency); // e.g., usd
 
-                $planPriceLabel = "$Format $$amount / month"; // আউটপুট হবে: $19.99 / month
+                $planPriceLabel = "$Format $$amount / month"; // আউটপুট হবে: $12.99 / month
             } catch (\Exception $e) {
                 $planPriceLabel = 'N/A';
             }
         }
 
         $planPrices = [
-            'view_only'   => '$14.99 / month',
-            'full_access' => '$19.99 / month',
+            'view_only'   => '$8.99 / month',
+            'full_access' => '$12.99 / month',
         ];
 
         // ১. সাবস্ক্রিপশন স্ট্যাটাস ক্যাশিয়ার থেকে ডাইনামিক্যালি নেওয়া (বেটার প্র্যাকটিস)

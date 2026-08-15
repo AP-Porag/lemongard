@@ -41,7 +41,7 @@ const solutions = [
     },
     {
         title: 'Simple, Affordable Pricing',
-        desc: '$19.99 per month for full access—no hidden fees.',
+        desc: '$12.99 per month for full access—no hidden fees.',
     },
     {
         title: 'Built for Professionals',

@@ -26,17 +26,16 @@ const HeroSection = () => {
                         </div>
 
                         {/* Heading */}
-                        <h1 className="text-navy-600 mt-6 text-3xl leading-tight font-bold md:text-4xl lg:text-5xl font-sans">
-                            A client platform that respects your time –{' '}
-                            <br/><span className="text-yellow-500">
-                                and problem clients don’t slip through
+                        <h1 className="text-navy-600 mt-6 text-2xl leading-tight font-bold md:text-4xl lg:text-5xl font-sans">
+                            For decades, difficult clients have relied on one thing: businesses never talk to each other.{' '}
+                            <br /><span className="text-yellow-500">
+                                LemonGard changes that
                             </span>
                         </h1>
 
                         {/* Subtext */}
                         <p className="mt-6 text-lg leading-relaxed text-gray-500 md:text-xl">
-                            Access shared industry data, manage client relationships, and grow your business with confidence. <br/>
-                            A 30-day free trial is included. Begin adding and reviewing client records today!
+                            Stop problem clients before they become your problem. Join thousands of businesses sharing trusted client experiences to identify repeat offenders, document interactions, and protect your business with confidence.
                         </p>
 
                         {/* Buttons */}

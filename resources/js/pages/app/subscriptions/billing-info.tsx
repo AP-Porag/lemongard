@@ -128,9 +128,9 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
 
                                         <h3 className="text-lg font-semibold text-slate-900">
                                             {billingInfo.subscription_tier === 'tier_1_view_only'
-                                                ? '$14.99'
+                                                ? '$8.99'
                                                 : billingInfo.subscription_tier === 'tier_2_full_access'
-                                                    ? '$19.99'
+                                                    ? '$12.99'
                                                     : 'N/A'}
                                         </h3>
                                     </div>

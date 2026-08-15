@@ -72,7 +72,7 @@ export default function MyPlan({
         {
             key: 'tier_1_view_only' as SubscriptionTier,
             name: 'tier_1_view_only',
-            price: '$14.99/month',
+            price: '$8.99/month',
             price_id: 'view_only',
             description:
                 'View all shared records. No create, edit or delete permissions.',
@@ -86,7 +86,7 @@ export default function MyPlan({
         {
             key: 'tier_2_full_access' as SubscriptionTier,
             name: 'tier_2_full_access',
-            price: '$19.99/month',
+            price: '$12.99/month',
             price_id: 'full_access',
             description:
                 'Add, edit and delete your own records with full dataset access.',

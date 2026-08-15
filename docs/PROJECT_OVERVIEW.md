@@ -42,10 +42,10 @@ ensure:
 
 ### Subscription Tiers
 
-**Tier 1 -- View Only (\$14.99/month)** - View and search shared data -
+**Tier 1 -- View Only (\$8.99/month)** - View and search shared data -
 No create/edit/delete permissions
 
-**Tier 2 -- Full Access (\$19.99/month)** - Search All Records - Add new
+**Tier 2 -- Full Access (\$12.99/month)** - Search All Records - Add new
 records - Edit/Delete only own records
 
 ### Trial Model
