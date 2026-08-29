@@ -322,7 +322,7 @@ export default function Create({ userId, industries, allServices }) {
             newErrors.state = 'State is required';
         }
         if (!form.price.trim()) {
-            newErrors.price = 'State is required';
+            newErrors.price = 'Price is required';
         }
 
 

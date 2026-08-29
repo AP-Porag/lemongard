@@ -250,14 +250,14 @@ export default function Edit({ record, industries, allServices, selectedServices
 
         // First Name validation - শুধু alphabetic
         if (!form.first_name.trim()) {
-            newErrors.first_name = 'First name is required';
+            newErrors.first_name = 'This is required';
         } else if (!/^[A-Za-z\s]+$/.test(form.first_name)) {
             newErrors.first_name = 'First name can only contain letters';
         }
 
         // Last Name validation - শুধু alphabetic
         if (!form.last_name.trim()) {
-            newErrors.last_name = 'Last name is required';
+            newErrors.last_name = 'This is required';
         } else if (!/^[A-Za-z\s]+$/.test(form.last_name)) {
             newErrors.last_name = 'Last name can only contain letters';
         }
@@ -280,26 +280,26 @@ export default function Edit({ record, industries, allServices, selectedServices
 
         // Industry - required
         if (!form.industry) {
-            newErrors.industry = 'Please select an industry';
+            newErrors.industry = 'This is required';
         }
 
         // Services - at least one required
         if (!form.services || form.services.length === 0) {
-            newErrors.services = 'Please select at least one service';
+            newErrors.services = 'This is required';
         }
 
         if (!form.street.trim()) {
-            newErrors.street = 'Street is required';
+            newErrors.street = 'This is required';
         }
 
         if (!form.city.trim()) {
-            newErrors.city = 'City is required';
+            newErrors.city = 'This is required';
         }
         if (!form.state.trim()) {
-            newErrors.state = 'State is required';
+            newErrors.state = 'This is required';
         }
         if (!form.price.trim()) {
-            newErrors.price = 'Price is required';
+            newErrors.price = 'This is required';
         }
 
 
