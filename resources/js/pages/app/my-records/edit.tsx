@@ -264,14 +264,14 @@ export default function Edit({ record, industries, allServices, selectedServices
 
 
         if (cellDigits.length !== 10) {
-            newErrors.phone_cell = 'Please Enter a Valid Cell Phone Number';
+            newErrors.phone_cell = 'This is required';
         }
 
         if (homeDigits.length !== 10) {
-            newErrors.phone_home = 'Please Enter a Valid Home Phone Number';
+            newErrors.phone_home = 'This is required';
         }
         if (zipDigits.length !== 5) {
-            newErrors.zip = 'Please Enter Valid Zipcode';
+            newErrors.zip = 'This is required';
         }
         // Email validation - খালি রাখা যাবে কিন্তু দিলে সঠিক হতে হবে
         if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
