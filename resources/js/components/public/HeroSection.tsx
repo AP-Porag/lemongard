@@ -28,7 +28,7 @@ const HeroSection = () => {
                         {/* Heading */}
                         <h1 className="text-navy-600 mt-6 text-2xl leading-tight font-bold md:text-4xl lg:text-5xl font-sans">
                             For decades, difficult clients have relied on one thing: businesses never talk to each other.{' '}
-                            <br /><span className="text-yellow-500 text-5xl">
+                            <br /><span className="text-yellow-500 text-[45px]">
                                 LemonGard changes that
                             </span>
                         </h1>
