@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Admin\Industry\IndustryController;
 use App\Http\Controllers\Admin\Record\RecordController as AdminRecord;
 use App\Http\Controllers\Admin\Service\ServiceController;
+use App\Http\Controllers\Admin\Subscriptions\AdminSubscriptionsController;
 use App\Http\Controllers\Admin\Support\SupportController as AdminSupport;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Dashboard\DashboardController;
@@ -244,10 +245,14 @@ Route::prefix(GlobalConstant::ROUTE_ADMIN)
         Route::resource('services', ServiceController::class);
 
         //Support
-        Route::get('/supports', [AdminSupport::class, 'index'])
-            ->name('supports.index');
+        Route::get('/supports', [AdminSupport::class, 'index']);
 
+        //Subscriptions
+        Route::get('/subscriptions', [AdminSubscriptionsController::class, 'index'])
+            ->name('subscriptions.index');
 
+        Route::get('/subscriptions/{subscription}', [AdminSubscriptionsController::class, 'show'])
+            ->name('subscriptions.show');
 
         Route::post('/support/{id}/status', [AdminSupport::class, 'updateStatus']);
     });

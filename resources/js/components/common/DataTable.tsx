@@ -42,24 +42,25 @@ export default function DataTable({
     filters,
     onFilterChange,
     perPageOptions = [5, 10, 25, 50],
+    statusOptions = [],
+    defaultStatus = '',
+    showSorting = true,
 }) {
     const [deleteId, setDeleteId] = React.useState(null);
     const [resolveId, setResolveId] = React.useState(null);
 
-    // const handleDeleteConfirm = () => {
-    //     router.delete(route(`${baseRoute}.destroy`, deleteId), {
-    //         onSuccess: () => setDeleteId(null),
-    // });
-    // };
     const { url } = usePage();
 
     // চেক করুন কোন রুটে আছেন
     const isRecordsRoute = url === '/admin/records';
-    // অথবা route name দিয়ে চেক করতে
+    // অথবা route name দিয়ে চেক করতে
     const routeName = route().current();
     const isAllowedRoute = routeName === 'admin.records.index';
     const isUserRoute = routeName === 'admin.users.index';
     const isRecordRoute = routeName === 'admin.records.index';
+    const isSubscriptionRoute = routeName === 'admin.subscriptions.index';
+    const isIndustryRoute = routeName === 'admin.industries.index';
+    const isServiceRoute = routeName === 'admin.services.index';
 
     const globalActions = {
         search_filter: true,
@@ -144,6 +145,28 @@ export default function DataTable({
                     />
                 )}
 
+                {globalActions.status_filter && statusOptions.length > 0 && (
+                    <Select
+                        name="status"
+                        value={filters.status || defaultStatus}
+                        onValueChange={(value) =>
+                            handleFilterChange({
+                                target: { name: 'status', value },
+                            })
+                        }
+                    >
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Select Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {statusOptions.map((status) => (
+                                <SelectItem key={status} value={status}>
+                                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                )}
 
                 {isAllowedRoute && globalActions.industry_filter && (
                     <div className="min-w-[250px]">
@@ -184,139 +207,77 @@ export default function DataTable({
                                         </div>
                                     );
                                 })}
-                                {/* <div className="mt-3 flex justify-end">
-                                    <Button
-                                        className="bg-navy-600 text-white hover:bg-gray-800"
-                                        onClick={() => {
-                                            onFilterChange({
-                                                ...filters,
-                                                page: 1,
-                                                apply: true,
-                                            });
-                                        }}
-                                    >
-                                        Filter
-                                    </Button>
-                                </div> */}
                             </PopoverContent>
 
                         </Popover>
-
-                        {/* Selected badges */}
-                        {/* <div className="mt-2 flex flex-wrap gap-1">
-                            {filters.industries.map((id) => {
-                                const ind = industries.find(i => String(i.id) === id);
-
-                                return (
-                                    <Badge
-                                        key={id}
-                                        className="cursor-pointer bg-navy-600"
-                                        onClick={() => {
-                                            onFilterChange({
-                                                ...filters,
-                                                industries: filters.industries.filter(x => x !== id),
-                                            });
-                                        }}
-                                    >
-                                        {ind?.name} ✕
-                                    </Badge>
-                                );
-                            })}
-                        </div> */}
                     </div>
                 )}
-                {/* <Select
-                    value={`${filters.sort_by}|${filters.sort_order}`}
-                    onValueChange={(value) => {
-                        const [sort_by, sort_order] = value.split('|');
+                {showSorting && (
+                    <Select
+                        value={`${filters.sort_by || ''}|${filters.sort_order || ''}`}
+                        onValueChange={(value) => {
+                            const [sort_by, sort_order] = value.split('|');
 
-                        onFilterChange({
-                            ...filters,
-                            sort_by,
-                            sort_order,
-                            page: 1,
-                            apply: true,
-                        });
-                    }}
-                >
-                    <SelectTrigger className="w-[220px]">
-                        <SelectValue placeholder="Sort By" />
-                    </SelectTrigger>
+                            onFilterChange({
+                                ...filters,
+                                sort_by,
+                                sort_order,
+                                page: 1,
+                                apply: true,
+                            });
+                        }}
+                    >
+                        <SelectTrigger className="w-[220px]">
+                            <SelectValue placeholder="Sort By" />
+                        </SelectTrigger>
 
-                    <SelectContent>
+                        <SelectContent>
 
-                        <SelectItem value="last_name|asc">
-                            Last Name
-                        </SelectItem>
-                        <SelectItem value="industry|asc">
-                            Industry
-                        </SelectItem>
-                        <SelectItem value="user|asc">
-                            User
-                        </SelectItem>
-                        <SelectItem value="created_at|desc">
-                            Newest
-                        </SelectItem>
+                            {/* Users Page */}
+                            {isUserRoute && (
+                                <>
+                                    <SelectItem value="name|asc">Name (A-Z)</SelectItem>
+                                    <SelectItem value="name|desc">Name (Z-A)</SelectItem>
 
-                        <SelectItem value="created_at|asc">
-                            Oldest
-                        </SelectItem>
+                                    <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
+                                    <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
 
-                    </SelectContent>
-                </Select> */}
-                <Select
-                    value={`${filters.sort_by || ''}|${filters.sort_order || ''}`}
-                    onValueChange={(value) => {
-                        const [sort_by, sort_order] = value.split('|');
+                                    <SelectItem value="created_at|desc">Newest</SelectItem>
+                                    <SelectItem value="created_at|asc">Oldest</SelectItem>
+                                </>
+                            )}
 
-                        onFilterChange({
-                            ...filters,
-                            sort_by,
-                            sort_order,
-                            page: 1,
-                            apply: true,
-                        });
-                    }}
-                >
-                    <SelectTrigger className="w-[220px]">
-                        <SelectValue placeholder="Sort By" />
-                    </SelectTrigger>
+                            {/* Records Page */}
+                            {isRecordRoute && (
+                                <>
+                                    <SelectItem value="last_name|asc">Last Name (A-Z)</SelectItem>
+                                    <SelectItem value="last_name|desc">Last Name (Z-A)</SelectItem>
 
-                    <SelectContent>
+                                    <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
+                                    <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
 
-                        {/* Users Page */}
-                        {isUserRoute && (
-                            <>
-                                <SelectItem value="name|asc">Name (A-Z)</SelectItem>
-                                <SelectItem value="name|desc">Name (Z-A)</SelectItem>
+                                    <SelectItem value="user|asc">User (A-Z)</SelectItem>
+                                    <SelectItem value="user|desc">User (Z-A)</SelectItem>
 
-                                <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
-                                <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
+                                    <SelectItem value="created_at|desc">Newest</SelectItem>
+                                    <SelectItem value="created_at|asc">Oldest</SelectItem>
+                                </>
+                            )}
 
-                                <SelectItem value="created_at|desc">Newest</SelectItem>
-                                <SelectItem value="created_at|asc">Oldest</SelectItem>
-                            </>
-                        )}
+                            {/* Subscription Page */}
+                            {isSubscriptionRoute && (
+                                <>
+                                    <SelectItem value="created_at|desc">Newest First</SelectItem>
+                                    <SelectItem value="created_at|asc">Oldest First</SelectItem>
+                                    <SelectItem value="stripe_status|asc">Status (A-Z)</SelectItem>
+                                    <SelectItem value="stripe_status|desc">Status (Z-A)</SelectItem>
+                                    <SelectItem value="trial_ends_at|desc">Trial Ending Soon</SelectItem>
+                                </>
+                            )}
 
-                        {/* Records Page */}
-                        {isRecordRoute && (
-                            <>
-                                <SelectItem value="last_name|asc">Last Name (A-Z)</SelectItem>
-                                <SelectItem value="last_name|desc">Last Name (Z-A)</SelectItem>
-
-                                <SelectItem value="industry|asc">Industry (A-Z)</SelectItem>
-                                <SelectItem value="industry|desc">Industry (Z-A)</SelectItem>
-
-                                <SelectItem value="user|asc">User (A-Z)</SelectItem>
-                                <SelectItem value="user|desc">User (Z-A)</SelectItem>
-
-                                <SelectItem value="created_at|desc">Newest</SelectItem>
-                                <SelectItem value="created_at|asc">Oldest</SelectItem>
-                            </>
-                        )}
-
-                    </SelectContent>
-                </Select>
+                        </SelectContent>
+                    </Select>
+                )}
                 {globalActions.per_page_filter && (
                     <Select
                         name="perPage"
@@ -340,14 +301,6 @@ export default function DataTable({
                         </SelectContent>
                     </Select>
                 )}
-
-                {/*<select name="perPage" value={filters.perPage} onChange={handleFilterChange} className="w-full rounded border px-3 py-2 md:w-1/6">*/}
-                {/*    {perPageOptions.map((opt) => (*/}
-                {/*        <option key={opt} value={opt}>*/}
-                {/*            {opt} per page*/}
-                {/*        </option>*/}
-                {/*    ))}*/}
-                {/*</select>*/}
             </div>
 
             {/* Table */}
@@ -359,35 +312,6 @@ export default function DataTable({
                                 <th key={col.key} className="px-4 py-2">
                                     {col.label}
                                 </th>
-                                // <th
-                                //     key={col.key}
-                                //     className="cursor-pointer px-4 py-2 select-none"
-                                //     onClick={() => {
-                                //         if (!col.sortable) return;
-                                //
-                                //         const direction =
-                                //             filters.sort === col.key && filters.direction === 'asc'
-                                //                 ? 'desc'
-                                //                 : 'asc';
-                                //
-                                //         onFilterChange({
-                                //             ...filters,
-                                //             sort: col.key,
-                                //             direction,
-                                //             page: 1,
-                                //         });
-                                //     }}
-                                // >
-                                //     <div className="flex items-center gap-1">
-                                //         {col.label}
-                                //
-                                //         {col.sortable && filters.sort === col.key && (
-                                //             <span className="text-xs">
-                                //                 {filters.direction === 'asc' ? '▲' : '▼'}
-                                //             </span>
-                                //         )}
-                                //     </div>
-                                // </th>
                             ))}
                             <th className="px-4 py-2 text-right">Actions</th>
                         </tr>
@@ -438,7 +362,6 @@ export default function DataTable({
 
                                                     return (
                                                         <>
-                                                            {/* EDIT */}
                                                             {rowActions.edit && (
                                                                 <DropdownMenuItem
                                                                     onClick={() =>
@@ -456,7 +379,6 @@ export default function DataTable({
                                                                 </DropdownMenuItem>
                                                             )}
 
-                                                            {/* VIEW */}
                                                             {rowActions.view && (
                                                                 <DropdownMenuItem
                                                                     onClick={() =>
@@ -474,7 +396,6 @@ export default function DataTable({
                                                                 </DropdownMenuItem>
                                                             )}
 
-                                                            {/* DELETE */}
                                                             {rowActions.delete && (
                                                                 <DropdownMenuItem
                                                                     onClick={() =>
@@ -489,7 +410,6 @@ export default function DataTable({
                                                                 </DropdownMenuItem>
                                                             )}
 
-                                                            {/* RESOLVE */}
                                                             {rowActions.resolve && (
                                                                 <DropdownMenuItem
                                                                     onClick={() => setResolveId(row.id)}
@@ -500,7 +420,6 @@ export default function DataTable({
                                                                 </DropdownMenuItem>
                                                             )}
 
-                                                            {/* CUSTOM ACTIONS */}
                                                             {Object.entries(
                                                                 rowActions,
                                                             ).map(
@@ -564,7 +483,6 @@ export default function DataTable({
                         </p>
                     </div>
                     <div className="flex items-center gap-1">
-                        {/* Previous Button */}
                         <button
                             onClick={() => goToPage(meta.current_page - 1)}
                             disabled={meta.current_page <= 1}
@@ -573,7 +491,6 @@ export default function DataTable({
                             <ChevronLeft className="h-4 w-4" />
                         </button>
 
-                        {/* Page Numbers */}
                         {[...Array(meta.last_page).keys()].map((_, i) => {
                             const page = i + 1;
                             return (
@@ -590,7 +507,6 @@ export default function DataTable({
                             );
                         })}
 
-                        {/* Next Button */}
                         <button
                             onClick={() => goToPage(meta.current_page + 1)}
                             disabled={meta.current_page >= meta.last_page}
@@ -602,11 +518,6 @@ export default function DataTable({
                 </div>
             )}
 
-            {/*<CustomDeleteModal*/}
-            {/*    open={!!deleteId}*/}
-            {/*    onClose={() => setDeleteId(null)}*/}
-            {/*    onConfirm={handleDeleteConfirm}*/}
-            {/*/>*/}
             <CustomDeleteModal
                 open={!!deleteId}
                 onClose={() => setDeleteId(null)}

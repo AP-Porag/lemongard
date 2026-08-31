@@ -15,6 +15,7 @@ import {
     Zap,
     LifeBuoy,
     Workflow,
+    CreditCardIcon,
 } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -82,6 +83,17 @@ export const mainNavItems: NavItem[] = [
                 href: '/admin/records/create',
                 icon: PlusCircle,
             },
+        ],
+    },
+    {
+        title: 'Subscriptions',
+        icon: Database,
+        children: [
+            {
+                title: 'All Subscriptions',
+                href: '/admin/subscriptions',
+                icon: CreditCardIcon,
+            }
         ],
     },
     // {
