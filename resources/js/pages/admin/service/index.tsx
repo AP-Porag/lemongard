@@ -121,6 +121,9 @@ export default function Index({ services, filters: initialFilters }) {
                     filters={filters}
                     onFilterChange={setFilters}
                     onSort={handleSort}
+                    showSorting={false}
+                    showSearch={true}
+                    showPerPage={true}
                 />
             </div>
         </AppLayout>

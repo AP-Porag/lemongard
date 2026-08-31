@@ -112,12 +112,15 @@ export default function Index({ industries, filters: initialFilters }) {
 
                         onDelete: () => handleDelete(row.id), // 🔥 THIS IS THE KEY
 
-                        search_filter: true,
+                        search_filter: false,
                         per_page_filter: true,
                     })}
                     baseRoute="admin.industries"
                     filters={filters}
                     onFilterChange={setFilters}
+                    showSorting={false}
+                    showSearch={true}
+                    showPerPage={true}
                 />
             </div>
         </AppLayout>

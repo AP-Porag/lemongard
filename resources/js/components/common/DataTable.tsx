@@ -29,6 +29,9 @@ export default function DataTable({
     columns,
     meta,
     industries = [],
+    showSearch = true,
+    showStatus = false,
+    showPerPage = true,
     actions = {
         view: true,
         edit: true,
@@ -62,6 +65,8 @@ export default function DataTable({
     const isIndustryRoute = routeName === 'admin.industries.index';
     const isServiceRoute = routeName === 'admin.services.index';
 
+
+
     const globalActions = {
         search_filter: true,
         status_filter: true,
@@ -69,6 +74,8 @@ export default function DataTable({
         per_page_filter: true,
         ...(typeof actions === 'object' ? actions : {}),
     };
+
+
 
     // PER ROW (many times)
     const resolveActions = (row) => {
