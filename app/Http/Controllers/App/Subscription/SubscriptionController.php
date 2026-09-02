@@ -46,21 +46,31 @@ class SubscriptionController extends Controller
     {
         return $this->service->destroy($id);
     }
+    // public function checkout($name, Request $request)
+    // {
+
+    //     $plan = Plan::whereName($name)->first();
+    //     $planPrice = $plan->stripe_price_id;
+    //     return $request->user()
+    //         ->newSubscription('default', $planPrice)
+    //         ->checkout([
+    //             'success_url' => route('app.checkout.success', [
+    //                 'plan' => $plan->name,
+    //             ]),
+    //             'cancel_url' => route('app.myplan'),
+    //             'payment_method_types' => ['card'],
+    //         ]);
+    // }
     public function checkout($name, Request $request)
     {
 
-        $plan = Plan::whereName($name)->first();
-        $planPrice = $plan->stripe_price_id;
-        return $request->user()
-            ->newSubscription('default', $planPrice)
-            ->checkout([
-                'success_url' => route('app.checkout.success', [
-                    'plan' => $plan->name,
-                ]),
-                'cancel_url' => route('app.myplan'),
-                'payment_method_types' => ['card'],
-            ]);
+        return $this->service->checkout(
+            $request->user(),
+            $name
+        );
     }
+
+
 
     public function success(Request $request)
     {

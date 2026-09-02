@@ -83,8 +83,8 @@ class AdminDashboardService
     {
         return $this->baseQuery()
             ->where('stripe_status', 'active')
-            // ->where('stripe_price', '!=', 'price_1TXH33HKtXG9R7bGb5heMCgK')
-            ->where('stripe_price', '!=', 'price_1U0nSxFulxMQQHJjszqFW2i1')
+            ->where('stripe_price', '!=', 'price_1TXH33HKtXG9R7bGb5heMCgK')
+            // ->where('stripe_price', '!=', 'price_1U0nSxFulxMQQHJjszqFW2i1')
             ->where(function ($query) {
                 $query->whereNull('trial_ends_at')
                     ->orWhere('trial_ends_at', '<', now());

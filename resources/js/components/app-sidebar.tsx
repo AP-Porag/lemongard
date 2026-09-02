@@ -85,17 +85,17 @@ export const mainNavItems: NavItem[] = [
             },
         ],
     },
-    {
-        title: 'Subscriptions',
-        icon: Database,
-        children: [
-            {
-                title: 'All Subscriptions',
-                href: '/admin/subscriptions',
-                icon: CreditCardIcon,
-            }
-        ],
-    },
+    //{
+    //     title: 'Subscriptions',
+    //     icon: Database,
+    //     children: [
+    //         {
+    //             title: 'All Subscriptions',
+    //             href: '/admin/subscriptions',
+    //             icon: CreditCardIcon,
+    //         }
+    //     ],
+    // },
     // {
     //     title: 'Reports',
     //     icon: BarChart3,

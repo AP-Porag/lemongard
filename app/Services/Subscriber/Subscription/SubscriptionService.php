@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Services\BaseService;
 use Carbon\Carbon;
 use App\Utils\SubscriptionPlan;
+use App\Models\Plan;
+use Illuminate\Http\RedirectResponse;
+use Laravel\Cashier\Checkout;
 
 class SubscriptionService extends BaseService
 {
@@ -14,6 +17,9 @@ class SubscriptionService extends BaseService
         parent::__construct($model); // ✅ concrete model
     }
 
+
+
+
     public function myPlan($userId)
     {
         $user = $this->model->findOrFail($userId);
@@ -21,24 +27,24 @@ class SubscriptionService extends BaseService
         $subscription = $user->subscription('default');
 
         $nextBillingDate = null;
-if ($subscription && $subscription->active() && !$subscription->onGracePeriod()) {
-    try {
-        // Stripe Subscription অবজেক্ট নেওয়া হচ্ছে
-        $stripeSubscription = $subscription->asStripeSubscription();
-        
-        // current_period_end আছে কিনা এবং তা null না তা নিশ্চিত করা হচ্ছে
-        if (isset($stripeSubscription->current_period_end) && $stripeSubscription->current_period_end) {
-            $nextBillingDate = Carbon::createFromTimestamp($stripeSubscription->current_period_end)
-                ->format('M d, Y');
-        } else {
-            // যদি স্ট্রাইপ থেকে ডেট না পাওয়া যায়
-            $nextBillingDate = $subscription->created_at->addMonth()->format('M d, Y');
+        if ($subscription && $subscription->active() && !$subscription->onGracePeriod()) {
+            try {
+                // Stripe Subscription অবজেক্ট নেওয়া হচ্ছে
+                $stripeSubscription = $subscription->asStripeSubscription();
+
+                // current_period_end আছে কিনা এবং তা null না তা নিশ্চিত করা হচ্ছে
+                if (isset($stripeSubscription->current_period_end) && $stripeSubscription->current_period_end) {
+                    $nextBillingDate = Carbon::createFromTimestamp($stripeSubscription->current_period_end)
+                        ->format('M d, Y');
+                } else {
+                    // যদি স্ট্রাইপ থেকে ডেট না পাওয়া যায়
+                    $nextBillingDate = $subscription->created_at->addMonth()->format('M d, Y');
+                }
+            } catch (\Throwable $e) {
+                // \Exception এর বদলে \Throwable ব্যবহার করা হয়েছে যা TypeError-ও ক্যাচ করবে
+                $nextBillingDate = $subscription->created_at ? $subscription->created_at->addMonth()->format('M d, Y') : null;
+            }
         }
-    } catch (\Throwable $e) {
-        // \Exception এর বদলে \Throwable ব্যবহার করা হয়েছে যা TypeError-ও ক্যাচ করবে
-        $nextBillingDate = $subscription->created_at ? $subscription->created_at->addMonth()->format('M d, Y') : null;
-    }
-}
         $isCancelled = $subscription?->canceled();
         // $stripeSub = $subscription?->asStripeSubscription();
 
@@ -70,44 +76,55 @@ if ($subscription && $subscription->active() && !$subscription->onGracePeriod())
         ];
     }
 
-    // public function myPlan($userId)
-    // {
-    //     $user = $this->model->findOrFail($userId);
-    //     $subscription = $user->subscription('default');
-    //     // $stripe = new \Stripe\StripeClient(config('cashier.secret'));
+    public function checkout(User $user, string $planName): Checkout|RedirectResponse
+    {
+        $plan = Plan::whereName($planName)->firstOrFail();
 
-    //     // $stripeSubscription = $stripe->subscriptions->retrieve(
-    //     //     $subscription->stripe_id
-    //     // );
+        $priceId = $plan->stripe_price_id;
 
-    //     // $nextBillingDate = $stripeSubscription->current_period_end;
+        $subscription = $user->subscription('default');
 
+        // Trial user হলে Checkout এ যাবে
+        if (
+            $subscription &&
+            !$user->onTrial('default') &&
+            ($subscription->active() || $subscription->onGracePeriod())
+        ) {
 
-    //     $isCancelled =
-    //         $subscription &&
-    //         $subscription->ends_at !== null;
+            if ($subscription->stripe_price === $priceId) {
+                return redirect()
+                    ->route('app.myplan')
+                    ->with('info', 'You are already subscribed to this plan.');
+            }
 
-    //     $nextBillingDate = $subscription
-    //         ? $subscription->asStripeSubscription()->current_period_end
-    //         : null;
-    //     //  dd($nextBillingDate);
+            $subscription->swap($priceId);
 
-    //     return [
-    //         'user' => $user,
-    //         'is_trial' => $user->onTrial('default'),
-    //         'is_subscribed' => $user->subscribed('default'),
-    //         'trial_ends_at' => optional($user->subscription('default'))->trial_ends_at,
-    //         'subscription_tier' => $user->subscription_tier,
-    //         'subscription_status' => $user->subscribed('default')
-    //             ? 'active'
-    //             : ($user->onTrial('default') ? 'trial' : 'expired'),
-    //         'is_cancelled' => $isCancelled,
-    //         'next_billing_date' => $nextBillingDate,
-    //         'has_full_access' => $this->hasFullAccess($user),
-    //         'stripe_status' => $this->getSubscription($user)?->stripe_status,
-    //     ];
-    // }
+            $user->update([
+                'subscription_tier' => $plan->name,
+                'subscription_status' => 'active',
+                'trial_ends_at' => null,
+            ]);
 
+            return redirect()
+                ->route('app.myplan')
+                ->with('success', 'Subscription plan updated successfully.');
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | First Time Subscription
+    |--------------------------------------------------------------------------
+    */
+        return $user
+            ->newSubscription('default', $priceId)
+            ->checkout([
+                'success_url' => route('app.checkout.success', [
+                    'plan' => $plan->name,
+                ]),
+                'cancel_url' => route('app.myplan'),
+                'payment_method_types' => ['card'],
+            ]);
+    }
     public function index($request)
     {
         return inertia('app/subscriptions/index', [
