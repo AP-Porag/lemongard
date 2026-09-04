@@ -209,6 +209,10 @@ Route::prefix(GlobalConstant::ROUTE_APP)
         Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel']);
         Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
         Route::post('/subscription/swap', [SubscriptionController::class, 'swap']);
+
+
+        Route::get('billing/invoice/{invoiceId}', [SubscriptionController::class, 'downloadInvoice'])
+            ->name('billing.invoice.download');
     });
 
 /*

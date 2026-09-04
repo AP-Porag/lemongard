@@ -7,6 +7,7 @@ import {
     CircleDollarSign,
     Receipt,
     AlertCircle,
+    Download,
 } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,6 +27,12 @@ interface BillingInfoProps {
         started_at: string | null;
         ends_at: string | null;
     };
+    invoices?: {
+        id: string;
+        date: string;
+        total: string;
+        status: string;
+    }[];
 }
 
 import type { BreadcrumbItem } from '@/types';
@@ -37,7 +44,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
+export default function BillingInfoPage({ billingInfo, invoices = [] }: BillingInfoProps) {
     const getStatusBadge = () => {
         switch (billingInfo.subscription_status) {
             case 'active':
@@ -234,12 +241,74 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                 </CardContent>
                             </Card>
                         )}
+
+                        {/* Billing History / Invoices */}
+                        <Card className="border-0 shadow-sm">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-lg">
+                                    <Receipt className="h-5 w-5 text-[#FF6B00]" />
+                                    Billing History
+                                </CardTitle>
+                            </CardHeader>
+
+                            <CardContent>
+                                {invoices.length > 0 ? (
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm">
+                                            <thead>
+                                                <tr className="border-b text-left text-slate-500">
+                                                    <th className="py-2 pr-4 font-medium">Date</th>
+                                                    <th className="py-2 pr-4 font-medium">Amount</th>
+                                                    <th className="py-2 pr-4 font-medium">Status</th>
+                                                    <th className="py-2 pr-4 font-medium text-right">Invoice</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {invoices.map((invoice) => (
+                                                    <tr key={invoice.id} className="border-b last:border-0">
+                                                        <td className="py-3 pr-4 whitespace-nowrap text-slate-900">
+                                                            {invoice.date}
+                                                        </td>
+                                                        <td className="py-3 pr-4 whitespace-nowrap font-medium text-slate-900">
+                                                            {invoice.total}
+                                                        </td>
+                                                        <td className="py-3 pr-4">
+                                                            <span
+                                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${invoice.status === 'paid'
+                                                                    ? 'bg-green-100 text-green-700'
+                                                                    : invoice.status === 'open'
+                                                                        ? 'bg-yellow-100 text-yellow-800'
+                                                                        : 'bg-gray-100 text-gray-600'
+                                                                    }`}
+                                                            >
+                                                                {invoice.status}
+                                                            </span>
+                                                        </td>
+                                                        <td className="py-3 pr-4 text-right">
+
+                                                            <a href={route('app.billing.invoice.download', invoice.id)}
+                                                                className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                                                            >
+                                                                <Download className="h-3.5 w-3.5" />
+                                                                Download
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-slate-500">No invoices available yet.</p>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
 
                     {/* RIGHT SIDE */}
                     <div className="space-y-6">
                         {/* Payment Method */}
-                        {/* <Card className="border-0 shadow-sm">
+                        <Card className="border-0 shadow-sm">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-lg">
                                     <CreditCard className="h-5 w-5 text-[#FF6B00]" />
@@ -275,7 +344,7 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                                     </div>
                                 </div>
                             </CardContent>
-                        </Card> */}
+                        </Card>
 
                         {/* Billing Notes */}
                         <Card className="border-0 shadow-sm">
@@ -304,6 +373,6 @@ export default function BillingInfoPage({ billingInfo }: BillingInfoProps) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </AppLayout >
     );
 }

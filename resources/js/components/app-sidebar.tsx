@@ -16,6 +16,9 @@ import {
     LifeBuoy,
     Workflow,
     CreditCardIcon,
+    UserPlus,
+    LucideCreditCard,
+    Crown,
 } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -46,6 +49,12 @@ export const mainNavItems: NavItem[] = [
                 title: 'All Users',
                 href: '/admin/users',
                 icon: User,
+            },
+            {
+                title: 'Subscribers',
+                href: '/admin/subscriptions',
+                icon: Crown,
+
             },
             // {
             //     title: 'Subscriptions',
@@ -85,17 +94,7 @@ export const mainNavItems: NavItem[] = [
             },
         ],
     },
-    //{
-    //     title: 'Subscriptions',
-    //     icon: Database,
-    //     children: [
-    //         {
-    //             title: 'All Subscriptions',
-    //             href: '/admin/subscriptions',
-    //             icon: CreditCardIcon,
-    //         }
-    //     ],
-    // },
+
     // {
     //     title: 'Reports',
     //     icon: BarChart3,

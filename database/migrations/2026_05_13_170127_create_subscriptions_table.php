@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
+            $table->string('pm_type')->nullable();
+            $table->string('pm_last_four', 4)->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'stripe_status']);
