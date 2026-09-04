@@ -29,15 +29,16 @@ class AdminSubscriptionsController extends Controller
 
         // Cashier-এ সম্ভাব্য সব স্ট্যাটাস
         $statuses = [
+            'all',
             'active',
             'trialing',
             'canceled',
-            'incomplete',
-            'incomplete_expired',
-            'past_due',
-            'unpaid',
-            'paused',
-            'ended', // ঐচ্ছিক
+            // 'incomplete',
+            // 'incomplete_expired',
+            // 'past_due',
+            // 'unpaid',
+            // 'paused',
+            // 'ended',
         ];
 
         return Inertia::render('admin/subscription/index', [

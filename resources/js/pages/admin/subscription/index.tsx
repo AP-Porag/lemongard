@@ -23,13 +23,11 @@ export default function Index({ subscriptions, statuses, filters: initialFilters
 
     useEffect(() => {
         const { apply, ...queryParams } = filters;
-
         if (filters.apply) {
             router.get(route('admin.subscriptions.index'), queryParams, {
                 preserveState: true,
                 replace: true,
             });
-
             setFilters((prev) => ({
                 ...prev,
                 apply: false,
@@ -103,9 +101,16 @@ export default function Index({ subscriptions, statuses, filters: initialFilters
                 // Active এবং ends_at null হলে মাসিক অটো-রিনিউ ধরা হয়
                 if (row.stripe_status === 'active' && !row.ends_at) {
                     return (
-                        <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                            Monthly (Auto)
-                        </span>
+                        <div className="flex flex-col gap-1">
+                            <span className="inline-flex w-fit items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                                Monthly (Auto)
+                            </span>
+                            {row.next_renewal_date && (
+                                <span className="whitespace-nowrap text-xs text-gray-600">
+                                    Next: {new Date(row.next_renewal_date).toLocaleDateString()}
+                                </span>
+                            )}
+                        </div>
                     );
                 }
                 // Active কিন্তু ends_at আছে (canceled/ending)
@@ -152,12 +157,10 @@ export default function Index({ subscriptions, statuses, filters: initialFilters
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Subscriptions" />
-
             <div className="p-4">
                 <div className="my-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Subscriptions</h1>
                 </div>
-
                 <DataTable
                     data={subscriptions.data}
                     columns={columns}

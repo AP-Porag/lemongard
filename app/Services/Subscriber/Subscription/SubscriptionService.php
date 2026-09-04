@@ -76,25 +76,17 @@ class SubscriptionService extends BaseService
         ];
     }
 
+
     public function checkout(User $user, string $planName): Checkout|RedirectResponse
     {
         $plan = Plan::whereName($planName)->firstOrFail();
-
         $priceId = $plan->stripe_price_id;
-
         $subscription = $user->subscription('default');
 
-        // Trial user হলে Checkout এ যাবে
-        if (
-            $subscription &&
-            !$user->onTrial('default') &&
-            ($subscription->active() || $subscription->onGracePeriod())
-        ) {
-
+        // Active বা Grace Period Subscription থাকলে swap
+        if ($subscription && !$user->onTrial('default') && ($subscription->active() || $subscription->onGracePeriod())) {
             if ($subscription->stripe_price === $priceId) {
-                return redirect()
-                    ->route('app.myplan')
-                    ->with('info', 'You are already subscribed to this plan.');
+                return redirect()->route('app.myplan')->with('info', 'You are already subscribed to this plan.');
             }
 
             $subscription->swap($priceId);
@@ -105,26 +97,32 @@ class SubscriptionService extends BaseService
                 'trial_ends_at' => null,
             ]);
 
-            return redirect()
-                ->route('app.myplan')
-                ->with('success', 'Subscription plan updated successfully.');
+            return redirect()->route('app.myplan')->with('success', 'Subscription plan updated successfully.');
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | First Time Subscription
-    |--------------------------------------------------------------------------
-    */
+        // Trial subscription থাকলে delete
+        if ($subscription && $user->onTrial('default')) {
+            $subscription->cancelNow();
+            $subscription->delete();
+            $user->refresh();
+        }
+
+        // Canceled বা Ended subscription থাকলে delete (নতুন duplicate রোধে)
+        if ($subscription && ($subscription->canceled() || $subscription->ended())) {
+            $subscription->delete();
+            $user->refresh();
+        }
+
+        // নতুন subscription তৈরি
         return $user
             ->newSubscription('default', $priceId)
             ->checkout([
-                'success_url' => route('app.checkout.success', [
-                    'plan' => $plan->name,
-                ]),
+                'success_url' => route('app.checkout.success', ['plan' => $plan->name]),
                 'cancel_url' => route('app.myplan'),
                 'payment_method_types' => ['card'],
             ]);
     }
+
     public function index($request)
     {
         return inertia('app/subscriptions/index', [
