@@ -5,24 +5,24 @@ import { LemonSimple, LemonSlice } from '@/components/LemonIcon';
 
 const problems = [
     {
-        title: 'Isolated Information',
-        desc: 'Critical data is locked in individual systems, with no easy way to share or access collective knowledge.',
+        title: 'Disorganized Information',
+        desc: 'Important service and transaction information can be spread across different systems, making it difficult to organize and access when needed.',
     },
     {
         title: 'Wasted Time',
         desc: 'Professionals repeatedly research the same clients, services, and pricing information.',
     },
     {
-        title: 'Lack of Control Over Data',
-        desc: "Existing tools often don’t give you control over the information you contribute or how it’s used.",
+        title: 'Managing records and reviewing relevant transaction information can take valuable time away from running your business.',
+        desc: "Managing Your Information",
     },
     {
         title: 'Expensive, Overbuilt Solutions',
         desc: "Many tools are packed with unnecessary features and come at a cost that doesn’t fit most service businesses.",
     },
     {
-        title: 'Poor Search Experience',
-        desc: 'Slow, outdated systems make it difficult to quickly find the information you need.',
+        title: 'Complex and Costly Solutions',
+        desc: 'Many business tools include features that service professionals may not need, often adding unnecessary complexity and expense.',
     },
 ];
 
@@ -67,7 +67,7 @@ const ProblemSolutionSection = () => (
                 </div>
 
                 <h2 className="text-black mb-8 text-3xl font-bold md:text-4xl">
-                    The Problems Service Professionals Face Every Day
+                    The Challenges Service Professionals Face Every Day
                 </h2>
 
                 <div className="space-y-6">

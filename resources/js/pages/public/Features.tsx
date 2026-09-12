@@ -77,33 +77,33 @@ const whiteOutlineBtn =
 const coreFeatures = [
     {
         icon: Database,
-        title: "Shared Data Access",
+        title: "Information Access",
         description:
-            "View and search records contributed across the entire LemonGard network. Every new subscriber adds value for everyone.",
+            "Quickly access relevant information available through the LemonGard platform, presented in a clear and consistent format.",
         bullets: [
-            "Access the full shared database",
-            "Real-time record availability",
-            "Network grows with every subscriber",
+            "Search relevant records efficiently",
+            "Access available information when needed",
+            "Benefit from an expanding information resource",
         ],
         badge: "Network Effect",
     },
     {
         icon: ShieldCheck,
-        title: "Ownership Protection",
+        title: "Record Management",
         description:
-            "You can search all records but may only edit or delete the ones you personally created. Trust and integrity built into the platform.",
+            "LemonGard provides clear controls for managing the records you create while maintaining the consistency and integrity of information available through the platform.",
         bullets: [
-            "Edit only your own records",
-            "Delete only your own records",
-            "Full accountability enforced",
+            "Manage records you create",
+            "Update or remove your own records",
+            "Clear record-management controls",
         ],
         badge: "Your Data, Your Control",
     },
     {
         icon: Search,
-        title: "Advanced Search & Filtering",
+        title: "Search & Filtering",
         description:
-            "Locate any record instantly using powerful multi-field search built for large datasets.",
+            "Find relevant information efficiently using flexible search and filtering tools.",
         fields: [
             "First Name",
             "Last Name",
@@ -114,47 +114,47 @@ const coreFeatures = [
             "Industry",
             "Address",
         ],
-        note: "Designed for speed across thousands of records.",
+        note: "Designed to make finding relevant information simple, organized, and efficient.",
         badge: "Lightning Fast",
     },
-    {
-        icon: Briefcase,
-        title: "Industry-Based Organization",
-        description:
-            "Browse, filter, and generate reports based on specific industry categories relevant to your service work.",
-        bullets: [
-            "Industry dropdown selector",
-            "Category-based reporting",
-            "Market-specific filtering",
-        ],
-        badge: "Smart Organization",
-    },
-    {
-        icon: FileText,
-        title: "Structured Record Management",
-        description: "Store comprehensive client information in a consistent, searchable format.",
-        fields: [
-            "Customer Names",
-            "Phone Numbers",
-            "Addresses",
-            "Service Details",
-            "Pricing",
-            "Incident Reports",
-        ],
-        badge: "Complete Client Profiles",
-    },
-    {
-        icon: BarChart2,
-        title: "Subscriber Reporting",
-        description:
-            "Generate actionable reports from the shared database to identify trends, opportunities, and insights for your business.",
-        bullets: [
-            "Filter reports by industry",
-            "Subscriber-level data views",
-            "Professional business workflows",
-        ],
-        badge: "Business Intelligence",
-    },
+    // {
+    //     icon: Briefcase,
+    //     title: "Industry-Based Organization",
+    //     description:
+    //         "Browse, filter, and generate reports based on specific industry categories relevant to your service work.",
+    //     bullets: [
+    //         "Industry dropdown selector",
+    //         "Category-based reporting",
+    //         "Market-specific filtering",
+    //     ],
+    //     badge: "Smart Organization",
+    // },
+    // {
+    //     icon: FileText,
+    //     title: "Structured Record Management",
+    //     description: "Store comprehensive client information in a consistent, searchable format.",
+    //     fields: [
+    //         "Customer Names",
+    //         "Phone Numbers",
+    //         "Addresses",
+    //         "Service Details",
+    //         "Pricing",
+    //         "Incident Reports",
+    //     ],
+    //     badge: "Complete Client Profiles",
+    // },
+    // {
+    //     icon: BarChart2,
+    //     title: "Subscriber Reporting",
+    //     description:
+    //         "Generate actionable reports from the shared database to identify trends, opportunities, and insights for your business.",
+    //     bullets: [
+    //         "Filter reports by industry",
+    //         "Subscriber-level data views",
+    //         "Professional business workflows",
+    //     ],
+    //     badge: "Business Intelligence",
+    // },
 ] as const;
 
 // ---- Steps data ----
@@ -261,15 +261,13 @@ const Features = () => {
                         </div>
 
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
-                            <span className="text-[#1E3A8A]">Powerful Shared Client Data Tracking</span>{" "}
+                            <span className="text-[#1E3A8A]">Practical Information Tools for Service Professionals</span>{" "}
 
-                            <span className="text-[#1E3A8A]">Platform for Service Professionals</span>
+                            {/* <span className="text-[#1E3A8A]">Platform for Service Professionals</span> */}
                         </h1>
 
                         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
-                            Access, search, and contribute to a growing shared database while maintaining
-                            complete control over the client records you create. Built for service
-                            professionals who need real data, real fast.
+                            Access and manage relevant service and transaction information through a simple, structured platform. Built for service professionals who value accurate information, efficient recordkeeping, and informed business decisions.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -367,8 +365,7 @@ const Features = () => {
                             </h2>
                         </div>
                         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                            Nine powerful capabilities that make LemonGard the go-to shared client data
-                            tracking solution for service professionals.
+                            Nine practical features designed to help service professionals organize information, streamline everyday tasks, and make informed business decisions.
                         </p>
                     </motion.div>
 
@@ -587,10 +584,10 @@ const Features = () => {
                                     </span>
                                 </div>
                                 <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">
-                                    The Ownership Protection Model — Explained
+                                    The Record Management Model — Explained
                                 </h2>
                                 <p className="text-lg text-gray-600">
-                                    Shared visibility, individual control — built into the platform.
+                                   Clear access and record-management controls designed to support consistency, accuracy, and responsible use of information.
                                 </p>
                             </div>
 
@@ -598,28 +595,23 @@ const Features = () => {
                                 {/* Left */}
                                 <div>
                                     <h3 className="text-2xl md:text-3xl font-bold text-[#1E3A8A] mb-6">
-                                        You See Everything. You Control Only Yours.
+                                        Access Information. Manage Your Records.
                                     </h3>
                                     <div className="space-y-4 text-gray-600 leading-relaxed">
                                         <p>
-                                            LemonGard is built on a unique principle: shared visibility with
-                                            individual ownership. Every subscriber can browse and search the entire
-                                            database — but editing and deleting are restricted to records you
-                                            personally created.
+                                            LemonGard provides structured access to relevant information while giving each user clear control over the records they create. Users can search available information, while updates and deletions are limited to the original contributor.
                                         </p>
                                         <p>
-                                            This creates a fair, accountable ecosystem where every contributor can
-                                            trust that their data remains protected while still benefiting from the
-                                            collective intelligence of the network.
+                                            This approach helps maintain consistency, accuracy, and accountability while providing clear record-management controls for every user.
                                         </p>
                                     </div>
 
                                     <div className="space-y-4 mt-8">
                                         {[
-                                            { icon: Eye, title: "Search All Records", desc: "Search and browse every record in the database" },
-                                            { icon: PenLine, title: "Edit Only Yours", desc: "Modify or update records you personally added" },
-                                            { icon: Trash2, title: "Delete Only Yours", desc: "Remove records you created at any time" },
-                                            { icon: Shield, title: "Others Protected", desc: "Other users' records are always read-only for you" },
+                                            { icon: Eye, title: "Search Available Information", desc: "Quickly find relevant information using structured search tools." },
+                                            { icon: PenLine, title: "Manage Your Records", desc: "Update records you have personally created." },
+                                            { icon: Trash2, title: "Remove Your Records", desc: "Delete records you created when appropriate." },
+                                            { icon: Shield, title: "Record Integrity", desc: "Records created by other users remain read-only, helping preserve the integrity of information within the platform." },
                                         ].map((it) => {
                                             const Icon = it.icon;
                                             return (
@@ -778,8 +770,8 @@ const Features = () => {
                 </section>
 
                 {/* ================= SECTION 7: WHY DIFFERENT ================= */}
-                <section className="section-container py-20 lg:py-32">
-                    <motion.div {...fadeUp} className="text-center mb-16">
+                <section className="section-container py-6 lg:py-10">
+                    {/* <motion.div {...fadeUp} className="text-center mb-16">
                         <div className="inline-flex items-center gap-2 mb-4">
                             <LemonSimple className="w-6 h-6 text-[#F8C734]" />
                             <span className="text-sm font-semibold text-[#1E3A8A] uppercase tracking-wide">
@@ -787,13 +779,13 @@ const Features = () => {
                             </span>
                         </div>
                         <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">
-                            Most platforms keep your data isolated. We share the value.
+                            Better Access to Useful Information
                         </h2>
-                    </motion.div>
+                    </motion.div> */}
 
-                    <div className="grid lg:grid-cols-2 gap-10 items-stretch">
+                    {/* <div className="grid lg:grid-cols-2 gap-10 items-stretch"> */}
                         {/* Most Platforms */}
-                        <motion.div
+                        {/* <motion.div
                             {...fadeUp}
                             className="bg-gray-50 border-2 border-gray-300 rounded-2xl p-10 flex flex-col h-full"
                         >
@@ -825,10 +817,10 @@ const Features = () => {
                                     This is how most tools work — keeping everyone's data separate and isolated.
                                 </p>
                             </div>
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* LemonGard */}
-                        <motion.div
+                        {/* <motion.div
                             {...fadeUp}
                             className="bg-gradient-to-br from-[#1E3A8A] to-[#0F172A] rounded-2xl p-10 text-white flex flex-col h-full relative overflow-hidden"
                         >
@@ -872,8 +864,8 @@ const Features = () => {
                                     protection.
                                 </p>
                             </div>
-                        </motion.div>
-                    </div>
+                        </motion.div> */}
+                    {/* </div> */}
 
                     <motion.div
                         {...fadeUp}
@@ -885,12 +877,10 @@ const Features = () => {
                         />
                         <LemonSimple className="w-12 h-12 text-[#1E3A8A] mx-auto mb-4 relative z-10" />
                         <h3 className="text-xl font-bold text-[#1E3A8A] mb-2 relative z-10">
-                            The Result: A Smarter Service Data Network
+                            The Result: A More Connected Information Resource
                         </h3>
                         <p className="text-[#1E40AF] leading-relaxed max-w-2xl mx-auto relative z-10">
-                            A constantly growing, shared client data network where every subscriber both
-                            contributes value and benefits from the contributions of others — with full
-                            ownership protection built in.
+                            A structured information platform designed to provide service professionals with access to relevant records while maintaining clear controls over the information each user contributes.
                         </p>
                     </motion.div>
                 </section>
@@ -1105,21 +1095,21 @@ const Features = () => {
                         {[
                             {
                                 quote:
-                                    "The shared database concept is brilliant. I can see what other professionals in my industry are tracking — it saves hours of work every week.",
+                                    "LemonGard makes it easy to access relevant information in one organized platform. It saves me time and helps make my day-to-day work more efficient.",
                                 initials: "JS",
                                 name: "James S.",
                                 role: "Service Contractor",
                             },
                             {
                                 quote:
-                                    "Finally a platform that respects data ownership. I add my records and know no one else can change them. That matters a lot in my business.",
+                                    "LemonGard provides clear and straightforward record-management controls. I can manage the information I add while knowing that the integrity of my records is maintained.",
                                 initials: "ML",
                                 name: "Maria L.",
                                 role: "HVAC Professional",
                             },
                             {
                                 quote:
-                                    "The 30-day trial was enough to convince me. The search is incredibly fast and the shared data is genuinely valuable.",
+                                    "The 30-day trial gave me an opportunity to experience the platform firsthand. The search tools are fast and easy to use, and having relevant information readily available has been valuable for my business.",
                                 initials: "RK",
                                 name: "Robert K.",
                                 role: "Independent Contractor",

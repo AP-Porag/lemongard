@@ -27,15 +27,15 @@ const HeroSection = () => {
 
                         {/* Heading */}
                         <h1 className="text-navy-600 mt-6 text-2xl leading-tight font-bold md:text-4xl lg:text-5xl font-sans">
-                            For decades, difficult clients have relied on one thing: businesses never talk to each other.{' '}
+                            Better Information. Smarter Business Decisions.{' '}
                             <br /><span className="text-yellow-500 text-[45px]">
-                                LemonGard changes that
+                                LemonGard provides businesses with a structured way to document and verify customer transaction history.
                             </span>
                         </h1>
 
                         {/* Subtext */}
                         <p className="mt-6 text-lg leading-relaxed text-gray-500 md:text-xl">
-                            Stop problem clients before they become your problem. Join thousands of businesses sharing trusted client experiences to identify repeat offenders, document interactions, and protect your business with confidence.
+                            Using standardized, factual information such as service details, transaction amounts, and dispute status, LemonGard helps businesses maintain accurate records and make better-informed decisions.
                         </p>
 
                         {/* Buttons */}

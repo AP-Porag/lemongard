@@ -66,7 +66,7 @@ const HowItWorksHero = () => {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl"
                 >
-                    Start tracking your client data in three easy steps.
+                    Manage customer transaction information in three simple steps.
                 </motion.p>
             </div>
             </div>

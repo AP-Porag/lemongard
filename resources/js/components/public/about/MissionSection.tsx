@@ -24,13 +24,13 @@ const MissionSection = () => (
         </div>
 
         <h2 className="text-3xl md:text-4xl font-bold text-navy-600 mb-6">
-          Empowering Service Professionals with Shared Knowledge
+          Supporting Service Professionals with Better Information
         </h2>
 
         <div className="text-gray-600 leading-relaxed space-y-4">
-          <p>We believe service professionals shouldn’t have to start from scratch. Every interaction, client relationship, and service call contains valuable insights that can benefit others in the field.</p>
-          <p>LemonGard enables professionals to contribute to and benefit from a shared database of industry information, while maintaining full ownership and control of their own data.</p>
-          <p>Our mission is simple: to make it easy for service professionals to access the collective knowledge of their industry, while ensuring privacy, security, and fairness are always protected.</p>
+          <p>Every service interaction creates important transaction details. Having that information organized in a clear and consistent format can help professionals maintain accurate records and make more informed business decisions.</p>
+          <p>LemonGard provides a structured platform for documenting relevant service and transaction information, with an emphasis on accuracy, consistency, and responsible data practices.</p>
+          <p>Our mission is simple: to provide service professionals with useful tools and relevant information while maintaining a strong commitment to privacy, security, transparency, and fairness.</p>
         </div>
       </motion.div>
 

@@ -31,8 +31,8 @@ const TeamSection = () => (
       className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8 max-w-2xl mx-auto text-center mb-12"
     >
       <LemonWhole className="w-16 h-16 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-navy-600 mb-2">Small Team, Big Impact</h3>
-      <p className="text-gray-600">LemonGard is built and maintained by a dedicated team of developers and industry professionals who understand the challenges you face every day.</p>
+      <h3 className="text-xl font-semibold text-navy-600 mb-2">Small Team, Focused Approach</h3>
+      <p className="text-gray-600">LemonGard is built and maintained by a dedicated team focused on creating practical, reliable tools for service industry professionals.</p>
     </motion.div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">

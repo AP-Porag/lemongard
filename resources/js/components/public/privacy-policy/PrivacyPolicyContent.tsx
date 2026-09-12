@@ -4,18 +4,18 @@ const PrivacyPolicyContent = () => {
     <section className=" py-20 lg:py-30">
         <div className="section-container">
           <h2 className=" text-center text-2xl md:text-3xl lg:text-4xl font-bold text-navy-600">
-            Legal and Privacy Requirements
+            Privacy Policy
           </h2>
           <div className="flex justify-center items-center">
             <div className="pt-7 text-[16px] w-[80%] pl-4">
 
 
   <p className="mt-4 text-gray-600">
-    LemonGard (“we,” “our,” “us”) values your privacy and is committed to protecting your personal information. This Privacy Policy outlines the types of information we collect, how we use it, and how we safeguard your data when you use our website, www.LemonGard.com and its services.
+    LemonGard (“LemonGard,” “we,” “our,” or “us”) respects privacy and is committed to handling personal information responsibly. This Privacy Policy explains the categories of information we collect and process, how that information may be used and disclosed, and the choices available regarding personal information when using LemonGard.com and the LemonGard platform.
   </p>
 
   <p className="mt-2 text-gray-600">
-    By accessing and using our website, you agree to the terms outlined in this Privacy Policy. If you do not agree with this policy, please do not use our services.
+    Please review this Privacy Policy carefully. By using LemonGard, you acknowledge the data practices described in this policy.
   </p>
 
 
@@ -23,35 +23,34 @@ const PrivacyPolicyContent = () => {
   <p className="mt-2 text-gray-700">We collect two types of information:</p>
 
   <ul className="list-disc pl-6 mt-2 space-y-2">
-    <li className="font-bold text-navy-700">Personal Information</li>
+    <li className="font-bold text-navy-700">The information processed through LemonGard generally falls into the following categories:</li>
   </ul>
 
   <p className="mt-2 text-gray-700">
-    Personal information refers to data that can identify you as an individual. This may include:
+    Account and Subscriber Information
   </p>
 
   <ul className="list-disc pl-10 mt-2 space-y-1 text-gray-600">
+    <li>When a business or professional creates or maintains a LemonGard account, we may collect:</li>
     <li>Name</li>
+    <li>Business name</li>
     <li>Email address</li>
-    <li>Phone number</li>
-    <li>Billing and shipping addresses</li>
-    <li>Payment information (credit card or other payment details)</li>
-    <li>Account login credentials</li>
   </ul>
 
   <ul className="list-disc pl-6 mt-4 space-y-2">
-    <li className="font-bold text-navy-700">Non-Personal Information</li>
+    <li className="font-bold text-navy-700">Phone number</li>
+    <li className="font-bold text-navy-700">Billing address</li>
   </ul>
 
-  <p className="mt-2 text-gray-700">We may also collect non-personal information such as:</p>
+  <p className="mt-2 text-gray-700">Account and login information</p>
 
   <ul className="list-disc pl-10 mt-2 space-y-1 text-gray-600">
-    <li>IP address</li>
-    <li>Browser type and version</li>
+    <li>Subscription information</li>
+    <li>Payment and transaction information</li>
     <li>Device type</li>
-    <li>Operating system</li>
+    <li>Payment card information may be processed by third-party payment processors. LemonGard may not directly store complete payment card information when payment processing is handled by those providers.</li>
     <li>Pages viewed and time spent on the site</li>
-    <li>Referring URLs (how you accessed our website)</li>
+    <li>Customer and Transaction Records</li>
   </ul>
 
 
@@ -60,22 +59,22 @@ const PrivacyPolicyContent = () => {
   <p className="mt-2 text-gray-700">We use the information we collect for the following purposes:</p>
 
   <ul className="list-disc pl-10 mt-2 space-y-2 text-gray-600">
-    <li><span className="font-bold text-navy-700">To provide and improve our services:</span> To process transactions, manage accounts, and offer customer support.</li>
-    <li><span className="font-bold text-navy-700">To communicate with you:</span> To send order confirmations, promotions, newsletters, and other communications relevant to your subscription or account.</li>
-    <li><span className="font-bold text-navy-700">To personalize your experience:</span> To tailor content, ads, and recommendations based on your preferences.</li>
-    <li><span className="font-bold text-navy-700">For legal compliance:</span> To comply with legal obligations or enforce our terms and conditions.</li>
-    <li><span className="font-bold text-navy-700">For analytics and performance:</span> To monitor and improve the performance of our website.</li>
+    <li><span className="font-bold text-navy-700">Depending on the information submitted, these records may include:</span></li>
+    <li><span className="font-bold text-navy-700">Customer name</span></li>
+    <li><span className="font-bold text-navy-700">Address</span></li>
+    <li><span className="font-bold text-navy-700">Phone number</span></li>
+    <li><span className="font-bold text-navy-700">Service requested or provided</span></li>
   </ul>
 
-  <h3 className="text-xl font-semibold text-navy-600 mt-6">3. How We Protect Your Information</h3>
+  <h3 className="text-xl font-semibold text-navy-600 mt-6">Transaction or service amount</h3>
 
-  <p className="mt-2 text-gray-700">We take reasonable precautions to safeguard your personal data:</p>
+  <p className="mt-2 text-gray-700">Dispute status</p>
 
   <ul className="list-disc pl-10 mt-2 space-y-2 text-gray-600">
-    <li><span className="font-bold text-navy-700">Encryption:</span> Sensitive information (like payment details) is encrypted using Secure Socket Layer (SSL) technology.</li>
-    <li><span className="font-bold text-navy-700">Access Control:</span> Only authorized personnel have access to your data. We restrict access based on need and role.</li>
-    <li><span className="font-bold text-navy-700">Data Retention:</span> We retain personal data only for as long as necessary to fulfill the purposes for which it was collected or as required by law.</li>
-    <li>Despite our best efforts, please note that no method of data transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</li>
+    <li><span className="font-bold text-navy-700">Other structured information supported by the platform</span></li>
+    <li><span className="font-bold text-navy-700">LemonGard is designed around structured, factual information rather than open-ended customer reviews or commentary.</span></li>
+    <li><span className="font-bold text-navy-700">Information submitted to the platform may be searchable or viewable by other authorized LemonGard users according to their account permissions and the functionality of the platform.</span></li>
+    <li><span className="font-bold text-navy-700">Users who submit information are responsible for ensuring that they have an appropriate and lawful basis for submitting that information and that the information they provide is accurate.</span></li>
   </ul>
 
 

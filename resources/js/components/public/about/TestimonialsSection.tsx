@@ -3,9 +3,9 @@ import { Star, Quote } from "lucide-react";
 import { LemonSimple } from "@/components/LemonIcon";
 
 const testimonials = [
-  { quote: "“Since using Lemongard, I’ve been able to see patterns in repeat no-shows and difficult clients. It’s helped me avoid booking people who waste my time and focus on clients who respect my schedule.”", name: "Jill W.", role: "Industry Professional", initials: "JW" },
-  { quote: "“As a salon owner, I used to only rely on my own experience. Now with Lemongard, I can see shared client notes from other stylists, which has helped me avoid problem appointments and protect my staff’s time.”", name: "Brooke C.", role: "Owner/Operator", initials: "BC" },
-  { quote: "“Using Lemongard has changed how I book appointments. I can quickly spot clients with a history of cancellations or bad behavior, so I’m no longer blindsided. It’s made my day-to-day work a lot smoother and more predictable.”", name: "Jayson P.", role: "Industry Professional", initials: "JP" },
+  { quote: "“LemonGard has made it easier to keep track of important service and transaction information. Having relevant details organized in one place helps me make more informed scheduling decisions and manage my business more efficiently.”", name: "Jill W.", role: "Industry Professional", initials: "JW" },
+  { quote: "“As a salon owner, having access to organized and relevant transaction information helps me make more informed scheduling decisions. LemonGard gives me an additional resource for managing appointments efficiently and making the best use of my team’s time.”", name: "Brooke C.", role: "Owner/Operator", initials: "BC" },
+  { quote: "“LemonGard has made it easier to review relevant appointment and transaction information before scheduling. Having that information organized and accessible helps me plan more effectively and manage my day-to-day operations with greater consistency.”", name: "Jayson P.", role: "Industry Professional", initials: "JP" },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } };
