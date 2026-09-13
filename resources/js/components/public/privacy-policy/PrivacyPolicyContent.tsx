@@ -84,7 +84,7 @@ const PrivacyPolicyContent = () => {
 
             <ul className="list-disc pl-10 mt-2 space-y-2 text-gray-600">
               <li className="">
-                <span className="font-bold text-navy-700">
+                <span className="">
                   Depending on the information submitted, these records may
                   include:
                 </span>
@@ -93,7 +93,7 @@ const PrivacyPolicyContent = () => {
               <li>Address</li>
               <li>Phone number</li>
               <li>
-                <span className=" text-navy-700">
+                <span className="">
                   Service requested or provided
                 </span>
               </li>
@@ -184,7 +184,7 @@ const PrivacyPolicyContent = () => {
 
             <ul className="list-disc pl-10 mt-2 space-y-2 text-gray-600">
               <li>
-                <span className="font-bold text-navy-700">
+                <span className="">
                   LemonGard may use information to:
                 </span>
               </li>
