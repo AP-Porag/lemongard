@@ -469,74 +469,6 @@ export default function Edit({ record, industries, allServices, selectedServices
                             )}
                         </div>
 
-                        {/* Services - Checkbox List */}
-                        <div className="col-span-2">
-                            <div className="mb-3 flex items-center justify-between">
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Services <span className="text-red-500">*</span>
-                                </label>
-
-                                {form.industry && filteredServices.length > 0 && (
-                                    <div className="flex gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={selectAllServices}
-                                            className="text-xs text-blue-600 hover:text-blue-800"
-                                        >
-                                            Select All
-                                        </button>
-                                        <span className="text-gray-300">|</span>
-                                        <button
-                                            type="button"
-                                            onClick={deselectAllServices}
-                                            className="text-xs text-red-600 hover:text-red-800"
-                                        >
-                                            Deselect All
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-
-                            {!form.industry ? (
-                                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-center text-gray-500">
-                                    Please select an industry first
-                                </div>
-                            ) : filteredServices.length === 0 ? (
-                                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-center text-gray-500">
-                                    No services available for this industry
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 md:grid-cols-3 lg:grid-cols-4">
-                                    {filteredServices.map((service) => (
-                                        <label
-                                            key={service.id}
-                                            className="flex cursor-pointer items-center space-x-2 rounded-lg p-2 hover:bg-gray-50"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={form.services.includes(service.id.toString())}
-                                                onChange={() => handleServiceToggle(service.id.toString())}
-                                                className="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-400"
-                                            />
-                                            <span className="text-sm text-gray-700">
-                                                {service.name}
-                                            </span>
-                                        </label>
-                                    ))}
-                                </div>
-                            )}
-
-                            {errors.services && (
-                                <p className="mt-1 text-sm text-red-500">{errors.services}</p>
-                            )}
-
-                            {/* Show selected count */}
-                            {form.services.length > 0 && (
-                                <div className="mt-3 text-sm text-gray-600">
-                                    {form.services.length} service(s) selected
-                                </div>
-                            )}
-                        </div>
 
                         {/* Street */}
                         <div>
@@ -624,10 +556,79 @@ export default function Edit({ record, industries, allServices, selectedServices
                             )}
                         </div>
 
+                        {/* Services - Checkbox List */}
+                        <div className="col-span-2">
+                            <div className="mb-3 flex items-center justify-between">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Services <span className="text-red-500">*</span>
+                                </label>
+
+                                {form.industry && filteredServices.length > 0 && (
+                                    <div className="flex gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={selectAllServices}
+                                            className="text-xs text-blue-600 hover:text-blue-800"
+                                        >
+                                            Select All
+                                        </button>
+                                        <span className="text-gray-300">|</span>
+                                        <button
+                                            type="button"
+                                            onClick={deselectAllServices}
+                                            className="text-xs text-red-600 hover:text-red-800"
+                                        >
+                                            Deselect All
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {!form.industry ? (
+                                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-center text-gray-500">
+                                    Please select an industry first
+                                </div>
+                            ) : filteredServices.length === 0 ? (
+                                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-center text-gray-500">
+                                    No services available for this industry
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 md:grid-cols-3 lg:grid-cols-4">
+                                    {filteredServices.map((service) => (
+                                        <label
+                                            key={service.id}
+                                            className="flex cursor-pointer items-center space-x-2 rounded-lg p-2 hover:bg-gray-50"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={form.services.includes(service.id.toString())}
+                                                onChange={() => handleServiceToggle(service.id.toString())}
+                                                className="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-400"
+                                            />
+                                            <span className="text-sm text-gray-700">
+                                                {service.name}
+                                            </span>
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
+
+                            {errors.services && (
+                                <p className="mt-1 text-sm text-red-500">{errors.services}</p>
+                            )}
+
+                            {/* Show selected count */}
+                            {form.services.length > 0 && (
+                                <div className="mt-3 text-sm text-gray-600">
+                                    {form.services.length} service(s) selected
+                                </div>
+                            )}
+                        </div>
+
                         {/* Price */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
-                                Price
+                                Amount Of Dispute
                             </label>
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
@@ -651,7 +652,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                         </div>
 
                         {/* Incident Report - Full Width */}
-                        <div className="col-span-2">
+                        {/* <div className="col-span-2">
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                                 Incident Report
                             </label>
@@ -666,7 +667,7 @@ export default function Edit({ record, industries, allServices, selectedServices
                             {errors.incident_report && (
                                 <p className="mt-1 text-sm text-red-500">{errors.incident_report}</p>
                             )}
-                        </div>
+                        </div> */}
 
                         {/* Submit Button - Full Width */}
                         <div className="col-span-2 mt-4">
