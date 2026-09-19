@@ -54,7 +54,7 @@ const PrivacyPolicyContent = () => {
               <li>Phone number</li>
               <li>Billing address</li>
             </ul>
-              
+
             <p className="mt-2 text-gray-700">
               Account and login information
             </p>
@@ -520,7 +520,7 @@ const PrivacyPolicyContent = () => {
             </p>
 
             <p className="mt-2 text-gray-600">
-              Add email here
+              support@lemongard.com
             </p>
 
             <p className="mt-2 text-gray-600">
@@ -540,7 +540,7 @@ const PrivacyPolicyContent = () => {
             </p>
 
             <p className="mt-2 text-gray-600">
-              Add email here
+              support@lemongard.com
             </p>
 
             <p className="mt-2 text-gray-600">
@@ -603,7 +603,7 @@ const PrivacyPolicyContent = () => {
             </p>
 
             <p className="mt-2 text-gray-600">
-              Add email here
+              support@lemongard.com
             </p>
 
           </div>
@@ -707,7 +707,7 @@ export default PrivacyPolicyContent;
 //   <p className="mt-2 text-gray-700">
 //     When you access LemonGard, we may automatically collect certain technical information, including:
 //   </p>
- 
+
 //   <ul className="list-disc pl-10 mt-2 space-y-2 text-gray-600">
 //     <li><span className="font-bold text-navy-700">IP address</span></li>
 //     <li><span className="font-bold text-navy-700">Browser type and version</span> </li>
@@ -739,7 +739,7 @@ export default PrivacyPolicyContent;
 //     <li><span className="font-bold text-navy-700">Process subscriptions and payments</span></li>
 //   </ul>
 
-  
+
 //   <h3 className="text-xl font-semibold mt-6 text-navy-600">Display information to authorized users according to platform permissions</h3>
 
 //   <ul className="list-disc pl-10 mt-2 text-gray-600">
@@ -753,7 +753,7 @@ export default PrivacyPolicyContent;
 //     <li>Communicate about accounts, subscriptions, security, or service updates</li>
 //   </ul>
 
-  
+
 //   <h3 className="text-xl font-semibold mt-6 text-navy-600">Improve platform functionality and performance</h3>
 
 //   <ul className="list-disc pl-10 mt-2 text-gray-600">
@@ -761,10 +761,10 @@ export default PrivacyPolicyContent;
 //   </ul>
 //           </div>
 //           </div>
-          
-          
+
+
 //       </div>
-        
+
 //     </section>
 //   )
 // }
