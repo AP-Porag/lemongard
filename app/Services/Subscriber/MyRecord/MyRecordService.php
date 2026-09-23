@@ -109,11 +109,23 @@ class MyRecordService extends BaseService
     {
         $record = $this->model->findOrFail($id);
 
+        // ✅ 1) Services আলাদা করে নিন (pivot table এ sync হবে)
+        $serviceIds = null;
+        if (array_key_exists('services', $data)) {
+            $serviceIds = array_filter((array) $data['services'], fn($v) => $v !== '' && $v !== null);
+            unset($data['services']);   // scalar update থেকে বাদ
+        }
+
+        // ✅ 2) Record-এর scalar fields update
         $record->update($data);
 
-        return $record;
-    }
+        // ✅ 3) Pivot table sync — এটাই মূল fix
+        if ($serviceIds !== null) {
+            $record->services()->sync($serviceIds);
+        }
 
+        return $record->fresh(['services', 'industry', 'user']);
+    }
     public function fullAccess($user): bool
     {
         return $this->hasFullAccess($user);

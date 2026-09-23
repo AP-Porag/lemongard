@@ -44,11 +44,11 @@ const FeaturesSection = () => {
                 <div className="flex font-sans items-center justify-center gap-2">
                     <LemonSimple className="h-8 w-8 text-yellow-500" />
                     <h2 className="text-navy-600 text-3xl font-bold md:text-4xl lg:text-5xl">
-                        Everything You Need to Succeed
+                        No reviews. No ratings. No opinions.
                     </h2>
                 </div>
                 <p className="font-sans mx-auto mt-4 max-w-5xl text-lg text-gray-500 md:text-xl">
-                    Built for professionals to document experiences, identified patterns, and help protect one another.
+                    Just factual transaction information designed to promote transparency, accountability, and better business practices.
                 </p>
             </motion.div>
 

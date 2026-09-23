@@ -27,6 +27,8 @@ export default function Index({
         perPage: initialFilters?.perPage || 5,
         industry: initialFilters?.industry || '',
         industries: initialFilters?.industries || [],
+        sort_by: initialFilters?.sort_by || 'last_name',
+        sort_order: initialFilters?.sort_order || 'asc',
         page: records?.current_page || 1,
     });
     const { auth } = usePage().props;
@@ -225,13 +227,14 @@ export default function Index({
                             search_filter: true,
                             status_filter: true,
                             per_page_filter: true,
-                            industry_filter: true
+                            industry_filter: true,
                         };
                     }}
                     baseRoute="app.my-records"
                     filters={filters}
                     onFilterChange={setFilters}
                     industries={industries}
+                    showSorting={false}
                 />
             </div>
         </AppLayout>

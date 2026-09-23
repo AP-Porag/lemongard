@@ -60,10 +60,14 @@ export default function DataTable({
     const routeName = route().current();
     const isAllowedRoute = routeName === 'admin.records.index';
     const isUserRoute = routeName === 'admin.users.index';
-    const isRecordRoute = routeName === 'admin.records.index';
+    const isRecordRoute =
+        routeName === 'admin.records.index' ||
+        routeName === 'app.my-records.index';
     const isSubscriptionRoute = routeName === 'admin.subscriptions.index';
     const isIndustryRoute = routeName === 'admin.industries.index';
     const isServiceRoute = routeName === 'admin.services.index';
+
+    const isMyRecordsRoute = routeName === 'app.my-records.index';
 
 
 
@@ -175,7 +179,7 @@ export default function DataTable({
                     </Select>
                 )}
 
-                {isAllowedRoute && globalActions.industry_filter && (
+                {!isMyRecordsRoute && globalActions.industry_filter && (
                     <div className="min-w-[250px]">
                         <Popover>
                             <PopoverTrigger asChild>

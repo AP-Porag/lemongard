@@ -10,7 +10,7 @@ const problems = [
     },
     {
         title: 'Wasted Time',
-        desc: 'Professionals repeatedly research the same clients, services, and pricing information.',
+        desc: 'Managing records and reviewing relevant transaction information can take valuable time away from running your business.',
     },
     {
         title: 'Managing records and reviewing relevant transaction information can take valuable time away from running your business.',
@@ -23,6 +23,10 @@ const problems = [
     {
         title: 'Complex and Costly Solutions',
         desc: 'Many business tools include features that service professionals may not need, often adding unnecessary complexity and expense.',
+    },
+    {
+        title: 'Finding Information Quickly',
+        desc: 'Information should be easy to locate and understand. A simple, organized system can make everyday business tasks more efficient.',
     },
 ];
 
