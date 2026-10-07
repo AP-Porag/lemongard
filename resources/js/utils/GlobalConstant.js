@@ -10,8 +10,8 @@ export const GlobalConstant = {
     TIER_VIEW_ONLY: 'tier_1',
     TIER_FULL_ACCESS: 'tier_2',
 
-    TIER_VIEW_ONLY_PRICE_ID: 'price_1TSwAKHKtXG9R7bGP5EtUGrg',
-    TIER_FULL_ACCESS_PRICE_ID: 'price_1TSyapHKtXG9R7bGgdo6OLrA',
+    TIER_VIEW_ONLY_PRICE_ID: 'price_1U0nQCFulxMQQHJjvEsWv8wc',
+    TIER_FULL_ACCESS_PRICE_ID: 'price_1U0nRqFulxMQQHJjA3FJ4s5r',
 
     PENDING: 'pending',
     OPEN: 'open',
